@@ -1,0 +1,4 @@
+// build script for prod
+// npm install --production
+// mv to server nodemodules,build,server.js and .env file
+// npm run ui_server env=DEV    start:dev
