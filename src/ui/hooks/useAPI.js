@@ -6,8 +6,11 @@ const useAPI = ({ requestHeaders = {}, requestPath = "/", requestMethod = "GET",
     const [isLoading, setLoading] = useState(true);
     const [error, setError] = useState(false);
 
-    requestHeaders["Content-Type"] = "application/x-www-form-urlencoded;charset=UTF-8";
-    
+    //api specific path
+    requestPath=process.env.REACT_APP_REVERSE_PROXY_API_PATH.concat(requestPath)
+
+    //requestHeaders["Content-Type"] = "application/x-www-form-urlencoded;charset=UTF-8";
+    requestHeaders["Content-Type"] = "application/json;charset=UTF-8";
 
     if (requestGetQuery) {
         requestPath = requestPath + '?'

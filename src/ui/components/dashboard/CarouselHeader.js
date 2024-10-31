@@ -27,8 +27,8 @@ export default function CarouselHeader() {
         },
     ];
 
-    const [heroImages, isLoadingHeroImages, errorHeroImages ] = useAPI({ requestPath: "template-details/hero-images" });
-    const [headerTexts, isLoadingHeaderTexts, errorHeaderTexts ] = useAPI({ requestPath: "template-details/header-texts" });
+    const [heroImages, isLoadingHeroImages, errorHeroImages ] = useAPI({ requestPath: "ui-config/hero-images" });
+    const [headerTexts, isLoadingHeaderTexts, errorHeaderTexts ] = useAPI({ requestPath: "ui-config/header-texts" });
 
     const carouselTemplate = (imageURL) => {
         return (

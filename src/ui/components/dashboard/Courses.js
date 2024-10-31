@@ -8,7 +8,7 @@ export default function Courses() {
 
     const [activeIndex, setActiveIndex] = useState(0);
 
-    const [showCaseProducts, isLoadingShowCaseProducts, errorShowCaseProducts] = useAPI({ requestPath: "template-details/showcase-products" });
+    const [showCaseProducts, isLoadingShowCaseProducts, errorShowCaseProducts] = useAPI({ requestPath: "ui-config/showcase-products" });
 
     const listTemplate = (products) => {
 

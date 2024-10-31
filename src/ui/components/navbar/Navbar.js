@@ -14,7 +14,7 @@ export default function Navbar() {
     const currentLoggedInUser = useSelector((state) => state.stateAuth.user);
     const navigate = useNavigate();
 
-    const [productCategories, isLoadingProductCategories, errorProductCategories ] = useAPI({ requestPath: "template-details/product-categories" });
+    const [productCategories, isLoadingProductCategories, errorProductCategories ] = useAPI({ requestPath: "ui-config/product-categories" });
 
     const itemRenderer = (item) => (
         <NavLink to={item.to} className="flex align-items-center p-menuitem-link">

@@ -5,7 +5,7 @@ import { DataView } from 'primereact/dataview';
 
 export default function Testimonials(){
 
-    const [topTestiMonies, isLoadingTopTestiMonies, errorTopTestiMonies] = useAPI({ requestPath: "template-details/top-testimonies" });
+    const [topTestiMonies, isLoadingTopTestiMonies, errorTopTestiMonies] = useAPI({ requestPath: "ui-config/top-testimonies" });
 
     const listTemplate = (topTestiMonies) => {
 
