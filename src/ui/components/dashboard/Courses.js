@@ -2,7 +2,7 @@ import { TabMenu } from 'primereact/tabmenu';
 import React, { useState } from 'react';
 import useAPI from '../../hooks/useAPI';
 import { DataView } from 'primereact/dataview';
-import Product from '..//product/Product';
+import Product from '../product/Product';
 
 export default function Courses() {
 

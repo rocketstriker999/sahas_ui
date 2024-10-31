@@ -1,10 +1,9 @@
-import CarouselHeader from '../components/dashboard/CarouselHeader';
-import Courses from '../components/dashboard/Courses';
-import Testimonials from '../containers-sm/Testimonials';
-import Trends from '../components/dashboard/Trends';
+import CarouselHeader from '../dashboard/CarouselHeader';
+import Courses from '../dashboard/Courses';
+import Testimonials from '../dashboard/Testimonials';
+import Trends from '../dashboard/Trends';
 
 export default function Dashboard() {
-
 
     return (
         <>

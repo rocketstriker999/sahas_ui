@@ -1,7 +1,7 @@
 
 import { Button } from 'primereact/button';
 import { Card } from 'primereact/card';
-import { setCurrentUser, removeCurrentUser } from '../redux/sliceAuth';
+import { setCurrentUser, removeCurrentUser } from '../../redux/sliceAuth';
 
 import { useDispatch } from 'react-redux';
 

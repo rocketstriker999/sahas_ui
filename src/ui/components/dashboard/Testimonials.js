@@ -1,5 +1,5 @@
-import useAPI from "../hooks/useAPI";
-import FeedBack from "../components/dashboard/FeedBack";
+import useAPI from "../../hooks/useAPI";
+import FeedBack from "./FeedBack";
 import { DataView } from 'primereact/dataview';
 
 
