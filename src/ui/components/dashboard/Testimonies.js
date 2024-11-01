@@ -1,9 +1,9 @@
 import useAPI from "../../hooks/useAPI";
-import FeedBack from "./FeedBack";
+import Testimony from "./Testimony";
 import { DataView } from 'primereact/dataview';
 
 
-export default function Testimonials(){
+export default function Testimonies(){
 
     const [topTestiMonies, isLoadingTopTestiMonies, errorTopTestiMonies] = useAPI({ requestPath: "ui-config/top-testimonies" });
 
@@ -15,8 +15,8 @@ export default function Testimonials(){
 
         return (
             <div className="grid grid-nogutter">
-                {topTestiMonies.map((user, index) =>
-                    <FeedBack className="p-2 col-12 sm:col-4 lg:col-3 xl:col-3"  user={user} key={user.userPurchases.purchaseId} />)}
+                {topTestiMonies.map((testimony, index) =>
+                    <Testimony className="p-2 col-12 sm:col-4 lg:col-3 xl:col-3"  testimony={testimony} key={testimony.testimonyId} />)}
             </div>
         );
     };

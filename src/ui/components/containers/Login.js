@@ -16,13 +16,13 @@ export default function Login() {
             Login Card
         </p>
         <Button onClick={() => {
-            dispatch(setCurrentUser({ name: "U1", role: "USER" }))
+            dispatch(setCurrentUser({ name: "U1", groups: ["USER"] }))
         }} label='login as user'></Button>
         <Button onClick={() => {
-            dispatch(setCurrentUser({ name: "U2", role: "FADMIN", authorities: ["view_sec1", "view_sec2", "manage_firm", "manage_some_data"] }))
+            dispatch(setCurrentUser({ name: "U2", groups: ["USER","FADMIN"]}))
         }} label='login as fadmin'></Button>
         <Button onClick={() => {
-            dispatch(setCurrentUser({ name: "U2", role: "HADMIN", authorities: ["view_sec1", "view_sec2", "manage_firm", "manage_some_data"] }))
+            dispatch(setCurrentUser({ name: "U2", groups: ["USER","FADMIN","HADMIN"] }))
         }} label='login as hadmin'></Button>
 
     </Card>

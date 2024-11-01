@@ -1,4 +1,5 @@
 const libExpress = require('express');
+const libCookieParser = require('cookie-parser');
 
 const sahasAPI = libExpress();
 
@@ -6,6 +7,8 @@ const sahasAPI = libExpress();
 sahasAPI.use(require('../src/api/middlewares/origin'))
 //allow json request payloads only
 sahasAPI.use(libExpress.json());
+//parse the cookies
+sahasAPI.use(libCookieParser());
 
 //api end points and routers
 const routers = {

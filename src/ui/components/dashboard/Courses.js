@@ -19,7 +19,7 @@ export default function Courses() {
         return (
             <div className="grid grid-nogutter">
                 {products.map((product, index) =>
-                    <Product price={product.productPrice} buyers={188} ratings={4} publisher="Bhavin Shah" title={product.productName} imageURL={"https://placehold.co/100x50"} className="p-2 col-12 sm:col-4 lg:col-3 xl:col-3 " key={product.productId} />)}
+                    <Product price={product.productPrice} buyers={product.buyers} ratings={product.ratings} publisher={product.publisher} title={product.productName} imageURL={product.imageURL} className="p-2 col-12 sm:col-4 lg:col-3 xl:col-3 " key={product.productId} />)}
             </div>
         );
     };
@@ -43,7 +43,8 @@ export default function Courses() {
                         style: { backgroundColor: "transparent", },
                     },
 
-                }} model={showCaseProducts.map((showCaseProduct) => {
+                }} 
+                model={showCaseProducts && showCaseProducts.map((showCaseProduct) => {
                     return { label: showCaseProduct.categoryName }
                 })} />
 
@@ -53,8 +54,6 @@ export default function Courses() {
                 listTemplate={listTemplate}
                 layout='grid'
             />
-
-            
 
         </div>);
 

@@ -1,6 +1,6 @@
 import CarouselHeader from '../dashboard/CarouselHeader';
 import Courses from '../dashboard/Courses';
-import Testimonials from '../dashboard/Testimonials';
+import Testimonies from '../dashboard/Testimonies';
 import Trends from '../dashboard/Trends';
 
 export default function Dashboard() {
@@ -26,7 +26,13 @@ export default function Dashboard() {
 
             <div className='flex justify-content-center surface-100'>
                 <div className='w-8 py-6'>
-                    <Testimonials />
+                    <Testimonies />
+                </div>
+            </div>
+
+            <div className='flex justify-content-center'>
+                <div className='w-8 py-6'>
+                    < p>Footer Section</p>
                 </div>
             </div>
         </>

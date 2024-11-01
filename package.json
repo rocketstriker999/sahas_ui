@@ -7,6 +7,7 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "cookie-parser": "^1.4.7",
     "dotenv-cli": "^7.4.2",
     "express": "^4.21.1",
     "primeflex": "^3.3.1",
@@ -21,12 +22,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-
     "start:production": "dotenv -e .env.production -- node servers/api.js & npm run build:ui;dotenv -e .env.production -- node servers/ui.js",
-
     "start:local": "dotenv -e .env.local -- node servers/api.js & dotenv -e .env.local -- node servers/ui.js & react-app-rewired start",
-    
-    "build:ui":"react-app-rewired build",
+    "build:ui": "react-app-rewired build",
     "test:ui": "react-app-rewired test"
   },
   "eslintConfig": {

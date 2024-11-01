@@ -7,6 +7,7 @@ import Brand from "./Brand/Brand";
 import { Badge } from 'primereact/badge';
 import { useSelector } from 'react-redux';
 import useAPI from '../../hooks/useAPI';
+import { hasGroupAccess } from '../../utils/utils';
 
 
 export default function Navbar() {
@@ -27,14 +28,13 @@ export default function Navbar() {
 
 
     const items = [
-
         {
             label: 'Courses',
             icon: 'pi pi-fw pi-book',
-            items: productCategories.map(category => {
+            items: productCategories && productCategories.map(category => {
                 return {
                     label: category.categoryName,
-                    icon: 'pi pi-fw pi-sign-in',
+                    icon: category.categoryIcon,
                 }
             })
         },
@@ -47,17 +47,17 @@ export default function Navbar() {
 
         },
         {
-            label: 'Your Firm',
+            label: 'Manage Firm',
             icon: 'pi pi-fw pi-cog',
             command: () => navigate('/manage-firm'),
-            visible: currentLoggedInUser && (currentLoggedInUser.role === 'FADMIN' || currentLoggedInUser.role === 'HADMIN')
+            visible: currentLoggedInUser && hasGroupAccess(currentLoggedInUser.groups,["FADMIN","HADMIN"])
 
         },
         {
-            label: 'Manage Firms',
+            label: 'System Admin',
             icon: 'pi pi-fw pi-prime',
-            command: () => navigate('/manage-firm'),
-            visible: currentLoggedInUser && currentLoggedInUser.role === 'HADMIN'
+            command: () => navigate('/manage-system'),
+            visible: currentLoggedInUser && hasGroupAccess(currentLoggedInUser.groups,["HADMIN"])
 
         },
         {

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 const useAPI = ({ requestHeaders = {}, requestPath = "/", requestMethod = "GET", requestGetQuery = false, requestPostBody = false } = {}) => {
 
-    const [response, setResponse] = useState([]);
+    const [response, setResponse] = useState(false);
     const [isLoading, setLoading] = useState(true);
     const [error, setError] = useState(false);
 
@@ -39,7 +39,11 @@ const useAPI = ({ requestHeaders = {}, requestPath = "/", requestMethod = "GET",
         async function fetchData() {
             try {
                 const response=await fetch(requestPath, fetchOptions);
-                const jsonResponse = await response.json()
+                //get body
+                const jsonResponse = await response.json();
+                //get status code
+                jsonResponse.statusCode=response.status;
+                //set it up
                 setResponse(jsonResponse);
             }
             catch (e) {
