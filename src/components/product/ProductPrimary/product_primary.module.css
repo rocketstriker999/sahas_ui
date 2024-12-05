@@ -1,0 +1,20 @@
+.breadcrumb{
+    border: 0;
+    padding: 0;
+    background-color: transparent;
+    overflow: hidden;
+}
+img {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+button {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
