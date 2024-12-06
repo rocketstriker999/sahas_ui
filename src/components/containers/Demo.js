@@ -37,10 +37,7 @@ export default function Demo() {
                     <div className="flex justify-content-center align-items-top py-4 gap-4">
                         {demoConfig.content_sections?.visible && (
                             <div className="w-6">
-                                <ContentSections
-                                    config={demoConfig.content_sections}
-                                    productId={id}
-                                />
+                                <ContentSections config={demoConfig.content_sections} productId={id} />
                             </div>
                         )}
                         {demoConfig.purchase?.visible && (

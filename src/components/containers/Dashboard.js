@@ -5,11 +5,7 @@ import Trends from "../dashboard/Trends";
 import { requestAPI } from "../../utils/utils";
 import Navbar from "../common/Navbar";
 import Footer from "../common/Footer";
-<<<<<<< Updated upstream
-import Loading from "../common/Loading";
-=======
 import ContainerSkeleton from "../common/Skeletons/Container";
->>>>>>> Stashed changes
 
 export default function Dashboard() {
     const [dashBoardConfig, setDashBoardConfig] = useState();
@@ -54,9 +50,7 @@ export default function Dashboard() {
                     {dashBoardConfig.testimonies.visible && (
                         <div className="flex justify-content-center ">
                             <div className="w-12 sm:w-8 py-6">
-                                <Testimonies
-                                    config={dashBoardConfig.testimonies}
-                                />
+                                <Testimonies config={dashBoardConfig.testimonies} />
                             </div>
                         </div>
                     )}
