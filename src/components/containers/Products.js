@@ -5,6 +5,7 @@ import Footer from "../common/Footer";
 import ProductsList from "../products/list/ProductsList";
 import ProductsSearch from "../products/ProductsSearch";
 import { useParams } from "react-router-dom";
+import SkeletonContainer from "../common/Skeletons/Container";
 
 export default function Products() {
     const [productsConfig, setProductsConfig] = useState();
@@ -29,7 +30,7 @@ export default function Products() {
     }, []);
 
     if (loading) {
-        return <p>Loading Products Config</p>;
+        return <SkeletonContainer />;
     }
 
     if (error) {

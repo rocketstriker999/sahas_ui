@@ -5,6 +5,7 @@ import Footer from "../common/Footer";
 import ContentSections from "../demo/ContentSections";
 import { useParams } from "react-router-dom";
 import ButtonPurchase from "../common/ButtonPurchase";
+import SkeletonContainer from "../common/Skeletons/Container";
 
 export default function Demo() {
     const [demoConfig, setDemoConfig] = useState();
@@ -25,7 +26,7 @@ export default function Demo() {
     }, []);
 
     if (loading && !demoConfig) {
-        return <p>Loading Config For Demo</p>;
+        return <SkeletonContainer />;
     }
     if (demoConfig && !loading) {
         return (

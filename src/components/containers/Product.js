@@ -6,6 +6,7 @@ import Footer from "../common/Footer";
 import { requestAPI } from "../../utils/utils";
 import ProductPrimary from "../product/ProductPrimary/ProductPrimary";
 import ProductSecondary from "../product/ProductSecondary";
+import SkeletonContainer from "../common/Skeletons/Container";
 
 export default function Product() {
     const { id } = useParams();
@@ -28,7 +29,7 @@ export default function Product() {
     }, []);
 
     if (loading) {
-        return <p>Loading Products Config</p>;
+        return <SkeletonContainer />;
     }
 
     if (error) {

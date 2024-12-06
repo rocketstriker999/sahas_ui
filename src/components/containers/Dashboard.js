@@ -5,7 +5,11 @@ import Trends from "../dashboard/Trends";
 import { requestAPI } from "../../utils/utils";
 import Navbar from "../common/Navbar";
 import Footer from "../common/Footer";
+<<<<<<< Updated upstream
 import Loading from "../common/Loading";
+=======
+import ContainerSkeleton from "../common/Skeletons/Container";
+>>>>>>> Stashed changes
 
 export default function Dashboard() {
     const [dashBoardConfig, setDashBoardConfig] = useState();
@@ -25,7 +29,7 @@ export default function Dashboard() {
     }, []);
 
     if (loading && !dashBoardConfig) {
-        return <Loading />;
+        return <ContainerSkeleton />;
     }
 
     if (dashBoardConfig && !loading) {

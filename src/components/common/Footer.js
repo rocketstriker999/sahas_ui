@@ -5,6 +5,7 @@ import { Button } from "primereact/button";
 import { useNavigate } from "react-router-dom";
 import { requestAPI } from "../../utils/utils";
 import { Divider } from "primereact/divider";
+import FooterSkeleton from "./Skeletons/FooterSkeleton";
 
 export default function Footer() {
     const navigate = useNavigate();
@@ -25,7 +26,7 @@ export default function Footer() {
     }, []);
 
     if (loading && !footerConfig) {
-        return <p>Loading Footer</p>;
+        return <FooterSkeleton />;
     }
 
     if (!loading && footerConfig) {

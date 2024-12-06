@@ -10,6 +10,7 @@ import { requestAPI } from "../../utils/utils";
 import Notifications from "./Notifications/Notifications";
 import { Image } from "primereact/image";
 import { classNames } from "primereact/utils";
+import NavbarSkeleton from "./Skeletons/NavbarSkeleton";
 
 export default function Navbar() {
     const navigate = useNavigate();
@@ -105,6 +106,10 @@ export default function Navbar() {
             setLoading: setLoading,
         });
     }, []);
+
+    if (loading && !navBarConfig) {
+        return <NavbarSkeleton />;
+    }
 
     if (navBarConfig && !loading) {
         return (
