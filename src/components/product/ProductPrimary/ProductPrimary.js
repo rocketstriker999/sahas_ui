@@ -119,7 +119,7 @@ export default function CoursePrimary({ config, courseId }) {
                         </span>
                     </div> */}
 
-                    <div className="flex mt-3 gap-2 md:flex-column justify-content-between px-0 md:px-3 lg:flex-row sm:flex-row">
+                    <div className="flex mt-3 gap-2 md:flex-column justify-content-between lg:flex-row sm:flex-row">
                         <ButtonPurchase productId={coursePrimaryDetails.product_id} />
                         <Button
                             icon="pi pi-play"
