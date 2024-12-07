@@ -2,9 +2,10 @@ import { useState } from "react";
 import { Panel } from "primereact/panel";
 import { DataView, DataViewLayoutOptions } from "primereact/dataview";
 import ProductCard from "./ProductCard";
+import { description } from "platform";
 
 export default function ProductsList({ config }) {
-    const [layout, setLayout] = useState("grid");
+    const [layout, setLayout] = useState("list");
 
     const headerTemplate = (options) => {
         const className = `${options.className} justify-content-space-between align-items-center`;
@@ -47,7 +48,7 @@ export default function ProductsList({ config }) {
                 value={[
                     {
                         id: 1,
-                        name: "ChatGPT Complete Guide: Learn Generative AI, ChatGPT & More",
+                        name: "ChatGPT Complete Guide: Learn actionable",
                         image: "https://placehold.co/100x100/black/FFFFFF/png",
                         price: 99,
                         description:

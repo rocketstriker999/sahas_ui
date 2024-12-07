@@ -65,6 +65,11 @@ export default function CourseSecondary({ config, courseId }) {
                                                 </span>
                                             </div>
                                         }
+                                        pt={{
+                                            content: {
+                                                style: { padding: '0px' },
+                                            },
+                                        }}
                                     >
                                         <DataView
                                             value={subject.chapters}

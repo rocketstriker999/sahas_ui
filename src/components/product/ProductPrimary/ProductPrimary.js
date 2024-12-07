@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { requestAPI } from "../../../utils/utils";
 import { Button } from "primereact/button";
 import { useNavigate } from "react-router-dom";
+import ButtonPurchase from "../../common/ButtonPurchase";
 
 export default function CoursePrimary({ config, courseId }) {
     const [coursePrimaryDetails, setCoursePrimaryDetails] = useState();
@@ -46,7 +47,7 @@ export default function CoursePrimary({ config, courseId }) {
     if (coursePrimaryDetails && !loading)
         return (
             <>
-                <div className="md:w-8 w-full gap-3 flex-grow-1 p-4">
+                <div className="md:w-8 w-full gap-3 flex-grow-1 p-3 md:p-4">
                     <BreadCrumb
                         model={items}
                         home={home}
@@ -99,7 +100,7 @@ export default function CoursePrimary({ config, courseId }) {
                         ))}
                     </div>
                 </div>
-                <div className="md:w-4 w-full flex gap-2 flex-column p-4 pt-0 md:pt-4">
+                <div className="md:w-4 w-full flex gap-2 flex-column p-3 md:p-4 pt-0 md:pt-4">
                     <img
                         className="border-solid border-1 rounded-lg shadow-lg md:w-full md:h-auto h-10rem"
                         src={coursePrimaryDetails?.hero.image}
@@ -118,19 +119,27 @@ export default function CoursePrimary({ config, courseId }) {
                         </span>
                     </div> */}
 
-                    <div className="flex gap-2 md:flex-column lg:flex-row sm:flex-row">
+                    <div className="flex mt-3 gap-2 md:flex-column justify-content-between px-0 md:px-3 lg:flex-row sm:flex-row">
+                        <ButtonPurchase productId={coursePrimaryDetails.product_id} />
                         <Button
-                            className="mt-3 lg:text-base md:text-sm text-xs p-button p-button-rounded p-button-outlined flex-1"
-                            icon="pi pi-shopping-cart"
-                            label="Buy Now"
-                        ></Button>
-
-                        <Button
+                            icon="pi pi-play"
+                            severity="info"
+                            aria-label="View Demo"
+                            loading={loading}
+                            className="p-button p-component"
                             onClick={() => navigate("demo")}
-                            className="mt-3 lg:text-base md:text-sm text-xs p-button p-button-rounded p-button-outlined flex-1"
-                            icon="pi pi-shopping-cart"
+                        >
+                            <span className="p-button-icon p-c p-button-icon-left text-xs md:text-base"></span>
+                            <span className="p-button-label text-xs md:text-base">
+                            View Demo
+                            </span>
+                        </Button>
+                        {/* <Button
+                            onClick={() => navigate("demo")}
+                            className="lg:text-base md:text-sm text-xs p-button p-button-rounded p-button-outlined flex-1"
+                            icon="pi pi-desktop"
                             label="View Demo"
-                        ></Button>
+                        ></Button> */}
                     </div>
                 </div>
             </>

@@ -5,6 +5,7 @@ import { ScrollPanel } from 'primereact/scrollpanel';
 import { Card } from 'primereact/card';
 import productStyle from './notifications.module.css'
 import { classNames } from "primereact/utils";
+import NotificationSkeleton from "../Skeletons/NotificationSkeleton";
 
 export default function Notifications() {
     const [notifications, setNotifications] = useState();
@@ -21,7 +22,10 @@ export default function Notifications() {
             setLoading: setLoading,
         });
     }, []);
-
+    if (loading && !notifications) {
+        return <NotificationSkeleton />;
+    }
+    if (notifications && !loading) {
     return (
         <div>
             <ScrollPanel style={{ width: '100%', height: '80vh' }} className={`${productStyle.custombar1}`}
@@ -57,4 +61,5 @@ export default function Notifications() {
             </ScrollPanel>
         </div>
     );
+}
 }

@@ -1,6 +1,7 @@
 import { Button } from "primereact/button";
 import { useEffect, useState } from "react";
 import { requestAPI } from "../../utils/utils";
+import ButtonSkeleton from "./Skeletons/ButtonSkeleton";
 
 export default function ButtonPurchase({ productId, coupon }) {
     const [priceDetails, setPriceDetails] = useState();
@@ -22,7 +23,7 @@ export default function ButtonPurchase({ productId, coupon }) {
     }, [productId]);
 
     if (loading && !priceDetails) {
-        return <p>Loading for Price Details</p>;
+        return <ButtonSkeleton />
     }
 
     if (!loading && priceDetails) {
@@ -94,8 +95,8 @@ export default function ButtonPurchase({ productId, coupon }) {
                     loading={loading}
                     className="w-full p-button p-component"
                 >
-                    <span className="p-button-icon p-c p-button-icon-left"></span>
-                    <span className="p-button-label text-sm md:text-base">
+                    <span className="p-button-icon p-c p-button-icon-left text-xs md:text-base"></span>
+                    <span className="p-button-label text-xs md:text-base">
                         Buy Now
                     </span>
                 </Button>

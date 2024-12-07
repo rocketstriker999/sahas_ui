@@ -8,6 +8,7 @@ import { requestAPI } from "../../../utils/utils";
 import { useState } from "react";
 import { Card } from "primereact/card";
 import { Chip } from "primereact/chip";
+import ButtonPurchase from "../../common/ButtonPurchase";
 
 export default function ProductCard({ product, index, layout }) {
     const navigate = useNavigate();
@@ -28,7 +29,7 @@ export default function ProductCard({ product, index, layout }) {
                         <img
                             src={product.image}
                             alt={product.name}
-                            className="w-full h-13rem object-cover border-round-top"
+                            className="w-full max-w-6rem h-6rem max-h-6rem object-cover border-round"
                         />
 
                         <div
@@ -104,80 +105,70 @@ export default function ProductCard({ product, index, layout }) {
                     </div>
                 </div>
                 <div className="pl-3 pr-3 pt-0 pb-3 sm:p-3 mt-auto">
-                    <Button
-                        icon="pi pi-shopping-cart"
-                        severity="info"
-                        aria-label="Buy Now"
-                        loading={loading}
-                        className="w-full p-button p-button-outlined p-button-rounded"
-                    >
-                        <span className="p-button-icon p-c p-button-icon-left"></span>
-                        <span className="p-button-label text-sm md:text-base">
-                            Buy Now
-                        </span>
-                    </Button>
+                    <ButtonPurchase productId={product.id} />
                 </div>
             </Card>
         </div>
     ) : (
         <div className="col-12">
-            <div
-                className={classNames("flex align-items-start p-4 gap-4", {
-                    "border-top-1 surface-border": index !== 0,
-                })}
-            >
-                {/* Image Section with Discount Tag */}
-                <div className="relative">
-                    {product.discount && (
-                        <Tag
-                            value={`${product.discount}% Off`}
-                            severity="danger"
-                            className="absolute"
-                            style={{
-                                top: "10px",
-                                left: "10px",
-                            }}
+            <div className={classNames("grid grid-nogutter py-4 gap-4", { "border-top-1 surface-border": index !== 0, })}
+                onClick={() => {
+                    navigate(`/products/${product.id}`);
+                }} >
+                {/* Image Section with Discount Tag   20% flex*/}
+                <div className="col-4">
+                    <div className="relative">
+                        {product.discount && (
+                            <Tag
+                                value={`${product.discount}% Off`}
+                                severity="danger"
+                                className="absolute"
+                                style={{
+                                    top: "10px",
+                                    left: "10px",
+                                }}
+                                pt={{
+                                    value: {
+                                        style: {
+                                            fontSize: classNames("text-xs"),
+                                        },
+                                    },
+                                }}
+                            />
+                        )}
+                        {product.courses?.length > 1 && (
+                            <Tag
+                                value={`${product.discount}% Off`}
+                                severity="danger"
+                                className="absolute"
+                                style={{
+                                    top: "10px",
+                                    left: "10px",
+                                }}
+                                pt={{
+                                    value: {
+                                        style: {
+                                            fontSize: classNames("text-xs"),
+                                        },
+                                    },
+                                }}
+                            />
+                        )}
+                        <img
+                            src={product.image}
+                            alt={product.name}
+                            className="w-full h-7rem md:h-12rem object-cover border-round"
                         />
-                    )}
-                    {product.courses?.length > 1 && (
-                        <Tag
-                            value={`${product.discount}% Off`}
-                            severity="danger"
-                            className="absolute"
-                            style={{
-                                top: "10px",
-                                left: "10px",
-                            }}
-                        />
-                    )}
-
-                    <img
-                        className="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round"
-                        src={product.image}
-                        alt={product.name}
-                    />
+                    </div>
                 </div>
-                {/* Product Details */}
-                <div className="flex justify-content-between gap-4">
-                    {/* Left Section */}
-                    <div className="flex flex-column gap-2">
-                        {/* Product Title */}
-                        <h4
-                            className="text-sm font-bold text-900 m-0"
-                            style={{
-                                display: "-webkit-box",
-                                WebkitLineClamp: 2,
-                                WebkitBoxOrient: "vertical",
-                                overflow: "hidden",
-                                textOverflow: "ellipsis",
-                            }}
-                        >
-                            {product.name}
-                        </h4>
-
+                {/* Content and Button column  total width 80% flex and for flex column mobile and laptop flex row*/}
+                <div className="flex col flex-wrap gap-2" >
+                    {/* Content column for both mobile and laptop*/}
+                    <div className="flex flex-1 flex-column gap-2">
+                        <h4 className="text-sm md:text-base font-bold text-900 m-0">{product.name}</h4>
                         {/* Description */}
                         <p
-                            className="text-xs text-700 m-0"
+                            className="text-xs md:text-sm text-700 m-0 hidden md:inline"
                             style={{
                                 display: "-webkit-box",
                                 WebkitLineClamp: 2,
@@ -189,51 +180,40 @@ export default function ProductCard({ product, index, layout }) {
                             {product.description}
                         </p>
                         {/* Additional Info */}
-                        <div className="text-sm text-700">
-                            {product.totalHours} total hours •{" "}
-                            {product.lectures} lectures • {product.level}
+                        <div className="text-xs md:text-sm text-700 hidden md:inline">
+                            • {product.totalHours} total hours{" "}
+                            • {product.lectures} lectures{product.level}
                         </div>
-                        <div className="flex flex-row gap-2">
+                        <div className="flex gap-2">
                             <Chip
                                 label={product.category}
                                 icon="pi pi-tag"
-                                className="w-max text-xs "
+                                className="w-max text-xs md:text-sm"
+                                pt={{
+                                    icon: classNames("text-xs md:text-sm my-1"),
+                                    label: classNames("text-xs md:text-sm my-1")
+                                }}
+
                             />
                             {product.courses?.length > 1 && (
                                 <Chip
                                     label={`${product.courses.length} Courses`}
-                                    className="w-max text-xs"
+                                    className="w-max text-xs md:text-sm"
+                                    pt={{
+                                        icon: classNames("text-xs md:text-sm my-1"),
+                                        label: classNames("text-xs md:text-sm my-1")
+                                    }}
                                 />
                             )}
                         </div>
                     </div>
-
-                    {/* Right Section */}
-                    <div className="flex flex-column align-items-center gap-2 h-full justify-content-between flex-grow-1 ">
-                        {/* Price */}
-                        <div className="flex flex-row align-items-center gap-2 ">
-                            <span className="text-lg font-bold text-900">
-                                ₹{product.price}
-                            </span>
-                            <span className="text-sm text-500 line-through">
-                                ₹{product.price}
-                            </span>
+                    <div className="flex flex-row md:flex-column align-items-center gap-2">
+                        {/* Price Section */}
+                        <div className="flex align-items-center gap-1">
+                            <span className="text-base md:text-lg font-bold text-900">₹{product.price}</span>
+                            <span className="text-sm md:text-sm text-500 line-through">₹{product.price}</span>
                         </div>
-                        <Button
-                            icon="pi pi-shopping-cart"
-                            severity="info"
-                            aria-label="Buy Now"
-                            onClick={() =>
-                                console.log("Buy Now button clicked!")
-                            }
-                            loading={loading}
-                            className="w-full p-button p-component"
-                        >
-                            <span className="p-button-icon p-c p-button-icon-left"></span>
-                            <span className="p-button-label text-sm md:text-base">
-                                Buy Now
-                            </span>
-                        </Button>
+                        <ButtonPurchase productId={product.id} />
                     </div>
                 </div>
             </div>
