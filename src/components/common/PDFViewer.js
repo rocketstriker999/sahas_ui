@@ -8,7 +8,7 @@ import pdfFile from '../common/test.pdf';
 // Set the worker source
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`;
 
-export default function CustomPDFViewer() {
+export default function PDFViewer() {
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
   const [scale, setScale] = useState(1.0);
@@ -183,7 +183,9 @@ export default function CustomPDFViewer() {
           onTouchMove={dragHandler}
           onTouchEnd={endDragHandler}
         >
-          <Document file={pdfFile} onLoadSuccess={onDocumentLoadSuccess}>
+          <Document file={pdfFile} onLoadSuccess={onDocumentLoadSuccess}
+            onLoadError={(error) => console.error("Error loading PDF:", error)}
+>
             <Page
               pageNumber={pageNumber}
               scale={scale}

@@ -6,11 +6,12 @@ import { useParams } from "react-router-dom";
 import ContentPlayer from "../common/ContentPlayer";
 import PDFViewer from "../common/PDFViewer";
 import { pdfjs } from 'react-pdf';
+import AudioPly from "../common/AudioPly";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-    'pdfjs-dist/build/pdf.worker.min.mjs',
-    import.meta.url,
-  ).toString();
+    'pdfjs-dist/build/pdf.worker.min.js',
+    import.meta.url
+).toString();
 
 export default function ContentSections({ config, productId }) {
     const [demoContent, setDemoContent] = useState();
@@ -37,6 +38,7 @@ export default function ContentSections({ config, productId }) {
                 <p className="text-base md:text-xl mt-0">Demo For Product 1</p>
                 {/* <ContentPlayer /> */}
                 <PDFViewer />
+                {/* <AudioPly /> */}
                 <p className="text-base md:text-xl">{config.title}</p>
                 <TabView
                     pt={{
