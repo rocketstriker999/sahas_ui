@@ -4,11 +4,17 @@ import { useEffect, useState } from "react";
 import { requestAPI } from "../../utils/utils";
 import { useParams } from "react-router-dom";
 import ContentPlayer from "../common/ContentPlayer";
+import PDFViewer from "../common/PDFViewer";
+import { pdfjs } from 'react-pdf';
+
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+    'pdfjs-dist/build/pdf.worker.min.mjs',
+    import.meta.url,
+  ).toString();
 
 export default function ContentSections({ config, productId }) {
     const [demoContent, setDemoContent] = useState();
     const [loading, setLoading] = useState();
-
     useEffect(() => {
         //hit API Once
         requestAPI({
@@ -29,19 +35,25 @@ export default function ContentSections({ config, productId }) {
         return (
             <div className="bg-black-alpha-80 p-4 font-semibold text-white">
                 <span className="text-2xl">Demo For Product 1</span>
-                <ContentPlayer />
-
+                {/* <ContentPlayer /> */}
+                <PDFViewer />
                 <p>{config.title}</p>
-
                 <TabView
                     pt={{
                         panelContainer: classNames("border-noround"),
+                        nav:classNames("justify-content-between md:justify-content-around"),
                     }}
                 >
                     {config.sections.map((section) => (
                         <TabPanel
                             header={section.title}
                             leftIcon={`pi ${section.icon} mr-2`}
+                            className=""
+                            pt={{
+                                headeraction:classNames("p-2 md:p-4 text-xs md:text-base"),
+                                content:classNames("text-xs md:text-base")
+                            }}
+                            
                         >
                             {demoContent[section.key] ? (
                                 demoContent[section.key].map(
