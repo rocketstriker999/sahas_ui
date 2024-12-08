@@ -29,8 +29,8 @@ export default function CustomPDFViewer() {
     const container = containerRef.current;
     if (!container) return;
 
-    const pdfPageWidth = 612; // Default width of a PDF page in points
-    const pdfPageHeight = 792; // Default height of a PDF page in points
+    const pdfPageWidth = 700; // Default width of a PDF page in points
+    const pdfPageHeight = 500; // Default height of a PDF page in points
 
     const containerWidth = container.offsetWidth;
     const containerHeight = container.offsetHeight;
@@ -88,7 +88,6 @@ export default function CustomPDFViewer() {
   const disableRightClick = (e) => e.preventDefault();
 
   const startDragHandler = (e) => {
-    e.preventDefault();
     setStartDrag({
       x: e.clientX || e.touches[0].clientX,
       y: e.clientY || e.touches[0].clientY,
@@ -123,10 +122,7 @@ export default function CustomPDFViewer() {
         onContextMenu={disableRightClick}
       >
         {/* Toolbar */}
-        <div
-          className="flex align-items-center justify-content-center shadow-3 sticky top-0 z-5 bg-white"
-
-        >
+        <div className="flex align-items-center justify-content-center shadow-3 sticky top-0 z-5 bg-white">
           <Button
             icon="pi pi-angle-left"
             className="p-button-rounded p-button-text mr-2"
@@ -139,7 +135,7 @@ export default function CustomPDFViewer() {
               {pageNumber}/{numPages}
             </span>
             {/* For medium and larger screens */}
-            <span className="hidden sm:inline">
+            <span className="hidden sm:inline text-xs md:text-base">
               Page {pageNumber} of {numPages}
             </span>
           </p>

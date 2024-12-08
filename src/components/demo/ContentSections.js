@@ -34,10 +34,10 @@ export default function ContentSections({ config, productId }) {
     if (demoContent && !loading) {
         return (
             <div className="bg-black-alpha-80 p-4 font-semibold text-white">
-                <span className="text-2xl">Demo For Product 1</span>
+                <p className="text-base md:text-xl mt-0">Demo For Product 1</p>
                 {/* <ContentPlayer /> */}
                 <PDFViewer />
-                <p>{config.title}</p>
+                <p className="text-base md:text-xl">{config.title}</p>
                 <TabView
                     pt={{
                         panelContainer: classNames("border-noround"),
