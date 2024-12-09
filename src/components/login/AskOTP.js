@@ -18,7 +18,7 @@ export default function AskOTP({ config, componenentState }) {
     const resendOTP = () => {
         requestAPI({
             requestPath: "otp/create",
-            requestPostBody: { userEmail: componenentState.userEmail },
+            requestPostBody: { email: componenentState.email },
             requestMethod: "POST",
             setLoading: setLoading,
             onResponseReceieved: (otpDetails, responseCode) => {
@@ -39,7 +39,7 @@ export default function AskOTP({ config, componenentState }) {
         requestAPI({
             requestPath: "otp/verify",
             requestPostBody: {
-                userEmail: componenentState.userEmail,
+                email: componenentState.email,
                 otp: otp,
             },
             requestMethod: "POST",
@@ -47,6 +47,7 @@ export default function AskOTP({ config, componenentState }) {
             onResponseReceieved: (verification, responseCode) => {
                 if (verification && responseCode === 200) {
                     //save token which will be receieved into this
+                    console.log(verification.user);
                     dispatch(setCurrentUser(verification.user));
 
                     //navigate to dashboard
@@ -71,54 +72,42 @@ export default function AskOTP({ config, componenentState }) {
         }, 1000);
     }, [seconds]);
 
+    return (
+        <div className="col-12 lg:col-6 sm:col-12 md:col-6 flex flex-column align-items-center justify-content-center">
+            <label htmlFor="OTP" className="font-bold block mb-4 lg:text-3xl text-2xl lg:w-7 text-center">
+                {config.title}
+                {componenentState.email}
+            </label>
 
-  return (
-    <div className="col-12 lg:col-6 sm:col-12 md:col-6 flex flex-column align-items-center justify-content-center">
-      <label
-        htmlFor="OTP"
-        className="font-bold block mb-4 lg:text-3xl text-2xl lg:w-7 text-center"
-      >
-        {config.title}
-        {componenentState.userEmail}
-      </label>
+            {error && <p className="text-red-600 text-center">{error}</p>}
 
-      {error && <p className="text-red-600 text-center">{error}</p>}
-
-      <div className="w-full sm:w-10 md:w-9 lg:w-8">
-        <InputOtp
-          length={config.otp_length}
-          disabled={loading}
-          invalid={error}
-          integerOnly
-          mask
-          onChange={(e) => {
-            if (e.value.length === config.otp_length) verifyOTP(e.value);
-          }}
-          pt={{
-            root: classNames("justify-content-center mb-4"),
-          }}
-        />
-        <Button
-          onClick={resendOTP}
-          className="w-full"
-          icon="pi pi-envelope"
-          label={
-            seconds > 0
-              ? `Didn't Receieve ? Resend in ${seconds}`
-              : "Resend OTP"
-          }
-          disabled={seconds > 0}
-          loading={loading}
-        />
-        <Divider align="center">
-          <b>OR</b>
-        </Divider>
-        <Button
-          className="w-full"
-          outlined
-          label="Login to Different Account"
-        />
-      </div>
-    </div>
-  );
+            <div className="w-full sm:w-10 md:w-9 lg:w-8">
+                <InputOtp
+                    length={config.otp_length}
+                    disabled={loading}
+                    invalid={error}
+                    integerOnly
+                    mask
+                    onChange={(e) => {
+                        if (e.value.length === config.otp_length) verifyOTP(e.value);
+                    }}
+                    pt={{
+                        root: classNames("justify-content-center mb-4"),
+                    }}
+                />
+                <Button
+                    onClick={resendOTP}
+                    className="w-full"
+                    icon="pi pi-envelope"
+                    label={seconds > 0 ? `Didn't Receieve ? Resend in ${seconds}` : "Resend OTP"}
+                    disabled={seconds > 0}
+                    loading={loading}
+                />
+                <Divider align="center">
+                    <b>OR</b>
+                </Divider>
+                <Button className="w-full" outlined label="Login to Different Account" />
+            </div>
+        </div>
+    );
 }

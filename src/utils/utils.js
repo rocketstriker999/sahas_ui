@@ -1,7 +1,8 @@
 import platform from "platform";
 
 export function hasGroupAccess(userGroups, allowedGroups) {
-    return userGroups.some((group) => allowedGroups.includes(group));
+    console.log(userGroups);
+    return userGroups ? userGroups.some((group) => allowedGroups.includes(group)) : false;
 }
 
 export async function requestAPI({
@@ -27,20 +28,14 @@ export async function requestAPI({
     if (setLoading) setLoading(true);
 
     //api specific path
-    requestPath =
-        process.env.REACT_APP_REVERSE_PROXY_API_PATH.concat(requestPath);
+    requestPath = process.env.REACT_APP_REVERSE_PROXY_API_PATH.concat(requestPath);
 
     if (requestGetQuery) {
         requestPath = requestPath + "?";
         requestPath =
             requestPath +
             Object.keys(requestGetQuery)
-                .map(
-                    (key) =>
-                        encodeURIComponent(key) +
-                        "=" +
-                        encodeURIComponent(requestGetQuery[key])
-                )
+                .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(requestGetQuery[key]))
                 .join("&");
     }
 
@@ -65,8 +60,7 @@ export async function requestAPI({
     try {
         const response = await fetch(requestPath, fetchOptions);
         const jsonResponse = await response.json();
-        if (onResponseReceieved)
-            onResponseReceieved(jsonResponse, response.status);
+        if (onResponseReceieved) onResponseReceieved(jsonResponse, response.status);
     } catch (e) {
         if (onRequestFailure) onRequestFailure(e);
     } finally {
