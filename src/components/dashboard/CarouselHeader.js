@@ -6,15 +6,11 @@ export default function CarouselHeader({ config }) {
         return <Image width="100%" src={image} />;
     };
 
-    const images = [
-        "https://www.gstatic.com/webp/gallery3/1.png",
-        "https://www.gstatic.com/webp/gallery3/2.png",
-        "https://www.gstatic.com/webp/gallery3/3.png",
-    ];
+    const images = ["https://www.gstatic.com/webp/gallery3/1.png", "https://www.gstatic.com/webp/gallery3/3.png"];
 
     return (
         <div>
-            <p className="w-full lg:w-6 bg-primary text-white p-2">Wlecome To Sahas Smart Studeis</p>
+            <p className="w-full lg:w-6 bg-primary-800 text-white py-3 px-2 font-bold">Welcome To Sahas Smart Studies</p>
             <Galleria
                 className="w-full lg:w-6"
                 value={images}
