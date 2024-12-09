@@ -1,12 +1,12 @@
 import { Galleria } from "primereact/galleria";
 import { Image } from "primereact/image";
 
-export default function CarouselHeader({ config }) {
+export default function CarouselHeader() {
     const itemTemplate = (image) => {
         return <Image width="100%" src={image} />;
     };
 
-    const images = ["https://www.gstatic.com/webp/gallery3/1.png", "https://www.gstatic.com/webp/gallery3/3.png"];
+    const images = ["https://www.gstatic.com/webp/gallery3/1.png", "https://www.gstatic.com/webp/gallery3/1.png"];
 
     return (
         <div>

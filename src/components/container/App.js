@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Route, Routes } from "react-router-dom";
-import Dashboard from "./Dashboard";
-import CustomError from "./CustomError";
-import Profile from "./Profile";
-import Login from "./Login";
-import Forbidden from "./Forbidden";
+import Dashboard from "../pages/Dashboard";
+import CustomError from "../pages/CustomError";
+import Profile from "../pages/Profile";
+import Login from "../pages/Login";
+import Forbidden from "../pages/Forbidden";
 import HasAuthentication from "../security/HasAuthentication";
 import HasNoAuthentication from "../security/HasNoAuthentication";
 import HasRequiredGroup from "../security/HasRequiredGroup";
@@ -13,9 +13,9 @@ import Contact from "./Contact";
 import ProcessToken from "../security/ProcessToken";
 import NeedDeviceID from "../security/NeedDeviceID";
 import { ProviderToast } from "../providers/ProviderToast";
-import Products from "./Products";
-import Product from "./Product";
-import Demo from "./Demo";
+import Products from "../pages/Products";
+import Product from "../pages/Product";
+import Demo from "../pages/Demo";
 
 export default function App() {
     return (
