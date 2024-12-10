@@ -1,3 +1,3 @@
-export default function PlayerPDF() {
+export default function PlayerPDF({ source }) {
     return <p>PDF Player</p>;
 }
