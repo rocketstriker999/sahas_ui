@@ -20,7 +20,7 @@ export default function ContentSelector({ content, setMediaPlayer }) {
             {activeTab === 0 &&
                 (content.videos.length > 0 ? (
                     content.videos.map((video) => (
-                        <div onClick={() => setMediaPlayer(<PlayerVideo sources={video.urls} />)}>
+                        <div onClick={() => setMediaPlayer(<PlayerVideo source={video.urls} />)}>
                             <p>{video.title}</p>
                             <Divider />
                         </div>

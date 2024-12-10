@@ -1,6 +1,7 @@
 import { Fragment, useState } from "react";
 import { SelectButton } from "primereact/selectbutton";
 import CatelogueCourses from "./CatelogueCourses";
+import MyCourses from "./MyCourses";
 
 export default function Catelogue() {
     const options = ["All Courses", "My Courses"];
@@ -13,7 +14,7 @@ export default function Catelogue() {
             </div>
             <div className="p-3">
                 {catelogue === "All Courses" && <CatelogueCourses />}
-                {catelogue === "My Courses" && <p>My COurses</p>}
+                {catelogue === "My Courses" && <MyCourses />}
             </div>
         </Fragment>
     );

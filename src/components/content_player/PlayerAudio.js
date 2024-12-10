@@ -1,17 +1,20 @@
-import { Fragment } from 'react';
-import { AudioPlayer } from 'react-audio-play';
+import { useEffect, useRef } from "react";
 
 export default function PlayerAudio({ source }) {
+    const audioRef = useRef(null); // Reference to the audio element
+
+    useEffect(() => {
+        // Set the audio playhead to start at 5 seconds when the component is mounted
+        if (audioRef.current) {
+            audioRef.current.currentTime = 5; // Start at 5 seconds
+        }
+    }, []); // Empty dependency array to run only once when the component mounts
+
     return (
-        <Fragment>
-            <div className="flex flex-column align-items-center w-full px-4">
-                <h2 className="text-white font-bold mb-4">Audio Player Title</h2>
-                <div className="border-round surface-card w-full">
-                {/* <AudioPlayer src={source}/> */}
-                {/* For Testing */}
-                <AudioPlayer src="https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg" />
-                </div>
-            </div>
-        </Fragment>
+        <div className="p-4">
+            <audio width="100%" ref={audioRef} controls autoplay controlsList="nodownload" oncontextmenu="return false;">
+                <source src={source} type="audio/mp3" />
+            </audio>
+        </div>
     );
 }
