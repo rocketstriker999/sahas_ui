@@ -2,16 +2,13 @@ import { Galleria } from "primereact/galleria";
 import { Image } from "primereact/image";
 import { useSelector } from "react-redux";
 import { Avatar } from "primereact/avatar";
-import { OverlayPanel } from "primereact/overlaypanel";
 import { useRef } from "react";
-import { ListBox } from "primereact/listbox";
-import { Divider } from "primereact/divider";
 import { Menu } from "primereact/menu";
+import { useNavigate } from "react-router-dom";
+import { hasGroupAccess } from "../../utils";
 
 export default function CarouselHeader() {
-    const itemTemplate = (image) => {
-        return <Image width="100%" src={image} />;
-    };
+    const navigate = useNavigate();
 
     const loggedInUser = useSelector((state) => state.stateUser.user);
 
@@ -19,34 +16,40 @@ export default function CarouselHeader() {
 
     const profileMenu = useRef(null);
 
-    const items = [
+    const profileMenuItems = [
+        {
+            label: "Manage Firm",
+            icon: "pi pi-cog",
+            command: () => navigate("/manage-firm"),
+            visible: hasGroupAccess(loggedInUser?.groups, ["FADMIN", "HADMIN"]),
+        },
         {
             label: "Profile",
-            items: [
-                {
-                    label: "Edit",
-                    icon: "pi pi-cog",
-                    command: () => console.log("dawdaw"),
-                },
-                {
-                    label: "Edit",
-                    icon: "pi pi-cog",
-                    command: () => console.log("dawdaw"),
-                },
-                {
-                    label: "Logout",
-                    icon: "pi pi-sign-out",
-                },
-            ],
+            icon: "pi pi-user",
+            command: () => navigate("/profile"),
+        },
+        {
+            label: "Logout",
+            icon: "pi pi-sign-out",
+            command: () => navigate("/logout"),
         },
     ];
+
+    const itemTemplate = (image) => {
+        return <Image width="100%" src={image} />;
+    };
 
     return (
         <div>
             <div className="w-full lg:w-6 text-white p-3 shadow-4 bg-primary-800 flex justify-content-between align-items-center">
                 <p className="  font-bold m-0  ">Welcome {loggedInUser?.name} To Sahas</p>
-                {loggedInUser && <Avatar icon="pi pi-user" className="bg-primary-900" shape="circle" onClick={(e) => profileMenu.current.toggle(e)} />}
-                <Menu model={items} popup ref={profileMenu} />
+
+                <div>
+                    <span className="pi pi-share-alt"></span>
+                    {loggedInUser && <Avatar icon="pi pi-user" className="bg-primary-900 ml-2" shape="circle" onClick={(e) => profileMenu.current.toggle(e)} />}
+                </div>
+
+                <Menu model={profileMenuItems} popup ref={profileMenu} />
             </div>
             <Galleria
                 className="w-full lg:w-6 shadow-4"

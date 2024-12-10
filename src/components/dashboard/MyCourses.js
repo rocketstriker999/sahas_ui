@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentUser } from "../../redux/sliceUser";
+import AskEmail from "../login/AskEmail";
+import FormLogin from "../login/FormLogin";
 
 export default function MyCourses() {
     const dispatch = useDispatch();
@@ -8,12 +10,12 @@ export default function MyCourses() {
     const loggedInUser = useSelector((state) => state.stateUser.user);
 
     useEffect(() => {
-        dispatch(setCurrentUser({ name: "Nisarg" }));
+        //dispatch(setCurrentUser({ name: "Nisarg" }));
     }, []);
 
     if (loggedInUser) {
-        return <p>You are user {loggedInUser.name}</p>;
+        return <p>User Courses</p>;
     } else {
-        return <p>Login To Continue</p>;
+        return <FormLogin />;
     }
 }

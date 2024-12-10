@@ -1,7 +1,7 @@
 import { Button } from "primereact/button";
 import { Divider } from "primereact/divider";
 import { useEffect, useRef, useState } from "react";
-import { requestAPI } from "../../utils/utils";
+import { requestAPI } from "../../utils";
 import { InputOtp } from "primereact/inputotp";
 import { classNames } from "primereact/utils";
 import { useNavigate } from "react-router-dom";

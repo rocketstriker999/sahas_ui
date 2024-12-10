@@ -1,7 +1,6 @@
 import platform from "platform";
 
 export function hasGroupAccess(userGroups, allowedGroups) {
-    console.log(userGroups);
     return userGroups ? userGroups.some((group) => allowedGroups.includes(group)) : false;
 }
 

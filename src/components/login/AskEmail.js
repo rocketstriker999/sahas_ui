@@ -2,9 +2,9 @@ import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { Divider } from "primereact/divider";
 import { useRef, useState } from "react";
-import { requestAPI } from "../../utils/utils";
+import { requestAPI } from "../../utils";
 
-export default function AskEmail({ config, updateComponentState }) {
+export default function AskEmail({ updateComponentState }) {
     const refUserEmail = useRef();
     const [loading, setLoading] = useState();
     const [error, setError] = useState();
@@ -34,7 +34,7 @@ export default function AskEmail({ config, updateComponentState }) {
     return (
         <div className="col-12 lg:col-6 sm:col-12 md:col-6 flex flex-column align-items-center justify-content-center">
             <label htmlFor="USER_EMAIL" className="font-bold block mb-4 lg:text-3xl text-2xl lg:w-7 text-center">
-                {config.title}
+                "Enter Email To Continue"
             </label>
 
             {error && <p className="text-red-600 text-center">{error}</p>}
