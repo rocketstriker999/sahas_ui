@@ -3,6 +3,7 @@ import { TabView, TabPanel } from "primereact/tabview";
 import { classNames } from "primereact/utils";
 import { Fragment } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import NoContent from "../common/NoContent";
 
 export default function Course() {
     const navigate = useNavigate();
@@ -60,5 +61,5 @@ export default function Course() {
             </Fragment>
         );
     }
-    return <p>No Content Found</p>;
+    return <NoContent />;
 }

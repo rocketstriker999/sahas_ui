@@ -1,6 +1,7 @@
 import { Divider } from "primereact/divider";
 import { Fragment } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import NoContent from "../common/NoContent";
 
 export default function Courses() {
     const navigate = useNavigate();
@@ -40,5 +41,5 @@ export default function Courses() {
             </Fragment>
         );
     }
-    return <p>No Content Found</p>;
+    return <NoContent />;
 }

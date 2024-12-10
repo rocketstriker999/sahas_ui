@@ -1,16 +1,28 @@
-import { Fragment, useState } from "react";
+import { Fragment, useCallback, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import ContentSelector from "../components/content_player/ContentSelector";
 
 export default function ContentPlayer() {
     const { contentId } = useParams();
 
-    const [mediaPlayer, setMediaPlayer] = useState();
+    const [MediaPlayer, setMediaPlayer] = useState();
 
     const content = {
         videos: [
-            { title: "vid1", url: "dawawdawda" },
-            { title: "vid2", url: "dawawdawda" },
+            {
+                title: "vid1",
+                urls: [
+                    { name: "360P", url: "dawrfdrgdrger" },
+                    { name: "720P", url: "dawrfdrgdfesserger" },
+                ],
+            },
+            {
+                title: "vid2",
+                urls: [
+                    { name: "360P", url: "dawrfdrgdrger" },
+                    { name: "720P", url: "dawrfdrgdfesserger" },
+                ],
+            },
         ],
         audios: [
             { title: "aud 1", url: "grrtgh5656h6" },
@@ -27,7 +39,7 @@ export default function ContentPlayer() {
             <div className="flex h-16rem justify-content-center align-items-center bg-gray-900 shadow-4">
                 <span className="text-white font-bold">Select Content To Start</span>
             </div>
-            <ContentSelector content={content} />
+            <ContentSelector content={content} setMediaPlayer={setMediaPlayer} />
         </Fragment>
     );
 }
