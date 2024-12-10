@@ -1,73 +1,53 @@
 import { Fragment, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import Navbar from "../common/Navbar";
 import React from "react";
-import Footer from "../common/Footer";
-import { requestAPI } from "../../utils/utils";
-import ProductPrimary from "../product/ProductPrimary/ProductPrimary";
-import ProductSecondary from "../product/ProductSecondary";
-import SkeletonContainer from "../common/Skeletons/Container";
+import { requestAPI } from "../utils";
+import { ProgressSpinner } from "primereact/progressspinner";
+import { Outlet } from "react-router-dom";
+import { Button } from "primereact/button";
 
 export default function Product() {
-    const { id } = useParams();
-
-    const [productConfig, setProductConfig] = useState();
+    const { productId } = useParams();
+    const [product, setProduct] = useState();
     const [loading, setLoading] = useState();
-    const [error, setError] = useState();
 
     useEffect(() => {
         requestAPI({
-            requestPath: "ui-config/product",
-            onResponseReceieved: (productConfig, responseCode) => {
-                if (productConfig && responseCode === 200) {
-                    setProductConfig(productConfig);
+            requestPath: `products/${productId}`,
+            onResponseReceieved: (product, responseCode) => {
+                if (product && responseCode === 200) {
+                    setProduct(product);
                 }
             },
             setLoading: setLoading,
-            onRequestFailure: setError,
+            onRequestEnd: () => {
+                setProduct({
+                    title: "This is a Title which is a bit long",
+                    description: "This is 2 liner description",
+                    image: "https://placehold.co/100x80/yellow/000000/png",
+                });
+            },
         });
     }, []);
 
     if (loading) {
-        return <SkeletonContainer />;
+        return <ProgressSpinner />;
     }
 
-    if (error) {
-        return <p>{error}</p>;
-    }
-
-    if (productConfig && !loading) {
+    if (product && !loading) {
         return (
             <Fragment>
-                {productConfig.navbar_visible && <Navbar />}
-
-                <div className="flex flex-column  align-items-center gap-3">
-                    {productConfig.product_primary.visible && (
-                        <div
-                            className={`w-12 flex justify-content-center ${productConfig.product_primary.background_color}`}
-                        >
-                            <div className="w-10 py-4 flex flex-column md:flex-row text-white gap-4">
-                                <ProductPrimary
-                                    config={productConfig.product_primary}
-                                    courseId={id}
-                                />
-                            </div>
-                        </div>
-                    )}
-
-                    {productConfig.product_secondary.visible && (
-                        <div className="w-11 md:w-8">
-                            {
-                                <ProductSecondary
-                                    config={productConfig.product_secondary}
-                                    courseId={id}
-                                />
-                            }
-                        </div>
-                    )}
+                <div className="bg-primary flex p-3 gap-2 shadow-4">
+                    <div className="flex-1">
+                        <h1 className="text-white font-bold m-0 mt-4 lg:text-3xl text-base">{product?.title}</h1>
+                        <p className="lg:text-base text-xs text-white m-0 mt-3 line-height-3">{product?.description}</p>
+                    </div>
+                    <div className="flex flex-column gap-2">
+                        <img className="border-round m-0 p-0 shadow-4" src={product.image} alt="Product" />
+                        <Button icon="pi pi-shopping-cart" label="Buy Now" severity="info" raised />
+                    </div>
                 </div>
-
-                {productConfig.footer_visible && <Footer />}
+                <Outlet />
             </Fragment>
         );
     }

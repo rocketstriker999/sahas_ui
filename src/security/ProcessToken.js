@@ -1,8 +1,7 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { setCurrentUser } from "../../redux/sliceUser";
-import { requestAPI } from "../../utils/utils";
+import { setCurrentUser } from "../redux/sliceUser";
+import { requestAPI } from "../utils";
 import { useToast } from "../providers/ProviderToast";
 
 export default function ProcessToken({ children }) {
@@ -37,9 +36,5 @@ export default function ProcessToken({ children }) {
         });
     }, []);
 
-    return loading ? (
-        <p>loading Fetching User's Account Information</p>
-    ) : (
-        children
-    );
+    return loading ? <p>loading Fetching User's Account Information</p> : children;
 }

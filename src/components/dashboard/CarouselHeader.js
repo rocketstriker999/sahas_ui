@@ -10,7 +10,7 @@ export default function CarouselHeader() {
 
     return (
         <div>
-            <p className="w-full lg:w-6 bg-primary-800 text-white py-3 px-2 font-bold">Welcome To Sahas Smart Studies</p>
+            <p className="w-full lg:w-6 bg-primary text-white font-bold m-0 py-3 px-2 shadow-4">Welcome {true ? "Nisarg" : "To Sahas Smart Studies"}</p>
             <Galleria
                 className="w-full lg:w-6"
                 value={images}

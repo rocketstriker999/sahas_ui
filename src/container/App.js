@@ -1,14 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Route, Routes } from "react-router-dom";
 import Dashboard from "../pages/Dashboard";
-import CustomError from "../pages/CustomError";
-import Login from "../pages/Login";
-import Forbidden from "../pages/Forbidden";
-import HasNoAuthentication from "../components/security/HasNoAuthentication";
-import Contact from "./Contact";
-import ProcessToken from "../components/security/ProcessToken";
-import { ProviderToast } from "../components/providers/ProviderToast";
+// import CustomError from "../pages/CustomError";
+// import Login from "../pages/Login";
+// import Forbidden from "../pages/Forbidden";
+// import HasNoAuthentication from "../security/HasAuthentication";
+import ProcessToken from "../security/ProcessToken";
+import { ProviderToast } from "../providers/ProviderToast";
 import Product from "../pages/Product";
+import Courses from "../components/product/Courses";
+import Course from "../components/product/Course";
+// import Product from "../pages/Product";
 
 export default function App() {
     return (
@@ -16,7 +18,15 @@ export default function App() {
             <ProcessToken>
                 <Routes>
                     <Route index element={<Dashboard />} />
-                    <Route
+                    <Route path="/products" element={<Product />}>
+                        <Route path="courses/:productId" element={<Courses />} />
+                        <Route path="course/:courseId" element={<Course />} />
+                    </Route>
+                    <Route path="/content" element={<Product />}>
+                        <Route path="demo/:subjectId" element={<Courses />} />
+                        <Route path="chapter/:chapterId" element={<Course />} />
+                    </Route>
+                    {/* <Route
                         path="/login"
                         element={
                             <HasNoAuthentication>
@@ -24,17 +34,9 @@ export default function App() {
                             </HasNoAuthentication>
                         }
                     />
-                    <Route
-                        path="/contact"
-                        element={
-                            <HasNoAuthentication>
-                                <Contact />
-                            </HasNoAuthentication>
-                        }
-                    />
-                    <Route path="/product/:id" element={<Product />} />
+                    
                     <Route path="/forbidden" element={<Forbidden />} />
-                    <Route path="*" element={<CustomError highlight="OOPS ! We could't Find What You Were Looking For." />} />
+                    <Route path="*" element={<CustomError highlight="OOPS ! We could't Find What You Were Looking For." />} /> */}
                 </Routes>
             </ProcessToken>
         </ProviderToast>
