@@ -5,6 +5,12 @@ import PlayerVideo from "./PlayerVideo";
 import PlayerAudio from "./PlayerAudio";
 import PlayerPDF from "./PlayerPDF";
 import NoContent from "../common/NoContent";
+import { pdfjs } from "react-pdf";
+
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+    'pdfjs-dist/build/pdf.worker.min.js',
+    import.meta.url
+).toString();
 
 export default function ContentSelector({ content, setMediaPlayer }) {
     const [activeTab, setActiveTab] = useState(0);
@@ -31,10 +37,16 @@ export default function ContentSelector({ content, setMediaPlayer }) {
             {activeTab === 1 &&
                 (content.pdfs.length > 0 ? (
                     content.pdfs.map((pdf) => (
-                        <div onClick={() => setMediaPlayer(<PlayerPDF source={pdf.url} />)}>
-                            <p>{pdf.title}</p>
-                            <Divider />
-                        </div>
+                        // <div onClick={() => setMediaPlayer(<PlayerPDF source={pdf.url} />)}>
+                        //     <p>{pdf.title}</p>
+                        //     <Divider />
+                        // </div>
+
+                        // Used Dummy PDF File link
+                        <div onClick={() => setMediaPlayer(<PlayerPDF source="https://getsamplefiles.com/download/pdf/sample-1.pdf" />)}>
+                        <p>{pdf.title}</p>
+                        <Divider />
+                    </div>
                     ))
                 ) : (
                     <NoContent />
