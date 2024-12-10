@@ -8,10 +8,10 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "../../redux/sliceUser";
 
-export default function AskOTP({ config, componenentState }) {
+export default function AskOTP({ componenentState }) {
     const [loading, setLoading] = useState();
     const [error, setError] = useState();
-    const [seconds, setSeconds] = useState(config.resend_otp_time);
+    const [seconds, setSeconds] = useState(60);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -30,7 +30,7 @@ export default function AskOTP({ config, componenentState }) {
             },
             onRequestFailure: (error) => setError(error.message),
             onRequestEnd: () => {
-                setSeconds(config.resend_otp_time);
+                setSeconds(60);
             },
         });
     };
@@ -44,21 +44,21 @@ export default function AskOTP({ config, componenentState }) {
             },
             requestMethod: "POST",
             setLoading: setLoading,
-            onResponseReceieved: (verification, responseCode) => {
-                if (verification && responseCode === 200) {
+            onResponseReceieved: (verifiedUser, responseCode) => {
+                if (verifiedUser && responseCode === 200) {
                     //save token which will be receieved into this
-                    console.log(verification.user);
-                    dispatch(setCurrentUser(verification.user));
+                    console.log(verifiedUser);
+                    dispatch(setCurrentUser(verifiedUser));
 
                     //navigate to dashboard
                     navigate("/");
                 } else {
-                    throw new Error(verification.error);
+                    throw new Error(verifiedUser.error);
                 }
             },
             onRequestFailure: (error) => setError(error.message),
             onRequestEnd: () => {
-                setSeconds(config.resend_otp_time);
+                setSeconds(60);
             },
         });
     };
@@ -75,21 +75,20 @@ export default function AskOTP({ config, componenentState }) {
     return (
         <div className="col-12 lg:col-6 sm:col-12 md:col-6 flex flex-column align-items-center justify-content-center">
             <label htmlFor="OTP" className="font-bold block mb-4 lg:text-3xl text-2xl lg:w-7 text-center">
-                {config.title}
-                {componenentState.email}
+                "Verify OTP Which is Sent to "{componenentState.email}
             </label>
 
             {error && <p className="text-red-600 text-center">{error}</p>}
 
             <div className="w-full sm:w-10 md:w-9 lg:w-8">
                 <InputOtp
-                    length={config.otp_length}
+                    length={4}
                     disabled={loading}
                     invalid={error}
                     integerOnly
                     mask
                     onChange={(e) => {
-                        if (e.value.length === config.otp_length) verifyOTP(e.value);
+                        if (e.value.length === 4) verifyOTP(e.value);
                     }}
                     pt={{
                         root: classNames("justify-content-center mb-4"),
