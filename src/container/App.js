@@ -10,6 +10,7 @@ import { ProviderToast } from "../providers/ProviderToast";
 import Product from "../pages/Product";
 import Courses from "../components/product/Courses";
 import Course from "../components/product/Course";
+import ContentPlayer from "../pages/ContentPlayer";
 // import Product from "../pages/Product";
 
 export default function App() {
@@ -22,10 +23,7 @@ export default function App() {
                         <Route path="courses/:productId" element={<Courses />} />
                         <Route path="course/:courseId" element={<Course />} />
                     </Route>
-                    <Route path="/content" element={<Product />}>
-                        <Route path="demo/:subjectId" element={<Courses />} />
-                        <Route path="chapter/:chapterId" element={<Course />} />
-                    </Route>
+                    <Route path="/content-player/:contentId" element={<ContentPlayer />}></Route>
                     {/* <Route
                         path="/login"
                         element={

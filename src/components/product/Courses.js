@@ -6,35 +6,22 @@ export default function Courses() {
     const navigate = useNavigate();
 
     const { productId } = useParams();
-    console.log(productId);
 
     const courseList = [
         {
             id: 22,
             title: "Course 1",
-            subjects: [
-                { title: "s1", chapters: ["CHAP-1", "CHAP-2", "CHAP-3"] },
-                { title: "s2", chapters: ["CHAP-11", "CHAP-22", "CHAP-33"] },
-                { title: "s3", chapters: ["CHAP-14", "CHAP-23", "CHAP-31"] },
-            ],
+            subjects: [{ title: "s1" }, { title: "s2" }, { title: "s3" }],
         },
         {
             id: 23,
             title: "Course 2",
-            subjects: [
-                { title: "s1", chapters: ["CHAP-1", "CHAP-2", "CHAP-3"] },
-                { title: "s2", chapters: ["CHAP-11", "CHAP-22", "CHAP-33"] },
-                { title: "s3", chapters: ["CHAP-14", "CHAP-23", "CHAP-31"] },
-            ],
+            subjects: [{ title: "s1" }, { title: "s2" }, { title: "s3" }],
         },
         {
             id: 24,
             title: "Course 3",
-            subjects: [
-                { title: "s1", chapters: ["CHAP-1", "CHAP-2", "CHAP-3"] },
-                { title: "s2", chapters: ["CHAP-11", "CHAP-22", "CHAP-33"] },
-                { title: "s3", chapters: ["CHAP-14", "CHAP-23", "CHAP-31"] },
-            ],
+            subjects: [{ title: "s1" }, { title: "s2" }, { title: "s3" }],
         },
     ];
 
