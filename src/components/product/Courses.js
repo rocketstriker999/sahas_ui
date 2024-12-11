@@ -31,7 +31,7 @@ export default function Courses() {
             <Fragment>
                 <p>{`Offering ${courseList.length} Courses`}</p>
                 {courseList.map((course, index) => (
-                    <div key={course.id} onClick={() => navigate(`/products/course/${course.id}`)}>
+                    <div key={course.id} onClick={() => navigate(`/products/${productId}/courses/${course.id}`)}>
                         {index === 0 && <Divider className="p-0 m-0" />}
                         <p className="p-0 m-0 font-bold text-sm">{course.title}</p>
                         <p className="p-0 m-0  text-xs">{course.subjects.length} Subjects</p>

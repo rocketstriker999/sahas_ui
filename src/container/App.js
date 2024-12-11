@@ -54,8 +54,8 @@ export default function App() {
                         }
                     />
                     <Route path="/products" element={<Product />}>
-                        <Route path="courses/:productId" element={<Courses />} />
-                        <Route path="course/:courseId" element={<Course />} />
+                        <Route path=":productId/courses" element={<Courses />} />
+                        <Route path=":productId/courses/:courseId" element={<Course />} />
                     </Route>
                     <Route path="/content-player/:contentId" element={<ContentPlayer />}></Route>
                     <Route path="/forbidden" element={<Forbidden />} />

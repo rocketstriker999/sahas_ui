@@ -14,7 +14,7 @@ export default function Product({ product, allowBuy = true, showPricing = true }
 
                 {allowBuy && <ButtonPurchase productId={product.id} />}
 
-                <Button className="text-xs p-2" label="More Details" severity="info" text onClick={() => navigate(`/products/courses/${product.id}`)} />
+                <Button className="text-xs p-2" label="More Details" severity="info" text onClick={() => navigate(`/products/${product.id}/courses`)} />
             </div>
         </div>
     );
