@@ -7,7 +7,7 @@ export default function FormLogin() {
 
     const viewSelector = {
         0: <AskEmail updateComponentState={setComponentState} />,
-        1: <AskOTP componenentState={componenentState} />,
+        1: <AskOTP email={componenentState.email} />,
     };
 
     return viewSelector[componenentState.viewIndex];

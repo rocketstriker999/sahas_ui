@@ -5,6 +5,7 @@ import { requestAPI } from "../utils";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { Outlet } from "react-router-dom";
 import { Button } from "primereact/button";
+import ButtonPurchase from "../components/common/ButtonPurchase";
 
 export default function Product() {
     const { productId } = useParams();
@@ -44,7 +45,7 @@ export default function Product() {
                     </div>
                     <div className="flex flex-column gap-2">
                         <img className="border-round m-0 p-0 shadow-4" src={product.image} alt="Product" />
-                        <Button icon="pi pi-shopping-cart" label="Buy Now" severity="info" raised />
+                        <ButtonPurchase productId={productId} />
                     </div>
                 </div>
                 <Outlet />

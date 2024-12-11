@@ -14,23 +14,10 @@ export default function ProcessToken({ children }) {
         requestAPI({
             requestPath: "token/verify",
             setLoading: setLoading,
-            onResponseReceieved: (currentUser, responseCode) => {
-                if (currentUser && responseCode === 200) {
-                    toast.current.show({
-                        severity: "success",
-                        summary: "Success",
-                        detail: `Welcome Back ${currentUser.userName}`,
-                        life: process.env.REACT_APP_SUCCESS_TIMEOUT,
-                    });
+            onResponseReceieved: (verification, responseCode) => {
+                if (verification && responseCode === 200) {
                     // eslint-disable-next-line default-case
-                    dispatch(setCurrentUser(currentUser));
-                } else {
-                    toast.current.show({
-                        severity: "warn",
-                        summary: "Login",
-                        detail: "Experience Can Be Enhanced If You Can Login",
-                        life: process.env.REACT_APP_INFO_TIMEOUT,
-                    });
+                    dispatch(setCurrentUser(verification.user));
                 }
             },
         });

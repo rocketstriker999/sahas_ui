@@ -11,30 +11,55 @@ import Product from "../pages/Product";
 import Courses from "../components/product/Courses";
 import Course from "../components/product/Course";
 import ContentPlayer from "../pages/ContentPlayer";
-// import Product from "../pages/Product";
+import AllProducts from "../components/dashboard/AllProducts";
+import MyProducts from "../components/dashboard/MyProducts";
+import HasAuthentication from "../security/HasAuthentication";
+import HasNoAuthentication from "../security/HasNoAuthentication";
+import FormLogin from "../components/login/FormLogin";
+import Forbidden from "../pages/Forbidden";
+import NotFound from "../pages/NotFound";
+import Purchase from "../pages/Purchase";
 
 export default function App() {
     return (
         <ProviderToast>
             <ProcessToken>
                 <Routes>
-                    <Route index element={<Dashboard />} />
+                    <Route path="/" element={<Dashboard />}>
+                        <Route index element={<AllProducts />} />
+
+                        <Route
+                            path="my-products"
+                            element={
+                                <HasAuthentication>
+                                    <MyProducts />
+                                </HasAuthentication>
+                            }
+                        />
+                        <Route
+                            path="login"
+                            element={
+                                <HasNoAuthentication>
+                                    <FormLogin />
+                                </HasNoAuthentication>
+                            }
+                        />
+                    </Route>
+                    <Route
+                        path="/purchase/:productId"
+                        element={
+                            <HasAuthentication>
+                                <Purchase />
+                            </HasAuthentication>
+                        }
+                    />
                     <Route path="/products" element={<Product />}>
                         <Route path="courses/:productId" element={<Courses />} />
                         <Route path="course/:courseId" element={<Course />} />
                     </Route>
                     <Route path="/content-player/:contentId" element={<ContentPlayer />}></Route>
-                    {/* <Route
-                        path="/login"
-                        element={
-                            <HasNoAuthentication>
-                                <Login />
-                            </HasNoAuthentication>
-                        }
-                    />
-                    
                     <Route path="/forbidden" element={<Forbidden />} />
-                    <Route path="*" element={<CustomError highlight="OOPS ! We could't Find What You Were Looking For." />} /> */}
+                    <Route path="*" element={<NotFound />} />
                 </Routes>
             </ProcessToken>
         </ProviderToast>
