@@ -40,19 +40,43 @@ export default function Course() {
 
     if (subjects?.length > 0) {
         return (
+            // <Fragment>
+            //     <p onClick={() => navigate(-1)}>back Button</p>
+            //     <TabView pt={{ panelContainer: classNames("m-0 p-0") }}>
+            //         {subjects.map((subject) => (
+            //             <TabPanel key={subject.id} header={subject.title}>
+            //                 <div className="p-4" onClick={() => navigate(`/content-player/${subject.demo_content_id}`)}>
+            //                     Demo - need to decide if show/no show
+            //                 </div>
+            //                 <Divider className="m-0 p-0" />
+            //                 {subject.chapters.map((chapter, index) => (
+            //                     <div key={chapter.content_id} onClick={() => navigate(`/content-player/${chapter.content_id}`)}>
+            //                         <span>{chapter.title}</span>
+            //                         <Divider className="m-0 p-0" />
+            //                     </div>
+            //                 ))}
+            //             </TabPanel>
+            //         ))}
+            //     </TabView>
+            // </Fragment>
+
             <Fragment>
-                <p onClick={() => navigate(-1)}>back Button</p>
-                <TabView pt={{ panelContainer: classNames("m-0 p-0") }}>
+                <p className="text-sm text-primary font-bold mx-3" onClick={() => navigate(-1)}>
+                    <i className="pi pi-arrow-left text-sm  mr-2"></i> Back
+                </p>
+                <TabView className="surface-card border-round shadow-2">
                     {subjects.map((subject) => (
                         <TabPanel key={subject.id} header={subject.title}>
-                            <div className="p-4" onClick={() => navigate(`/content-player/${subject.demo_content_id}`)}>
-                                Demo - need to decide if show/no show
+                            <div className="p-3 border-round surface-card shadow-1 mb-3 cursor-pointer flex align-items-center justify-content-between"
+                                onClick={() => navigate(`/content-player/${subject.demo_content_id}`)}>
+                                <span className="font-bold text-sm">Demo - need to decide if show/no show</span>
+                                <i className="pi pi-play text-primary"></i>
                             </div>
-                            <Divider className="m-0 p-0" />
                             {subject.chapters.map((chapter, index) => (
-                                <div key={chapter.content_id} onClick={() => navigate(`/content-player/${chapter.content_id}`)}>
-                                    <span>{chapter.title}</span>
-                                    <Divider className="m-0 p-0" />
+                                <div key={chapter.content_id} onClick={() => navigate(`/content-player/${chapter.content_id}`)}
+                                    className="p-3 border-round surface-card shadow-1 mb-2 cursor-pointer flex align-items-center justify-content-between">
+                                    <span className="text-sm">{chapter.title}</span>
+                                    <i className="pi pi-angle-right text-primary"></i>
                                 </div>
                             ))}
                         </TabPanel>
