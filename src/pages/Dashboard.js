@@ -3,6 +3,7 @@ import CarouselHeader from "../components/dashboard/CarouselHeader";
 import { Outlet, useNavigate } from "react-router-dom";
 import { SelectButton } from "primereact/selectbutton";
 import { useLocation } from "react-router-dom";
+import { classNames } from "primereact/utils";
 
 export default function Dashboard() {
     const options = ["All Courses", "My Courses"];

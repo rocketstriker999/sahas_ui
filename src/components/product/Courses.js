@@ -41,7 +41,13 @@ export default function Courses() {
             // </Fragment>
 
             <Fragment>
+                <div className="flex justify-content-between align-items-center">
+                <p className="text-sm text-primary font-bold mx-3" onClick={() => navigate(-1)}>
+                    <i className="pi pi-arrow-left text-sm mr-2"></i> Back
+                </p>
                 <p className="text-base font-bold px-3">{`Offering ${courseList.length} Courses`}</p>
+
+                </div>
                 {courseList.map((course, index) => (
                     <div key={course.id} onClick={() => navigate(`/products/${productId}/courses/${course.id}`)}
                     className="p-3 border-round surface-card shadow-3 mb-3 mx-3 flex align-items-center justify-content-between">

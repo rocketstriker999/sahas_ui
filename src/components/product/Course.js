@@ -62,19 +62,20 @@ export default function Course() {
 
             <Fragment>
                 <p className="text-sm text-primary font-bold mx-3" onClick={() => navigate(-1)}>
-                    <i className="pi pi-arrow-left text-sm  mr-2"></i> Back
+                    <i className="pi pi-arrow-left text-sm mr-2"></i> Back
                 </p>
-                <TabView className="surface-card border-round shadow-2">
+                <Divider className="p-0 m-0" />                
+                <TabView>
                     {subjects.map((subject) => (
                         <TabPanel key={subject.id} header={subject.title}>
-                            <div className="p-3 border-round surface-card shadow-1 mb-3 cursor-pointer flex align-items-center justify-content-between"
+                            <div className="p-3 border-round bg-primary shadow-3 mb-3 flex align-items-center justify-content-between"
                                 onClick={() => navigate(`/content-player/${subject.demo_content_id}`)}>
                                 <span className="font-bold text-sm">Demo - need to decide if show/no show</span>
-                                <i className="pi pi-play text-primary"></i>
+                                <i className="pi pi-play text-white"></i>
                             </div>
                             {subject.chapters.map((chapter, index) => (
                                 <div key={chapter.content_id} onClick={() => navigate(`/content-player/${chapter.content_id}`)}
-                                    className="p-3 border-round surface-card shadow-1 mb-2 cursor-pointer flex align-items-center justify-content-between">
+                                    className="surface-card p-3 border-round shadow-3 mb-2 flex align-items-center justify-content-between">
                                     <span className="text-sm">{chapter.title}</span>
                                     <i className="pi pi-angle-right text-primary"></i>
                                 </div>

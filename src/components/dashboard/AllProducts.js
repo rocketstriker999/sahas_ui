@@ -3,7 +3,8 @@ import { Accordion, AccordionTab } from "primereact/accordion";
 import { classNames } from "primereact/utils";
 import { Divider } from "primereact/divider";
 import Product from "./Product";
-
+import { Badge } from 'primereact/badge';
+        
 export default function AllProducts() {
     const [tabs] = useState([
         {
@@ -68,7 +69,13 @@ export default function AllProducts() {
             {tabs.map((tab) => (
                 <AccordionTab
                     className="m-0"
-                    header={tab.category_name}
+                    // header={tab.category_name}
+                    header={
+                        <div className="flex align-items-center justify-content-between w-full">
+                            <span>{tab.category_name}</span>
+                            <Badge value="2" className="ml-2 bg-primary" />
+                        </div>
+                    }
                     pt={{
                         root: { className: classNames("mb-2"), key: tab.category_name },
                         content: { className: classNames("p-0") },

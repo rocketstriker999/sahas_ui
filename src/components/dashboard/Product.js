@@ -12,9 +12,9 @@ export default function Product({ product, allowBuy = true, showPricing = true }
                 <p className="font-bold text-sm m-0 p-0">{product.title}</p>
                 {showPricing && <p className="m-0 p-0 mt-2 text-sm">Pricing</p>}
 
-                {allowBuy && <ButtonPurchase buttonStyle="mt-2 text-xs" icon={false} productId={product.id} />}
+                {allowBuy && <ButtonPurchase buttonStyle="mt-2 text-xs p-2" icon={false} productId={product.id} />}
 
-                <Button className="text-xs p-2 mb-1" label="More Details" severity="info" text onClick={() => navigate(`/products/${product.id}/courses`)} />
+                <Button className="text-xs p-2" label="More Details" severity="info" text onClick={() => navigate(`/products/${product.id}/courses`)} />
             </div>
         </div>
     );
