@@ -5,6 +5,7 @@ import { Divider } from "primereact/divider";
 import Product from "./Product";
 import { requestAPI } from "../../utils";
 import { ProgressSpinner } from "primereact/progressspinner";
+import NoContent from "../common/NoContent";
 
 export default function AllProducts() {
     const [catelogue, setCatelogue] = useState();
@@ -27,7 +28,7 @@ export default function AllProducts() {
         return <ProgressSpinner />;
     }
 
-    if (catelogue) {
+    if (catelogue && catelogue.length > 0) {
         return (
             <Accordion className="m-3">
                 {catelogue.map((category) => (
@@ -40,15 +41,21 @@ export default function AllProducts() {
                             content: { className: classNames("p-0") },
                         }}
                     >
-                        {category.products.map((product, position) => (
-                            <div key={product.id}>
-                                {position !== 0 && <Divider className="p-0 m-0" />}
-                                <Product product={product} />
-                            </div>
-                        ))}
+                        {category.products?.length > 0 ? (
+                            category.products.map((product, position) => (
+                                <div key={product.id}>
+                                    {position !== 0 && <Divider className="p-0 m-0" />}
+                                    <Product product={product} />
+                                </div>
+                            ))
+                        ) : (
+                            <NoContent />
+                        )}
                     </AccordionTab>
                 ))}
             </Accordion>
         );
+    } else {
+        return <NoContent />;
     }
 }
