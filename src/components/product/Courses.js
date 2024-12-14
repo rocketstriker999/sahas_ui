@@ -1,40 +1,44 @@
 import { Divider } from "primereact/divider";
-import { Fragment } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import NoContent from "../common/NoContent";
+import { requestAPI } from "../../utils";
+import { ProgressSpinner } from "primereact/progressspinner";
 
 export default function Courses() {
     const navigate = useNavigate();
 
     const { productId } = useParams();
 
-    const courseList = [
-        {
-            id: 22,
-            title: "Course 1",
-            subjects: [{ title: "s1" }, { title: "s2" }, { title: "s3" }],
-        },
-        {
-            id: 23,
-            title: "Course 2",
-            subjects: [{ title: "s1" }, { title: "s2" }, { title: "s3" }],
-        },
-        {
-            id: 24,
-            title: "Course 3",
-            subjects: [{ title: "s1" }, { title: "s2" }, { title: "s3" }],
-        },
-    ];
+    const [courses, setCourses] = useState();
+    const [loading, setLoading] = useState();
 
-    if (courseList?.length > 0) {
+    useEffect(() => {
+        requestAPI({
+            requestPath: `products/${productId}/courses`,
+            onResponseReceieved: (courses, responseCode) => {
+                if (courses && responseCode === 200) {
+                    setCourses(courses);
+                }
+            },
+            setLoading: setLoading,
+        });
+    }, []);
+
+    if (loading) {
+        return <ProgressSpinner />;
+    }
+
+    if (courses && courses.length > 0) {
+        console.log(courses);
         return (
             <Fragment>
-                <p>{`Offering ${courseList.length} Courses`}</p>
-                {courseList.map((course, index) => (
+                <p>{`Offering ${courses.length} Courses`}</p>
+                {courses.map((course, index) => (
                     <div key={course.id} onClick={() => navigate(`/products/${productId}/courses/${course.id}`)}>
                         {index === 0 && <Divider className="p-0 m-0" />}
                         <p className="p-0 m-0 font-bold text-sm">{course.title}</p>
-                        <p className="p-0 m-0  text-xs">{course.subjects.length} Subjects</p>
+                        <p className="p-0 m-0  text-xs">{course.subjects} Subjects</p>
                         <Divider className="p-0 m-0" />
                     </div>
                 ))}

@@ -1,5 +1,4 @@
 import { useSelector } from "react-redux";
-import FormLogin from "../login/FormLogin";
 import { Fragment, useEffect, useState } from "react";
 import { requestAPI } from "../../utils";
 import { ProgressSpinner } from "primereact/progressspinner";
@@ -14,7 +13,7 @@ export default function MyProducts() {
 
     useEffect(() => {
         requestAPI({
-            requestPath: `users/${loggedInUser.id}/products`,
+            requestPath: `products/mine`,
             requestMethod: "GET",
             setLoading: setLoading,
             onResponseReceieved: (userProducts, responseCode) => {
@@ -37,7 +36,7 @@ export default function MyProducts() {
                 {userProducts.map((product, index) => (
                     <Fragment>
                         {index === 0 && <Divider className="p-0 m-0" />}
-                        <Product product={product} allowBuy={false} showPricing={false} />
+                        <Product product={{ ...product, has_access: true }} />
                         <Divider className="p-0 m-0" />
                     </Fragment>
                 ))}

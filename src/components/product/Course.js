@@ -1,65 +1,69 @@
 import { Divider } from "primereact/divider";
 import { TabView, TabPanel } from "primereact/tabview";
 import { classNames } from "primereact/utils";
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import NoContent from "../common/NoContent";
+import { requestAPI } from "../../utils";
+import { ProgressSpinner } from "primereact/progressspinner";
 
 export default function Course() {
     const navigate = useNavigate();
 
-    const subjects = [
-        {
-            id: 1,
-            title: "s34",
-            demo_content_id: 234,
-            chapters: [
-                { title: "chap1", content_id: 12 },
-                { title: "chap2", content_id: 13 },
-            ],
-            content_id: 14,
-        },
-        {
-            id: 2,
-            title: "s376",
-            chapters: [
-                { title: "chap22", content_id: 45 },
-                { title: "chap343", content_id: 67 },
-            ],
-            content_id: 14,
-        },
-        {
-            id: 2,
-            title: "s134",
-            chapters: [
-                { title: "chap2345", content_id: 43 },
-                { title: "chap567", content_id: 6767 },
-            ],
-        },
-    ];
+    const { productId } = useParams();
+    const { courseId } = useParams();
 
-    if (subjects?.length > 0) {
+    const [course, setCourses] = useState();
+    const [loading, setLoading] = useState();
+
+    useEffect(() => {
+        requestAPI({
+            requestPath: `products/${productId}/courses/${courseId}`,
+            onResponseReceieved: (course, responseCode) => {
+                if (course && responseCode === 200) {
+                    setCourses(course);
+                }
+            },
+            setLoading: setLoading,
+        });
+    }, []);
+
+    if (loading) {
+        return <ProgressSpinner />;
+    }
+
+    if (course) {
         return (
             <Fragment>
                 <p onClick={() => navigate(-1)}>back Button</p>
-                <TabView pt={{ panelContainer: classNames("m-0 p-0") }}>
-                    {subjects.map((subject) => (
-                        <TabPanel key={subject.id} header={subject.title}>
-                            <div className="p-4" onClick={() => navigate(`/content-player/${subject.demo_content_id}`)}>
-                                Demo - need to decide if show/no show
-                            </div>
-                            <Divider className="m-0 p-0" />
-                            {subject.chapters.map((chapter, index) => (
-                                <div key={chapter.content_id} onClick={() => navigate(`/content-player/${chapter.content_id}`)}>
-                                    <span>{chapter.title}</span>
-                                    <Divider className="m-0 p-0" />
-                                </div>
-                            ))}
-                        </TabPanel>
-                    ))}
-                </TabView>
+                {course.subjects.length > 0 ? (
+                    <TabView pt={{ panelContainer: classNames("m-0 p-0") }}>
+                        {course.subjects.map((subject) => (
+                            <TabPanel key={subject.id} header={subject.title}>
+                                {!course.has_access && (
+                                    <div className="p-4" onClick={() => navigate(`/content-player/${subject.demo_content_id}`)}>
+                                        Demo - need to decide if show/no show
+                                    </div>
+                                )}
+
+                                <Divider className="m-0 p-0" />
+                                {subject.chapters?.length > 0 ? (
+                                    subject.chapters?.map((chapter, index) => (
+                                        <div key={chapter.name} onClick={() => navigate(`/content-player/${chapter.content_id}`)}>
+                                            {index !== 0 && <Divider className="m-0 p-0" />}
+                                            <span>{chapter.name}</span>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <NoContent />
+                                )}
+                            </TabPanel>
+                        ))}
+                    </TabView>
+                ) : (
+                    <NoContent />
+                )}
             </Fragment>
         );
     }
-    return <NoContent />;
 }

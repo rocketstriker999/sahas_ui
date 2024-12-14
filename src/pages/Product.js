@@ -4,14 +4,13 @@ import React from "react";
 import { requestAPI } from "../utils";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { Outlet } from "react-router-dom";
+import ButtonPurchase from "../components/common/ButtonBuyNow";
 import { Button } from "primereact/button";
-import ButtonPurchase from "../components/common/ButtonPurchase";
 
 export default function Product() {
     const { productId } = useParams();
     const [product, setProduct] = useState();
     const [loading, setLoading] = useState();
-
     useEffect(() => {
         requestAPI({
             requestPath: `products/${productId}`,
@@ -21,13 +20,6 @@ export default function Product() {
                 }
             },
             setLoading: setLoading,
-            onRequestEnd: () => {
-                setProduct({
-                    title: "This is a Title which is a bit long",
-                    description: "This is 2 liner description",
-                    image: "https://placehold.co/100x80/yellow/000000/png",
-                });
-            },
         });
     }, []);
 
@@ -45,7 +37,7 @@ export default function Product() {
                     </div>
                     <div className="flex flex-column gap-2">
                         <img className="border-round m-0 p-0 shadow-4" src={product.image} alt="Product" />
-                        <ButtonPurchase productId={productId} />
+                        {product.access ? <Button label="Download PDF" severity="info" raised /> : <ButtonPurchase productId={productId} />}
                     </div>
                 </div>
                 <Outlet />
