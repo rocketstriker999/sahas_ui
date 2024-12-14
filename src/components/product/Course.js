@@ -41,17 +41,28 @@ export default function Course() {
                         {course.subjects.map((subject) => (
                             <TabPanel key={subject.id} header={subject.title}>
                                 {!course.has_access && (
-                                    <div className="p-4" onClick={() => navigate(`/content-player/${subject.demo_content_id}`)}>
-                                        Demo - need to decide if show/no show
+                                    <div className="p-4">
+                                        {subject.demo_content_id ? (
+                                            <span onClick={() => navigate(`/content-player/${subject.demo_content_id}`)}>Demo</span>
+                                        ) : (
+                                            <span>No Demo Availabale</span>
+                                        )}
                                     </div>
                                 )}
 
                                 <Divider className="m-0 p-0" />
                                 {subject.chapters?.length > 0 ? (
                                     subject.chapters?.map((chapter, index) => (
-                                        <div key={chapter.name} onClick={() => navigate(`/content-player/${chapter.content_id}`)}>
+                                        <div
+                                            key={chapter.name}
+                                            onClick={() => {
+                                                if (course.has_access) {
+                                                    navigate(`/content-player/${chapter.content_id}`);
+                                                }
+                                            }}
+                                        >
                                             {index !== 0 && <Divider className="m-0 p-0" />}
-                                            <span>{chapter.name}</span>
+                                            <span>{chapter.title}</span>
                                         </div>
                                     ))
                                 ) : (
