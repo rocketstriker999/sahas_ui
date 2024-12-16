@@ -2,7 +2,7 @@ import BannerLogin from "../login/BannerLogin";
 import FormLogin from "../login/FormLogin";
 import Navbar from "../common/Navbar";
 import { useEffect, useState } from "react";
-import { requestAPI } from "../../utils/utils";
+import { requestProxy } from "../../utils/utils";
 import Footer from "../common/Footer";
 
 export default function Login() {
@@ -10,8 +10,8 @@ export default function Login() {
 
     useEffect(() => {
         //hit API Once
-        requestAPI({
-            requestPath: "ui-config/login",
+        requestProxy({
+            requestPath: "/api/ui-config/login",
             onResponseReceieved: (loginConfig, responseCode) => {
                 if (loginConfig && responseCode === 200) {
                     setLoginConfig(loginConfig);
@@ -33,7 +33,6 @@ export default function Login() {
                     </div>
                 </div>
 
-                
                 <Footer />
             </>
         )

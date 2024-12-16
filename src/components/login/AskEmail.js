@@ -2,7 +2,7 @@ import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { Divider } from "primereact/divider";
 import { useRef, useState } from "react";
-import { requestAPI } from "../../utils";
+import { requestProxy } from "../../utils";
 
 export default function AskEmail({ updateComponentState }) {
     const refUserEmail = useRef();
@@ -10,8 +10,8 @@ export default function AskEmail({ updateComponentState }) {
     const [error, setError] = useState();
 
     const generateOTP = () => {
-        requestAPI({
-            requestPath: "otp/create",
+        requestProxy({
+            requestPath: "/api/otp/create",
             requestPostBody: { email: refUserEmail.current.value },
             requestMethod: "POST",
             setLoading: setLoading,

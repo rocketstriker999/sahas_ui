@@ -4,7 +4,7 @@ import { classNames } from "primereact/utils";
 import { Fragment, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import NoContent from "../common/NoContent";
-import { requestAPI } from "../../utils";
+import { requestProxy } from "../../utils";
 import { ProgressSpinner } from "primereact/progressspinner";
 
 export default function Course() {
@@ -17,8 +17,8 @@ export default function Course() {
     const [loading, setLoading] = useState();
 
     useEffect(() => {
-        requestAPI({
-            requestPath: `products/${productId}/courses/${courseId}`,
+        requestProxy({
+            requestPath: `/api/products/${productId}/courses/${courseId}`,
             onResponseReceieved: (course, responseCode) => {
                 if (course && responseCode === 200) {
                     setCourses(course);
@@ -53,17 +53,21 @@ export default function Course() {
                                 <Divider className="m-0 p-0" />
                                 {subject.chapters?.length > 0 ? (
                                     subject.chapters?.map((chapter, index) => (
-                                        <div
-                                            key={chapter.name}
-                                            onClick={() => {
-                                                if (course.has_access) {
-                                                    navigate(`/content-player/${chapter.content_id}`);
-                                                }
-                                            }}
-                                        >
+                                        <Fragment>
                                             {index !== 0 && <Divider className="m-0 p-0" />}
-                                            <span>{chapter.title}</span>
-                                        </div>
+                                            <div
+                                                className="flex justify-content-between p-2"
+                                                key={chapter.name}
+                                                onClick={() => {
+                                                    if (course.has_access) {
+                                                        navigate(`/content-player/${chapter.content_id}`);
+                                                    }
+                                                }}
+                                            >
+                                                <span>{chapter.title}</span>
+                                                {!course.has_access && <span className="pi pi-lock font-bold" />}
+                                            </div>
+                                        </Fragment>
                                     ))
                                 ) : (
                                     <NoContent />

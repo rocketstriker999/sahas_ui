@@ -4,7 +4,7 @@ export function hasGroupAccess(userGroups, allowedGroups) {
     return userGroups ? userGroups.some((group) => allowedGroups.includes(group)) : false;
 }
 
-export async function requestAPI({
+export async function requestProxy({
     requestHeaders = {},
     requestPath = "/",
     requestMethod = "GET",
@@ -27,7 +27,6 @@ export async function requestAPI({
     if (setLoading) setLoading(true);
 
     //api specific path
-    requestPath = process.env.REACT_APP_REVERSE_PROXY_API_PATH.concat(requestPath);
 
     if (requestGetQuery) {
         requestPath = requestPath + "?";
@@ -67,15 +66,3 @@ export async function requestAPI({
     }
     if (onRequestEnd) onRequestEnd();
 }
-
-//returns current authentication token
-// requestHelper.getData = (key) => {
-//     return localStorage.getItem(key) === null ? false : localStorage.getItem(key);
-// }
-
-//sets current authentication token
-//requestHelper.saveData = (key, value) => { localStorage.setItem(key, value) };
-
-//Check Device Id
-// if (!requestHelper.getData("DEVICEID"))
-//     window.electron.getDeviceID((deviceId) => requestHelper.saveData("DEVICEID", deviceId));

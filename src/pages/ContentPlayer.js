@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ContentSelector from "../components/content_player/ContentSelector";
-import { requestAPI } from "../utils";
+import { requestProxy } from "../utils";
 import { ProgressSpinner } from "primereact/progressspinner";
 
 export default function ContentPlayer() {
@@ -11,8 +11,8 @@ export default function ContentPlayer() {
     const [loading, setLoading] = useState();
 
     useEffect(() => {
-        requestAPI({
-            requestPath: `content/${contentId}`,
+        requestProxy({
+            requestPath: `/api/content/${contentId}`,
             onResponseReceieved: (content, responseCode) => {
                 if (content && responseCode === 200) {
                     setContent(content);

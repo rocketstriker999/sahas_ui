@@ -19,7 +19,7 @@ export default function ProductSecondary({ productSecondaryInfo }) {
     );
 
     // useEffect(() => {
-    //     requestAPI({
+    //     requestProxy({
     //         requestPath: `products/${courseId}/secondary-details`,
     //         onResponseReceieved: (courseSecondaryDetails, responseCode) => {
     //             if (courseSecondaryDetails && responseCode === 200) {

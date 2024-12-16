@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "../redux/sliceUser";
-import { requestAPI } from "../utils";
+import { requestProxy } from "../utils";
 import { useToast } from "../providers/ProviderToast";
 
 export default function ProcessToken({ children }) {
@@ -11,8 +11,8 @@ export default function ProcessToken({ children }) {
 
     useEffect(() => {
         //hit API Once
-        requestAPI({
-            requestPath: "token/verify",
+        requestProxy({
+            requestPath: "/api/token/verify",
             setLoading: setLoading,
             onResponseReceieved: (verification, responseCode) => {
                 if (verification && responseCode === 200) {

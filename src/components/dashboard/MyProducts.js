@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { Fragment, useEffect, useState } from "react";
-import { requestAPI } from "../../utils";
+import { requestProxy } from "../../utils";
 import { ProgressSpinner } from "primereact/progressspinner";
 import Product from "./Product";
 import { Divider } from "primereact/divider";
@@ -12,8 +12,8 @@ export default function MyProducts() {
     const [loading, setLoading] = useState();
 
     useEffect(() => {
-        requestAPI({
-            requestPath: `products/mine`,
+        requestProxy({
+            requestPath: `/api/products/mine`,
             requestMethod: "GET",
             setLoading: setLoading,
             onResponseReceieved: (userProducts, responseCode) => {

@@ -1,7 +1,7 @@
 import { Fragment, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import React from "react";
-import { requestAPI } from "../utils";
+import { requestProxy } from "../utils";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { Outlet } from "react-router-dom";
 import ButtonPurchase from "../components/common/ButtonBuyNow";
@@ -12,8 +12,8 @@ export default function Product() {
     const [product, setProduct] = useState();
     const [loading, setLoading] = useState();
     useEffect(() => {
-        requestAPI({
-            requestPath: `products/${productId}`,
+        requestProxy({
+            requestPath: `/api/products/${productId}`,
             onResponseReceieved: (product, responseCode) => {
                 if (product && responseCode === 200) {
                     setProduct(product);

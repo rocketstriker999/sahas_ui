@@ -3,7 +3,7 @@ import "primeflex/primeflex.css";
 import "primeicons/primeicons.css";
 import { Button } from "primereact/button";
 import { useNavigate } from "react-router-dom";
-import { requestAPI } from "../../utils/utils";
+import { requestProxy } from "../../utils/utils";
 import { Divider } from "primereact/divider";
 import FooterSkeleton from "./Skeletons/FooterSkeleton";
 
@@ -14,8 +14,8 @@ export default function Footer() {
 
     useEffect(() => {
         //hit API Once
-        requestAPI({
-            requestPath: "ui-config/footer",
+        requestProxy({
+            requestPath: "/api/ui-config/footer",
             setLoading: setLoading,
             onResponseReceieved: (footerConfig, responseCode) => {
                 if (footerConfig && responseCode === 200) {
@@ -40,17 +40,11 @@ export default function Footer() {
                     {footerConfig.links.map((linkGroup) => (
                         <div key={linkGroup.name} className="p-2">
                             {/* Section Title */}
-                            <div className="text-yellow-500 font-bold mb-3 text-sm md:text-base">
-                                {linkGroup.name}
-                            </div>
+                            <div className="text-yellow-500 font-bold mb-3 text-sm md:text-base">{linkGroup.name}</div>
                             {/* Links */}
                             <div className="flex flex-column gap-2">
                                 {linkGroup.urls.map((urlData) => (
-                                    <div
-                                        key={urlData.url}
-                                        className="flex flex-row items-center gap-2 cursor-pointer"
-                                        onClick={() => navigate(urlData.url)}
-                                    >
+                                    <div key={urlData.url} className="flex flex-row items-center gap-2 cursor-pointer" onClick={() => navigate(urlData.url)}>
                                         {/* Icon */}
                                         <span className={`pi ${urlData.icon || "pi-question-circle"} text-white text-xs md:text-sm`}></span>
                                         {/* Link Name */}
@@ -68,7 +62,8 @@ export default function Footer() {
                     {footerConfig.organization.branches.map((brnach) => (
                         <div key={brnach.name} className="md:flex-1 p-2 text-center">
                             <p className="text-yellow-500 font-bold text-xs md:text-sm flex justify-content-center gap-2 md:gap-0">
-                                <i className="pi pi-map-marker text-xs md:text-sm mr-2"></i>{brnach.name}
+                                <i className="pi pi-map-marker text-xs md:text-sm mr-2"></i>
+                                {brnach.name}
                             </p>
                             <p className="text-xs md:text-sm">{brnach.full_address}</p>
                             <p className="text-xs md:text-sm">
@@ -80,15 +75,25 @@ export default function Footer() {
                 </div>
                 <Divider className="m-0 w-auto mx-4" />
                 <div className="flex flex-column justify-content-between font-bold md:flex-row gap-1 sm:gap-0 px-6 py-2 md:px-6 md:py-4">
-                    <span className="text-xs md:text-sm mb-1 flex align-items-center"><i className="pi pi-building mr-1"></i>{footerConfig.organization.name}</span>
-                    <span className="text-xs md:text-sm mb-1 flex align-items-center"><i className="pi pi-copyright mr-1"></i>{footerConfig.copyright_notice}</span>
-                    <span className="text-xs md:text-sm mb-1 flex align-items-center"><i className="pi pi-envelope mr-1"></i>{footerConfig.organization.email}</span>
+                    <span className="text-xs md:text-sm mb-1 flex align-items-center">
+                        <i className="pi pi-building mr-1"></i>
+                        {footerConfig.organization.name}
+                    </span>
+                    <span className="text-xs md:text-sm mb-1 flex align-items-center">
+                        <i className="pi pi-copyright mr-1"></i>
+                        {footerConfig.copyright_notice}
+                    </span>
+                    <span className="text-xs md:text-sm mb-1 flex align-items-center">
+                        <i className="pi pi-envelope mr-1"></i>
+                        {footerConfig.organization.email}
+                    </span>
                 </div>
             </div>
         );
     }
 }
-{/* <div className="flex flex-column md:flex-row md:flex-wrap lg:justify-content-around text-sm py-3 border-top-1 border-500">
+{
+    /* <div className="flex flex-column md:flex-row md:flex-wrap lg:justify-content-around text-sm py-3 border-top-1 border-500">
                     <div className="flex flex-column gap-2 md:w-6 lg:w-2">
                         <p className="text-orange-400 text-lg font-bold">
                             Useful Links
@@ -228,5 +233,5 @@ export default function Footer() {
                     </div>
                 </div>
 
-                 */}
-
+                 */
+}

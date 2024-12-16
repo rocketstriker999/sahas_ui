@@ -2,7 +2,7 @@ import { Divider } from "primereact/divider";
 import { Fragment, useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import NoContent from "../common/NoContent";
-import { requestAPI } from "../../utils";
+import { requestProxy } from "../../utils";
 import { ProgressSpinner } from "primereact/progressspinner";
 
 export default function Courses() {
@@ -14,8 +14,8 @@ export default function Courses() {
     const [loading, setLoading] = useState();
 
     useEffect(() => {
-        requestAPI({
-            requestPath: `products/${productId}/courses`,
+        requestProxy({
+            requestPath: `/api/products/${productId}/courses`,
             onResponseReceieved: (courses, responseCode) => {
                 if (courses && responseCode === 200) {
                     setCourses(courses);

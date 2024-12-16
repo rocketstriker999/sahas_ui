@@ -6,7 +6,7 @@ import { Badge } from "primereact/badge";
 import { hasGroupAccess } from "../../utils/utils";
 import { useSelector } from "react-redux";
 import { Sidebar } from "primereact/sidebar";
-import { requestAPI } from "../../utils/utils";
+import { requestProxy } from "../../utils/utils";
 import Notifications from "./Notifications/Notifications";
 import { Image } from "primereact/image";
 import { classNames } from "primereact/utils";
@@ -81,8 +81,8 @@ export default function Navbar() {
     ];
 
     useEffect(() => {
-        requestAPI({
-            requestPath: "ui-config/navbar",
+        requestProxy({
+            requestPath: "/api/ui-config/navbar",
             onResponseReceieved: (navBarConfig, responseCode) => {
                 if (navBarConfig && responseCode === 200) {
                     setNavBarConfig(navBarConfig);

@@ -3,7 +3,7 @@ import { Accordion, AccordionTab } from "primereact/accordion";
 import { classNames } from "primereact/utils";
 import { Divider } from "primereact/divider";
 import Product from "./Product";
-import { requestAPI } from "../../utils";
+import { requestProxy } from "../../utils";
 import { ProgressSpinner } from "primereact/progressspinner";
 import NoContent from "../common/NoContent";
 
@@ -13,8 +13,8 @@ export default function AllProducts() {
 
     useEffect(() => {
         //hit API Once
-        requestAPI({
-            requestPath: "products/catelogue",
+        requestProxy({
+            requestPath: "/api/products/catelogue",
             setLoading: setLoading,
             onResponseReceieved: (catelogue, responseCode) => {
                 if (catelogue && responseCode === 200) {

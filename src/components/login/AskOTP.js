@@ -1,6 +1,6 @@
 import { Divider } from "primereact/divider";
 import { useRef, useState } from "react";
-import { requestAPI } from "../../utils";
+import { requestProxy } from "../../utils";
 import { InputOtp } from "primereact/inputotp";
 import { classNames } from "primereact/utils";
 import { useNavigate } from "react-router-dom";
@@ -18,8 +18,8 @@ export default function AskOTP({ email }) {
     const message = useRef(null);
 
     const verifyOTP = (otp) => {
-        requestAPI({
-            requestPath: "otp/verify",
+        requestProxy({
+            requestPath: "/api/otp/verify",
             requestPostBody: {
                 email,
                 otp: otp,
