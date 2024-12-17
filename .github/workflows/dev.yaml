@@ -17,10 +17,11 @@ jobs:
                   sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@46.202.164.212 << 'EOF'
                     set -e
                     cd /root/dev
-                    DIR="sahas_mailer"
+                    DIR="sahas_ui"
                     if [ ! -d "$DIR" ]; then
                       echo "Fetching Source - $DIR"
-                      git clone https://github.com/rocketstriker999/sahas_mailer
+                      git clone https://github.com/rocketstriker999/sahas_ui
+                      npm install -g serve
                     fi
                     cd "$DIR"
                     if [ -f process.id ]; then
@@ -32,7 +33,8 @@ jobs:
                     fi
                     git pull origin main
                     npm install
-                    nohup node app.js > process.log 2>&1 &
+                    npm run build
+                    serve -s build -l 3000 > process.log 2>&1 &
                     new_pid=$!
                     echo "Starting $DIR - pid $new_pid"
                     echo $new_pid > process.id
