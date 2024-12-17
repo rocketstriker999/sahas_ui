@@ -34,7 +34,7 @@ jobs:
                     git pull origin main
                     npm install
                     npm run build
-                    serve -s build -l 3000 > process.log 2>&1 &
+                    serve -s build -l 4000 > process.log 2>&1 &
                     new_pid=$!
                     echo "Starting $DIR - pid $new_pid"
                     echo $new_pid > process.id
