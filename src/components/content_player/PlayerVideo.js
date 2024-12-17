@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useRef, useState } from "react";
 import { useLocalStorage } from "primereact/hooks";
 import { requestProxy } from "../../utils";
-import { ProgressSpinner } from "primereact/progressspinner";
+import Loading from "../common/Loading";
 
 export default function PlayerVideo({ video }) {
     const [playBackTimes, setPlayBackTimes] = useLocalStorage({}, "videoPlayBacks");
@@ -22,7 +22,7 @@ export default function PlayerVideo({ video }) {
     }, [video]);
 
     if (loading) {
-        <ProgressSpinner />;
+        <Loading />;
     }
 
     if (sources) {

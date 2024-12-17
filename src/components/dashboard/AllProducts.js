@@ -4,8 +4,9 @@ import { classNames } from "primereact/utils";
 import { Divider } from "primereact/divider";
 import Product from "./Product";
 import { requestProxy } from "../../utils";
-import { ProgressSpinner } from "primereact/progressspinner";
 import NoContent from "../common/NoContent";
+import { Badge } from 'primereact/badge';
+import Loading from "../common/Loading";
 
 export default function AllProducts() {
     const [catelogue, setCatelogue] = useState();
@@ -25,7 +26,7 @@ export default function AllProducts() {
     }, []);
 
     if (loading) {
-        return <ProgressSpinner />;
+        return <Loading />;
     }
 
     if (catelogue && catelogue.length > 0) {
@@ -35,7 +36,12 @@ export default function AllProducts() {
                     <AccordionTab
                         key={"dawda"}
                         className="m-0"
-                        header={category.title}
+                        header={
+                            <div className="flex align-items-center justify-content-between">
+                                <span>{category.title}</span>
+                                <Badge value={category.products.length} className="ml-2 bg-primary" />
+                            </div>
+                        }
                         pt={{
                             root: { className: classNames("mb-2") },
                             content: { className: classNames("p-0") },

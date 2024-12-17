@@ -1,10 +1,10 @@
 import { useSelector } from "react-redux";
 import { Fragment, useEffect, useState } from "react";
 import { requestProxy } from "../../utils";
-import { ProgressSpinner } from "primereact/progressspinner";
 import Product from "./Product";
 import { Divider } from "primereact/divider";
 import NoContent from "../common/NoContent";
+import Loading from "../common/Loading";
 
 export default function MyProducts() {
     const loggedInUser = useSelector((state) => state.stateUser.user);
@@ -27,7 +27,7 @@ export default function MyProducts() {
     }, [loggedInUser]);
 
     if (loading) {
-        return <ProgressSpinner />;
+        return <Loading />;
     }
 
     if (userProducts && userProducts.length > 0) {

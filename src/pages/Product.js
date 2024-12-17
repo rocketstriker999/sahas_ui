@@ -2,10 +2,10 @@ import { Fragment, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import React from "react";
 import { requestProxy } from "../utils";
-import { ProgressSpinner } from "primereact/progressspinner";
 import { Outlet } from "react-router-dom";
 import ButtonPurchase from "../components/common/ButtonBuyNow";
 import { Button } from "primereact/button";
+import Loading from "../components/common/Loading";
 
 export default function Product() {
     const { productId } = useParams();
@@ -24,7 +24,7 @@ export default function Product() {
     }, []);
 
     if (loading) {
-        return <ProgressSpinner />;
+        return <Loading />;
     }
 
     if (product && !loading) {
@@ -37,7 +37,7 @@ export default function Product() {
                     </div>
                     <div className="flex flex-column gap-2">
                         <img className="border-round m-0 p-0 shadow-4" src={product.image} alt="Product" />
-                        {product.access ? <Button label="Download PDF" severity="info" raised /> : <ButtonPurchase productId={productId} />}
+                        {product.access ? <Button label="Receipt" severity="info" raised /> : <ButtonPurchase productId={productId} />}
                     </div>
                 </div>
                 <Outlet />
