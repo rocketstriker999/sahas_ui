@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ContentSelector from "../components/content_player/ContentSelector";
 import { requestProxy } from "../utils";
-import { ProgressSpinner } from "primereact/progressspinner";
+import Loading from "../components/common/Loading";
 
 export default function ContentPlayer() {
     const { contentId } = useParams();
@@ -23,7 +23,7 @@ export default function ContentPlayer() {
     }, [contentId]);
 
     if (loading) {
-        return <ProgressSpinner />;
+        return <Loading />;
     }
 
     if (!loading && content) {

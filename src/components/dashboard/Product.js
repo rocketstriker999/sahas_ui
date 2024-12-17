@@ -6,11 +6,11 @@ export default function Product({ product }) {
     const navigate = useNavigate();
 
     return (
-        <div className="flex gap-4 p-2">
+        <div className="flex gap-3 p-3 justify-content-start align-items-center">
             <img className="border-round m-0 p-0 shadow-4" src={product.image} alt={product.title} />
             <div className="flex-1">
-                <p className="font-bold text-sm m-0 p-0">{product.title}</p>
-                {!product.has_access && <p className="m-0 p-0 text-sm">Pricing</p>}
+                <span className="font-bold text-sm m-0 p-0">{product.title}</span>
+                {!product.has_access && <p className="m-0 p-0 mt-2 text-sm">Pricing</p>}
 
                 {!product.has_access && <ButtonPurchase productId={product.id} />}
 

@@ -15,7 +15,7 @@ export default function ButtonPay({ transaction, disabled }) {
             <input type="hidden" name="furl" value={transaction.payment_gateway.failure_url} />
             <input type="hidden" name="hash" value={transaction.payment_gateway.hash} />
 
-            <Button icon="pi pi-shopping-cart" label="Pay Now" severity="info" raised disabled={disabled} />
+            <Button className="w-full" icon="pi pi-shopping-cart" label="Pay Now" severity="info" raised disabled={disabled} />
         </form>
     );
 }

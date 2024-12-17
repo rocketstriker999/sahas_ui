@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { requestProxy } from "../utils";
-import { ProgressSpinner } from "primereact/progressspinner";
 import { useParams } from "react-router-dom";
 import ButtonPay from "../components/purchase/ButtonPay";
 import { Checkbox } from "primereact/checkbox";
 import { Divider } from "primereact/divider";
+import Loading from "../components/common/Loading";
 
 export default function Purchase() {
     const [transaction, setTransaction] = useState();
@@ -26,7 +26,7 @@ export default function Purchase() {
     }, [productId]);
 
     if (loading) {
-        return <ProgressSpinner />;
+        return <Loading />;
     }
 
     if (!loading && transaction) {
@@ -59,12 +59,12 @@ export default function Purchase() {
                         </div>
                     )} */}
                 <Divider />
-                <div className="flex justify-content-between font-bold text-base mb-2">
+                <div className="flex justify-content-between font-bold text-base mb-4">
                     <span>Pay:</span>
                     <span className="text-primary text-base">{transaction.product.pay}</span>
                 </div>
 
-                <div className="flex align-items-center gap-2 mb-2">
+                <div className="flex align-items-center gap-2 mb-4">
                     <Checkbox id="terms" checked={termsAccepted} invalid={!termsAccepted} onChange={(e) => setTermsAccepted(e.checked)} />
                     <label htmlFor="terms" className="text-sm">
                         I agree to the{" "}

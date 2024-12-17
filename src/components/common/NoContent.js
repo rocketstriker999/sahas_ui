@@ -1,3 +1,3 @@
 export default function NoContent() {
-    return <p>No Content Found</p>;
+    return <p className="m-3">No Content Found</p>;
 }
