@@ -31,7 +31,7 @@ jobs:
                         kill -9 $pid
                       fi
                     fi
-                    git pull origin main
+                    git pull origin dev
                     npm install
                     npm run build
                     serve -s build -l 4000 > process.log 2>&1 &
