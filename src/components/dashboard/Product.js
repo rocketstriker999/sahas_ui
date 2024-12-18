@@ -10,7 +10,11 @@ export default function Product({ product }) {
             <img className="border-round m-0 p-0 shadow-4" src={`${process.env.REACT_APP_IMAGES_PRODUCTS}${product.image}`} alt={product.title} />
             <div className="flex-1">
                 <span className="font-bold text-sm m-0 p-0">{product.title}</span>
-                {!product.has_access && <p className="m-0 p-0 mt-2 text-sm">{product.discounted}</p>}
+                {!product.has_access && (
+                    <p className="m-0 p-0 mt-2 text-sm">
+                        {product.discounted} {product.price}
+                    </p>
+                )}
 
                 {!product.has_access && <ButtonPurchase productId={product.id} />}
 
