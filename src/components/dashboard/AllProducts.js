@@ -5,18 +5,20 @@ import { Divider } from "primereact/divider";
 import Product from "./Product";
 import { requestProxy } from "../../utils";
 import NoContent from "../common/NoContent";
-import { Badge } from 'primereact/badge';
+import { Badge } from "primereact/badge";
 import Loading from "../common/Loading";
 
 export default function AllProducts() {
     const [catelogue, setCatelogue] = useState();
     const [loading, setLoading] = useState();
+    const [error, setError] = useState();
 
     useEffect(() => {
         //hit API Once
         requestProxy({
             requestPath: "/api/products/catelogue",
             setLoading: setLoading,
+            setError: setError,
             onResponseReceieved: (catelogue, responseCode) => {
                 if (catelogue && responseCode === 200) {
                     setCatelogue(catelogue);
@@ -25,12 +27,12 @@ export default function AllProducts() {
         });
     }, []);
 
-    if (loading) {
-        return <Loading />;
-    }
+    if (loading) return <Loading />;
 
-    if (catelogue && catelogue.length > 0) {
-        return (
+    if (error) return <NoContent error />;
+
+    if (catelogue) {
+        return catelogue.length > 0 ? (
             <Accordion className="m-3">
                 {catelogue.map((category) => (
                     <AccordionTab
@@ -60,8 +62,8 @@ export default function AllProducts() {
                     </AccordionTab>
                 ))}
             </Accordion>
+        ) : (
+            <NoContent />
         );
-    } else {
-        return <NoContent />;
     }
 }

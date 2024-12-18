@@ -3,12 +3,7 @@ import { ProgressSpinner } from "primereact/progressspinner";
 export default function Loading() {
     return (
         <div className="flex p-7">
-            <ProgressSpinner
-                style={{ width: '50px', height: '50px' }}
-                strokeWidth="6"
-                fill="var(--surface-ground)"
-                animationDuration=".5s"
-            />
+            <ProgressSpinner style={{ width: "50px", height: "50px" }} strokeWidth="6" fill="var(--surface-ground)" animationDuration=".5s" />
         </div>
     );
 }
