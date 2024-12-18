@@ -5,5 +5,5 @@ export default function NoContent({ error }) {
         return <Message severity="error" text={error} />;
     }
 
-    return <Message severity="info" text="No Content Found" />;
+    return <Message className="m-3" severity="info" text="No Content Found" />;
 }
