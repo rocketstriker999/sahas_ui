@@ -7,7 +7,7 @@ import { Menu } from "primereact/menu";
 import { useNavigate } from "react-router-dom";
 import { hasGroupAccess } from "../../utils";
 import React, { useEffect, useState } from "react";
-import { requestProxy } from "../../utils/utils";
+import { requestProxy } from "../../utils";
 import Loading from "../common/Loading";
 
 export default function CarouselHeader() {
@@ -19,7 +19,7 @@ export default function CarouselHeader() {
     const loggedInUser = useSelector((state) => state.stateUser.user);
     useEffect(() => {
         requestProxy({
-            requestPath: "/api/ui-config/navbar",
+            requestPath: "/api/ui-config/carousel",
             onResponseReceieved: (carouselItems, responseCode) => {
                 if (carouselItems && responseCode === 200) {
                     setCarouselItems(carouselItems);
