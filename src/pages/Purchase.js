@@ -45,11 +45,11 @@ export default function Purchase() {
                 </div>
                 <div className="flex justify-content-between mb-2 text-xs">
                     <span className="font-bold">CGST</span>
-                    <span className="font-bold">250 Rs.</span>
+                    <span className="font-bold">{transaction.product.cgst} Rs.</span>
                 </div>
                 <div className="flex justify-content-between mb-2 text-xs">
                     <span className="font-bold">SGST</span>
-                    <span className="font-bold">250 Rs.</span>
+                    <span className="font-bold">{transaction.product.sgst} Rs.</span>
                 </div>
                 {/* {isCouponApplied && (
                         <div className="flex justify-content-between mb-2 text-xs">
