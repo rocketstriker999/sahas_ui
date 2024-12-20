@@ -11,7 +11,7 @@ export default function PlayerVideo({ video }) {
 
     useEffect(() => {
         requestProxy({
-            requestPath: `/media/video/l5RasLjLugs`,
+            requestPath: `/media/private/videos/${video.yt_id}`,
             setLoading: setLoading,
             onResponseReceieved: (sources, responseCode) => {
                 if (sources && responseCode === 200) {
@@ -22,26 +22,28 @@ export default function PlayerVideo({ video }) {
     }, [video]);
 
     if (loading) {
-        <Loading />;
+        return <Loading />;
     }
 
-    if (sources) {
+    if (sources && sources.length > 0) {
         return (
             <Fragment>
                 <video
-                    onPlay={() => (videoRef.current.currentTime = playBackTimes[video.id])}
+                    onPlay={() => playBackTimes[video.yt_id] && (videoRef.current.currentTime = playBackTimes[video.yt_id])}
                     width="100%"
                     ref={videoRef}
                     controls
                     autoPlay
                     controlsList="nodownload"
                     onTimeUpdate={() => {
-                        playBackTimes[video.id] = videoRef.current.currentTime;
+                        playBackTimes[video.yt_id] = videoRef.current.currentTime;
                         setPlayBackTimes(playBackTimes);
                     }}
                     onContextMenu={(e) => e.preventDefault()}
                 >
-                    {sources.videos?.length > 0 && <source src={sources.videos[sources.videos.length - 1]?.url} type="video/webm"></source>}
+                    {sources.map((source) => (
+                        <source key={source.url} src={source.url} type="video/mp4"></source>
+                    ))}
                 </video>
             </Fragment>
         );

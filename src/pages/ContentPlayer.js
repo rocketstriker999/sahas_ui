@@ -29,8 +29,8 @@ export default function ContentPlayer() {
     if (!loading && content) {
         return (
             <Fragment>
-                <div className="flex justify-content-center align-items-center bg-gray-900 shadow-4">
-                    {MediaPlayer ? MediaPlayer : <p className="text-white font-bold">Select Content To Start</p>}
+                <div className="flex justify-content-center align-items-center bg-gray-900 shadow-4 text-white">
+                    {MediaPlayer ? MediaPlayer : <p className="font-bold">Select Content To Start</p>}
                 </div>
                 <ContentSelector content={content} setMediaPlayer={setMediaPlayer} />
             </Fragment>
