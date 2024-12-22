@@ -1,8 +1,10 @@
 import { useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 
 export default function HasAuthentication({ children }) {
     const loggedInUser = useSelector((state) => state.stateUser.user);
 
-    return loggedInUser ? children : <Navigate to="/login" />;
+    const location = useLocation();
+
+    return loggedInUser ? children : <Navigate to={`/login?redirect=${encodeURIComponent(location.pathname)}`} />;
 }
