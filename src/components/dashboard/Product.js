@@ -12,7 +12,8 @@ export default function Product({ product }) {
                 <span className="font-bold text-sm m-0 p-0">{product.title}</span>
                 {!product.has_access && (
                     <p className="m-0 p-0 mt-2 text-sm">
-                        {product.discounted} {product.price}
+                        <span className="text-sm font-bold text-900 mr-2">{product.discounted} Rs.</span>
+                        <span className="text-xs text-500 line-through">{product.price} Rs.</span>
                     </p>
                 )}
 
