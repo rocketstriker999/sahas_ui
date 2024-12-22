@@ -9,6 +9,9 @@ import { hasGroupAccess } from "../../utils";
 import React, { useEffect, useState } from "react";
 import { requestProxy } from "../../utils";
 import Loading from "../common/Loading";
+import { OverlayPanel } from "primereact/overlaypanel";
+import { Divider } from "primereact/divider";
+import { classNames } from "primereact/utils";
 
 export default function CarouselHeader() {
     const navigate = useNavigate();
@@ -56,6 +59,19 @@ export default function CarouselHeader() {
         }
     };
 
+    const renderProfileHeader = () => (
+        <>
+            <div className="flex align-items-center gap-3">
+                <Avatar label={loggedInUser?.name?.charAt(0)?.toUpperCase() || "S"} size="large" />
+                <div>
+                    <div className="font-bold py-1">{loggedInUser?.name || 'Hello User'}</div>
+                    <div className="text-xs">{loggedInUser?.email}</div>
+                </div>
+            </div>
+            <Divider />
+        </>
+    );
+
     if (loading && !carouselItems) {
         return <Loading />;
     }
@@ -72,8 +88,14 @@ export default function CarouselHeader() {
                             <Avatar icon="pi pi-user" className="bg-primary-900 ml-2" shape="circle" onClick={(e) => profileMenu.current.toggle(e)} />
                         )}
                     </div>
-
-                    <Menu model={profileMenuItems} popup ref={profileMenu} />
+                    <OverlayPanel ref={profileMenu}>
+                        {renderProfileHeader()}
+                        <Menu model={profileMenuItems}
+                            pt={{
+                                root: classNames("p-0 m-0 border-none"),
+                            }} />
+                    </OverlayPanel>
+                    {/* <Menu model={profileMenuItems} popup ref={profileMenu}></Menu> */}
                 </div>
                 <Galleria
                     className="w-full lg:w-6 shadow-4"

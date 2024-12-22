@@ -19,6 +19,7 @@ import FormLogin from "../components/login/FormLogin";
 import Forbidden from "../pages/Forbidden";
 import NotFound from "../pages/NotFound";
 import Purchase from "../pages/Purchase";
+import Profile from "../pages/Profile";
 
 export default function App() {
     return (
@@ -60,6 +61,7 @@ export default function App() {
                     <Route path="/content-player/:contentId" element={<ContentPlayer />}></Route>
                     <Route path="/forbidden" element={<Forbidden />} />
                     <Route path="*" element={<NotFound />} />
+                    <Route path="/profile" element={<Profile />} />
                 </Routes>
             </ProcessToken>
         </ProviderToast>
