@@ -6,6 +6,7 @@ import NoContent from "../common/NoContent";
 import { requestProxy } from "../../utils";
 import Loading from "../common/Loading";
 import { BlockUI } from "primereact/blockui";
+import { Button } from "primereact/button";
 
 export default function Course() {
     const navigate = useNavigate();
@@ -42,20 +43,19 @@ export default function Course() {
                     <TabView>
                         {course.subjects.map((subject) => (
                             <TabPanel key={subject.id} header={subject.title}>
-                                {!course.has_access && (
-                                    <div className="p-3 border-round bg-primary shadow-3 mb-3 flex align-items-center justify-content-between">
-                                        {subject.demo_content_id ? (
-                                            <>
-                                                <span className="font-bold text-sm" onClick={() => navigate(`/content-player/${subject.demo_content_id}`)}>
-                                                    Demo
-                                                </span>
-                                                <i className="pi pi-play text-white"></i>
-                                            </>
-                                        ) : (
-                                            <span className="font-bold text-sm">No Demo Availabale</span>
-                                        )}
-                                    </div>
-                                )}
+                                {!course.has_access &&
+                                    subject.demo_content_id ? (
+                                    <Button
+                                        className="p-3 w-full border-round bg-primary shadow-3 mb-3 flex align-items-center justify-content-between"
+                                        onClick={() => navigate(`/content-player/${subject.demo_content_id}`)}
+                                    >
+                                        <span className="font-bold text-sm">Demo</span>
+                                        <i className="pi pi-play text-white"></i>
+                                    </Button>
+                                ) : (
+                                    <NoContent error="No Demo available" />
+                                )
+                                }
 
                                 {subject.chapters?.length > 0 ? (
                                     <BlockUI blocked={!course.has_access} template={<i className="pi pi-lock" style={{ fontSize: "3rem" }}></i>}>
