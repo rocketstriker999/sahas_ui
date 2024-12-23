@@ -3,7 +3,6 @@ import { useRef, useState } from "react";
 import { requestProxy } from "../../utils";
 import { InputOtp } from "primereact/inputotp";
 import { classNames } from "primereact/utils";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "../../redux/sliceUser";
 import { Button } from "primereact/button";

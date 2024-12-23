@@ -12,7 +12,6 @@ export default function Purchase() {
     const [loading, setLoading] = useState();
     const { productId } = useParams();
     const [termsAccepted, setTermsAccepted] = useState(false);
-
     const [couponCode, setCouponCode] = useState();
 
     useEffect(() => {

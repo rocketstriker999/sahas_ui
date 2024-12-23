@@ -19,6 +19,7 @@ import FormLogin from "../components/login/FormLogin";
 import Forbidden from "../pages/Forbidden";
 import NotFound from "../pages/NotFound";
 import Purchase from "../pages/Purchase";
+import HasPrimaryDetails from "../security/HasPrimaryDetails";
 
 export default function App() {
     return (
@@ -49,7 +50,9 @@ export default function App() {
                         path="/purchase/:productId"
                         element={
                             <HasAuthentication>
-                                <Purchase />
+                                <HasPrimaryDetails>
+                                    <Purchase />
+                                </HasPrimaryDetails>
                             </HasAuthentication>
                         }
                     />
@@ -57,6 +60,7 @@ export default function App() {
                         <Route path=":productId/courses" element={<Courses />} />
                         <Route path=":productId/courses/:courseId" element={<Course />} />
                     </Route>
+
                     <Route path="/content-player/:contentId" element={<ContentPlayer />}></Route>
                     <Route path="/forbidden" element={<Forbidden />} />
                     <Route path="*" element={<NotFound />} />
