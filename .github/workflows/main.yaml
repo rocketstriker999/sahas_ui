@@ -1,9 +1,9 @@
-name: sahas_ui DEV Deployment
+name: sahas_ui PROD Deployment
 
 on:
     push:
         branches:
-            - dev
+            - main
 
 jobs:
     deploy:
@@ -16,11 +16,11 @@ jobs:
               run: |
                   sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@46.202.164.212 << 'EOF'
                     set -e
-                    cd /root/dev
+                    cd /root/prod
                     DIR="sahas_ui"
                     if [ ! -d "$DIR" ]; then
                       echo "Fetching Source - $DIR"
-                      git clone --branch dev https://github.com/rocketstriker999/$DIR
+                      git clone --branch main https://github.com/rocketstriker999/$DIR
                       npm install -g serve
                     fi
                     cd "$DIR"
@@ -34,7 +34,7 @@ jobs:
                     git pull
                     npm install
                     npm run build
-                    serve -s build -l 4000 > process.log 2>&1 &
+                    serve -s build -l 3000 > process.log 2>&1 &
                     new_pid=$!
                     echo "Starting $DIR - pid $new_pid"
                     echo $new_pid > process.id
