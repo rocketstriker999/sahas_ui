@@ -63,9 +63,8 @@ export default function CarouselHeader() {
     if (carouselItems) {
         return (
             <div>
-                <div className="w-full lg:w-6 text-white p-3 shadow-4 bg-primary-800 flex justify-content-between align-items-center">
-                    <p className="  font-bold m-0  ">Welcome {loggedInUser?.name} To Sahas</p>
-
+                <div className="text-white p-3 shadow-4 bg-primary-800 flex justify-content-between align-items-center">
+                    <p className="font-bold m-0">Welcome {loggedInUser?.name} To Sahas</p>
                     <div>
                         <span className="pi pi-share-alt"></span>
                         {loggedInUser && (
@@ -76,7 +75,7 @@ export default function CarouselHeader() {
                     <Menu model={profileMenuItems} popup ref={profileMenu} />
                 </div>
                 <Galleria
-                    className="w-full lg:w-6 shadow-4"
+                    className="shadow-4"
                     value={carouselItems}
                     showThumbnails={false}
                     showIndicators

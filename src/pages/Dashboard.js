@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import CarouselHeader from "../components/dashboard/CarouselHeader";
 import { Outlet, useNavigate } from "react-router-dom";
 import { SelectButton } from "primereact/selectbutton";
@@ -13,6 +12,7 @@ export default function Dashboard() {
         <div className="lg:mx-auto text-center  lg:max-w-30rem">
             <CarouselHeader />
             <SelectButton
+                className="mt-3"
                 value={location.pathname === "/" ? "All Courses" : "My Courses"}
                 onChange={(e) => {
                     if (e.value === options[0]) {
