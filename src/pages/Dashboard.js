@@ -10,7 +10,7 @@ export default function Dashboard() {
     const navigate = useNavigate();
     const location = useLocation();
     return (
-        <div className="lg:mx-auto  lg:max-w-24rem">
+        <div className="lg:mx-auto text-center  lg:max-w-30rem">
             <CarouselHeader />
             <SelectButton
                 value={location.pathname === "/" ? "All Courses" : "My Courses"}
@@ -24,7 +24,6 @@ export default function Dashboard() {
                 options={options}
             />
             <Outlet />
-            {/* <Catelogue /> */}
         </div>
     );
 }
