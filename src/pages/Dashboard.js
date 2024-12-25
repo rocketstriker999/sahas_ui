@@ -10,23 +10,21 @@ export default function Dashboard() {
     const navigate = useNavigate();
     const location = useLocation();
     return (
-        <Fragment>
+        <div className="lg:mx-auto  lg:max-w-24rem">
             <CarouselHeader />
-            <div className="card flex justify-content-center mt-3">
-                <SelectButton
-                    value={location.pathname === "/" ? "All Courses" : "My Courses"}
-                    onChange={(e) => {
-                        if (e.value === options[0]) {
-                            navigate("/");
-                        } else {
-                            navigate("/my-products");
-                        }
-                    }}
-                    options={options}
-                />
-            </div>
+            <SelectButton
+                value={location.pathname === "/" ? "All Courses" : "My Courses"}
+                onChange={(e) => {
+                    if (e.value === options[0]) {
+                        navigate("/");
+                    } else {
+                        navigate("/my-products");
+                    }
+                }}
+                options={options}
+            />
             <Outlet />
             {/* <Catelogue /> */}
-        </Fragment>
+        </div>
     );
 }
