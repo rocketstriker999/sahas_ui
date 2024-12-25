@@ -7,7 +7,7 @@ export default function Product({ product }) {
 
     return (
         <div className="flex gap-3 p-3 justify-content-start align-items-center">
-            <img className="border-round m-0 p-0 shadow-4" width="100" src={`${process.env.REACT_APP_IMAGES_PUBLIC}${product.image}`} alt={product.title} />
+            <img className="border-round m-0 p-0 shadow-4" width="100" height="100" src={`${process.env.REACT_APP_IMAGES_PUBLIC}${product.image}`} alt={product.title} />
             <div className="flex-1">
                 <span className="font-bold text-sm m-0 p-0">{product.title}</span>
                 {!product.has_access && (
