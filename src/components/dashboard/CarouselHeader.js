@@ -9,6 +9,7 @@ import { hasGroupAccess } from "../../utils";
 import React, { useEffect, useState } from "react";
 import { requestProxy } from "../../utils";
 import Loading from "../common/Loading";
+import { classNames } from "primereact/utils";
 
 export default function CarouselHeader() {
     const navigate = useNavigate();
@@ -85,6 +86,9 @@ export default function CarouselHeader() {
                     circular
                     autoPlay
                     transitionInterval={2000}
+                    pt={{
+                        indicators: classNames("p-2 bg-transparent")
+                    }}
                 />
             </div>
         );
