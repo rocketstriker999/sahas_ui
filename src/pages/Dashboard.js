@@ -9,7 +9,7 @@ export default function Dashboard() {
     const navigate = useNavigate();
     const location = useLocation();
     return (
-        <div className="lg:mx-auto text-center  lg:max-w-30rem">
+        <div className="lg:mx-auto text-center lg:max-w-30rem xl:border-1 xl:p-2">
             <CarouselHeader />
             <SelectButton
                 className="mt-3"
