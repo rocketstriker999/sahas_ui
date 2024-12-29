@@ -43,8 +43,7 @@ export default function Course() {
                     <TabView>
                         {course.subjects.map((subject) => (
                             <TabPanel key={subject.id} header={subject.title}>
-                                {!course.has_access &&
-                                    subject.demo_content_id ? (
+                                {!course.has_access && subject.demo_content_id && (
                                     <Button
                                         className="p-3 w-full border-round bg-primary shadow-3 mb-3 flex align-items-center justify-content-between"
                                         onClick={() => navigate(`/content-player/${subject.demo_content_id}`)}
@@ -52,10 +51,7 @@ export default function Course() {
                                         <span className="font-bold text-sm">Demo</span>
                                         <i className="pi pi-play text-white"></i>
                                     </Button>
-                                ) : (
-                                    <NoContent error="No Demo available" />
-                                )
-                                }
+                                )}
 
                                 {subject.chapters?.length > 0 ? (
                                     <BlockUI blocked={!course.has_access} template={<i className="pi pi-lock" style={{ fontSize: "3rem" }}></i>}>

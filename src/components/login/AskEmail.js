@@ -32,21 +32,17 @@ export default function AskEmail({ updateComponentState }) {
     };
 
     return (
-        <div className="col-12 lg:col-6 sm:col-12 md:col-6 flex flex-column align-items-center justify-content-center">
-            <label htmlFor="USER_EMAIL" className="font-bold block my-4 lg:text-3xl text-xl lg:w-7 text-center">
-            "Enter Email To Continue"
-            </label>
+        <div className="w-11 m-auto">
+            <h1 className="font-bold my-4 text-xl lg:text-3xl text-center">"Enter Email To Continue"</h1>
 
             {error && <p className="text-red-600 text-center">{error}</p>}
 
-            <div className="w-11 sm:w-10 md:w-9 lg:w-8">
-                <InputText ref={refUserEmail} className="w-full mb-3" disabled={loading} invalid={error} id="USER_EMAIL" placeholder="Enter Your Email" />
-                <Button onClick={generateOTP} className="w-full" icon="pi pi-envelope" label="Continue With Email" disabled={loading} loading={loading} />
-                <Divider align="center">
-                    <b>OR</b>
-                </Divider>
-                <Button className="w-full" outlined label="Need Help To Login" />
-            </div>
+            <InputText ref={refUserEmail} className="w-full mb-3" disabled={loading} invalid={error} id="USER_EMAIL" placeholder="Enter Your Email" />
+            <Button onClick={generateOTP} className="w-full" icon="pi pi-envelope" label="Continue With Email" disabled={loading} loading={loading} />
+            <Divider align="center">
+                <b>OR</b>
+            </Divider>
+            <Button className="w-full md:mb-4" outlined label="Need Help To Login" />
         </div>
     );
 }
