@@ -7,17 +7,12 @@ export default function CouponApplier({ appliedCouponCode, couponBenifit, applyC
     const [allowEdit, setAllowEdit] = useState(false);
     const [couponCode, setCouponCode] = useState("");
 
-    //  appliedCoupon={{
-    //                     couponCode:  ? transaction.couponCode : false,
-    //                     verified: transaction.couponCode && transaction.benifit > 0 ? true : false,
-    //                 }}
-
     if (appliedCouponCode) {
         return (
             <div className="text-right">
                 <Chip
                     className={`${couponBenifit > 0 ? "text-green-500" : "text-red-500"} text-sm font-bold`}
-                    label={appliedCouponCode}
+                    label={`${appliedCouponCode} - ${couponBenifit} Rs.`}
                     removable
                     onRemove={() => applyCoponCode()}
                 />
