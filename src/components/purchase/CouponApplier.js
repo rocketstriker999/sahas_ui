@@ -3,51 +3,45 @@ import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { Chip } from "primereact/chip";
 
-export default function CouponApplier({ appliedCouponCode, couponBenifit, applyCoponCode }) {
-    const [allowEdit, setAllowEdit] = useState(false);
-    const [couponCode, setCouponCode] = useState("");
+export default function CouponApplier({ appliedCoupon, couponBenifit, applyCoupon }) {
+    const [coupon, setCoupon] = useState(false);
 
-    if (appliedCouponCode) {
+    if (appliedCoupon) {
         return (
             <div className="text-right">
                 <Chip
                     className={`${couponBenifit > 0 ? "text-green-500" : "text-red-500"} text-sm font-bold`}
-                    label={`${appliedCouponCode} - ${couponBenifit} Rs.`}
+                    label={`${appliedCoupon} - ${couponBenifit} Rs.`}
                     removable
-                    onRemove={() => applyCoponCode()}
+                    onRemove={() => applyCoupon()}
                 />
             </div>
         );
+    } else {
+        return coupon !== false ? (
+            <div className="p-inputgroup flex-1">
+                <InputText value={coupon} placeholder="Coupon Code" autoFocus onChange={(e) => setCoupon(e.target.value)} />
+                <Button
+                    icon="pi pi-check"
+                    className="p-button-success"
+                    onClick={() => {
+                        if (coupon) {
+                            applyCoupon(coupon);
+                        }
+                    }}
+                />
+                <Button
+                    icon="pi pi-times"
+                    className="p-button-danger"
+                    onClick={() => {
+                        setCoupon(false);
+                    }}
+                />
+            </div>
+        ) : (
+            <p className={`font-bold text-yellow-500 m-0 p-0 text-right text-sm mb-2`} onClick={() => setCoupon()}>
+                Apply Coupon
+            </p>
+        );
     }
-
-    return (
-        <>
-            {!allowEdit ? (
-                <p className={`font-bold text-yellow-500 m-0 p-0 text-right text-sm mb-2`} onClick={() => setAllowEdit(true)}>
-                    Apply Coupon
-                </p>
-            ) : (
-                <div className="p-inputgroup flex-1">
-                    <InputText value={couponCode} placeholder="Coupon Code" autoFocus onChange={(e) => setCouponCode(e.target.value)} />
-                    <Button
-                        icon="pi pi-check"
-                        className="p-button-success"
-                        onClick={() => {
-                            if (couponCode) {
-                                applyCoponCode(couponCode);
-                            }
-                        }}
-                    />
-                    <Button
-                        icon="pi pi-times"
-                        className="p-button-danger"
-                        onClick={() => {
-                            setAllowEdit(false);
-                            setCouponCode("");
-                        }}
-                    />
-                </div>
-            )}
-        </>
-    );
 }

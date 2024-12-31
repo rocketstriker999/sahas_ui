@@ -12,7 +12,7 @@ export default function Purchase() {
     const [loading, setLoading] = useState();
     const { productId } = useParams();
     const [termsAccepted, setTermsAccepted] = useState(false);
-    const [couponCode, setCouponCode] = useState();
+    const [appliedCoupon, setAppliedCoupon] = useState();
 
     useEffect(() => {
         //hit API Once
@@ -20,7 +20,7 @@ export default function Purchase() {
             requestMethod: "POST",
             requestPostBody: {
                 productId,
-                couponCode,
+                coupon: appliedCoupon,
             },
             requestPath: `/api/transactions`,
             setLoading: setLoading,
@@ -30,7 +30,7 @@ export default function Purchase() {
                 }
             },
         });
-    }, [productId, couponCode]);
+    }, [productId, appliedCoupon]);
 
     if (loading) {
         return <Loading />;
@@ -60,7 +60,7 @@ export default function Purchase() {
                     <span className="font-bold">CGST</span>
                     <span className="font-bold">{transaction.cgst} Rs.</span>
                 </div>
-                <CouponApplier appliedCouponCode={couponCode} couponBenifit={transaction.benifit} applyCoponCode={setCouponCode} />
+                <CouponApplier appliedCoupon={appliedCoupon} couponBenifit={transaction.benifit} applyCoupon={setAppliedCoupon} />
 
                 <Divider />
 
