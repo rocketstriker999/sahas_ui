@@ -10,6 +10,12 @@ export default function AskEmail({ updateComponentState }) {
     const [error, setError] = useState();
 
     const generateOTP = () => {
+        const email = refUserEmail.current.value;
+        if (!/^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com|hotmail\.com)$/.test(email)) {
+            setError("Enter a valid email address.");
+            return;
+        }
+        setError("");
         requestProxy({
             requestPath: "/api/otp/create",
             requestPostBody: { email: refUserEmail.current.value },
@@ -35,7 +41,7 @@ export default function AskEmail({ updateComponentState }) {
         <div className="w-11 m-auto">
             <h1 className="font-bold my-4 text-xl lg:text-3xl text-center">"Enter Email To Continue"</h1>
 
-            {error && <p className="text-red-600 text-center">{error}</p>}
+            {error && <p className="text-red-600 text-center text-sm">{error}</p>}
 
             <InputText ref={refUserEmail} className="w-full mb-3" disabled={loading} invalid={error} id="USER_EMAIL" placeholder="Enter Your Email" />
             <Button onClick={generateOTP} className="w-full" icon="pi pi-envelope" label="Continue With Email" disabled={loading} loading={loading} />
