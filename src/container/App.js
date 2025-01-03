@@ -60,8 +60,11 @@ export default function App() {
                         <Route path=":productId/courses" element={<Courses />} />
                         <Route path=":productId/courses/:courseId" element={<Course />} />
                     </Route>
+                    <Route path="/content-player">
+                        <Route path="demo/:contentId" element={<ContentPlayer contentType="public" />} />
+                        <Route path="chapter/:contentId" element={<ContentPlayer contentType="private" />} />
+                    </Route>
 
-                    <Route path="/content-player/:contentId" element={<ContentPlayer />}></Route>
                     <Route path="/forbidden" element={<Forbidden />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>

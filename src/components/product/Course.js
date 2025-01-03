@@ -46,7 +46,7 @@ export default function Course() {
                                 {!course.has_access && subject.demo_content_id && (
                                     <Button
                                         className="p-3 w-full border-round bg-primary shadow-3 mb-3 flex align-items-center justify-content-between"
-                                        onClick={() => navigate(`/content-player/${subject.demo_content_id}`)}
+                                        onClick={() => navigate(`/content-player/demo/${subject.demo_content_id}`)}
                                     >
                                         <span className="font-bold text-sm">Demo</span>
                                         <i className="pi pi-play text-white"></i>
@@ -62,7 +62,7 @@ export default function Course() {
                                                     className="p-3 border-round shadow-3 mb-2 flex align-items-center justify-content-between"
                                                     key={chapter.name}
                                                     onClick={() => {
-                                                        navigate(`/content-player/${chapter.content_id}`);
+                                                        navigate(`/content-player/chapter/${chapter.content_id}`);
                                                     }}
                                                 >
                                                     <span className="text-sm">{chapter.title}</span>

@@ -4,7 +4,7 @@ import ContentSelector from "../components/content_player/ContentSelector";
 import { requestProxy } from "../utils";
 import Loading from "../components/common/Loading";
 
-export default function ContentPlayer() {
+export default function ContentPlayer({ contentType }) {
     const { contentId } = useParams();
     const [MediaPlayer, setMediaPlayer] = useState();
     const [content, setContent] = useState();
@@ -12,7 +12,7 @@ export default function ContentPlayer() {
 
     useEffect(() => {
         requestProxy({
-            requestPath: `/api/content/${contentId}`,
+            requestPath: `/api/content/${contentType}/${contentId}`,
             onResponseReceieved: (content, responseCode) => {
                 if (content && responseCode === 200) {
                     setContent(content);
@@ -20,7 +20,7 @@ export default function ContentPlayer() {
             },
             setLoading: setLoading,
         });
-    }, [contentId]);
+    }, [contentId, contentType]);
 
     if (loading) {
         return <Loading />;
