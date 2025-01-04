@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ContentSelector from "../components/content_player/ContentSelector";
 import { requestProxy } from "../utils";
 import Loading from "../components/common/Loading";
@@ -9,6 +9,7 @@ export default function ContentPlayer({ contentType }) {
     const [MediaPlayer, setMediaPlayer] = useState();
     const [content, setContent] = useState();
     const [loading, setLoading] = useState();
+    const navigate = useNavigate();
 
     useEffect(() => {
         requestProxy({
@@ -17,10 +18,13 @@ export default function ContentPlayer({ contentType }) {
                 if (content && responseCode === 200) {
                     setContent(content);
                 }
+                if (responseCode === 401) {
+                    navigate("/forbidden");
+                }
             },
             setLoading: setLoading,
         });
-    }, [contentId, contentType]);
+    }, [contentId, contentType, navigate]);
 
     if (loading) {
         return <Loading />;
