@@ -22,7 +22,7 @@ export default function ContentSelector({ content, setMediaPlayer }) {
                         content.videos.map((video) => (
                             <div
                                 key={video.id}
-                                onClick={() => setMediaPlayer(<PlayerPDF video={video} />)}
+                                onClick={() => setMediaPlayer(<PlayerVideo video={video} />)}
                                 className="p-3 mb-3 border-round shadow-2 flex justify-content-between align-items-center"
                             >
                                 <span className="text-base font-medium">{video.title}</span>
@@ -37,7 +37,7 @@ export default function ContentSelector({ content, setMediaPlayer }) {
                         content.pdfs.map((pdf) => (
                             <div
                                 key={pdf.id}
-                                onClick={() => setMediaPlayer(<PlayerPDF source={pdf.url} />)}
+                                onClick={() => setMediaPlayer(<PlayerPDF source={pdf.url} title={pdf.title} />)}
                                 className="p-3 mb-3 border-round shadow-2 flex justify-content-between align-items-center"
                             >
                                 <span className="text-base font-medium">{pdf.title}</span>
