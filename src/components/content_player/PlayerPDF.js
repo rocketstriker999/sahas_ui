@@ -6,7 +6,7 @@ import { pdfjs } from "react-pdf";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL("pdfjs-dist/build/pdf.worker.min.js", import.meta.url).toString();
 
-export default function PlayerPDF({ gd_id, title }) {
+export default function PlayerPDF(pdf) {
     const [numPages, setNumPages] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -74,7 +74,7 @@ export default function PlayerPDF({ gd_id, title }) {
     };
 
     const downloadPDF = () => {
-        saveAs(gd_id, `${title}.pdf`);
+        saveAs(pdf.gd_id, `${pdf.title}.pdf`);
     };
 
     const disableRightClick = (e) => e.preventDefault();
@@ -164,7 +164,7 @@ export default function PlayerPDF({ gd_id, title }) {
                     onTouchEnd={endDragHandler}
                 >
                     <Document
-                        file={`https://drive.google.com/uc?authuser=0&id=${gd_id}&export=download`}
+                        file={`https://drive.google.com/uc?authuser=0&id=${pdf.gd_id}&export=download`}
                         onLoadSuccess={onDocumentLoadSuccess}
                         onLoadError={(error) => console.error("Error loading PDF:", error)}
                     >
