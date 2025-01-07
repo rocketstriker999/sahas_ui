@@ -19,7 +19,7 @@
     "redux": "^5.0.1",
     "web-vitals": "^2.1.4",
     "file-saver": "^2.0.5",
-    "pdfjs-dist": "^2.12.313",
+    "pdfjs-dist": "^2.16.105",
     "react-pdf": "^5.7.2"
   },
   "scripts": {
