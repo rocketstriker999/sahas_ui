@@ -163,7 +163,7 @@ export default function PlayerPDF(pdf) {
                     onTouchEnd={endDragHandler}
                 >
                     <Document
-                        file={`https://drive.google.com/uc?authuser=0&id=${pdf.gd_id}&export=download`}
+                        file={`https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf`}
                         onLoadSuccess={onDocumentLoadSuccess}
                         onLoadError={(error) => console.error("Error loading PDF:", error)}
                     >
