@@ -6,7 +6,6 @@ import { pdfjs } from "react-pdf";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL("pdfjs-dist/build/pdf.worker.min.js", import.meta.url).toString();
 export default function PlayerPDF(pdf) {
-    console.log(pdf);
     const [numPages, setNumPages] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -164,7 +163,7 @@ export default function PlayerPDF(pdf) {
                     onTouchEnd={endDragHandler}
                 >
                     <Document
-                        file={`https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf`}
+                        file={`https://drive.google.com/uc?authuser=0&id=${pdf.gd_id}&export=download`}
                         onLoadSuccess={onDocumentLoadSuccess}
                         onLoadError={(error) => console.error("Error loading PDF:", error)}
                     >
