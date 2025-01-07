@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Document, Page } from 'react-pdf';
-import { saveAs } from 'file-saver';
-import { Button } from 'primereact/button';
+import React, { useState, useEffect, useRef } from "react";
+import { Document, Page } from "react-pdf";
+import { saveAs } from "file-saver";
+import { Button } from "primereact/button";
 import { pdfjs } from "react-pdf";
 
-pdfjs.GlobalWorkerOptions.workerSrc = new URL('pdfjs-dist/build/pdf.worker.min.js', import.meta.url).toString();
+pdfjs.GlobalWorkerOptions.workerSrc = new URL("pdfjs-dist/build/pdf.worker.min.js", import.meta.url).toString();
 
-export default function PlayerPDF({ source, title }) {
+export default function PlayerPDF({ gd_id, title }) {
     const [numPages, setNumPages] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -44,37 +44,28 @@ export default function PlayerPDF({ source, title }) {
     useEffect(() => {
         // Adjust scale on window resize
         const handleResize = () => adjustScaleToFit();
-        window.addEventListener('resize', handleResize);
+        window.addEventListener("resize", handleResize);
 
-        return () => window.removeEventListener('resize', handleResize);
+        return () => window.removeEventListener("resize", handleResize);
     }, []);
 
     const zoomIn = () => setScale((prevScale) => prevScale + 0.2);
     const zoomOut = () => setScale((prevScale) => Math.max(0.5, prevScale - 0.2));
     const navigatePage = (step) => {
-        setCurrentPage((prevPage) =>
-            Math.min(Math.max(prevPage + step, 1), numPages)
-        );
+        setCurrentPage((prevPage) => Math.min(Math.max(prevPage + step, 1), numPages));
     };
 
     const toggleFullScreenOrZoomOut = () => {
-        const element = document.getElementById('pdf-container');
+        const element = document.getElementById("pdf-container");
 
         if (isFullScreen) {
-            const exitFullscreen =
-                document.exitFullscreen ||
-                document.webkitExitFullscreen ||
-                document.mozCancelFullScreen ||
-                document.msExitFullscreen;
+            const exitFullscreen = document.exitFullscreen || document.webkitExitFullscreen || document.mozCancelFullScreen || document.msExitFullscreen;
 
             if (exitFullscreen) exitFullscreen.call(document);
             zoomOut();
         } else {
             const requestFullscreen =
-                element.requestFullscreen ||
-                element.webkitRequestFullscreen ||
-                element.mozRequestFullScreen ||
-                element.msRequestFullscreen;
+                element.requestFullscreen || element.webkitRequestFullscreen || element.mozRequestFullScreen || element.msRequestFullscreen;
 
             if (requestFullscreen) requestFullscreen.call(element);
         }
@@ -83,7 +74,7 @@ export default function PlayerPDF({ source, title }) {
     };
 
     const downloadPDF = () => {
-        saveAs(source, `${title}.pdf`);
+        saveAs(gd_id, `${title}.pdf`);
     };
 
     const disableRightClick = (e) => e.preventDefault();
@@ -119,7 +110,7 @@ export default function PlayerPDF({ source, title }) {
                 id="pdf-container"
                 ref={containerRef}
                 className="flex flex-column overflow-auto"
-                style={{ backgroundColor: '#f0f0f0', height: 'calc(100vh - 56px)' }}
+                style={{ backgroundColor: "#f0f0f0", height: "calc(100vh - 56px)" }}
                 onContextMenu={disableRightClick}
             >
                 {/* Toolbar */}
@@ -146,35 +137,23 @@ export default function PlayerPDF({ source, title }) {
                         onClick={() => navigatePage(1)}
                         disabled={currentPage >= numPages}
                     />
+                    <Button icon="pi pi-search-minus" className="p-button-rounded p-button-text mr-2" onClick={zoomOut} />
+                    <Button icon="pi pi-search-plus" className="p-button-rounded p-button-text mr-2" onClick={zoomIn} />
                     <Button
-                        icon="pi pi-search-minus"
-                        className="p-button-rounded p-button-text mr-2"
-                        onClick={zoomOut}
-                    />
-                    <Button
-                        icon="pi pi-search-plus"
-                        className="p-button-rounded p-button-text mr-2"
-                        onClick={zoomIn}
-                    />
-                    <Button
-                        icon={isFullScreen ? 'pi pi-window-minimize' : 'pi pi-arrows-alt'}
+                        icon={isFullScreen ? "pi pi-window-minimize" : "pi pi-arrows-alt"}
                         className="p-button-rounded p-button-text mr-2"
                         onClick={toggleFullScreenOrZoomOut}
                     />
-                    <Button
-                        icon="pi pi-download"
-                        className="p-button-rounded p-button-text"
-                        onClick={downloadPDF}
-                    />
+                    <Button icon="pi pi-download" className="p-button-rounded p-button-text" onClick={downloadPDF} />
                 </div>
 
                 {/* PDF Page Container with Drag */}
                 <div
                     className="flex justify-content-center align-items-center"
                     style={{
-                        cursor: isDragging ? 'grabbing' : 'grab',
+                        cursor: isDragging ? "grabbing" : "grab",
                         transform: `translate(${dragOffset.x}px, ${dragOffset.y}px)`,
-                        transition: isDragging ? 'none' : 'transform 0.2s ease-out',
+                        transition: isDragging ? "none" : "transform 0.2s ease-out",
                     }}
                     onMouseDown={startDragHandler}
                     onMouseMove={dragHandler}
@@ -184,15 +163,12 @@ export default function PlayerPDF({ source, title }) {
                     onTouchMove={dragHandler}
                     onTouchEnd={endDragHandler}
                 >
-                    <Document file={source} onLoadSuccess={onDocumentLoadSuccess}
+                    <Document
+                        file={`https://drive.google.com/uc?authuser=0&id=${gd_id}&export=download`}
+                        onLoadSuccess={onDocumentLoadSuccess}
                         onLoadError={(error) => console.error("Error loading PDF:", error)}
                     >
-                        <Page
-                            pageNumber={currentPage}
-                            scale={scale}
-                            renderAnnotationLayer={false}
-                            renderTextLayer={false}
-                        />
+                        <Page pageNumber={currentPage} scale={scale} renderAnnotationLayer={false} renderTextLayer={false} />
                     </Document>
                 </div>
             </div>

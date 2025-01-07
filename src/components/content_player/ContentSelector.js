@@ -37,7 +37,7 @@ export default function ContentSelector({ content, setMediaPlayer }) {
                         content.pdfs.map((pdf) => (
                             <div
                                 key={pdf.id}
-                                onClick={() => setMediaPlayer(<PlayerPDF source={pdf.url} title={pdf.title} />)}
+                                onClick={() => setMediaPlayer(<PlayerPDF pdf />)}
                                 className="p-3 mb-3 border-round shadow-2 flex justify-content-between align-items-center"
                             >
                                 <span className="text-base font-medium">{pdf.title}</span>
