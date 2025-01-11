@@ -18,8 +18,6 @@ export default function CarouselHeader() {
     const [carouselItems, setCarouselItems] = useState();
     const [deferredPrompt, setDeferredPrompt] = useState(null);
     const [showInstallButton, setShowInstallButton] = useState(false);
-    const shareUrl = window.location.href; // Current page URL
-    const title = "🚀 Check out this amazing content on Sahas!";
 
     const loggedInUser = useSelector((state) => state.stateUser.user);
     useEffect(() => {
@@ -57,7 +55,6 @@ export default function CarouselHeader() {
     };
 
     const profileMenu = useRef(null);
-    const shareMenu = useRef(null);
 
     const profileMenuItems = [
         {
@@ -77,26 +74,6 @@ export default function CarouselHeader() {
             command: () => navigate("/logout"),
         },
     ];
-    const shareMenuItems = [
-        {
-            label: "Facebook",
-            icon: "pi pi-facebook mr-2",
-            command: () => window.open(`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`, "_blank"),
-        },
-        {
-            label: "Whatsapp",
-            icon: "pi pi-whatsapp mr-2",
-            command: () => window.open(`https://api.whatsapp.com/send?text=${title} ${shareUrl}`, "_blank"),
-        },
-        {
-            label: "Email",
-            icon: "pi pi-envelope mr-2",
-            command: () => window.location.href = `mailto:?subject=${title}&body=Check this out! ${shareUrl}`,
-        },
-    ];
-    
-
-
 
     const itemTemplate = (carouselItem) => {
         if (carouselItem.type === "image") {
@@ -124,9 +101,8 @@ export default function CarouselHeader() {
                         <Button
                             icon="pi pi-share-alt"
                             className="p-button-text text-sm sm:text-base p-0 text-white ml-3 w-auto" 
-                            onClick={(e) => shareMenu.current.toggle(e)}
+                            onClick={() => window.open(`https://api.whatsapp.com/send?text=${'🚀 Check out this amazing content on Sahas!'} ${'https://linktr.ee/SahasInstituteOfCommerce'}`, '_blank')}
                         />
-                        <Menu model={shareMenuItems} popup ref={shareMenu} />
 
                         {/* Add to Home Screen Button */}
                         {showInstallButton && (
