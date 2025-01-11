@@ -10,12 +10,16 @@ import React, { useEffect, useState } from "react";
 import { requestProxy } from "../../utils";
 import Loading from "../common/Loading";
 import { classNames } from "primereact/utils";
+import { Button } from "primereact/button";
 
 export default function CarouselHeader() {
     const navigate = useNavigate();
-
     const [loading, setLoading] = useState();
     const [carouselItems, setCarouselItems] = useState();
+    const [deferredPrompt, setDeferredPrompt] = useState(null);
+    const [showInstallButton, setShowInstallButton] = useState(false);
+    const shareUrl = window.location.href; // Current page URL
+    const title = "🚀 Check out this amazing content on Sahas!";
 
     const loggedInUser = useSelector((state) => state.stateUser.user);
     useEffect(() => {
@@ -28,9 +32,32 @@ export default function CarouselHeader() {
             },
             setLoading: setLoading,
         });
+
+        // Listen for the beforeinstallprompt event
+        const handleBeforeInstallPrompt = (e) => {
+            setDeferredPrompt(e);
+            setShowInstallButton(true);
+        };
+        window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+        return () => {
+            window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+        };
     }, []);
 
+    const handleAddToHomeScreen = async () => {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const choiceResult = await deferredPrompt.userChoice;
+            if (choiceResult.outcome === "accepted") {
+                console.log("Website Installed");
+                setDeferredPrompt(null);
+                setShowInstallButton(false);
+            }
+        }
+    };
+
     const profileMenu = useRef(null);
+    const shareMenu = useRef(null);
 
     const profileMenuItems = [
         {
@@ -50,6 +77,26 @@ export default function CarouselHeader() {
             command: () => navigate("/logout"),
         },
     ];
+    const shareMenuItems = [
+        {
+            label: "Facebook",
+            icon: "pi pi-facebook mr-2",
+            command: () => window.open(`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`, "_blank"),
+        },
+        {
+            label: "Whatsapp",
+            icon: "pi pi-whatsapp mr-2",
+            command: () => window.open(`https://api.whatsapp.com/send?text=${title} ${shareUrl}`, "_blank"),
+        },
+        {
+            label: "Email",
+            icon: "pi pi-envelope mr-2",
+            command: () => window.location.href = `mailto:?subject=${title}&body=Check this out! ${shareUrl}`,
+        },
+    ];
+    
+
+
 
     const itemTemplate = (carouselItem) => {
         if (carouselItem.type === "image") {
@@ -65,11 +112,33 @@ export default function CarouselHeader() {
         return (
             <div>
                 <div className="text-white p-3 shadow-4 bg-primary-800 flex justify-content-between align-items-center">
-                    <p className="font-bold m-0">Welcome {loggedInUser?.name} To Sahas</p>
-                    <div>
-                        <span className="pi pi-share-alt"></span>
+                    <p className="font-bold m-0 text-xs sm:text-base">Welcome {loggedInUser?.name} To Sahas</p>
+                    <div className="flex align-items-center justify-content-between">
+                        {/* Help Button */}
+                        <Button
+                            icon="pi pi-question-circle"
+                            className="p-button-text text-sm sm:text-base p-0 text-white ml-3 w-auto"
+                            onClick={() => window.open('https://wa.me/9429279966', '_blank')}
+                        />
+                        {/* Share Button with Menu */}
+                        <Button
+                            icon="pi pi-share-alt"
+                            className="p-button-text text-sm sm:text-base p-0 text-white ml-3 w-auto" 
+                            onClick={(e) => shareMenu.current.toggle(e)}
+                        />
+                        <Menu model={shareMenuItems} popup ref={shareMenu} />
+
+                        {/* Add to Home Screen Button */}
+                        {showInstallButton && (
+                            <Button
+                                icon="pi pi-home"
+                                className="p-button-text text-sm sm:text-base p-0 text-white ml-3 w-auto"
+                                onClick={handleAddToHomeScreen}
+                            />
+                        )}
+
                         {loggedInUser && (
-                            <Avatar icon="pi pi-user" className="bg-primary-900 ml-2" shape="circle" onClick={(e) => profileMenu.current.toggle(e)} />
+                            <Avatar icon="pi pi-user" className="bg-primary-900 ml-3 text-sm sm:text-base" shape="circle" onClick={(e) => profileMenu.current.toggle(e)} />
                         )}
                     </div>
 
