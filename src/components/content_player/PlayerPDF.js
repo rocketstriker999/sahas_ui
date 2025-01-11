@@ -171,7 +171,7 @@ export default function PlayerPDF({ pdf }) {
                     onTouchEnd={endDragHandler}
                 >
                     <Document
-                        file="https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf"
+                        file={`/media/private/pdfs/${pdf.gd_id}`}
                         onLoadSuccess={onDocumentLoadSuccess}
                         onLoadError={(error) => console.error("Error loading PDF:", error)}
                     >
