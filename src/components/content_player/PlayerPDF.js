@@ -5,7 +5,6 @@ import { saveAs } from "file-saver";
 import { Button } from "primereact/button";
 import { pdfjs } from "react-pdf";
 
-// pdfjs.GlobalWorkerOptions.workerSrc = new URL("pdfjs-dist/build/pdf.worker.min.js", import.meta.url).toString();
 pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.worker.min.js`;
 
 export default function PlayerPDF({ pdf }) {
@@ -151,7 +150,7 @@ export default function PlayerPDF({ pdf }) {
                         className="p-button-rounded p-button-text mr-2"
                         onClick={toggleFullScreenOrZoomOut}
                     />
-                    <Button icon="pi pi-download" className="p-button-rounded p-button-text" onClick={downloadPDF} />
+                    {/* <Button icon="pi pi-download" className="p-button-rounded p-button-text" onClick={downloadPDF} /> */}
                 </div>
 
                 {/* PDF Page Container with Drag */}
