@@ -5,7 +5,8 @@ import { saveAs } from "file-saver";
 import { Button } from "primereact/button";
 import { pdfjs } from "react-pdf";
 
-pdfjs.GlobalWorkerOptions.workerSrc = new URL("pdfjs-dist/build/pdf.worker.min.js", import.meta.url).toString();
+// pdfjs.GlobalWorkerOptions.workerSrc = new URL("pdfjs-dist/build/pdf.worker.min.js", import.meta.url).toString();
+pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.worker.min.js`;
 
 export default function PlayerPDF({ pdf }) {
     const [numPages, setNumPages] = useState(null);
@@ -170,7 +171,7 @@ export default function PlayerPDF({ pdf }) {
                     onTouchEnd={endDragHandler}
                 >
                     <Document
-                        file={`/media/private/pdfs/${pdf.gd_id}`}
+                        file="https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf"
                         onLoadSuccess={onDocumentLoadSuccess}
                         onLoadError={(error) => console.error("Error loading PDF:", error)}
                     >
