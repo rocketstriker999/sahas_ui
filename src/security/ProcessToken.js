@@ -2,12 +2,10 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "../redux/sliceUser";
 import { requestProxy } from "../utils";
-import { useToast } from "../providers/ProviderToast";
 
 export default function ProcessToken({ children }) {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(true);
-    const toast = useToast();
 
     useEffect(() => {
         //hit API Once

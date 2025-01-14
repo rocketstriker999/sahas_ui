@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "primeflex/primeflex.css";
 import "primeicons/primeicons.css";
-import { Button } from "primereact/button";
 import { useNavigate } from "react-router-dom";
 import { requestProxy } from "../../utils/utils";
 import { Divider } from "primereact/divider";

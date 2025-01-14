@@ -2,7 +2,7 @@ import { Galleria } from "primereact/galleria";
 import { Image } from "primereact/image";
 import { useSelector } from "react-redux";
 import { Avatar } from "primereact/avatar";
-import { useRef } from "react";
+import { Fragment, useRef } from "react";
 import { Menu } from "primereact/menu";
 import { useNavigate } from "react-router-dom";
 import { hasGroupAccess } from "../../utils";
@@ -11,13 +11,15 @@ import { requestProxy } from "../../utils";
 import Loading from "../common/Loading";
 import { classNames } from "primereact/utils";
 import { Button } from "primereact/button";
+import { useToast } from "../../providers/ProviderToast";
 
 export default function CarouselHeader() {
     const navigate = useNavigate();
     const [loading, setLoading] = useState();
     const [carouselConfig, setCarouselConfig] = useState();
-    const [deferredPrompt, setDeferredPrompt] = useState(null);
-    const [showInstallButton, setShowInstallButton] = useState(false);
+    const [appInstallEvent, setAppInstallEvent] = useState();
+
+    const toast = useToast();
 
     const loggedInUser = useSelector((state) => state.stateUser.user);
     useEffect(() => {
@@ -31,27 +33,34 @@ export default function CarouselHeader() {
             setLoading: setLoading,
         });
 
-        // Listen for the beforeinstallprompt event
-        const handleBeforeInstallPrompt = (e) => {
-            setDeferredPrompt(e);
-            setShowInstallButton(true);
-        };
-        window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
-        return () => {
-            window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
-        };
+        // Check if the app is already installed
+        if (!window.matchMedia("(display-mode: standalone)").matches) {
+            //when app lauches it fires event called beforeinstallprompt - we need to listen event and store
+            //no need to trigger immidiatly
+            //this can't be triggered by programtically only user gestures are allowed
+            window.addEventListener("beforeinstallprompt", (event) => {
+                event.preventDefault();
+                setAppInstallEvent(event);
+                toast?.current?.clear();
+                toast?.current?.show({
+                    severity: "success",
+                    sticky: true,
+                    content: () => (
+                        <div>
+                            <div className="flex align-items-center gap-2">
+                                <Avatar image="/images/avatar/amyelsner.png" shape="circle" />
+                                <span className="font-bold text-900">Sahas Smart Studies</span>
+                            </div>
+                            <div className="font-medium text-lg my-3 text-900">Install As Application</div>
+                            <Button className="p-button-sm flex" label="Reply" severity="success"></Button>
+                        </div>
+                    ),
+                });
+            });
+        }
     }, []);
 
-    const handleAddToHomeScreen = async () => {
-        if (deferredPrompt) {
-            deferredPrompt.prompt();
-            const choiceResult = await deferredPrompt.userChoice;
-            if (choiceResult.outcome === "accepted") {
-                setDeferredPrompt(null);
-                setShowInstallButton(false);
-            }
-        }
-    };
+    //                event.prompt();
 
     const profileMenu = useRef(null);
 
@@ -74,11 +83,8 @@ export default function CarouselHeader() {
         },
     ];
 
-    const itemTemplate = (carouselItem) => {
-        if (carouselItem.type === "image") {
-            return <Image width="100%" src={`${process.env.REACT_APP_IMAGES_PUBLIC}${carouselItem.image}`} />;
-        }
-    };
+    const itemTemplate = (carouselItem) =>
+        carouselItem.type === "image" && <Image width="100%" src={`${process.env.REACT_APP_IMAGES_PUBLIC}${carouselItem.image}`} />;
 
     if (loading && !carouselConfig) {
         return <Loading />;
@@ -86,7 +92,7 @@ export default function CarouselHeader() {
 
     if (carouselConfig) {
         return (
-            <div>
+            <Fragment>
                 <div className="text-white p-3 shadow-4 bg-primary-800 flex justify-content-between align-items-center">
                     <p className="font-bold m-0 text-xs sm:text-base">Welcome {loggedInUser?.name} To Sahas</p>
                     <div className="flex align-items-center justify-content-between">
@@ -100,13 +106,7 @@ export default function CarouselHeader() {
                             className="p-button-text text-sm sm:text-base p-0 text-white ml-3 w-auto"
                             onClick={() => window.open(carouselConfig?.share_message, "_blank")}
                         />
-                        {showInstallButton && (
-                            <Button
-                                icon="pi pi-home"
-                                className="p-button-text text-sm sm:text-base p-0 text-white ml-3 w-auto"
-                                onClick={handleAddToHomeScreen}
-                            />
-                        )}
+
                         {loggedInUser && (
                             <Avatar
                                 icon="pi pi-user"
@@ -134,7 +134,7 @@ export default function CarouselHeader() {
                         indicators: classNames("p-2 bg-transparent"),
                     }}
                 />
-            </div>
+            </Fragment>
         );
     }
 }

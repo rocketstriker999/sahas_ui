@@ -12,7 +12,7 @@ export const ProviderToast = ({ children }) => {
     return (
         // Pass the toast reference down through context
         <ContextToast.Provider value={toast}>
-            <Toast ref={toast} />
+            <Toast ref={toast} position="top-right" />
             {children}
         </ContextToast.Provider>
     );

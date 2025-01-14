@@ -28,7 +28,6 @@ export default function App() {
                 <Routes>
                     <Route path="/" element={<Dashboard />}>
                         <Route index element={<AllProducts />} />
-
                         <Route
                             path="my-products"
                             element={
