@@ -11,15 +11,12 @@ import { requestProxy } from "../../utils";
 import Loading from "../common/Loading";
 import { classNames } from "primereact/utils";
 import { Button } from "primereact/button";
-import { useToast } from "../../providers/ProviderToast";
 
 export default function CarouselHeader() {
     const navigate = useNavigate();
     const [loading, setLoading] = useState();
     const [carouselConfig, setCarouselConfig] = useState();
     const [appInstallEvent, setAppInstallEvent] = useState();
-
-    const toast = useToast();
 
     const loggedInUser = useSelector((state) => state.stateUser.user);
     useEffect(() => {
@@ -28,6 +25,8 @@ export default function CarouselHeader() {
             onResponseReceieved: (carouselConfig, responseCode) => {
                 if (carouselConfig && responseCode === 200) {
                     setCarouselConfig(carouselConfig);
+                } else {
+                    setCarouselConfig(true);
                 }
             },
             setLoading: setLoading,
@@ -41,26 +40,9 @@ export default function CarouselHeader() {
             window.addEventListener("beforeinstallprompt", (event) => {
                 event.preventDefault();
                 setAppInstallEvent(event);
-                toast?.current?.clear();
-                toast?.current?.show({
-                    severity: "success",
-                    sticky: true,
-                    content: () => (
-                        <div>
-                            <div className="flex align-items-center gap-2">
-                                <Avatar image="/images/avatar/amyelsner.png" shape="circle" />
-                                <span className="font-bold text-900">Sahas Smart Studies</span>
-                            </div>
-                            <div className="font-medium text-lg my-3 text-900">Install As Application</div>
-                            <Button className="p-button-sm flex" label="Reply" severity="success"></Button>
-                        </div>
-                    ),
-                });
             });
         }
     }, []);
-
-    //                event.prompt();
 
     const profileMenu = useRef(null);
 
@@ -119,6 +101,14 @@ export default function CarouselHeader() {
 
                     <Menu model={profileMenuItems} popup ref={profileMenu} />
                 </div>
+
+                {appInstallEvent && (
+                    <div className="flex justify-content-between text text-xs px-3 shadow-4 font-bold align-items-center">
+                        <p>Do you want to install Sahas Smart Studies ?</p>
+                        <Button className="p-0" onClick={() => appInstallEvent.prompt()} severity="warning" label="Install" size="small" text></Button>
+                    </div>
+                )}
+
                 <Galleria
                     className="shadow-4"
                     value={carouselConfig?.carouse_images}
