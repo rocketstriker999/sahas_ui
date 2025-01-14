@@ -15,7 +15,7 @@ import { Button } from "primereact/button";
 export default function CarouselHeader() {
     const navigate = useNavigate();
     const [loading, setLoading] = useState();
-    const [carouselItems, setCarouselItems] = useState();
+    const [carouselConfig, setCarouselConfig] = useState();
     const [deferredPrompt, setDeferredPrompt] = useState(null);
     const [showInstallButton, setShowInstallButton] = useState(false);
 
@@ -23,9 +23,9 @@ export default function CarouselHeader() {
     useEffect(() => {
         requestProxy({
             requestPath: "/api/ui-config/carousel",
-            onResponseReceieved: (carouselItems, responseCode) => {
-                if (carouselItems && responseCode === 200) {
-                    setCarouselItems(carouselItems);
+            onResponseReceieved: (carouselConfig, responseCode) => {
+                if (carouselConfig && responseCode === 200) {
+                    setCarouselConfig(carouselConfig);
                 }
             },
             setLoading: setLoading,
@@ -47,7 +47,6 @@ export default function CarouselHeader() {
             deferredPrompt.prompt();
             const choiceResult = await deferredPrompt.userChoice;
             if (choiceResult.outcome === "accepted") {
-                console.log("Website Installed");
                 setDeferredPrompt(null);
                 setShowInstallButton(false);
             }
@@ -81,30 +80,26 @@ export default function CarouselHeader() {
         }
     };
 
-    if (loading && !carouselItems) {
+    if (loading && !carouselConfig) {
         return <Loading />;
     }
 
-    if (carouselItems) {
+    if (carouselConfig) {
         return (
             <div>
                 <div className="text-white p-3 shadow-4 bg-primary-800 flex justify-content-between align-items-center">
                     <p className="font-bold m-0 text-xs sm:text-base">Welcome {loggedInUser?.name} To Sahas</p>
                     <div className="flex align-items-center justify-content-between">
-                        {/* Help Button */}
                         <Button
                             icon="pi pi-question-circle"
                             className="p-button-text text-sm sm:text-base p-0 text-white ml-3 w-auto"
-                            onClick={() => window.open('https://wa.me/9429279966', '_blank')}
+                            onClick={() => window.open(carouselConfig?.whatsapp_connect, "_blank")}
                         />
-                        {/* Share Button with Menu */}
                         <Button
                             icon="pi pi-share-alt"
-                            className="p-button-text text-sm sm:text-base p-0 text-white ml-3 w-auto" 
-                            onClick={() => window.open(`https://api.whatsapp.com/send?text=${'🚀 Check out this amazing content on Sahas!'} ${'https://linktr.ee/SahasInstituteOfCommerce'}`, '_blank')}
+                            className="p-button-text text-sm sm:text-base p-0 text-white ml-3 w-auto"
+                            onClick={() => window.open(carouselConfig?.share_message, "_blank")}
                         />
-
-                        {/* Add to Home Screen Button */}
                         {showInstallButton && (
                             <Button
                                 icon="pi pi-home"
@@ -112,9 +107,13 @@ export default function CarouselHeader() {
                                 onClick={handleAddToHomeScreen}
                             />
                         )}
-
                         {loggedInUser && (
-                            <Avatar icon="pi pi-user" className="bg-primary-900 ml-3 text-sm sm:text-base" shape="circle" onClick={(e) => profileMenu.current.toggle(e)} />
+                            <Avatar
+                                icon="pi pi-user"
+                                className="bg-primary-900 ml-3 text-sm sm:text-base"
+                                shape="circle"
+                                onClick={(e) => profileMenu.current.toggle(e)}
+                            />
                         )}
                     </div>
 
@@ -122,7 +121,7 @@ export default function CarouselHeader() {
                 </div>
                 <Galleria
                     className="shadow-4"
-                    value={carouselItems}
+                    value={carouselConfig?.carouse_images}
                     showThumbnails={false}
                     showIndicators
                     showIndicatorsOnItem={true}
@@ -132,7 +131,7 @@ export default function CarouselHeader() {
                     autoPlay
                     transitionInterval={2000}
                     pt={{
-                        indicators: classNames("p-2 bg-transparent")
+                        indicators: classNames("p-2 bg-transparent"),
                     }}
                 />
             </div>
