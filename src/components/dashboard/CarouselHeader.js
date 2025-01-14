@@ -34,12 +34,10 @@ export default function CarouselHeader() {
 
         // Check if the app is already installed
         if (!window.matchMedia("(display-mode: standalone)").matches) {
-            //when app lauches it fires event called beforeinstallprompt - we need to listen event and store
-            //no need to trigger immidiatly
-            //this can't be triggered by programtically only user gestures are allowed
-            window.addEventListener("beforeinstallprompt", (event) => {
-                event.preventDefault();
-                setAppInstallEvent(event);
+            window.addEventListener("beforeinstallprompt", (e) => {
+                e.preventDefault();
+                setAppInstallEvent(e);
+                window.removeEventListener("beforeinstallprompt", this);
             });
         }
     }, []);

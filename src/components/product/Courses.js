@@ -30,7 +30,6 @@ export default function Courses() {
     }
 
     if (courses && courses.length > 0) {
-        console.log(courses);
         return (
             // <Fragment>
             //     <p>{`Offering ${courses.length} Courses`}</p>
@@ -51,9 +50,11 @@ export default function Courses() {
                     <p className="text-base font-bold px-3">{`Offering ${courses.length} Courses`}</p>
                 </div>
                 {courses.map((course, index) => (
-                    console.log(course),
-                    <div key={course.id} onClick={() => navigate(`/products/${productId}/courses/${course.id}`)}
-                        className="p-3 border-round shadow-3 mb-3 mx-3 flex align-items-center justify-content-between">
+                    <div
+                        key={course.id}
+                        onClick={() => navigate(`/products/${productId}/courses/${course.id}`)}
+                        className="p-3 border-round shadow-3 mb-3 mx-3 flex align-items-center justify-content-between"
+                    >
                         <div className="flex flex-column">
                             <p className="text-sm font-bold m-0 mb-2">{course.title}</p>
                             <div className="flex align-items-center">
