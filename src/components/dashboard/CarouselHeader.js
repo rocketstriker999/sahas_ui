@@ -25,8 +25,6 @@ export default function CarouselHeader() {
             onResponseReceieved: (carouselConfig, responseCode) => {
                 if (carouselConfig && responseCode === 200) {
                     setCarouselConfig(carouselConfig);
-                } else {
-                    setCarouselConfig(true);
                 }
             },
             setLoading: setLoading,
