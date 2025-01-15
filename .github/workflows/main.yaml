@@ -4,6 +4,8 @@ on:
     push:
         branches:
             - main
+    schedule:
+        - cron: "30 18 * * *"
 jobs:
     deploy:
         runs-on: ubuntu-latest
@@ -33,7 +35,11 @@ jobs:
                     git pull
                     npm install
                     npm run build
-                    serve -s build -l 3000 > process.log 2>&1 &
+                    if [ ! -d "logs" ]; then
+                      mkdir logs
+                    fi
+                    log_date=$(date +"%d-%m-%Y")
+                    serve -s build -l 3000 > logs/"$log_date".log 2>&1 &
                     new_pid=$!
                     echo "Starting $DIR - pid $new_pid"
                     echo $new_pid > process.id
