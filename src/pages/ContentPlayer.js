@@ -33,10 +33,12 @@ export default function ContentPlayer({ contentType }) {
     if (!loading && content) {
         return (
             <Fragment>
+                <div className="lg:mx-auto lg:max-w-30rem lg:border-1 lg:p-2 lg:m-2">
                 <div className="bg-gray-900 shadow-4 text-white">
                     {MediaPlayer ? MediaPlayer : <p className="font-bold p-4 m-0">Select Content To Start</p>}
                 </div>
                 <ContentSelector content={content} setMediaPlayer={setMediaPlayer} />
+                </div>
             </Fragment>
         );
     }

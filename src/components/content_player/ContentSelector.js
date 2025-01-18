@@ -23,7 +23,7 @@ export default function ContentSelector({ content, setMediaPlayer }) {
                             <div
                                 key={video.id}
                                 onClick={() => setMediaPlayer(<PlayerVideo video={video} />)}
-                                className="p-3 mb-3 border-round shadow-2 flex justify-content-between align-items-center"
+                                className="p-3 mb-3 border-round shadow-2 flex justify-content-between align-items-center gap-2"
                             >
                                 <span className="text-base font-medium">{video.title}</span>
                                 <i className="pi pi-play text-primary"></i>
@@ -38,7 +38,7 @@ export default function ContentSelector({ content, setMediaPlayer }) {
                             <div
                                 key={pdf.id}
                                 onClick={() => setMediaPlayer(<PlayerPDF pdf={pdf} />)}
-                                className="p-3 mb-3 border-round shadow-2 flex justify-content-between align-items-center"
+                                className="p-3 mb-3 border-round shadow-2 flex justify-content-between align-items-center gap-2"
                             >
                                 <span className="text-base font-medium">{pdf.title}</span>
                                 <i className="pi pi-file-pdf text-primary"></i>
@@ -53,7 +53,7 @@ export default function ContentSelector({ content, setMediaPlayer }) {
                             <div
                                 key={audio.id}
                                 onClick={() => setMediaPlayer(<PlayerAudio source={audio.url} />)}
-                                className="p-3 mb-3 border-round shadow-2 flex justify-content-between align-items-center"
+                                className="p-3 mb-3 border-round shadow-2 flex justify-content-between align-items-center gap-2"
                             >
                                 <span className="text-base font-medium">{audio.title}</span>
                                 <i className="pi pi-headphones text-primary"></i>

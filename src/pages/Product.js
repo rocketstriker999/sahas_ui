@@ -30,9 +30,10 @@ export default function Product() {
     if (product && !loading) {
         return (
             <Fragment>
+                <div className="lg:mx-auto lg:max-w-30rem lg:border-1 lg:p-2 lg:m-2">
                 <div className="bg-primary flex p-3 gap-2 shadow-4">
                     <div className="flex-1">
-                        <h1 className="text-white font-bold m-0 mt-4 lg:text-3xl text-base">{product?.title}</h1>
+                        <h1 className="text-white font-bold m-0 mt-4 lg:text-2xl text-base">{product?.title}</h1>
                         <p className="lg:text-base text-xs text-white m-0 mt-3 line-height-3">{product?.description}</p>
                     </div>
                     <div className="flex flex-column gap-3">
@@ -41,6 +42,7 @@ export default function Product() {
                     </div>
                 </div>
                 <Outlet />
+                </div>
             </Fragment>
         );
     }

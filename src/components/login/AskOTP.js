@@ -41,14 +41,13 @@ export default function AskOTP({ email }) {
     };
 
     return (
-        <div className="col-12 lg:col-6 sm:col-12 md:col-6 flex flex-column align-items-center justify-content-center">
-            <label htmlFor="OTP" className="font-bold block my-4 lg:text-3xl text-xl lg:w-7 text-center">
+        <div className="w-11 m-auto">
+            <label htmlFor="OTP" className="font-bold my-4 text-xl lg:text-2xl text-center block">
                 Verify OTP Which is Sent to {email}
             </label>
 
             <Messages ref={message} />
-
-            <div className="w-11 sm:w-10 md:w-9 lg:w-8">
+            <div className="w-12 sm:w-10 md:w-9 lg:w-8 m-auto">
                 <InputOtp
                     length={4}
                     disabled={loading}

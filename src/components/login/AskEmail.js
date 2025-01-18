@@ -39,7 +39,7 @@ export default function AskEmail({ updateComponentState }) {
 
     return (
         <div className="w-11 m-auto">
-            <h1 className="font-bold my-4 text-xl lg:text-3xl text-center">"Enter Email To Continue"</h1>
+            <h1 className="font-bold my-4 text-xl lg:text-2xl text-center">"Enter Email To Continue"</h1>
 
             {error && <p className="text-red-600 text-center text-sm">{error}</p>}
 
