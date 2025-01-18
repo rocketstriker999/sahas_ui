@@ -62,7 +62,7 @@ export default function CarouselHeader() {
     ];
 
     const itemTemplate = (carouselItem) =>
-        carouselItem.type === "image" && <Image width="100%" src={`${process.env.REACT_APP_IMAGES_PUBLIC}${carouselItem.image}`} />;
+        carouselItem.type === "image" && <Image width="100%" src={`${process.env.REACT_APP_RESOURCES}${carouselItem.image}`} />;
 
     if (loading && !carouselConfig) {
         return <Loading />;

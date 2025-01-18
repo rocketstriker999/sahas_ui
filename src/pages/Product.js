@@ -36,7 +36,13 @@ export default function Product() {
                         <p className="lg:text-base text-xs text-white m-0 mt-3 line-height-3">{product?.description}</p>
                     </div>
                     <div className="flex flex-column gap-3">
-                        <img className="border-round m-0 p-0 shadow-4" width="100" height="100" src={`${process.env.REACT_APP_IMAGES_PUBLIC}${product.image}`} alt="Product" />
+                        <img
+                            className="border-round m-0 p-0 shadow-4"
+                            width="100"
+                            height="100"
+                            src={`${process.env.REACT_APP_RESOURCES}${product.image}`}
+                            alt="Product"
+                        />
                         {product.access ? <Button label="Receipt" severity="info" raised /> : <ButtonPurchase productId={productId} />}
                     </div>
                 </div>
