@@ -18,7 +18,7 @@ export default function Chapters() {
             <Fragment>
                 <div className="flex justify-content-between align-items-center px-3 text-sm font-bold text-primary">
                     <p onClick={() => navigate(-1)}>
-                        <i className="pi pi-arrow-left mr-1 text-xs"></i> Back
+                        <i className="pi pi-arrow-left mr-2 text-xs"></i>Back
                     </p>
                     <p>{`( ${subject.chapters?.length} Chapters )`}</p>
                 </div>
