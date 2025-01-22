@@ -11,7 +11,7 @@ export default function PlayerVideo({ video }) {
 
     useEffect(() => {
         requestProxy({
-            requestPath: `/media/private/videos/${video.yt_id}`,
+            requestPath: `${process.env.REACT_APP_VIDEO_STREAM}${video.id}`,
             setLoading: setLoading,
             onResponseReceieved: (sources, responseCode) => {
                 if (sources && responseCode === 200) {
@@ -29,14 +29,14 @@ export default function PlayerVideo({ video }) {
         return (
             <Fragment>
                 <video
-                    onPlay={() => playBackTimes[video.yt_id] && (videoRef.current.currentTime = playBackTimes[video.yt_id])}
+                    onPlay={() => playBackTimes[video.id] && (videoRef.current.currentTime = playBackTimes[video.id])}
                     width="100%"
                     ref={videoRef}
                     controls
                     autoPlay
                     controlsList="nodownload"
                     onTimeUpdate={() => {
-                        playBackTimes[video.yt_id] = videoRef.current.currentTime;
+                        playBackTimes[video.id] = videoRef.current.currentTime;
                         setPlayBackTimes(playBackTimes);
                     }}
                     onContextMenu={(e) => e.preventDefault()}

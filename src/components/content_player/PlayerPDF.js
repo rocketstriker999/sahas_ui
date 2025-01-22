@@ -75,8 +75,8 @@ export default function PlayerPDF({ pdf }) {
     };
 
     const downloadPDF = () => {
-        if (pdf && pdf.gd_id && pdf.title) {
-            const downloadUrl = `/media/private/pdfs/${pdf.gd_id}`;
+        if (pdf && pdf.id && pdf.title) {
+            const downloadUrl = `${process.env.REACT_APP_PDF_STREAM}${pdf.id}`;
             saveAs(downloadUrl, `${pdf.title}.pdf`);
         } else {
             console.error("PDF data is incomplete or invalid.");
@@ -170,7 +170,7 @@ export default function PlayerPDF({ pdf }) {
                     onTouchEnd={endDragHandler}
                 >
                     <Document
-                        file={`/media/private/pdfs/${pdf.gd_id}`}
+                        file={`${process.env.REACT_APP_PDF_STREAM}${pdf.id}`}
                         onLoadSuccess={onDocumentLoadSuccess}
                         onLoadError={(error) => console.error("Error loading PDF:", error)}
                     >

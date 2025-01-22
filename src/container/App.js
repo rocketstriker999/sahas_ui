@@ -9,7 +9,6 @@ import ProcessToken from "../security/ProcessToken";
 import { ProviderToast } from "../providers/ProviderToast";
 import Product from "../pages/Product";
 import Courses from "../components/product/Courses";
-import Course from "../components/product/Course";
 import ContentPlayer from "../pages/ContentPlayer";
 import AllProducts from "../components/dashboard/AllProducts";
 import MyProducts from "../components/dashboard/MyProducts";
@@ -20,6 +19,8 @@ import Forbidden from "../pages/Forbidden";
 import NotFound from "../pages/NotFound";
 import Purchase from "../pages/Purchase";
 import HasPrimaryDetails from "../security/HasPrimaryDetails";
+import Subjects from "../components/product/Subjects";
+import Chapters from "../components/product/Chapters";
 
 export default function App() {
     return (
@@ -55,13 +56,17 @@ export default function App() {
                             </HasAuthentication>
                         }
                     />
-                    <Route path="/products" element={<Product />}>
-                        <Route path=":productId/courses" element={<Courses />} />
-                        <Route path=":productId/courses/:courseId" element={<Course />} />
+                    <Route path="/products/:productId" element={<Product />}>
+                        <Route index element={<Courses />} />
+                        <Route path="courses/:courseId">
+                            <Route index element={<Subjects />} />
+                            <Route path="subjects/:subjectId" element={<Chapters />} />
+                        </Route>
                     </Route>
+
                     <Route path="/content-player">
-                        <Route path="demo/:contentId" element={<ContentPlayer contentType="public" />} />
-                        <Route path="chapter/:contentId" element={<ContentPlayer contentType="private" />} />
+                        <Route path="demo/:subjectId" element={<ContentPlayer contentType="subjects" />} />
+                        <Route path="chapter/:chapterId" element={<ContentPlayer contentType="chapters" />} />
                     </Route>
 
                     <Route path="/forbidden" element={<Forbidden />} />

@@ -46,7 +46,7 @@ export default function Product() {
                         {product.access ? <Button label="Receipt" severity="info" raised /> : <ButtonPurchase productId={productId} />}
                     </div>
                 </div>
-                <Outlet />
+                <Outlet context={product} />
             </Fragment>
         );
     }

@@ -18,7 +18,7 @@ export default function Product({ product }) {
                 )}
                 <div className="flex gap-2">
                     {!product.has_access && <ButtonPurchase productId={product.id} />}
-                    <Button className="text-xs p-2" label="More Details" severity="info" text onClick={() => navigate(`/products/${product.id}/courses`)} />
+                    <Button className="text-xs p-2" label="More Details" severity="info" text onClick={() => navigate(`/products/${product.id}`)} />
                 </div>
             </div>
         </div>
