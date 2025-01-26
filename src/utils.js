@@ -4,9 +4,9 @@ export function hasGroupAccess(userGroups, allowedGroups) {
     return userGroups ? userGroups.some((group) => allowedGroups.includes(group)) : false;
 }
 
-export async function requestProxy({
+export async function requestAPI({
     requestHeaders = {},
-    requestPath = "/",
+    requestPath,
     requestMethod = "GET",
     requestGetQuery = false,
     requestPostBody = false,
@@ -26,8 +26,10 @@ export async function requestProxy({
     if (onRequestStart) onRequestStart();
     if (setLoading) setLoading(true);
 
-    //api specific path
+    //append api backend api address
+    requestPath = process.env.REACT_APP_API_ADDRESS.concat(requestPath);
 
+    //api specific path
     if (requestGetQuery) {
         requestPath = requestPath + "?";
         requestPath =
@@ -39,7 +41,6 @@ export async function requestProxy({
 
     const fetchOptions = {
         // Adding headers to the request
-        //headers: {requestHeaders,...currentDevice},
         headers: {
             "Content-Type": "application/json",
             ...deviceInfo,
@@ -60,7 +61,7 @@ export async function requestProxy({
         const jsonResponse = await response.json();
         if (onResponseReceieved) onResponseReceieved(jsonResponse, response.status);
     } catch (e) {
-        if (onRequestFailure) onRequestFailure(e);
+        if (onRequestFailure) onRequestFailure(e.toString());
     } finally {
         if (setLoading) setLoading(false);
     }

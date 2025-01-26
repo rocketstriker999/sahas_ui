@@ -1,48 +1,24 @@
 import { useSelector } from "react-redux";
-import { Fragment, useEffect, useState } from "react";
-import { requestProxy } from "../../utils";
+import { Fragment } from "react";
 import Product from "./Product";
 import { Divider } from "primereact/divider";
 import NoContent from "../common/NoContent";
-import Loading from "../common/Loading";
 
 export default function MyProducts() {
-    const loggedInUser = useSelector((state) => state.stateUser.user);
-    const [userProducts, setUserProducts] = useState();
-    const [loading, setLoading] = useState();
+    const catelogue = useSelector((state) => state.stateCatelogue.catelogue);
+    const myProducts = catelogue?.products?.filter((product) => product.has_access);
 
-    useEffect(() => {
-        requestProxy({
-            requestPath: `/api/products/mine`,
-            requestMethod: "GET",
-            setLoading: setLoading,
-            onResponseReceieved: (userProducts, responseCode) => {
-                if (userProducts && responseCode === 200) {
-                    setUserProducts(userProducts);
-                } else {
-                    throw new Error(userProducts.error);
-                }
-            },
-        });
-    }, [loggedInUser]);
-
-    if (loading) {
-        return <Loading />;
-    }
-
-    if (userProducts && userProducts.length > 0) {
-        return (
-            <div className="mt-3">
-                {userProducts.map((product, index) => (
-                    <Fragment>
-                        {index === 0 && <Divider className="p-0 m-0" />}
-                        <Product product={{ ...product, has_access: true }} />
-                        <Divider className="p-0 m-0" />
-                    </Fragment>
-                ))}
-            </div>
-        );
-    } else {
-        return <NoContent />;
-    }
+    return myProducts?.length > 0 ? (
+        <div className="mt-3">
+            {myProducts.map((product, index) => (
+                <Fragment>
+                    {index === 0 && <Divider className="p-0 m-0" />}
+                    <Product product={{ ...product, has_access: true }} />
+                    <Divider className="p-0 m-0" />
+                </Fragment>
+            ))}
+        </div>
+    ) : (
+        <NoContent />
+    );
 }

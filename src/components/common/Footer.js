@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "primeflex/primeflex.css";
 import "primeicons/primeicons.css";
 import { useNavigate } from "react-router-dom";
-import { requestProxy } from "../../utils/utils";
+import { requestAPI } from "../../utils/utils";
 import { Divider } from "primereact/divider";
 import FooterSkeleton from "./Skeletons/FooterSkeleton";
 
@@ -13,8 +13,8 @@ export default function Footer() {
 
     useEffect(() => {
         //hit API Once
-        requestProxy({
-            requestPath: "/api/ui-config/footer",
+        requestAPI({
+            requestPath: "api/ui-config/footer",
             setLoading: setLoading,
             onResponseReceieved: (footerConfig, responseCode) => {
                 if (footerConfig && responseCode === 200) {

@@ -1,25 +1,24 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "../redux/sliceUser";
-import { requestProxy } from "../utils";
+import { requestAPI } from "../utils";
+import Loading from "../components/common/Loading";
 
 export default function ProcessToken({ children }) {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        //hit API Once
-        requestProxy({
-            requestPath: "/api/token/verify",
+        requestAPI({
+            requestPath: "api/token/verify",
             setLoading: setLoading,
             onResponseReceieved: (verification, responseCode) => {
                 if (verification && responseCode === 200) {
-                    // eslint-disable-next-line default-case
                     dispatch(setCurrentUser(verification.user));
                 }
             },
         });
-    }, []);
+    }, [dispatch]);
 
-    return loading ? <p>loading Fetching User's Account Information</p> : children;
+    return loading ? <Loading message={"Processing Token..."} /> : children;
 }

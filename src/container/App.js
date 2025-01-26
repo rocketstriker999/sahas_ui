@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { Route, Routes } from "react-router-dom";
 import Dashboard from "../pages/Dashboard";
 // import CustomError from "../pages/CustomError";
@@ -21,58 +20,91 @@ import Purchase from "../pages/Purchase";
 import HasPrimaryDetails from "../security/HasPrimaryDetails";
 import Subjects from "../components/product/Subjects";
 import Chapters from "../components/product/Chapters";
+import { useEffect, useState } from "react";
+import { requestAPI } from "../utils";
+import Loading from "../components/common/Loading";
+import NoContent from "../components/common/NoContent";
+import { useDispatch, useSelector } from "react-redux";
+import { setCatelogue } from "../redux/sliceCatelogue";
 
 export default function App() {
-    return (
-        <ProviderToast>
-            <ProcessToken>
-                <Routes>
-                    <Route path="/" element={<Dashboard />}>
-                        <Route index element={<AllProducts />} />
+    const dispatch = useDispatch();
+
+    const catelogue = useSelector((state) => state.stateCatelogue.catelogue);
+
+    const [loading, setLoading] = useState();
+    const [error, setError] = useState();
+
+    useEffect(() => {
+        if (!catelogue)
+            requestAPI({
+                requestPath: "api/catelogue",
+                setLoading: setLoading,
+                onRequestFailure: setError,
+                onResponseReceieved: (catelogue, responseCode) => {
+                    if (catelogue && responseCode === 200) {
+                        dispatch(setCatelogue(catelogue));
+                    }
+                },
+            });
+    }, [catelogue, dispatch]);
+
+    if (loading) return <Loading message="Loading Catelogue..." />;
+
+    if (error) return <NoContent error="Failed To Load Catelogue, Try Again !" />;
+
+    if (catelogue)
+        return (
+            <ProviderToast>
+                <ProcessToken>
+                    <Routes>
+                        <Route path="/" element={<Dashboard />}>
+                            <Route index element={<AllProducts />} />
+                            <Route
+                                path="my-products"
+                                element={
+                                    <HasAuthentication>
+                                        <MyProducts />
+                                    </HasAuthentication>
+                                }
+                            />
+                            <Route
+                                path="login"
+                                element={
+                                    <HasNoAuthentication>
+                                        <FormLogin />
+                                    </HasNoAuthentication>
+                                }
+                            />
+                        </Route>
+
+                        <Route path="/products/:productId" element={<Product />}>
+                            <Route index element={<Courses />} />
+                            <Route path="courses/:courseId">
+                                <Route index element={<Subjects />} />
+                                <Route path="subjects/:subjectId" element={<Chapters />} />
+                            </Route>
+                        </Route>
+                        <Route path="/content-player">
+                            <Route path="demo/:subjectId" element={<ContentPlayer contentType="subjects" />} />
+                            <Route path="chapter/:chapterId" element={<ContentPlayer contentType="chapters" />} />
+                        </Route>
+
                         <Route
-                            path="my-products"
+                            path="/purchase/:productId"
                             element={
                                 <HasAuthentication>
-                                    <MyProducts />
+                                    <HasPrimaryDetails>
+                                        <Purchase />
+                                    </HasPrimaryDetails>
                                 </HasAuthentication>
                             }
                         />
-                        <Route
-                            path="login"
-                            element={
-                                <HasNoAuthentication>
-                                    <FormLogin />
-                                </HasNoAuthentication>
-                            }
-                        />
-                    </Route>
-                    <Route
-                        path="/purchase/:productId"
-                        element={
-                            <HasAuthentication>
-                                <HasPrimaryDetails>
-                                    <Purchase />
-                                </HasPrimaryDetails>
-                            </HasAuthentication>
-                        }
-                    />
-                    <Route path="/products/:productId" element={<Product />}>
-                        <Route index element={<Courses />} />
-                        <Route path="courses/:courseId">
-                            <Route index element={<Subjects />} />
-                            <Route path="subjects/:subjectId" element={<Chapters />} />
-                        </Route>
-                    </Route>
 
-                    <Route path="/content-player">
-                        <Route path="demo/:subjectId" element={<ContentPlayer contentType="subjects" />} />
-                        <Route path="chapter/:chapterId" element={<ContentPlayer contentType="chapters" />} />
-                    </Route>
-
-                    <Route path="/forbidden" element={<Forbidden />} />
-                    <Route path="*" element={<NotFound />} />
-                </Routes>
-            </ProcessToken>
-        </ProviderToast>
-    );
+                        <Route path="/forbidden" element={<Forbidden />} />
+                        <Route path="*" element={<NotFound />} />
+                    </Routes>
+                </ProcessToken>
+            </ProviderToast>
+        );
 }

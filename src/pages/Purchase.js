@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { requestProxy } from "../utils";
+import { requestAPI } from "../utils";
 import { useParams } from "react-router-dom";
 import ButtonPay from "../components/purchase/ButtonPay";
 import { Checkbox } from "primereact/checkbox";
@@ -16,13 +16,13 @@ export default function Purchase() {
 
     useEffect(() => {
         //hit API Once
-        requestProxy({
+        requestAPI({
             requestMethod: "POST",
             requestPostBody: {
                 productId,
                 coupon: appliedCoupon,
             },
-            requestPath: `/api/transactions`,
+            requestPath: `api/transactions`,
             setLoading: setLoading,
             onResponseReceieved: (transaction, responseCode) => {
                 if (transaction && responseCode === 200) {

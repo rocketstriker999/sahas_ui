@@ -2,7 +2,7 @@ import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { Divider } from "primereact/divider";
 import { useRef, useState } from "react";
-import { requestProxy } from "../../utils";
+import { requestAPI } from "../../utils";
 
 export default function AskEmail({ updateComponentState }) {
     const refUserEmail = useRef();
@@ -16,8 +16,8 @@ export default function AskEmail({ updateComponentState }) {
             return;
         }
         setError("");
-        requestProxy({
-            requestPath: "/api/otp/create",
+        requestAPI({
+            requestPath: "api/otp/create",
             requestPostBody: { email: refUserEmail.current.value },
             requestMethod: "POST",
             setLoading: setLoading,

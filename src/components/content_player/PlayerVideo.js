@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useRef, useState } from "react";
 import { useLocalStorage } from "primereact/hooks";
-import { requestProxy } from "../../utils";
+import { requestAPI } from "../../utils";
 import Loading from "../common/Loading";
 
 export default function PlayerVideo({ video }) {
@@ -10,7 +10,7 @@ export default function PlayerVideo({ video }) {
     const [sources, setSources] = useState();
 
     useEffect(() => {
-        requestProxy({
+        requestAPI({
             requestPath: `${process.env.REACT_APP_VIDEO_STREAM}${video.id}`,
             setLoading: setLoading,
             onResponseReceieved: (sources, responseCode) => {

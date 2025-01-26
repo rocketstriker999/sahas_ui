@@ -1,88 +1,44 @@
-import React, { useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import { Menubar } from "primereact/menubar";
+import React, { Fragment, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Avatar } from "primereact/avatar";
-import { Badge } from "primereact/badge";
-import { hasGroupAccess } from "../../utils/utils";
+import { hasGroupAccess } from "../../utils";
 import { useSelector } from "react-redux";
-import { Sidebar } from "primereact/sidebar";
-import { requestProxy } from "../../utils/utils";
-import Notifications from "./Notifications/Notifications";
-import { Image } from "primereact/image";
-import { classNames } from "primereact/utils";
-import NavbarSkeleton from "./Skeletons/NavbarSkeleton";
+import { Button } from "primereact/button";
+import { Menu } from "primereact/menu";
+import Loading from "./Loading";
+import { requestAPI } from "../../utils";
 
 export default function Navbar() {
     const navigate = useNavigate();
-    const currentLoggedInUser = useSelector((state) => state.stateUser.user);
+    const loggedInUser = useSelector((state) => state.stateUser.user);
     const [navBarConfig, setNavBarConfig] = useState();
     const [loading, setLoading] = useState();
+    const [appInstallEvent, setAppInstallEvent] = useState();
 
-    const [showNotifications, setShowNotifications] = useState(false);
+    const profileMenu = useRef(null);
 
-    const itemRenderer = (item) => (
-        <NavLink to={item.to} className="flex align-items-center p-menuitem-link">
-            <span className={item.icon} />
-            <span className="mx-2">{item.label}</span>
-            {item.badge && <Badge className="ml-auto" value={item.badge} />}
-            {item.shortcut && <span className="ml-auto border-1 surface-border border-round surface-100 text-xs p-1">{item.shortcut}</span>}
-        </NavLink>
-    );
-
-    const items = (navBarConfig) => [
-        {
-            label: "Courses",
-            icon: "pi pi-fw pi-book",
-            items: navBarConfig.product_categories.map((category) => {
-                return {
-                    label: category.categoryName,
-                    icon: category.categoryIcon,
-                };
-            }),
-        },
-        {
-            label: "Login",
-            icon: "pi pi-fw pi-sign-in",
-            command: () => navigate("/login"),
-            visible: !currentLoggedInUser,
-        },
+    const profileMenuItems = [
         {
             label: "Manage Firm",
-            icon: "pi pi-fw pi-cog",
+            icon: "pi pi-cog",
             command: () => navigate("/manage-firm"),
-            visible: !!currentLoggedInUser && hasGroupAccess(currentLoggedInUser.groups, ["FADMIN", "HADMIN"]),
+            visible: hasGroupAccess(loggedInUser?.groups, ["FADMIN", "HADMIN"]),
         },
         {
-            label: "System Admin",
-            icon: "pi pi-fw pi-prime",
-            command: () => navigate("/manage-system"),
-            visible: !!currentLoggedInUser && hasGroupAccess(currentLoggedInUser.groups, ["HADMIN"]),
+            label: "Profile",
+            icon: "pi pi-user",
+            command: () => navigate("/profile"),
         },
         {
-            label: "Contact",
-            icon: "pi pi-fw pi-envelope",
-            command: () => navigate("/contact"),
-            visible: !currentLoggedInUser,
-        },
-        {
-            label: "Help",
-            icon: "pi pi-fw pi-question-circle",
-            command: () => navigate("/help"),
-            visible: !!currentLoggedInUser,
-        },
-        {
-            label: "Notification",
-            icon: "pi pi-bell",
-            badge: 3,
-            template: itemRenderer,
-            visible: !!currentLoggedInUser && navBarConfig.notifications_visible,
-            command: (e) => setShowNotifications(true),
+            label: "Logout",
+            icon: "pi pi-sign-out",
+            command: () => navigate("/logout"),
         },
     ];
 
     useEffect(() => {
-        requestProxy({
-            requestPath: "/api/ui-config/navbar",
+        requestAPI({
+            requestPath: "api/ui-config/navbar",
             onResponseReceieved: (navBarConfig, responseCode) => {
                 if (navBarConfig && responseCode === 200) {
                     setNavBarConfig(navBarConfig);
@@ -90,52 +46,62 @@ export default function Navbar() {
             },
             setLoading: setLoading,
         });
+
+        // Check if the app is already installed
+        if (!window.matchMedia("(display-mode: standalone)").matches) {
+            window.addEventListener("beforeinstallprompt", (e) => {
+                e.preventDefault();
+                setAppInstallEvent(e);
+                window.removeEventListener("beforeinstallprompt", this);
+            });
+        }
     }, []);
 
-    if (loading && !navBarConfig) {
-        return <NavbarSkeleton />;
+    if (loading) {
+        return <Loading />;
     }
 
-    if (navBarConfig && !loading) {
+    if (navBarConfig) {
         return (
-            <>
-                <Menubar
-                    className="px-4 shadow-3 z-5 relative"
-                    start={
-                        <NavLink to="/" className="p-menuitem-link">
-                            {navBarConfig.hero.image ? (
-                                <Image src={navBarConfig.hero.image} />
-                            ) : (
-                                <span className="text-primary font-bold mr-4 text-3xl">{navBarConfig.hero.text}</span>
-                            )}
-                        </NavLink>
-                    }
-                    model={items(navBarConfig)}
-                    end={
-                        currentLoggedInUser && (
-                            <NavLink to="/profile">
-                                <Avatar image="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png" shape="circle" />
-                            </NavLink>
-                        )
-                    }
-                />
-                {navBarConfig.notifications_visible && (
-                    <Sidebar
-                        visible={showNotifications}
-                        onHide={() => setShowNotifications(false)}
-                        header={<h2 className="text-center m-0 p-0">Notifications</h2>}
-                        pt={{
-                            content: classNames("overflow-visible"),
-                        }}
-                    >
-                        <Notifications />
-                    </Sidebar>
+            <Fragment>
+                <div className="text-white p-3 shadow-4 bg-primary-800 flex justify-content-between align-items-center">
+                    <p className="font-bold m-0 text-sm sm:text-base">Welcome {loggedInUser?.name} To Sahas</p>
+                    <div className="flex align-items-center justify-content-between">
+                        <Button
+                            icon="pi pi-question-circle"
+                            className="p-button-text text-sm sm:text-base p-0 text-white ml-3 w-auto"
+                            onClick={() => window.open(navBarConfig?.whatsapp_connect, "_blank")}
+                        />
+                        <Button
+                            icon="pi pi-share-alt"
+                            className="p-button-text text-sm sm:text-base p-0 text-white ml-3 w-auto"
+                            onClick={() => window.open(navBarConfig?.share_message, "_blank")}
+                        />
+
+                        {loggedInUser && (
+                            <Avatar
+                                icon="pi pi-user"
+                                className="bg-primary-900 ml-3 text-sm sm:text-base"
+                                shape="circle"
+                                onClick={(e) => profileMenu.current.toggle(e)}
+                            />
+                        )}
+                    </div>
+
+                    <Menu model={profileMenuItems} popup ref={profileMenu} />
+                </div>
+
+                {appInstallEvent && (
+                    <div className="flex justify-content-between text text-xs px-3 shadow-4 font-bold align-items-center">
+                        <p>Do you want to install Sahas Smart Studies ?</p>
+                        <Button className="p-0" onClick={() => appInstallEvent.prompt()} severity="warning" label="Install" size="small" text></Button>
+                    </div>
                 )}
-            </>
+            </Fragment>
         );
     }
 
     if (loading && !navBarConfig) {
-        return <p>loading navbar</p>;
+        return <Loading />;
     }
 }

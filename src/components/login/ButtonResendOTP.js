@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useRef, useState } from "react";
-import { requestProxy } from "../../utils";
+import { requestAPI } from "../../utils";
 import { Button } from "primereact/button";
 import { Messages } from "primereact/messages";
 
@@ -9,8 +9,8 @@ export default function ButtonResendOTP({ email }) {
     const message = useRef(null);
 
     const resendOTP = () => {
-        requestProxy({
-            requestPath: "/api/otp/create",
+        requestAPI({
+            requestPath: "api/otp/create",
             requestPostBody: { email },
             requestMethod: "POST",
             setLoading: setLoading,

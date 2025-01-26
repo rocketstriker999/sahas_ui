@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ContentSelector from "../components/content_player/ContentSelector";
-import { requestProxy } from "../utils";
+import { requestAPI } from "../utils";
 import Loading from "../components/common/Loading";
 
 export default function ContentPlayer({ contentType }) {
@@ -12,8 +12,8 @@ export default function ContentPlayer({ contentType }) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        requestProxy({
-            requestPath: `/api/content/${contentType}/${contentId}`,
+        requestAPI({
+            requestPath: `api/content/${contentType}/${contentId}`,
             onResponseReceieved: (content, responseCode) => {
                 if (content && responseCode === 200) {
                     setContent(content);
