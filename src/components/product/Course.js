@@ -57,21 +57,23 @@ export default function Course() {
 
                                     {subject.chapters?.length > 0 ? (
                                         <BlockUI blocked={!course.has_access} template={<i className="pi pi-lock" style={{ fontSize: "3rem" }}></i>}>
-                                            {subject.chapters?.map((chapter, index) => (
-                                                <Fragment>
-                                                    {index !== 0 && <Divider className="m-0 p-0" />}
-                                                    <div
-                                                        className="p-3 border-round shadow-3 mb-2 flex align-items-center justify-content-between"
-                                                        key={chapter.name}
-                                                        onClick={() => {
-                                                            navigate(`/content-player/chapter/${chapter.content_id}`);
-                                                        }}
-                                                    >
-                                                        <span className="text-sm">{chapter.title}</span>
-                                                        <span className="pi pi-angle-right text-primary" />
-                                                    </div>
-                                                </Fragment>
-                                            ))}
+                                            {subject.chapters
+                                                ?.sort((chapterA, chapterB) => chapterA.view_index - chapterB.view_index)
+                                                .map((chapter, index) => (
+                                                    <Fragment>
+                                                        {index !== 0 && <Divider className="m-0 p-0" />}
+                                                        <div
+                                                            className="p-3 border-round shadow-3 mb-2 flex align-items-center justify-content-between"
+                                                            key={chapter.name}
+                                                            onClick={() => {
+                                                                navigate(`/content-player/chapter/${chapter.content_id}`);
+                                                            }}
+                                                        >
+                                                            <span className="text-sm">{chapter.title}</span>
+                                                            <span className="pi pi-angle-right text-primary" />
+                                                        </div>
+                                                    </Fragment>
+                                                ))}
                                         </BlockUI>
                                     ) : (
                                         <NoContent />
