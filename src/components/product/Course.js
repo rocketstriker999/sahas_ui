@@ -42,7 +42,7 @@ export default function Course() {
                 {course.subjects.length > 0 ? (
                     <TabView>
                         {course.subjects
-                            .sort((indexA, indexB) => indexB - indexA)
+                            .sort((subjectA, subjectB) => subjectA.view_index - subjectB.view_index)
                             .map((subject) => (
                                 <TabPanel key={subject.id} header={subject.title}>
                                     {!course.has_access && subject.demo_content_id && (
