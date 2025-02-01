@@ -19,31 +19,35 @@ export default function ContentSelector({ content, setMediaPlayer }) {
             <div className="px-3">
                 {activeTab === 0 &&
                     (content.videos.length > 0 ? (
-                        content.videos.map((video) => (
-                            <div
-                                key={video.id}
-                                onClick={() => setMediaPlayer(<PlayerVideo video={video} />)}
-                                className="p-3 mb-3 border-round shadow-2 flex justify-content-between align-items-center"
-                            >
-                                <span className="text-base font-medium">{video.title}</span>
-                                <i className="pi pi-play text-primary"></i>
-                            </div>
-                        ))
+                        content.videos
+                            ?.sort((videoA, videoB) => videoA.view_index - videoB.view_index)
+                            .map((video) => (
+                                <div
+                                    key={video.id}
+                                    onClick={() => setMediaPlayer(<PlayerVideo video={video} />)}
+                                    className="p-3 mb-3 border-round shadow-2 flex justify-content-between align-items-center"
+                                >
+                                    <span className="text-base font-medium">{video.title}</span>
+                                    <i className="pi pi-play text-primary"></i>
+                                </div>
+                            ))
                     ) : (
                         <NoContent />
                     ))}
                 {activeTab === 1 &&
                     (content.pdfs.length > 0 ? (
-                        content.pdfs.map((pdf) => (
-                            <div
-                                key={pdf.id}
-                                onClick={() => setMediaPlayer(<PlayerPDF pdf={pdf} />)}
-                                className="p-3 mb-3 border-round shadow-2 flex justify-content-between align-items-center"
-                            >
-                                <span className="text-base font-medium">{pdf.title}</span>
-                                <i className="pi pi-file-pdf text-primary"></i>
-                            </div>
-                        ))
+                        content.pdfs
+                            ?.sort((pdfA, pdfB) => pdfA.view_index - pdfB.view_index)
+                            .map((pdf) => (
+                                <div
+                                    key={pdf.id}
+                                    onClick={() => setMediaPlayer(<PlayerPDF pdf={pdf} />)}
+                                    className="p-3 mb-3 border-round shadow-2 flex justify-content-between align-items-center"
+                                >
+                                    <span className="text-base font-medium">{pdf.title}</span>
+                                    <i className="pi pi-file-pdf text-primary"></i>
+                                </div>
+                            ))
                     ) : (
                         <NoContent />
                     ))}
