@@ -38,7 +38,7 @@ export default function Navbar() {
 
     useEffect(() => {
         requestAPI({
-            requestPath: "api/ui-config/navbar",
+            requestPath: "api/configs/navbar",
             onResponseReceieved: (navBarConfig, responseCode) => {
                 if (navBarConfig && responseCode === 200) {
                     setNavBarConfig(navBarConfig);

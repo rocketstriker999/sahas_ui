@@ -14,7 +14,7 @@ export default function Footer() {
     useEffect(() => {
         //hit API Once
         requestAPI({
-            requestPath: "api/ui-config/footer",
+            requestPath: "api/configs/footer",
             setLoading: setLoading,
             onResponseReceieved: (footerConfig, responseCode) => {
                 if (footerConfig && responseCode === 200) {

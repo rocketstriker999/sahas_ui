@@ -11,7 +11,7 @@ export default function CarouselHeader() {
 
     useEffect(() => {
         requestAPI({
-            requestPath: "api/ui-config/carousel",
+            requestPath: "api/configs/carousel",
             onResponseReceieved: (carouselConfig, responseCode) => {
                 if (carouselConfig && responseCode === 200) {
                     setCarouselConfig(carouselConfig);
