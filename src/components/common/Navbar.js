@@ -6,13 +6,12 @@ import { useSelector } from "react-redux";
 import { Button } from "primereact/button";
 import { Menu } from "primereact/menu";
 import Loading from "./Loading";
-import { requestAPI } from "../../utils";
 
 export default function Navbar() {
     const navigate = useNavigate();
     const loggedInUser = useSelector((state) => state.stateUser.user);
-    const [navBarConfig, setNavBarConfig] = useState();
-    const [loading, setLoading] = useState();
+    const configNavBar = useSelector((state) => state.stateTemplate.navbar);
+
     const [appInstallEvent, setAppInstallEvent] = useState();
 
     const profileMenu = useRef(null);
@@ -37,16 +36,6 @@ export default function Navbar() {
     ];
 
     useEffect(() => {
-        requestAPI({
-            requestPath: "api/configs/navbar",
-            onResponseReceieved: (navBarConfig, responseCode) => {
-                if (navBarConfig && responseCode === 200) {
-                    setNavBarConfig(navBarConfig);
-                }
-            },
-            setLoading: setLoading,
-        });
-
         // Check if the app is already installed
         if (!window.matchMedia("(display-mode: standalone)").matches) {
             window.addEventListener("beforeinstallprompt", (e) => {
@@ -57,11 +46,7 @@ export default function Navbar() {
         }
     }, []);
 
-    if (loading) {
-        return <Loading />;
-    }
-
-    if (navBarConfig) {
+    if (configNavBar) {
         return (
             <Fragment>
                 <div className="text-white p-3 shadow-4 bg-primary-800 flex justify-content-between align-items-center">
@@ -70,12 +55,12 @@ export default function Navbar() {
                         <Button
                             icon="pi pi-question-circle"
                             className="p-button-text text-sm sm:text-base p-0 text-white ml-3 w-auto"
-                            onClick={() => window.open(navBarConfig?.whatsapp_connect, "_blank")}
+                            onClick={() => window.open(configNavBar?.whatsapp_connect, "_blank")}
                         />
                         <Button
                             icon="pi pi-share-alt"
                             className="p-button-text text-sm sm:text-base p-0 text-white ml-3 w-auto"
-                            onClick={() => window.open(navBarConfig?.share_message, "_blank")}
+                            onClick={() => window.open(configNavBar?.share_message, "_blank")}
                         />
 
                         {loggedInUser && (
@@ -99,9 +84,5 @@ export default function Navbar() {
                 )}
             </Fragment>
         );
-    }
-
-    if (loading && !navBarConfig) {
-        return <Loading />;
     }
 }

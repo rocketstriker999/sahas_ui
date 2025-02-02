@@ -1,38 +1,21 @@
 import { Galleria } from "primereact/galleria";
 import { Image } from "primereact/image";
-import React, { useEffect, useState } from "react";
-import { requestAPI } from "../../utils";
-import Loading from "../common/Loading";
+import React from "react";
 import { classNames } from "primereact/utils";
+import { useSelector } from "react-redux";
+import NoContent from "../common/NoContent";
 
 export default function CarouselHeader() {
-    const [carouselConfig, setCarouselConfig] = useState();
-    const [loading, setLoading] = useState();
-
-    useEffect(() => {
-        requestAPI({
-            requestPath: "api/configs/carousel",
-            onResponseReceieved: (carouselConfig, responseCode) => {
-                if (carouselConfig && responseCode === 200) {
-                    setCarouselConfig(carouselConfig);
-                }
-            },
-            setLoading: setLoading,
-        });
-    }, []);
+    const carouselImages = useSelector((state) => state.stateTemplate.carousel?.images);
 
     const itemTemplate = (carouselItem) =>
         carouselItem.type === "image" && <Image width="100%" src={`${process.env.REACT_APP_RESOURCES}${carouselItem.image}`} />;
 
-    if (loading) {
-        return <Loading />;
-    }
-
-    if (carouselConfig) {
+    if (carouselImages && carouselImages.length > 0) {
         return (
             <Galleria
                 className="shadow-4"
-                value={carouselConfig?.carouse_images}
+                value={carouselImages}
                 showThumbnails={false}
                 showIndicators
                 showIndicatorsOnItem={true}
@@ -47,4 +30,5 @@ export default function CarouselHeader() {
             />
         );
     }
+    return <NoContent />;
 }

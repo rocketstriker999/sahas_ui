@@ -8,7 +8,7 @@ import { Badge } from "primereact/badge";
 import { useSelector } from "react-redux";
 
 export default function AllProducts() {
-    const catelogue = useSelector((state) => state.stateCatelogue.catelogue);
+    const catelogue = useSelector((state) => state.stateCatelogue);
 
     if (catelogue?.categories?.length > 0 && catelogue?.products?.length > 0) {
         return (

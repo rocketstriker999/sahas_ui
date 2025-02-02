@@ -2,12 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export const sliceCatelogue = createSlice({
     name: "sliceCatelogue",
-    initialState: {
-        catelogue: undefined,
-    },
+    initialState: {},
     reducers: {
         setCatelogue: (state, action) => {
-            state.catelogue = action.payload;
+            Object.assign(state, action.payload);
         },
     },
 });
