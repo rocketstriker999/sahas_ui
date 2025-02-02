@@ -35,7 +35,7 @@ export default function App() {
 
     //const catelogue = useSelector((state) => state.stateCatelogue.catelogue);
 
-    const appConfig = useSelector((state) => state.stateCatelogue.catelogue);
+    const configTemplate = useSelector((state) => state.stateAppConfig.catelogue);
 
     const [loading, setLoading] = useState();
     const [error, setError] = useState();
@@ -43,7 +43,7 @@ export default function App() {
     useEffect(() => {
         if (!catelogue)
             requestAPI({
-                requestPath: "config/app",
+                requestPath: "config/template",
                 setLoading: setLoading,
                 onRequestFailure: setError,
                 onResponseReceieved: (catelogue, responseCode) => {
