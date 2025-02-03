@@ -5,10 +5,8 @@ import { useNavigate, useParams } from "react-router-dom";
 
 export default function Courses() {
     const navigate = useNavigate();
-    const catelogue = useSelector((state) => state.stateCatelogue.catelogue);
     const { productId } = useParams();
-
-    const courses = catelogue?.courses.filter((course) => course.product_id == productId);
+    const courses = useSelector((state) => state.stateCatelogue.courses?.filter((course) => course.product_id == productId));
 
     return courses?.length > 0 ? (
         <Fragment>

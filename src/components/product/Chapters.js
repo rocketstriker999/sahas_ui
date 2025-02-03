@@ -1,5 +1,5 @@
-import { Fragment } from "react";
-import { useNavigate, useOutletContext, useParams } from "react-router-dom";
+import { Fragment, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import NoContent from "../common/NoContent";
 import { BlockUI } from "primereact/blockui";
 import { Button } from "primereact/button";
@@ -8,18 +8,18 @@ import { useSelector } from "react-redux";
 
 export default function Chapters() {
     const navigate = useNavigate();
-    const catelogue = useSelector((state) => state.stateCatelogue.catelogue);
     const { productId } = useParams();
     const { subjectId } = useParams();
 
-    //current product
-    const product = catelogue?.products?.find((product) => product.id == productId);
+    const lockChapters = useSelector((state) => state.stateCatelogue.products?.find((product) => product.id == productId));
     //current subject
-    const subject = catelogue?.subjects?.find((subject) => subject.id == subjectId);
+    const subject = useSelector((state) => state.stateCatelogue.subjects?.find((subject) => subject.id == subjectId));
     //chapters associated to subject
-    const chapters = catelogue?.chapters?.filter((chapter) => chapter.subject_id == subjectId);
+    //const chapters = catelogue?.chapters?.filter((chapter) => chapter.subject_id == subjectId);
+    const chapters = [];
+    useEffect(() => {});
 
-    return subjectId?.length > 0 ? (
+    return (
         <Fragment>
             <div className="flex justify-content-between align-items-center px-3 text-sm font-bold text-primary">
                 <p onClick={() => navigate(-1)}>
@@ -34,7 +34,7 @@ export default function Chapters() {
                         root: classNames("mx-3 "),
                         mask: "bg-black-alpha-80 align-items-start p-4",
                     }}
-                    blocked={!product?.has_access}
+                    blocked={!lockChapters}
                     template={
                         <div className="text-white flex flex-column align-items-center">
                             <i className="pi pi-lock" style={{ fontSize: "3rem" }}></i>
@@ -72,7 +72,5 @@ export default function Chapters() {
                 <NoContent />
             )}
         </Fragment>
-    ) : (
-        <NoContent />
     );
 }

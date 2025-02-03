@@ -51,7 +51,7 @@ export default function App() {
 
     if (template?.navbar)
         return (
-            <div className="max-w-full lg:max-w-30rem lg:mx-auto lg:border-1">
+            <div className="max-w-full lg:max-w-30rem lg:mx-auto lg:border-1 lg:my-2">
                 <ProviderToast>
                     <BrowserRouter>
                         <Routes>

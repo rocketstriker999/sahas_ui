@@ -5,8 +5,7 @@ import { Divider } from "primereact/divider";
 import NoContent from "../common/NoContent";
 
 export default function MyProducts() {
-    const catelogue = useSelector((state) => state.stateCatelogue.catelogue);
-    const myProducts = catelogue?.products?.filter((product) => product.has_access);
+    const myProducts = useSelector((state) => state.stateCatelogue.products?.filter((product) => product.has_access));
 
     return myProducts?.length > 0 ? (
         <div className="mt-3">

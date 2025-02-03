@@ -12,7 +12,7 @@ export default function AskEmail({ updateComponentState }) {
     const generateOTP = () => {
         const email = refUserEmail.current.value;
         if (!/^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com|hotmail\.com|icloud\.com)$/.test(email)) {
-            setError("Enter a valid email address.");
+            setError("Enter Valid Email Address !");
             return;
         }
         setError("");

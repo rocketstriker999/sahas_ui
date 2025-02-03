@@ -5,11 +5,8 @@ import { useSelector } from "react-redux";
 
 export default function Subjects() {
     const navigate = useNavigate();
-    const catelogue = useSelector((state) => state.stateCatelogue.catelogue);
-
     const { courseId } = useParams();
-
-    const subjects = catelogue?.subjects.filter((subject) => subject.course_id == courseId);
+    const subjects = useSelector((state) => state.stateCatelogue.subjects?.filter((subject) => subject.course_id == courseId));
 
     return subjects?.length > 0 ? (
         <Fragment>
