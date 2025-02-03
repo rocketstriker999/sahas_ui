@@ -17,7 +17,7 @@ export default function AskEmail({ updateComponentState }) {
         }
         setError("");
         requestAPI({
-            requestPath: "api/otp/create",
+            requestPath: "otp/create",
             requestPostBody: { email: refUserEmail.current.value },
             requestMethod: "POST",
             setLoading: setLoading,

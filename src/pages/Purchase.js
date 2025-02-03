@@ -22,7 +22,7 @@ export default function Purchase() {
                 productId,
                 coupon: appliedCoupon,
             },
-            requestPath: `api/transactions`,
+            requestPath: `transactions`,
             setLoading: setLoading,
             onResponseReceieved: (transaction, responseCode) => {
                 if (transaction && responseCode === 200) {

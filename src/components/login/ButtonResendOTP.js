@@ -10,7 +10,7 @@ export default function ButtonResendOTP({ email }) {
 
     const resendOTP = () => {
         requestAPI({
-            requestPath: "api/otp/create",
+            requestPath: "otp/create",
             requestPostBody: { email },
             requestMethod: "POST",
             setLoading: setLoading,

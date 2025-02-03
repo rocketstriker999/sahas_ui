@@ -21,7 +21,7 @@ export default function Dashboard() {
 
     useEffect(() => {
         requestAPI({
-            requestPath: "api/catelogue",
+            requestPath: "catelogue",
             setLoading: setLoading,
             onRequestFailure: setError,
             onResponseReceieved: (catelogue, responseCode) => {

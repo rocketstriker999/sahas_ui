@@ -24,7 +24,7 @@ export default function HasPrimaryDetails({ children }) {
                 name,
                 phone,
             },
-            requestPath: `api/users/${loggedInUser.id}/primary-details`,
+            requestPath: `users/${loggedInUser.id}/primary-details`,
             setLoading: setLoading,
             onResponseReceieved: (user, responseCode) => {
                 if (user && responseCode === 200) {

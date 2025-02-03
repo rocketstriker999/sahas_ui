@@ -10,7 +10,7 @@ export default function ProcessToken({ children }) {
 
     useEffect(() => {
         requestAPI({
-            requestPath: "api/token/verify",
+            requestPath: "token/verify",
             setLoading: setLoading,
             onResponseReceieved: (verification, responseCode) => {
                 if (verification && responseCode === 200) {

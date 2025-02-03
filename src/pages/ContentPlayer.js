@@ -13,7 +13,7 @@ export default function ContentPlayer({ contentType }) {
 
     useEffect(() => {
         requestAPI({
-            requestPath: `api/content/${contentType}/${contentId}`,
+            requestPath: `content/${contentType}/${contentId}`,
             onResponseReceieved: (content, responseCode) => {
                 if (content && responseCode === 200) {
                     setContent(content);

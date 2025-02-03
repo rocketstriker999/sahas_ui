@@ -34,7 +34,7 @@ export default function App() {
 
     useEffect(() => {
         requestAPI({
-            requestPath: "api/configs/template",
+            requestPath: "configs/template",
             setLoading: setLoading,
             onRequestFailure: setError,
             onResponseReceieved: (appConfig, responseCode) => {

@@ -18,7 +18,7 @@ export default function AskOTP({ email }) {
 
     const verifyOTP = (otp) => {
         requestAPI({
-            requestPath: "api/otp/verify",
+            requestPath: "otp/verify",
             requestPostBody: {
                 email,
                 otp: otp,
