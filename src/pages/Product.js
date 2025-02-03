@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import NoContent from "../components/common/NoContent";
 
 export default function Product() {
-    const catelogue = useSelector((state) => state.stateCatelogue.catelogue);
+    const catelogue = useSelector((state) => state.stateCatelogue);
     const { productId } = useParams();
     const product = catelogue?.products?.find((product) => product.id == productId);
 

@@ -35,7 +35,7 @@ export default function Dashboard() {
     const options = ["All Courses", "My Courses"];
 
     return (
-        <div className="lg:mx-auto text-center lg:max-w-30rem lg:border-1 lg:p-2 lg:m-2">
+        <div className="text-center ">
             <Navbar />
             <CarouselHeader />
             <SelectButton

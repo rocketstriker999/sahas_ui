@@ -51,56 +51,58 @@ export default function App() {
 
     if (template?.navbar)
         return (
-            <ProviderToast>
-                <BrowserRouter>
-                    <Routes>
-                        <Route path="/" element={<Dashboard />}>
-                            <Route index element={<AllProducts />} />
+            <div className="max-w-full lg:max-w-30rem lg:mx-auto lg:border-1">
+                <ProviderToast>
+                    <BrowserRouter>
+                        <Routes>
+                            <Route path="/" element={<Dashboard />}>
+                                <Route index element={<AllProducts />} />
+                                <Route
+                                    path="my-products"
+                                    element={
+                                        <HasAuthentication>
+                                            <MyProducts />
+                                        </HasAuthentication>
+                                    }
+                                />
+                                <Route
+                                    path="login"
+                                    element={
+                                        <HasNoAuthentication>
+                                            <FormLogin />
+                                        </HasNoAuthentication>
+                                    }
+                                />
+                            </Route>
+
+                            <Route path="/products/:productId" element={<Product />}>
+                                <Route index element={<Courses />} />
+                                <Route path="courses/:courseId">
+                                    <Route index element={<Subjects />} />
+                                    <Route path="subjects/:subjectId" element={<Chapters />} />
+                                </Route>
+                            </Route>
+                            <Route path="/content-player">
+                                <Route path="demo/:subjectId" element={<ContentPlayer contentType="subjects" />} />
+                                <Route path="chapter/:chapterId" element={<ContentPlayer contentType="chapters" />} />
+                            </Route>
+
                             <Route
-                                path="my-products"
+                                path="/purchase/:productId"
                                 element={
                                     <HasAuthentication>
-                                        <MyProducts />
+                                        <HasPrimaryDetails>
+                                            <Purchase />
+                                        </HasPrimaryDetails>
                                     </HasAuthentication>
                                 }
                             />
-                            <Route
-                                path="login"
-                                element={
-                                    <HasNoAuthentication>
-                                        <FormLogin />
-                                    </HasNoAuthentication>
-                                }
-                            />
-                        </Route>
 
-                        <Route path="/products/:productId" element={<Product />}>
-                            <Route index element={<Courses />} />
-                            <Route path="courses/:courseId">
-                                <Route index element={<Subjects />} />
-                                <Route path="subjects/:subjectId" element={<Chapters />} />
-                            </Route>
-                        </Route>
-                        <Route path="/content-player">
-                            <Route path="demo/:subjectId" element={<ContentPlayer contentType="subjects" />} />
-                            <Route path="chapter/:chapterId" element={<ContentPlayer contentType="chapters" />} />
-                        </Route>
-
-                        <Route
-                            path="/purchase/:productId"
-                            element={
-                                <HasAuthentication>
-                                    <HasPrimaryDetails>
-                                        <Purchase />
-                                    </HasPrimaryDetails>
-                                </HasAuthentication>
-                            }
-                        />
-
-                        <Route path="/forbidden" element={<Forbidden />} />
-                        <Route path="*" element={<NotFound />} />
-                    </Routes>
-                </BrowserRouter>
-            </ProviderToast>
+                            <Route path="/forbidden" element={<Forbidden />} />
+                            <Route path="*" element={<NotFound />} />
+                        </Routes>
+                    </BrowserRouter>
+                </ProviderToast>
+            </div>
         );
 }
