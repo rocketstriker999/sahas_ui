@@ -2,6 +2,7 @@ import { Fragment } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import NoContent from "../common/NoContent";
 import { useSelector } from "react-redux";
+import { Ripple } from 'primereact/ripple';
 
 export default function Subjects() {
     const navigate = useNavigate();
@@ -20,8 +21,13 @@ export default function Subjects() {
                 <div
                     key={subject.id}
                     onClick={() => navigate(`subjects/${subject.id}`)}
-                    className="p-3 border-round shadow-3 mb-3 mx-3 flex align-items-center justify-content-between"
+                    className="p-3 border-round shadow-3 mb-3 mx-3 flex align-items-center justify-content-between relative overflow-hidden"
                 >
+                    <Ripple
+                        pt={{
+                            root: { style: { background: 'rgba(102, 189, 240, 0.4)' } }
+                        }}
+                    />
                     <div className="flex flex-column">
                         <p className="text-sm font-bold m-0 mb-2">
                             {index + 1}. {subject.title}

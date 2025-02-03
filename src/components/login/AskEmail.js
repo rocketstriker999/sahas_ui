@@ -39,7 +39,7 @@ export default function AskEmail({ updateComponentState }) {
 
     return (
         <div className="w-11 m-auto">
-            <h1 className="font-bold my-4 text-xl lg:text-3xl text-center">"Enter Email To Continue"</h1>
+            <h1 className="font-bold my-4 text-xl lg:text-2xl text-center">"Enter Email To Continue"</h1>
 
             {error && <p className="text-red-600 text-center text-sm">{error}</p>}
 
@@ -48,7 +48,7 @@ export default function AskEmail({ updateComponentState }) {
             <Divider align="center">
                 <b>OR</b>
             </Divider>
-            <Button className="w-full md:mb-4" outlined label="Need Help To Login" />
+            <Button className="w-full mb-4" outlined label="Need Help To Login" />
         </div>
     );
 }

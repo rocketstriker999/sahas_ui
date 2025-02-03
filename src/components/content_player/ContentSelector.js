@@ -4,6 +4,7 @@ import PlayerVideo from "./PlayerVideo";
 import PlayerAudio from "./PlayerAudio";
 import PlayerPDF from "./PlayerPDF";
 import NoContent from "../common/NoContent";
+import { Ripple } from 'primereact/ripple';
 
 export default function ContentSelector({ content, setMediaPlayer }) {
     const [activeTab, setActiveTab] = useState(0);
@@ -25,8 +26,13 @@ export default function ContentSelector({ content, setMediaPlayer }) {
                                 <div
                                     key={video.id}
                                     onClick={() => setMediaPlayer(<PlayerVideo video={video} />)}
-                                    className="p-3 mb-3 border-round shadow-2 flex justify-content-between align-items-center"
+                                    className="p-3 mb-3 border-round shadow-2 flex justify-content-between align-items-center relative overflow-hidden gap-2"
                                 >
+                                    <Ripple
+                                        pt={{
+                                            root: { style: { background: 'rgba(102, 189, 240, 0.4)' } }
+                                        }}
+                                    />
                                     <span className="text-base font-medium">{video.title}</span>
                                     <i className="pi pi-play text-primary"></i>
                                 </div>
@@ -42,8 +48,13 @@ export default function ContentSelector({ content, setMediaPlayer }) {
                                 <div
                                     key={pdf.id}
                                     onClick={() => setMediaPlayer(<PlayerPDF pdf={pdf} />)}
-                                    className="p-3 mb-3 border-round shadow-2 flex justify-content-between align-items-center"
+                                    className="p-3 mb-3 border-round shadow-2 flex justify-content-between align-items-center relative overflow-hidden gap-2"
                                 >
+                                    <Ripple
+                                        pt={{
+                                            root: { style: { background: 'rgba(102, 189, 240, 0.4)' } }
+                                        }}
+                                    />
                                     <span className="text-base font-medium">{pdf.title}</span>
                                     <i className="pi pi-file-pdf text-primary"></i>
                                 </div>
@@ -57,8 +68,13 @@ export default function ContentSelector({ content, setMediaPlayer }) {
                             <div
                                 key={audio.id}
                                 onClick={() => setMediaPlayer(<PlayerAudio source={audio.url} />)}
-                                className="p-3 mb-3 border-round shadow-2 flex justify-content-between align-items-center"
+                                className="p-3 mb-3 border-round shadow-2 flex justify-content-between align-items-center relative overflow-hidden gap-2"
                             >
+                                <Ripple
+                                    pt={{
+                                        root: { style: { background: 'rgba(102, 189, 240, 0.4)' } }
+                                    }}
+                                />
                                 <span className="text-base font-medium">{audio.title}</span>
                                 <i className="pi pi-headphones text-primary"></i>
                             </div>
