@@ -10,9 +10,9 @@ export default function MyProducts() {
     return myProducts?.length > 0 ? (
         <div className="mt-3">
             {myProducts.map((product, index) => (
-                <Fragment>
+                <Fragment key={product.id}>
                     {index === 0 && <Divider className="p-0 m-0" />}
-                    <Product product={{ ...product, has_access: true }} />
+                    <Product product={product} />
                     <Divider className="p-0 m-0" />
                 </Fragment>
             ))}

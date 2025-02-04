@@ -26,6 +26,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { ProviderToast } from "../providers/ProviderToast";
 import { setTemplate } from "../redux/sliceTemplate";
+import { setCatelogue } from "../redux/sliceCatelogue";
 export default function App() {
     const dispatch = useDispatch();
     const template = useSelector((state) => state.stateTemplate);
@@ -40,6 +41,17 @@ export default function App() {
             onResponseReceieved: (appConfig, responseCode) => {
                 if (appConfig && responseCode === 200) {
                     dispatch(setTemplate(appConfig));
+                }
+            },
+        });
+
+        requestAPI({
+            requestPath: "catelogue",
+            setLoading: setLoading,
+            onRequestFailure: setError,
+            onResponseReceieved: (catelogue, responseCode) => {
+                if (catelogue && responseCode === 200) {
+                    dispatch(setCatelogue(catelogue));
                 }
             },
         });
@@ -82,10 +94,7 @@ export default function App() {
                                     <Route path="subjects/:subjectId" element={<Chapters />} />
                                 </Route>
                             </Route>
-                            <Route path="/content-player">
-                                <Route path="demo/:subjectId" element={<ContentPlayer contentType="subjects" />} />
-                                <Route path="chapter/:chapterId" element={<ContentPlayer contentType="chapters" />} />
-                            </Route>
+                            <Route path="/content-player/:selector/:id" element={<ContentPlayer />} />
 
                             <Route
                                 path="/purchase/:productId"

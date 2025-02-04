@@ -5,7 +5,6 @@ import { hasGroupAccess } from "../../utils";
 import { useSelector } from "react-redux";
 import { Button } from "primereact/button";
 import { Menu } from "primereact/menu";
-import Loading from "./Loading";
 
 export default function Navbar() {
     const navigate = useNavigate();

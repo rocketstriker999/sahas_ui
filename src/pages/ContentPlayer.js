@@ -4,8 +4,8 @@ import ContentSelector from "../components/content_player/ContentSelector";
 import { requestAPI } from "../utils";
 import Loading from "../components/common/Loading";
 
-export default function ContentPlayer({ contentType }) {
-    const { contentId } = useParams();
+export default function ContentPlayer() {
+    const { selector, id } = useParams();
     const [MediaPlayer, setMediaPlayer] = useState();
     const [content, setContent] = useState();
     const [loading, setLoading] = useState();
@@ -13,18 +13,17 @@ export default function ContentPlayer({ contentType }) {
 
     useEffect(() => {
         requestAPI({
-            requestPath: `content/${contentType}/${contentId}`,
+            requestPath: `content/${selector}/${id}`,
             onResponseReceieved: (content, responseCode) => {
                 if (content && responseCode === 200) {
                     setContent(content);
-                }
-                if (responseCode === 401) {
+                } else {
                     navigate("/forbidden");
                 }
             },
             setLoading: setLoading,
         });
-    }, [contentId, contentType, navigate]);
+    }, [selector, id, navigate]);
 
     if (loading) {
         return <Loading />;

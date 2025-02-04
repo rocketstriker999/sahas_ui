@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from "react";
+import { Fragment } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import NoContent from "../common/NoContent";
 import { BlockUI } from "primereact/blockui";
@@ -8,16 +8,13 @@ import { useSelector } from "react-redux";
 
 export default function Chapters() {
     const navigate = useNavigate();
-    const { productId } = useParams();
-    const { subjectId } = useParams();
+    const { productId, subjectId } = useParams();
 
-    const lockChapters = useSelector((state) => state.stateCatelogue.products?.find((product) => product.id == productId));
-    //current subject
-    const subject = useSelector((state) => state.stateCatelogue.subjects?.find((subject) => subject.id == subjectId));
-    //chapters associated to subject
-    //const chapters = catelogue?.chapters?.filter((chapter) => chapter.subject_id == subjectId);
-    const chapters = [];
-    useEffect(() => {});
+    const catelogue = useSelector((state) => state.stateCatelogue);
+
+    const product = catelogue?.products?.find((product) => product.id == productId);
+    const subject = catelogue?.subjects?.find((subject) => subject.id == subjectId);
+    const chapters = catelogue?.chapters?.filter((chapter) => chapter.subject_id == subjectId);
 
     return (
         <Fragment>
@@ -34,7 +31,7 @@ export default function Chapters() {
                         root: classNames("mx-3 "),
                         mask: "bg-black-alpha-80 align-items-start p-4",
                     }}
-                    blocked={!lockChapters}
+                    blocked={!product.has_access}
                     template={
                         <div className="text-white flex flex-column align-items-center">
                             <i className="pi pi-lock" style={{ fontSize: "3rem" }}></i>
@@ -46,7 +43,7 @@ export default function Chapters() {
                     {chapters.map((chapter, index) => (
                         <div
                             key={chapter.id}
-                            onClick={() => navigate(`/content-player/chapter/${chapter.id}`)}
+                            onClick={() => navigate(`/content-player/content/${chapter?.id}`)}
                             className="p-3 border-round shadow-3 mb-3  flex align-items-center justify-content-between"
                         >
                             <div className="flex flex-column">
