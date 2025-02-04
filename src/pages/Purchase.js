@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { requestAPI } from "../utils";
+import { requestService } from "../utils";
 import { useParams } from "react-router-dom";
 import ButtonPay from "../components/purchase/ButtonPay";
 import { Checkbox } from "primereact/checkbox";
@@ -16,7 +16,7 @@ export default function Purchase() {
 
     useEffect(() => {
         //hit API Once
-        requestAPI({
+        requestService({
             requestMethod: "POST",
             requestPostBody: {
                 productId,

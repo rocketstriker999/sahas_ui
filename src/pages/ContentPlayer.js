@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ContentSelector from "../components/content_player/ContentSelector";
-import { requestAPI } from "../utils";
+import { requestService } from "../utils";
 import Loading from "../components/common/Loading";
 
 export default function ContentPlayer() {
@@ -12,7 +12,7 @@ export default function ContentPlayer() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        requestAPI({
+        requestService({
             requestPath: `content/${selector}/${id}`,
             onResponseReceieved: (content, responseCode) => {
                 if (content && responseCode === 200) {

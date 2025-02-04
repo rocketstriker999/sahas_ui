@@ -4,8 +4,15 @@ export function hasGroupAccess(userGroups, allowedGroups) {
     return userGroups ? userGroups.some((group) => allowedGroups.includes(group)) : false;
 }
 
-export async function requestAPI({
+//resource getter
+export const getResource = (resource) => {
+    process.env.REACT_APP_RESOURCES.concat(resource);
+};
+
+//api requests
+export async function requestService({
     requestHeaders = {},
+    requestService = process.env.REACT_APP_API_ADDRESS,
     requestPath,
     requestMethod = "GET",
     requestGetQuery = false,
@@ -26,8 +33,8 @@ export async function requestAPI({
     if (onRequestStart) onRequestStart();
     if (setLoading) setLoading(true);
 
-    //append api backend api address
-    requestPath = process.env.REACT_APP_API_ADDRESS.concat(requestPath);
+    //append api backend service path
+    requestPath = requestService.concat(requestPath);
 
     //api specific path
     if (requestGetQuery) {

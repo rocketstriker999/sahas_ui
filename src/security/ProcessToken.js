@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "../redux/sliceUser";
-import { requestAPI } from "../utils";
+import { requestService } from "../utils";
 import Loading from "../components/common/Loading";
 
 export default function ProcessToken({ children }) {
@@ -9,7 +9,7 @@ export default function ProcessToken({ children }) {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        requestAPI({
+        requestService({
             requestPath: "token/verify",
             setLoading: setLoading,
             onResponseReceieved: (verification, responseCode) => {

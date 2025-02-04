@@ -6,6 +6,7 @@ import ButtonPurchase from "../components/common/ButtonBuyNow";
 import { Button } from "primereact/button";
 import { useSelector } from "react-redux";
 import NoContent from "../components/common/NoContent";
+import { getResource } from "../utils";
 
 export default function Product() {
     const catelogue = useSelector((state) => state.stateCatelogue);
@@ -24,8 +25,8 @@ export default function Product() {
                         className="border-round m-0 p-0 shadow-4"
                         width="100"
                         height="100"
-                        src={`${process.env.REACT_APP_RESOURCES}${product?.image}`}
-                        alt="Product"
+                        src={getResource(product?.image)}
+                        alt={process.env.REACT_APP_FALLBACK_IMAGE}
                     />
                     {product?.access ? <Button label="Receipt" severity="info" raised /> : <ButtonPurchase productId={productId} />}
                 </div>
