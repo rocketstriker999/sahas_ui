@@ -4,7 +4,7 @@ import Loading from "../common/Loading";
 import { requestService } from "../../utils";
 import NoContent from "../common/NoContent";
 
-export default function PlayerVideo({ id }) {
+export default function PlayerVideo({ mediaItem }) {
     const [playBackTimes, setPlayBackTimes] = useLocalStorage({}, "videoPlayBacks");
     const videoRef = useRef(null); // Reference to the video element
     const [loading, setLoading] = useState();
@@ -13,7 +13,7 @@ export default function PlayerVideo({ id }) {
     useEffect(() => {
         requestService({
             requestService: process.env.REACT_APP_STREAM,
-            requestPath: id,
+            requestPath: mediaItem?.id,
             setLoading: setLoading,
             onResponseReceieved: (sources, responseCode) => {
                 if (sources && responseCode === 200) {
@@ -21,7 +21,7 @@ export default function PlayerVideo({ id }) {
                 }
             },
         });
-    }, [id]);
+    }, [mediaItem]);
 
     if (loading) {
         return <Loading />;
@@ -29,14 +29,14 @@ export default function PlayerVideo({ id }) {
 
     return sources.length ? (
         <video
-            onPlay={() => playBackTimes[id] && (videoRef.current.currentTime = playBackTimes[id])}
+            onPlay={() => playBackTimes[mediaItem.id] && (videoRef.current.currentTime = playBackTimes[mediaItem.id])}
             width="100%"
             ref={videoRef}
             controls
             autoPlay
             controlsList="nodownload"
             onTimeUpdate={() => {
-                playBackTimes[id] = videoRef.current.currentTime;
+                playBackTimes[mediaItem.id] = videoRef.current.currentTime;
                 setPlayBackTimes(playBackTimes);
             }}
             onContextMenu={(e) => e.preventDefault()}

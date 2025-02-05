@@ -35,7 +35,7 @@ export default function ContentPlayer() {
                 <div className="bg-gray-900 shadow-4 text-white">
                     {MediaPlayer ? MediaPlayer : <p className="font-bold p-4 m-0">Select Content To Start</p>}
                 </div>
-                <ContentSelector content={content} setMediaPlayer={setMediaPlayer} />
+                <ContentSelector media={content} setMediaPlayer={setMediaPlayer} />
             </Fragment>
         );
     }

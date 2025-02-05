@@ -7,10 +7,11 @@ import { pdfjs } from "react-pdf";
 import { requestService } from "../../utils";
 import Loading from "../common/Loading";
 import NoContent from "../common/NoContent";
+import { useNavigate } from "react-router-dom";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.worker.min.js`;
 
-export default function PlayerPDF({ id }) {
+export default function PlayerPDF({ mediaItem }) {
     const [numPages, setNumPages] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -18,6 +19,8 @@ export default function PlayerPDF({ id }) {
     const [isFullScreen, setIsFullScreen] = useState(false);
 
     const containerRef = useRef(null);
+
+    const navigate = useNavigate();
 
     const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
     const [startDrag, setStartDrag] = useState({ x: 0, y: 0 });
@@ -52,15 +55,13 @@ export default function PlayerPDF({ id }) {
     useEffect(() => {
         requestService({
             requestService: process.env.REACT_APP_STREAM,
-            requestPath: id,
+            requestPath: mediaItem?.id,
             setLoading: setLoading,
             onResponseReceieved: (source, responseCode) => {
-                if (source && responseCode === 200) {
-                    setSource(source);
-                }
+                source && responseCode === 200 ? setSource(source) : navigate("/forbidden");
             },
         });
-    }, [id]);
+    }, [mediaItem, navigate]);
 
     useEffect(() => {
         // Adjust scale on window resize
@@ -93,15 +94,6 @@ export default function PlayerPDF({ id }) {
 
         setIsFullScreen(!isFullScreen);
     };
-
-    // const downloadPDF = () => {
-    //     // if (pdf && pdf.id && pdf.title) {
-    //     //     const downloadUrl = `${process.env.REACT_APP_PDF_STREAM}${pdf.id}`;
-    //     //     saveAs(downloadUrl, `${pdf.title}.pdf`);
-    //     // } else {
-    //     //     console.error("PDF data is incomplete or invalid.");
-    //     // }
-    // };
 
     const disableRightClick = (e) => e.preventDefault();
 
@@ -174,7 +166,7 @@ export default function PlayerPDF({ id }) {
                         className="p-button-rounded p-button-text mr-2"
                         onClick={toggleFullScreenOrZoomOut}
                     />
-                    {/* <Button icon="pi pi-download" className="p-button-rounded p-button-text" onClick={downloadPDF} /> */}
+                    <Button icon="pi pi-download" className="p-button-rounded p-button-text" onClick={() => saveAs(source, `${mediaItem.title}.pdf`)} />
                 </div>
 
                 {/* PDF Page Container with Drag */}
