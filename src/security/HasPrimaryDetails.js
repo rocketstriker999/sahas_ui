@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
-import { requestService } from "../utils";
+import { requestAPI } from "../utils";
 import { setCurrentUser } from "../redux/sliceUser";
 import { useNavigate } from "react-router-dom";
 import { Divider } from "primereact/divider";
@@ -18,7 +18,7 @@ export default function HasPrimaryDetails({ children }) {
     const navigate = useNavigate();
 
     const updatePrimaryDetails = () => {
-        requestService({
+        requestAPI({
             requestMethod: "PATCH",
             requestPostBody: {
                 name,

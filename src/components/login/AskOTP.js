@@ -1,6 +1,6 @@
 import { Divider } from "primereact/divider";
 import { useRef, useState } from "react";
-import { requestService } from "../../utils";
+import { requestAPI } from "../../utils";
 import { InputOtp } from "primereact/inputotp";
 import { classNames } from "primereact/utils";
 import { useDispatch } from "react-redux";
@@ -17,7 +17,7 @@ export default function AskOTP({ email }) {
     const message = useRef(null);
 
     const verifyOTP = (otp) => {
-        requestService({
+        requestAPI({
             requestPath: "otp/verify",
             requestPostBody: {
                 email,

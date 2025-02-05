@@ -19,7 +19,7 @@ import HasPrimaryDetails from "../security/HasPrimaryDetails";
 import Subjects from "../components/product/Subjects";
 import Chapters from "../components/product/Chapters";
 import { useEffect, useState } from "react";
-import { requestService } from "../utils";
+import { requestAPI } from "../utils";
 import Loading from "../components/common/Loading";
 import NoContent from "../components/common/NoContent";
 import { useDispatch, useSelector } from "react-redux";
@@ -34,7 +34,7 @@ export default function App() {
     const [error, setError] = useState();
 
     useEffect(() => {
-        requestService({
+        requestAPI({
             requestPath: "configs/template",
             setLoading: setLoading,
             onRequestFailure: setError,
@@ -45,7 +45,7 @@ export default function App() {
             },
         });
 
-        requestService({
+        requestAPI({
             requestPath: "catelogue",
             setLoading: setLoading,
             onRequestFailure: setError,

@@ -4,7 +4,7 @@ import { Document, Page } from "react-pdf";
 import { saveAs } from "file-saver";
 import { Button } from "primereact/button";
 import { pdfjs } from "react-pdf";
-import { requestService } from "../../utils";
+import { requestAPI } from "../../utils";
 import Loading from "../common/Loading";
 import NoContent from "../common/NoContent";
 import { useNavigate } from "react-router-dom";
@@ -53,8 +53,7 @@ export default function PlayerPDF({ mediaItem }) {
 
     //try to fetch the source
     useEffect(() => {
-        requestService({
-            requestService: process.env.REACT_APP_STREAM,
+        requestAPI({
             requestPath: mediaItem?.id,
             setLoading: setLoading,
             onResponseReceieved: (source, responseCode) => {

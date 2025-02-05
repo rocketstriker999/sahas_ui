@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useRef, useState } from "react";
-import { requestService } from "../../utils";
+import { requestAPI } from "../../utils";
 import { Button } from "primereact/button";
 import { Messages } from "primereact/messages";
 
@@ -9,7 +9,7 @@ export default function ButtonResendOTP({ email }) {
     const message = useRef(null);
 
     const resendOTP = () => {
-        requestService({
+        requestAPI({
             requestPath: "otp/create",
             requestPostBody: { email },
             requestMethod: "POST",

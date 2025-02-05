@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useRef, useState } from "react";
 import { useLocalStorage } from "primereact/hooks";
 import Loading from "../common/Loading";
-import { requestService } from "../../utils";
+import { requestAPI } from "../../utils";
 import NoContent from "../common/NoContent";
 
 export default function PlayerVideo({ mediaItem }) {
@@ -11,8 +11,7 @@ export default function PlayerVideo({ mediaItem }) {
     const [sources, setSources] = useState();
 
     useEffect(() => {
-        requestService({
-            requestService: process.env.REACT_APP_STREAM,
+        requestAPI({
             requestPath: mediaItem?.id,
             setLoading: setLoading,
             onResponseReceieved: (sources, responseCode) => {

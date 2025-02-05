@@ -10,9 +10,8 @@ export const getResource = (resource) => {
 };
 
 //api requests
-export async function requestService({
+export async function requestAPI({
     requestHeaders = {},
-    requestService = process.env.REACT_APP_API_ADDRESS,
     requestPath,
     requestMethod = "GET",
     requestGetQuery = false,
@@ -34,7 +33,7 @@ export async function requestService({
     if (setLoading) setLoading(true);
 
     //append api backend service path
-    requestPath = requestService.concat(requestPath);
+    requestPath = process.env.REACT_APP_API_ADDRESS.concat(requestPath);
 
     //api specific path
     if (requestGetQuery) {
