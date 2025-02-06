@@ -5,9 +5,7 @@ export function hasGroupAccess(userGroups, allowedGroups) {
 }
 
 //resource getter
-export const getResource = (resource) => {
-    process.env.REACT_APP_RESOURCES.concat(resource);
-};
+export const getResource = (resource) => process.env.REACT_APP_BACKEND_SERVER.concat(process.env.REACT_APP_RESOURCES_PATH).concat(resource);
 
 //api requests
 export async function requestAPI({
@@ -33,7 +31,7 @@ export async function requestAPI({
     if (setLoading) setLoading(true);
 
     //append api backend service path
-    requestPath = process.env.REACT_APP_API_ADDRESS.concat(requestPath);
+    requestPath = process.env.REACT_APP_BACKEND_SERVER.concat(process.env.REACT_APP_API_PATH).concat(requestPath);
 
     //api specific path
     if (requestGetQuery) {
