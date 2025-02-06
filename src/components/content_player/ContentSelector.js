@@ -5,7 +5,7 @@ import PlayerAudio from "./PlayerAudio";
 import PlayerPDF from "./PlayerPDF";
 import NoContent from "../common/NoContent";
 
-export default function ContentSelector({ media, setMediaPlayer }) {
+export default function MediaSelector({ media, setMediaPlayer }) {
     const organizedMedia = useMemo(
         () =>
             media.reduce((acc, mediaItem) => {

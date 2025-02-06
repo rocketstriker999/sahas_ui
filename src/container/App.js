@@ -6,7 +6,7 @@ import Dashboard from "../pages/Dashboard";
 // import HasNoAuthentication from "../security/HasAuthentication";
 import Product from "../pages/Product";
 import Courses from "../components/product/Courses";
-import ContentPlayer from "../pages/ContentPlayer";
+import MediaPlayer from "../pages/MediaPlayer";
 import AllProducts from "../components/dashboard/AllProducts";
 import MyProducts from "../components/dashboard/MyProducts";
 import HasAuthentication from "../security/HasAuthentication";
@@ -94,7 +94,7 @@ export default function App() {
                                     <Route path="subjects/:subjectId" element={<Chapters />} />
                                 </Route>
                             </Route>
-                            <Route path="/content-player/:selector/:id" element={<ContentPlayer />} />
+                            <Route path="/media-player/:selector/:id" element={<MediaPlayer />} />
 
                             <Route
                                 path="/purchase/:productId"

@@ -1,22 +1,22 @@
 import { Fragment, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import ContentSelector from "../components/content_player/ContentSelector";
+import MediaSelector from "../components/content_player/MediaSelector";
 import { requestAPI } from "../utils";
 import Loading from "../components/common/Loading";
 
-export default function ContentPlayer() {
+export default function MediaPlayer() {
     const { selector, id } = useParams();
     const [MediaPlayer, setMediaPlayer] = useState();
-    const [content, setContent] = useState();
+    const [media, setMedia] = useState();
     const [loading, setLoading] = useState();
     const navigate = useNavigate();
 
     useEffect(() => {
         requestAPI({
-            requestPath: `content/${selector}/${id}`,
-            onResponseReceieved: (content, responseCode) => {
-                if (content && responseCode === 200) {
-                    setContent(content);
+            requestPath: `media/${selector}/${id}`,
+            onResponseReceieved: (media, responseCode) => {
+                if (media && responseCode === 200) {
+                    setMedia(media);
                 } else {
                     navigate("/forbidden");
                 }
@@ -29,13 +29,11 @@ export default function ContentPlayer() {
         return <Loading />;
     }
 
-    if (!loading && content) {
+    if (!loading && media) {
         return (
             <Fragment>
-                <div className="bg-gray-900 shadow-4 text-white">
-                    {MediaPlayer ? MediaPlayer : <p className="font-bold p-4 m-0">Select Content To Start</p>}
-                </div>
-                <ContentSelector media={content} setMediaPlayer={setMediaPlayer} />
+                <div className="bg-gray-900 shadow-4 text-white">{MediaPlayer ? MediaPlayer : <p className="font-bold p-4 m-0">Select Media To Start</p>}</div>
+                <MediaSelector media={media} setMediaPlayer={setMediaPlayer} />
             </Fragment>
         );
     }

@@ -36,14 +36,14 @@ export default function Chapters() {
                         <div className="text-white flex flex-column align-items-center">
                             <i className="pi pi-lock" style={{ fontSize: "3rem" }}></i>
                             <p>You Don't Have Access To This Content</p>
-                            <Button label="View Demo" onClick={() => navigate(`/content-player/demo/${subject?.id}`)}></Button>
+                            <Button label="View Demo" onClick={() => navigate(`/media-player/subject/${subject?.id}`)}></Button>
                         </div>
                     }
                 >
                     {chapters.map((chapter, index) => (
                         <div
                             key={chapter.id}
-                            onClick={() => navigate(`/content-player/content/${chapter?.id}`)}
+                            onClick={() => navigate(`/media-player/chapter/${chapter?.id}`)}
                             className="p-3 border-round shadow-3 mb-3  flex align-items-center justify-content-between"
                         >
                             <div className="flex flex-column">
