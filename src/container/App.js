@@ -1,7 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import Dashboard from "../pages/Dashboard";
 // import CustomError from "../pages/CustomError";
-// import Login from "../pages/Login";
 // import Forbidden from "../pages/Forbidden";
 // import HasNoAuthentication from "../security/HasAuthentication";
 import Product from "../pages/Product";
