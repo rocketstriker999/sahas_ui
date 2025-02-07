@@ -25,7 +25,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { ProviderToast } from "../providers/ProviderToast";
 import { setTemplate } from "../redux/sliceTemplate";
-import { setCatelogue } from "../redux/sliceCatelogue";
+import ProcessToken from "../security/ProcessToken";
+
 export default function App() {
     const dispatch = useDispatch();
     const template = useSelector((state) => state.stateTemplate);
@@ -43,74 +44,66 @@ export default function App() {
                 }
             },
         });
-
-        requestAPI({
-            requestPath: "catelogue",
-            setLoading: setLoading,
-            onRequestFailure: setError,
-            onResponseReceieved: (catelogue, responseCode) => {
-                if (catelogue && responseCode === 200) {
-                    dispatch(setCatelogue(catelogue));
-                }
-            },
-        });
     }, [dispatch]);
 
-    if (loading) return <Loading message="Loading App Configuration..." />;
+    return (
+        <div className="max-w-full lg:max-w-30rem lg:mx-auto lg:border-1 lg:my-2">
+            {loading && <Loading message="Loading App Configuration..." />}
 
-    if (error) return <NoContent error="Failed To App Configuration, Try Again !" />;
+            {error && <NoContent error="Failed To App Configuration, Try Again !" />}
 
-    if (template?.navbar)
-        return (
-            <div className="max-w-full lg:max-w-30rem lg:mx-auto lg:border-1 lg:my-2">
-                <ProviderToast>
-                    <BrowserRouter>
-                        <Routes>
-                            <Route path="/" element={<Dashboard />}>
-                                <Route index element={<AllProducts />} />
+            {!loading && template && (
+                <ProcessToken>
+                    <ProviderToast>
+                        <BrowserRouter>
+                            <Routes>
+                                <Route path="/" element={<Dashboard />}>
+                                    <Route index element={<AllProducts />} />
+                                    <Route
+                                        path="my-products"
+                                        element={
+                                            <HasAuthentication>
+                                                <MyProducts />
+                                            </HasAuthentication>
+                                        }
+                                    />
+                                    <Route
+                                        path="login"
+                                        element={
+                                            <HasNoAuthentication>
+                                                <FormLogin />
+                                            </HasNoAuthentication>
+                                        }
+                                    />
+                                </Route>
+
+                                <Route path="/products/:productId" element={<Product />}>
+                                    <Route index element={<Courses />} />
+                                    <Route path="courses/:courseId">
+                                        <Route index element={<Subjects />} />
+                                        <Route path="subjects/:subjectId" element={<Chapters />} />
+                                    </Route>
+                                </Route>
+                                <Route path="/media-player/:selector/:id" element={<MediaPlayer />} />
+
                                 <Route
-                                    path="my-products"
+                                    path="/purchase/:productId"
                                     element={
                                         <HasAuthentication>
-                                            <MyProducts />
+                                            <HasPrimaryDetails>
+                                                <Purchase />
+                                            </HasPrimaryDetails>
                                         </HasAuthentication>
                                     }
                                 />
-                                <Route
-                                    path="login"
-                                    element={
-                                        <HasNoAuthentication>
-                                            <FormLogin />
-                                        </HasNoAuthentication>
-                                    }
-                                />
-                            </Route>
 
-                            <Route path="/products/:productId" element={<Product />}>
-                                <Route index element={<Courses />} />
-                                <Route path="courses/:courseId">
-                                    <Route index element={<Subjects />} />
-                                    <Route path="subjects/:subjectId" element={<Chapters />} />
-                                </Route>
-                            </Route>
-                            <Route path="/media-player/:selector/:id" element={<MediaPlayer />} />
-
-                            <Route
-                                path="/purchase/:productId"
-                                element={
-                                    <HasAuthentication>
-                                        <HasPrimaryDetails>
-                                            <Purchase />
-                                        </HasPrimaryDetails>
-                                    </HasAuthentication>
-                                }
-                            />
-
-                            <Route path="/forbidden" element={<Forbidden />} />
-                            <Route path="*" element={<NotFound />} />
-                        </Routes>
-                    </BrowserRouter>
-                </ProviderToast>
-            </div>
-        );
+                                <Route path="/forbidden" element={<Forbidden />} />
+                                <Route path="*" element={<NotFound />} />
+                            </Routes>
+                        </BrowserRouter>
+                    </ProviderToast>
+                </ProcessToken>
+            )}
+        </div>
+    );
 }

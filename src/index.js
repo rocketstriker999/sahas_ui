@@ -10,16 +10,13 @@ import "primeflex/primeflex.css";
 import "primereact/resources/primereact.css";
 import { Provider } from "react-redux";
 import state from "./redux/state";
-import ProcessToken from "./security/ProcessToken";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <React.StrictMode>
         <PrimeReactProvider value={{ ripple: true, appendTo: "self" }}>
             <Provider store={state}>
-                <ProcessToken>
-                    <App />
-                </ProcessToken>
+                <App />
             </Provider>
         </PrimeReactProvider>
     </React.StrictMode>
