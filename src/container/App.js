@@ -26,6 +26,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { ProviderToast } from "../providers/ProviderToast";
 import { setTemplate } from "../redux/sliceTemplate";
+import AdminUserProductAccess from "../components/adminUserProductAccess/adminUserProductAccess";
 export default function App() {
     const dispatch = useDispatch();
     const template = useSelector((state) => state.stateTemplate);
@@ -99,6 +100,7 @@ export default function App() {
                             />
 
                             <Route path="/forbidden" element={<Forbidden />} />
+                            <Route path="/adminUserProductAccess" element={<AdminUserProductAccess />} />
                             <Route path="*" element={<NotFound />} />
                         </Routes>
                     </BrowserRouter>
