@@ -15,19 +15,31 @@ export default function Product() {
 
     return product ? (
         <Fragment>
-            <div className="bg-primary flex p-3 gap-2 shadow-4">
-                <div className="flex-1">
-                    <h1 className="text-white font-bold m-0 mt-4 lg:text-3xl text-base">{product?.title}</h1>
-                    <p className="lg:text-base text-xs text-white m-0 mt-3 line-height-3">{product?.description}</p>
+            <div className="bg-primary p-3 shadow-4">
+                <div className="flex gap-2">
+                    <div className="flex-1">
+                        <h1 className="text-white font-bold m-0 mt-4 lg:text-2xl text-base">{product?.title}</h1>
+                        <p className="lg:text-base text-xs text-white m-0 mt-3 line-height-3">{product?.description}</p>
+                    </div>
+                    <div>
+                        <img
+                            className="border-round m-0 p-0 shadow-4"
+                            width="100"
+                            height="100"
+                            src={getResource(product?.image)}
+                            alt={process.env.REACT_APP_FALLBACK_IMAGE}
+                        />
+                    </div>
                 </div>
-                <div className="flex flex-column gap-3">
-                    <img
-                        className="border-round m-0 p-0 shadow-4"
-                        width="100"
-                        height="100"
-                        src={getResource(product?.image)}
-                        alt={process.env.REACT_APP_FALLBACK_IMAGE}
-                    />
+                <div className="flex gap-2 mt-3 justify-content-end">
+                    {product?.image && product?.image && (
+                        <Button
+                            icon="pi pi-whatsapp"
+                            label="WhatsApp"
+                            className="p-button-success text-xs p-2"
+                            onClick={() => window.open(`https://chat.whatsapp.com/${product.whatsapp_group}`, '_blank')}
+                        />
+                    )}
                     {product?.access ? <Button label="Receipt" severity="info" raised /> : <ButtonPurchase productId={productId} />}
                 </div>
             </div>

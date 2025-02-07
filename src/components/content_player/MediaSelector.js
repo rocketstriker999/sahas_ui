@@ -4,6 +4,7 @@ import PlayerVideo from "./PlayerVideo";
 import PlayerAudio from "./PlayerAudio";
 import PlayerPDF from "./PlayerPDF";
 import NoContent from "../common/NoContent";
+import { Ripple } from 'primereact/ripple';
 
 export default function MediaSelector({ media, setMediaPlayer }) {
     const organizedMedia = useMemo(
@@ -41,8 +42,13 @@ export default function MediaSelector({ media, setMediaPlayer }) {
                         <div
                             key={mediaItem.id}
                             onClick={() => setMediaPlayer(<currentTab.media_player mediaItem={mediaItem} />)}
-                            className="p-3 mb-3 border-round shadow-2 flex justify-content-between align-items-center"
+                            className="p-3 mb-3 border-round shadow-2 flex justify-content-between align-items-center relative overflow-hidden gap-2"
                         >
+                            <Ripple
+                                pt={{
+                                    root: { style: { background: 'rgba(102, 189, 240, 0.4)' } }
+                                }}
+                            />
                             <span className="text-base font-medium">{mediaItem.title}</span>
                             <i className="pi pi-play text-primary"></i>
                         </div>

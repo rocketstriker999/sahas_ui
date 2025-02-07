@@ -5,6 +5,7 @@ import { BlockUI } from "primereact/blockui";
 import { Button } from "primereact/button";
 import { classNames } from "primereact/utils";
 import { useSelector } from "react-redux";
+import { Ripple } from 'primereact/ripple';
 
 export default function Chapters() {
     const navigate = useNavigate();
@@ -44,8 +45,13 @@ export default function Chapters() {
                         <div
                             key={chapter.id}
                             onClick={() => navigate(`/media-player/chapter/${chapter?.id}`)}
-                            className="p-3 border-round shadow-3 mb-3  flex align-items-center justify-content-between"
+                            className="p-3 border-round shadow-3 mb-3  flex align-items-center justify-content-between relative overflow-hidden"
                         >
+                            <Ripple
+                                pt={{
+                                    root: { style: { background: 'rgba(102, 189, 240, 0.4)' } }
+                                }}
+                            />
                             <div className="flex flex-column">
                                 <p className="text-sm font-bold m-0 mb-2">
                                     {index + 1}. {chapter.title}
