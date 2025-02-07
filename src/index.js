@@ -10,13 +10,18 @@ import "primeflex/primeflex.css";
 import "primereact/resources/primereact.css";
 import { Provider } from "react-redux";
 import state from "./redux/state";
+import { ProviderToast } from "./providers/ProviderToast";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <React.StrictMode>
         <PrimeReactProvider value={{ ripple: true, appendTo: "self" }}>
             <Provider store={state}>
-                <App />
+                <ProviderToast>
+                    <div className="max-w-full lg:max-w-30rem lg:mx-auto lg:border-1 lg:my-2">
+                        <App />
+                    </div>
+                </ProviderToast>
             </Provider>
         </PrimeReactProvider>
     </React.StrictMode>
