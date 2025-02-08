@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "primeflex/primeflex.css";
 import "primeicons/primeicons.css";
 import { useNavigate } from "react-router-dom";
-import { requestAPI } from "../../utils/utils";
 import { Divider } from "primereact/divider";
 import FooterSkeleton from "./Skeletons/FooterSkeleton";
 
@@ -10,23 +9,6 @@ export default function Footer() {
     const navigate = useNavigate();
     const [footerConfig, setFooterConfig] = useState();
     const [loading, setLoading] = useState();
-
-    useEffect(() => {
-        //hit API Once
-        requestAPI({
-            requestPath: "configs/footer",
-            setLoading: setLoading,
-            onResponseReceieved: (footerConfig, responseCode) => {
-                if (footerConfig && responseCode === 200) {
-                    setFooterConfig(footerConfig);
-                }
-            },
-        });
-    }, []);
-
-    if (loading && !footerConfig) {
-        return <FooterSkeleton />;
-    }
 
     if (!loading && footerConfig) {
         return (

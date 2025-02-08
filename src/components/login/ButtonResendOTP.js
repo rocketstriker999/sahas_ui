@@ -28,7 +28,6 @@ export default function ButtonResendOTP({ email }) {
 
     useEffect(() => {
         setTimeout(() => {
-            console.log("RUNNING ", waitTime);
             if (waitTime > 0) {
                 setWaitTime(waitTime - 1);
             }
