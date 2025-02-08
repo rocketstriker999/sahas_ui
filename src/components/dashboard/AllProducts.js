@@ -5,10 +5,10 @@ import { Divider } from "primereact/divider";
 import Product from "./Product";
 import NoContent from "../common/NoContent";
 import { Badge } from "primereact/badge";
-import { useSelector } from "react-redux";
+import { useAppContext } from "../../providers/ProviderAppContainer";
 
 export default function AllProducts() {
-    const catelogue = useSelector((state) => state.stateCatelogue);
+    const { catelogue } = useAppContext();
 
     if (catelogue?.categories?.length > 0 && catelogue?.products?.length > 0) {
         return (

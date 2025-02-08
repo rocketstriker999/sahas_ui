@@ -5,11 +5,12 @@ import { hasGroupAccess } from "../../utils";
 import { useSelector } from "react-redux";
 import { Button } from "primereact/button";
 import { Menu } from "primereact/menu";
+import { useAppContext } from "../../providers/ProviderAppContainer";
 
 export default function Navbar() {
     const navigate = useNavigate();
     const loggedInUser = useSelector((state) => state.stateUser.user);
-    const configNavBar = useSelector((state) => state.stateTemplate.navbar);
+    const { templateConfig } = useAppContext();
 
     const [appInstallEvent, setAppInstallEvent] = useState();
 
@@ -45,7 +46,7 @@ export default function Navbar() {
         }
     }, []);
 
-    if (configNavBar) {
+    if (templateConfig?.navbar) {
         return (
             <Fragment>
                 <div className="text-white p-3 shadow-4 bg-primary-800 flex justify-content-between align-items-center">
@@ -54,12 +55,12 @@ export default function Navbar() {
                         <Button
                             icon="pi pi-question-circle"
                             className="p-button-text text-sm sm:text-base p-0 text-white ml-3 w-auto"
-                            onClick={() => window.open(configNavBar?.whatsapp_connect, "_blank")}
+                            onClick={() => window.open(templateConfig?.navbar?.whatsapp_connect, "_blank")}
                         />
                         <Button
                             icon="pi pi-share-alt"
                             className="p-button-text text-sm sm:text-base p-0 text-white ml-3 w-auto"
-                            onClick={() => window.open(configNavBar?.share_message, "_blank")}
+                            onClick={() => window.open(templateConfig?.navbar?.share_message, "_blank")}
                         />
 
                         {loggedInUser && (

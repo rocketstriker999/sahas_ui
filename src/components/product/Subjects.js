@@ -1,12 +1,15 @@
 import { Fragment } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import NoContent from "../common/NoContent";
-import { useSelector } from "react-redux";
+import { useAppContext } from "../../providers/ProviderAppContainer";
 
 export default function Subjects() {
     const navigate = useNavigate();
     const { courseId } = useParams();
-    const subjects = useSelector((state) => state.stateCatelogue.subjects?.filter((subject) => subject.course_id == courseId));
+
+    const { catelogue } = useAppContext();
+
+    const subjects = catelogue?.subjects?.filter((subject) => subject.course_id == courseId);
 
     return subjects?.length > 0 ? (
         <Fragment>

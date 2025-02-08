@@ -4,12 +4,13 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import ButtonPurchase from "../components/common/ButtonBuyNow";
 import { Button } from "primereact/button";
-import { useSelector } from "react-redux";
 import NoContent from "../components/common/NoContent";
 import { getResource } from "../utils";
+import { useAppContext } from "../providers/ProviderAppContainer";
 
 export default function Product() {
-    const catelogue = useSelector((state) => state.stateCatelogue);
+    const { catelogue } = useAppContext();
+
     const { productId } = useParams();
     const product = catelogue?.products?.find((product) => product.id == productId);
 

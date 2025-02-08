@@ -2,21 +2,21 @@ import { Galleria } from "primereact/galleria";
 import { Image } from "primereact/image";
 import React from "react";
 import { classNames } from "primereact/utils";
-import { useSelector } from "react-redux";
 import NoContent from "../common/NoContent";
 import { getResource } from "../../utils";
+import { useAppContext } from "../../providers/ProviderAppContainer";
 
 export default function CarouselHeader() {
-    const carouselImages = useSelector((state) => state.stateTemplate.carousel?.images);
+    const { templateConfig } = useAppContext();
 
     const itemTemplate = (carouselItem) =>
         carouselItem.type === "image" && <Image width="100%" src={getResource(carouselItem?.image)} alt={process.env.REACT_APP_FALLBACK_IMAGE} />;
 
-    if (carouselImages && carouselImages.length > 0) {
+    if (templateConfig?.carousel?.images && templateConfig?.carousel?.images?.length) {
         return (
             <Galleria
                 className="shadow-4"
-                value={carouselImages}
+                value={templateConfig?.carousel?.images}
                 showThumbnails={false}
                 showIndicators
                 showIndicatorsOnItem={true}

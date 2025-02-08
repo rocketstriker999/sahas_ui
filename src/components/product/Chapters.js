@@ -4,13 +4,13 @@ import NoContent from "../common/NoContent";
 import { BlockUI } from "primereact/blockui";
 import { Button } from "primereact/button";
 import { classNames } from "primereact/utils";
-import { useSelector } from "react-redux";
+import { useAppContext } from "../../providers/ProviderAppContainer";
 
 export default function Chapters() {
     const navigate = useNavigate();
     const { productId, subjectId } = useParams();
 
-    const catelogue = useSelector((state) => state.stateCatelogue);
+    const { catelogue } = useAppContext();
 
     const product = catelogue?.products?.find((product) => product.id == productId);
     const subject = catelogue?.subjects?.find((subject) => subject.id == subjectId);

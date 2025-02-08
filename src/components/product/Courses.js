@@ -1,12 +1,15 @@
 import { Fragment } from "react";
 import NoContent from "../common/NoContent";
-import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import { useAppContext } from "../../providers/ProviderAppContainer";
 
 export default function Courses() {
     const navigate = useNavigate();
     const { productId } = useParams();
-    const courses = useSelector((state) => state.stateCatelogue.courses?.filter((course) => course.product_id == productId));
+
+    const { catelogue } = useAppContext();
+
+    const courses = catelogue.courses?.filter((course) => course.product_id == productId);
 
     return courses?.length > 0 ? (
         <Fragment>
