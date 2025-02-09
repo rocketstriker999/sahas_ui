@@ -2,12 +2,18 @@ import { Button } from "primereact/button";
 import { useNavigate } from "react-router-dom";
 import ButtonPurchase from "../common/ButtonBuyNow";
 import { getResource } from "../../utils";
+import { Ripple } from 'primereact/ripple';
 
 export default function Product({ product }) {
     const navigate = useNavigate();
 
     return (
-        <div className="flex gap-3 p-3 align-items-start">
+        <div className="flex gap-3 p-3 align-items-start relative overflow-hidden" onClick={() => navigate(`/products/${product.id}`)}>
+            <Ripple
+                pt={{
+                    root: { style: { background: 'rgba(102, 189, 240, 0.4)' } }
+                }}
+            />
             <img className="border-round shadow-4" width="100" height="100" src={getResource(product.image)} alt={process.env.REACT_APP_FALLBACK_IMAGE} />
             <div className="flex flex-column gap-2 w-full">
                 <span className="font-bold text-sm text-left">{product.title}</span>
@@ -18,8 +24,12 @@ export default function Product({ product }) {
                     </div>
                 )}
                 <div className="flex gap-2">
-                    {!product.has_access && <ButtonPurchase productId={product.id} />}
-                    <Button className="text-xs p-2" label="More Details" severity="info" text onClick={() => navigate(`/products/${product.id}`)} />
+                    {!product.has_access && <ButtonPurchase productId={product.id} onClick={(e) => e.stopPropagation()} />}
+                    <Button className="text-xs p-2" label="More Details" severity="info" text
+                        onClick={(e) => {
+                            e.stopPropagation();  // Prevent div click event
+                            navigate(`/products/${product.id}`);  // Redirect to More Details
+                        }} />
                 </div>
             </div>
         </div>
