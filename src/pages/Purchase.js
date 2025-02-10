@@ -5,14 +5,14 @@ import ButtonPay from "../components/purchase/ButtonPay";
 import { Checkbox } from "primereact/checkbox";
 import { Divider } from "primereact/divider";
 import Loading from "../components/common/Loading";
-import CouponApplier from "../components/purchase/CouponApplier";
+import CouponCodeApplier from "../components/purchase/CouponCodeApplier";
 
 export default function Purchase() {
     const [transaction, setTransaction] = useState();
     const [loading, setLoading] = useState();
     const { productId } = useParams();
     const [termsAccepted, setTermsAccepted] = useState(false);
-    const [appliedCoupon, setAppliedCoupon] = useState();
+    const [appliedCouponCode, setAppliedCouponCode] = useState();
 
     useEffect(() => {
         //hit API Once
@@ -20,7 +20,7 @@ export default function Purchase() {
             requestMethod: "POST",
             requestPostBody: {
                 productId,
-                coupon: appliedCoupon,
+                couponCode: appliedCouponCode,
             },
             requestPath: `/api/transactions`,
             setLoading: setLoading,
@@ -30,7 +30,7 @@ export default function Purchase() {
                 }
             },
         });
-    }, [productId, appliedCoupon]);
+    }, [productId, appliedCouponCode]);
 
     if (loading) {
         return <Loading />;
@@ -60,7 +60,7 @@ export default function Purchase() {
                     <span className="font-bold">CGST</span>
                     <span className="font-bold">{transaction.cgst} Rs.</span>
                 </div>
-                <CouponApplier appliedCoupon={appliedCoupon} couponBenifit={transaction.benifit} applyCoupon={setAppliedCoupon} />
+                <CouponCodeApplier appliedCouponCode={appliedCouponCode} couponCodeBenifit={transaction.benifit} applyCouponCode={setAppliedCouponCode} />
 
                 <Divider />
 
