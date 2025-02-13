@@ -42,7 +42,7 @@ const AdminUserProductAccess = () => {
         setError(false);
     
         await requestAPI({
-            requestPath: "temp-addUserProductAccess",
+            requestPath: "access/temp-addUserProductAccess",
             requestMethod: "POST",
             requestPostBody: {
                 email,
