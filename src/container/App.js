@@ -19,7 +19,7 @@ import Subjects from "../components/product/Subjects";
 import Chapters from "../components/product/Chapters";
 import { BrowserRouter } from "react-router-dom";
 import ProcessToken from "../security/ProcessToken";
-import AdminUserProductAccess from "../components/temp_admin/adminUserProductAccess";
+import AdminUserProductAccess from "../components/temp_admin/AdminUserProductAccess";
 
 export default function App() {
     return (
