@@ -53,7 +53,7 @@ export async function requestAPI({
         // Adding method type
         method: requestMethod.toUpperCase(),
         //Adding Cookies as well
-        credentials: "same-origin",
+        credentials: "include",
     };
 
     if (requestPostBody) {
