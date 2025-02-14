@@ -20,6 +20,7 @@ import Chapters from "../components/product/Chapters";
 import { BrowserRouter } from "react-router-dom";
 import ProcessToken from "../security/ProcessToken";
 import AdminUserProductAccess from "../components/temp_admin/AdminUserProductAccess";
+import AdmissionForm from "../components/temp_admin/AdmissionForm";
 
 export default function App() {
     return (
@@ -65,7 +66,8 @@ export default function App() {
                             </HasAuthentication>
                         }
                     />
-                    <Route path="/adminUserProductAccess" element={<AdminUserProductAccess />} />               
+                    <Route path="/adminUserProductAccess" element={<AdminUserProductAccess />} />
+                    <Route path="/admissionForm" element={<AdmissionForm />} />               
                     <Route path="/forbidden" element={<Forbidden />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
