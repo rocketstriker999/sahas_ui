@@ -1,8 +1,9 @@
-import { Fragment, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocalStorage } from "primereact/hooks";
 import Loading from "../common/Loading";
 import { requestAPI } from "../../utils";
 import NoContent from "../common/NoContent";
+import { useParams } from "react-router-dom";
 
 export default function PlayerVideo({ mediaItem }) {
     const [playBackTimes, setPlayBackTimes] = useLocalStorage({}, "videoPlayBacks");
@@ -10,23 +11,25 @@ export default function PlayerVideo({ mediaItem }) {
     const [loading, setLoading] = useState();
     const [sources, setSources] = useState();
 
+    const { selector, id } = useParams();
+
     useEffect(() => {
         requestAPI({
-            requestPath: mediaItem?.id,
+            requestPath: `media/${selector}/${id}/extract/${mediaItem?.id}`,
             setLoading: setLoading,
-            onResponseReceieved: (sources, responseCode) => {
+            onResponseReceieved: ({ sources }, responseCode) => {
                 if (sources && responseCode === 200) {
                     setSources(sources);
                 }
             },
         });
-    }, [mediaItem]);
+    }, [id, mediaItem, selector]);
 
     if (loading) {
         return <Loading />;
     }
 
-    return sources.length ? (
+    return sources?.length ? (
         <video
             onPlay={() => playBackTimes[mediaItem.id] && (videoRef.current.currentTime = playBackTimes[mediaItem.id])}
             width="100%"
@@ -45,6 +48,6 @@ export default function PlayerVideo({ mediaItem }) {
             ))}
         </video>
     ) : (
-        <NoContent />
+        <NoContent error="Couldn't Stream The Media" />
     );
 }
