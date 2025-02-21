@@ -15,7 +15,7 @@ export default function PlayerVideo({ mediaItem }) {
 
     useEffect(() => {
         requestAPI({
-            requestPath: `media/${selector}/${id}/extract/${mediaItem?.id}`,
+            requestPath: `extract/${selector}/${id}/${mediaItem?.id}`,
             setLoading: setLoading,
             onResponseReceieved: ({ sources }, responseCode) => {
                 if (sources && responseCode === 200) {

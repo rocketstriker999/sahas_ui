@@ -3,6 +3,8 @@ import React, { createContext, useContext, useEffect, useRef, useState } from "r
 import Loading from "../components/common/Loading";
 import { requestAPI } from "../utils";
 import NoContent from "../components/common/NoContent";
+import { useSelector } from "react-redux";
+import ProcessToken from "../security/ProcessToken";
 
 const ContextApp = createContext();
 
@@ -16,6 +18,8 @@ export const ProviderAppContainer = ({ children }) => {
 
     const [error, setError] = useState();
 
+    const loggedInUser = useSelector((state) => state.stateUser.user);
+
     useEffect(() => {
         requestAPI({
             requestPath: "configs/template",
@@ -27,6 +31,9 @@ export const ProviderAppContainer = ({ children }) => {
                 }
             },
         });
+    }, []);
+
+    useEffect(() => {
         requestAPI({
             requestPath: "catelogue",
             setLoading: setLoadingCatelogue,
@@ -37,7 +44,7 @@ export const ProviderAppContainer = ({ children }) => {
                 }
             },
         });
-    }, []);
+    }, [loggedInUser]);
 
     const generateAppView = () => {
         if (loadingTemplateConfig || loadingCatelogue) return <Loading message="Loading App Configuration..." />;
@@ -49,7 +56,7 @@ export const ProviderAppContainer = ({ children }) => {
         <div className="max-w-full lg:max-w-30rem lg:mx-auto lg:border-1 lg:my-2">
             <ContextApp.Provider value={{ toast, templateConfig, catelogue }}>
                 <Toast ref={toast} position="top-right" />
-                {generateAppView()}
+                <ProcessToken>{generateAppView()}</ProcessToken>
             </ContextApp.Provider>
         </div>
     );
