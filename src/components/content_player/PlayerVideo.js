@@ -3,7 +3,7 @@ import { useLocalStorage } from "primereact/hooks";
 import Loading from "../common/Loading";
 import { requestAPI } from "../../utils";
 import NoContent from "../common/NoContent";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function PlayerVideo({ mediaItem }) {
     const [playBackTimes, setPlayBackTimes] = useLocalStorage({}, "videoPlayBacks");
@@ -12,18 +12,15 @@ export default function PlayerVideo({ mediaItem }) {
     const [sources, setSources] = useState();
 
     const { selector, id } = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
         requestAPI({
             requestPath: `extract/${selector}/${id}/${mediaItem?.id}`,
             setLoading: setLoading,
-            onResponseReceieved: ({ sources }, responseCode) => {
-                if (sources && responseCode === 200) {
-                    setSources(sources);
-                }
-            },
+            onResponseReceieved: ({ sources }, responseCode) => (sources && responseCode === 200 ? setSources(sources) : navigate("/forbidden")),
         });
-    }, [id, mediaItem, selector]);
+    }, [id, mediaItem, navigate, selector]);
 
     if (loading) {
         return <Loading />;

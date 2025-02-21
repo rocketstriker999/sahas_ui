@@ -58,9 +58,7 @@ export default function PlayerPDF({ mediaItem }) {
         requestAPI({
             requestPath: `extract/${selector}/${id}/${mediaItem?.id}`,
             setLoading: setLoading,
-            onResponseReceieved: (source, responseCode) => {
-                source && responseCode === 200 ? setSource(source) : navigate("/forbidden");
-            },
+            onResponseReceieved: (source, responseCode) => (source && responseCode === 200 ? setSource(source) : navigate("/forbidden")),
         });
     }, [id, mediaItem, navigate, selector]);
 
