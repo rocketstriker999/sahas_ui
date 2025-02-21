@@ -7,7 +7,7 @@ import { pdfjs } from "react-pdf";
 import { requestAPI } from "../../utils";
 import Loading from "../common/Loading";
 import NoContent from "../common/NoContent";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.worker.min.js`;
 
@@ -51,16 +51,18 @@ export default function PlayerPDF({ mediaItem }) {
         setScale(Math.min(scaleWidth, scaleHeight));
     };
 
+    const { selector, id } = useParams();
+
     //try to fetch the source
     useEffect(() => {
         requestAPI({
-            requestPath: mediaItem?.id,
+            requestPath: `extract/${selector}/${id}/${mediaItem?.id}`,
             setLoading: setLoading,
             onResponseReceieved: (source, responseCode) => {
                 source && responseCode === 200 ? setSource(source) : navigate("/forbidden");
             },
         });
-    }, [mediaItem, navigate]);
+    }, [id, mediaItem, navigate, selector]);
 
     useEffect(() => {
         // Adjust scale on window resize
