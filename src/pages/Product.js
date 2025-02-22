@@ -33,7 +33,7 @@ export default function Product() {
                     </div>
                 </div>
                 <div className="flex gap-2 mt-3 justify-content-end">
-                    {product?.whatsapp_group && product?.access && (
+                    {product?.whatsapp_group && product?.has_access && (
                         <Button
                             icon="pi pi-whatsapp"
                             label="WhatsApp"
@@ -41,7 +41,7 @@ export default function Product() {
                             onClick={() => window.open(`https://chat.whatsapp.com/${product.whatsapp_group}`, "_blank")}
                         />
                     )}
-                    {product?.access ? <Button label="Receipt" severity="info" raised /> : <ButtonPurchase productId={productId} />}
+                    {product?.has_access ? <Button label="Receipt" severity="info" raised /> : <ButtonPurchase productId={productId} />}
                 </div>
             </div>
             <Outlet />

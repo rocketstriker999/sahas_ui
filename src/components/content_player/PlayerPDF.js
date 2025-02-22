@@ -33,9 +33,7 @@ export default function PlayerPDF({ mediaItem }) {
     const { selector, id } = useParams();
 
     //const [loading, setLoading] = useState();
-    const [source, setSource] = useState(
-        process.env.REACT_APP_BACKEND_SERVER.concat(process.env.REACT_APP_API_PATH).concat(`extract/${selector}/${id}/${mediaItem?.id}`)
-    );
+    const source = process.env.REACT_APP_BACKEND_SERVER.concat(process.env.REACT_APP_API_PATH).concat(`extract/${selector}/${id}/${mediaItem?.id}`);
 
     const adjustScaleToFit = () => {
         const container = containerRef.current;
