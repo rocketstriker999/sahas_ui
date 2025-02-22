@@ -3,12 +3,15 @@ import NoContent from "../common/NoContent";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import { Ripple } from "primereact/ripple";
+import { Button } from "primereact/button";
 
 export default function Courses() {
     const navigate = useNavigate();
     const { productId } = useParams();
 
     const { catelogue } = useAppContext();
+
+    const product = catelogue?.products?.find((product) => product.id == productId);
 
     const courses = catelogue.courses?.filter((course) => course.product_id == productId);
 
@@ -39,6 +42,14 @@ export default function Courses() {
                             <i className="pi pi-book mr-1 text-primary"></i>
                             <span className="text-xs text-gray-800">{course.subjects_count} Subjects</span>
                         </div>
+                        {course?.whatsapp_group && product?.has_access && (
+                            <Button
+                                icon="pi pi-whatsapp"
+                                label="Join WhatsApp Group"
+                                className="p-button-success text-xs p-2 mt-2"
+                                onClick={() => window.open(`https://chat.whatsapp.com/${course.whatsapp_group}`, "_blank")}
+                            />
+                        )}
                     </div>
                     <i className="pi pi-angle-right text-primary"></i>
                 </div>
