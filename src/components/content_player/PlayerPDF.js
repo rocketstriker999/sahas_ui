@@ -4,7 +4,7 @@ import { Document, Page } from "react-pdf";
 import { saveAs } from "file-saver";
 import { Button } from "primereact/button";
 import { pdfjs } from "react-pdf";
-import { requestAPI } from "../../utils";
+import { getResource, requestAPI } from "../../utils";
 import Loading from "../common/Loading";
 import NoContent from "../common/NoContent";
 import { useNavigate, useParams } from "react-router-dom";
@@ -20,7 +20,7 @@ export default function PlayerPDF({ mediaItem }) {
 
     const containerRef = useRef(null);
 
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
 
     const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
     const [startDrag, setStartDrag] = useState({ x: 0, y: 0 });
@@ -30,9 +30,12 @@ export default function PlayerPDF({ mediaItem }) {
         setNumPages(numPages);
         adjustScaleToFit();
     };
+    const { selector, id } = useParams();
 
-    const [loading, setLoading] = useState();
-    const [source, setSource] = useState();
+    //const [loading, setLoading] = useState();
+    const [source, setSource] = useState(
+        process.env.REACT_APP_BACKEND_SERVER.concat(process.env.REACT_APP_API_PATH).concat(`extract/${selector}/${id}/${mediaItem?.id}`)
+    );
 
     const adjustScaleToFit = () => {
         const container = containerRef.current;
@@ -51,16 +54,21 @@ export default function PlayerPDF({ mediaItem }) {
         setScale(Math.min(scaleWidth, scaleHeight));
     };
 
-    const { selector, id } = useParams();
-
     //try to fetch the source
-    useEffect(() => {
-        requestAPI({
-            requestPath: `extract/${selector}/${id}/${mediaItem?.id}`,
-            setLoading: setLoading,
-            onResponseReceieved: (source, responseCode) => (source && responseCode === 200 ? setSource(source) : navigate("/forbidden")),
-        });
-    }, [id, mediaItem, navigate, selector]);
+    // useEffect(() => {
+    //     requestAPI({
+    //         requestPath: ``,
+    //         setLoading: setLoading,
+    //         onResponseReceieved: async (source, responseCode) => {
+    //             if (source && responseCode === 200) {
+    //                 console.log(source);
+    //                 setSource(getResource(source));
+    //             } else {
+    //                 navigate("/forbidden");
+    //             }
+    //         },
+    //     });
+    // }, [id, mediaItem, navigate, selector, source]);
 
     useEffect(() => {
         // Adjust scale on window resize
@@ -120,9 +128,9 @@ export default function PlayerPDF({ mediaItem }) {
 
     const endDragHandler = () => setIsDragging(false);
 
-    if (loading) {
-        return <Loading />;
-    }
+    // if (loading) {
+    //     return <Loading />;
+    // }
 
     return source ? (
         <div className="flex flex-column w-full h-full">
@@ -165,7 +173,9 @@ export default function PlayerPDF({ mediaItem }) {
                         className="p-button-rounded p-button-text mr-2"
                         onClick={toggleFullScreenOrZoomOut}
                     />
-                    <Button icon="pi pi-download" className="p-button-rounded p-button-text" onClick={() => saveAs(source, `${mediaItem.title}.pdf`)} />
+                    {mediaItem.downloadable && (
+                        <Button icon="pi pi-download" className="p-button-rounded p-button-text" onClick={() => saveAs(source, `${mediaItem.title}.pdf`)} />
+                    )}
                 </div>
 
                 {/* PDF Page Container with Drag */}

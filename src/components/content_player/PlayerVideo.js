@@ -18,7 +18,7 @@ export default function PlayerVideo({ mediaItem }) {
         requestAPI({
             requestPath: `extract/${selector}/${id}/${mediaItem?.id}`,
             setLoading: setLoading,
-            onResponseReceieved: ({ sources }, responseCode) => (sources && responseCode === 200 ? setSources(sources) : navigate("/forbidden")),
+            onResponseReceieved: (sources, responseCode) => (sources && responseCode === 200 ? setSources(sources) : navigate("/forbidden")),
         });
     }, [id, mediaItem, navigate, selector]);
 
