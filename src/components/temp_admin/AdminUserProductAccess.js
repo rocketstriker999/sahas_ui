@@ -108,7 +108,7 @@ const AdminUserProductAccess = () => {
                             value={validityDate}
                             onChange={(e) => {
                                 const selectedDate = new Date(e.value);
-                                const formated = `${selectedDate.getFullYear() + 1}-${selectedDate.getMonth() + 1}-${selectedDate.getDate()}`;
+                                const formated = `${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${selectedDate.getDate()}`;
                                 setValidityDate(formated);
                             }}
                             showIcon
