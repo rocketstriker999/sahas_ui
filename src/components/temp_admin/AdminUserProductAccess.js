@@ -1,15 +1,15 @@
-import React, { useState, useCallback } from 'react';
-import { InputText } from 'primereact/inputtext';
-import { Dropdown } from 'primereact/dropdown';
-import { Calendar } from 'primereact/calendar';
-import { Button } from 'primereact/button';
-import { Card } from 'primereact/card';
-import { Message } from 'primereact/message';
-import { useAppContext } from '../../providers/ProviderAppContainer';
-import { requestAPI } from '../../utils';
+import React, { useState, useCallback } from "react";
+import { InputText } from "primereact/inputtext";
+import { Dropdown } from "primereact/dropdown";
+import { Calendar } from "primereact/calendar";
+import { Button } from "primereact/button";
+import { Card } from "primereact/card";
+import { Message } from "primereact/message";
+import { useAppContext } from "../../providers/ProviderAppContainer";
+import { requestAPI } from "../../utils";
 
 const AdminUserProductAccess = () => {
-    const [email, setEmail] = useState('');
+    const [email, setEmail] = useState("");
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [validityDate, setValidityDate] = useState(null);
     const [error, setError] = useState(false);
@@ -27,7 +27,7 @@ const AdminUserProductAccess = () => {
 
     // Reset all input fields
     const handleCancel = () => {
-        setEmail('');
+        setEmail("");
         setSelectedProduct(null);
         setValidityDate(null);
     };
@@ -38,15 +38,16 @@ const AdminUserProductAccess = () => {
             setError(true);
             return;
         }
-    
+
         setError(false);
-    
+
         await requestAPI({
             requestPath: "access/temp-addUserProductAccess",
             requestMethod: "POST",
             requestPostBody: {
                 email,
                 product_id: selectedProduct.code,
+                validity: validityDate,
             },
             setLoading: (loading) => console.log("Loading:", loading), // Optional loading state handling
             onResponseReceieved: (data, status) => {
@@ -69,12 +70,14 @@ const AdminUserProductAccess = () => {
             <Card title="Add User Product Access">
                 <div className="grid gap-2">
                     <div className="col-12">
-                        <label htmlFor="email" className="block mb-2">User Email</label>
+                        <label htmlFor="email" className="block mb-2">
+                            User Email
+                        </label>
                         <InputText
                             id="email"
                             type="email"
                             value={email}
-                            className={`w-full ${error ? 'p-invalid' : ''}`}
+                            className={`w-full ${error ? "p-invalid" : ""}`}
                             onChange={(e) => validateEmail(e.target.value)}
                             placeholder="Enter user email"
                         />
@@ -82,7 +85,9 @@ const AdminUserProductAccess = () => {
                     </div>
 
                     <div className="col-12">
-                        <label htmlFor="product" className="block mb-2">Product</label>
+                        <label htmlFor="product" className="block mb-2">
+                            Product
+                        </label>
                         <Dropdown
                             id="product"
                             value={selectedProduct}
@@ -95,11 +100,17 @@ const AdminUserProductAccess = () => {
                     </div>
 
                     <div className="col-12">
-                        <label htmlFor="validity" className="block mb-2">Validity Date</label>
+                        <label htmlFor="validity" className="block mb-2">
+                            Validity Date
+                        </label>
                         <Calendar
                             id="validity"
                             value={validityDate}
-                            onChange={(e) => setValidityDate(e.value)}
+                            onChange={(e) => {
+                                console.log(e.value);
+
+                                setValidityDate(e.value);
+                            }}
                             showIcon
                             dateFormat="yy/mm/dd"
                             placeholder="Select validity date"
