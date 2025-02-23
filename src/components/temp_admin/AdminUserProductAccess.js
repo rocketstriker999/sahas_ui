@@ -107,9 +107,9 @@ const AdminUserProductAccess = () => {
                             id="validity"
                             value={validityDate}
                             onChange={(e) => {
-                                console.log(e.value);
-
-                                setValidityDate(e.value);
+                                const selectedDate = new Date(e.value);
+                                const formated = `${selectedDate.getFullYear() + 1}-${selectedDate.getMonth() + 1}-${selectedDate.getDate()}`;
+                                setValidityDate(formated);
                             }}
                             showIcon
                             dateFormat="yy/mm/dd"
