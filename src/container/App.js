@@ -19,6 +19,7 @@ import Subjects from "../components/product/Subjects";
 import Chapters from "../components/product/Chapters";
 import { BrowserRouter } from "react-router-dom";
 import AdminUserProductAccess from "../components/temp_admin/AdminUserProductAccess";
+import Logout from "../components/common/Logout";
 
 export default function App() {
     return (
@@ -64,6 +65,7 @@ export default function App() {
                     }
                 />
                 <Route path="/adminUserProductAccess" element={<AdminUserProductAccess />} />
+                <Route path="/logout" element={<Logout />} />
                 <Route path="/forbidden" element={<Forbidden />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
