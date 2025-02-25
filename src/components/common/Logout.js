@@ -16,7 +16,7 @@ export default function Logout() {
                 navigate("/");
             },
         });
-    }, []);
+    }, [navigate]);
 
     return loading && <Loading message="Logging out, please wait..." />;
 }
