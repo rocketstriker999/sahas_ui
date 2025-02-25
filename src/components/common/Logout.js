@@ -10,7 +10,7 @@ export default function Logout() {
     useEffect(() => {
         requestAPI({
             requestPath: "token/invalidate",
-            requestMethod: "DELETE",
+            requestMethod: "POST",
             setLoading: setLoading,
             onResponseReceieved: () => {
                 navigate("/");
