@@ -42,7 +42,7 @@ export default function Product() {
                         />
                     )}
                     {product?.has_access ? (
-                        <Button label="Receipt" severity="info" raised onClick={() => window.open(getResource(product?.invoice))} />
+                        <Button label="Receipt" severity="info" raised disabled={product?.invoice} onClick={() => window.open(getResource(product?.invoice))} />
                     ) : (
                         <ButtonPurchase productId={productId} />
                     )}
