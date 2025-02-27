@@ -41,7 +41,11 @@ export default function Product() {
                             onClick={() => window.open(`https://chat.whatsapp.com/${product.whatsapp_group}`, "_blank")}
                         />
                     )}
-                    {product?.has_access ? <Button label="Receipt" severity="info" raised /> : <ButtonPurchase productId={productId} />}
+                    {product?.has_access ? (
+                        <Button label="Receipt" severity="info" raised onClick={() => window.open(getResource(product?.invoice))} />
+                    ) : (
+                        <ButtonPurchase productId={productId} />
+                    )}
                 </div>
             </div>
             <Outlet />
