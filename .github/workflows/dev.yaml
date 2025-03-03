@@ -40,7 +40,6 @@ jobs:
                       mkdir logs
                     fi
                     log_date=$(date +"%d-%m-%Y")
-                    rm -rf build
                     serve -s build -l 4000 > logs/"$log_date".log 2>&1 &
                     new_pid=$!
                     echo "Starting $DIR - pid $new_pid"
