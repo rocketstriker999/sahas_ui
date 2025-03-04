@@ -11,12 +11,29 @@ export default function Navbar() {
     const navigate = useNavigate();
     const loggedInUser = useSelector((state) => state.stateUser.user);
     const { templateConfig } = useAppContext();
-
+    console.log(loggedInUser);
     const [appInstallEvent, setAppInstallEvent] = useState();
 
     const profileMenu = useRef(null);
 
     const profileMenuItems = [
+        {
+            template: () => (
+                <div className="flex align-items-center gap-2 px-2 py-2 w-12">
+                    <Avatar label={loggedInUser?.name?.charAt(0)?.toUpperCase() || "S"} size="small" />
+                    <div className="flex flex-column overflow-hidden w-10">
+                        <div className="font-bold text-sm">{loggedInUser?.name || 'Hello User'}</div>
+                        <div className="text-xs overflow-hidden text-overflow-ellipsis white-space-nowrap w-full" title={loggedInUser?.email}>
+                            {loggedInUser?.email}
+                        </div>
+                    </div>
+                </div>
+            ),
+            disabled: true,
+        },
+        {
+            separator: true
+        },
         {
             label: "Manage Firm",
             icon: "pi pi-cog",
