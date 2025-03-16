@@ -2,7 +2,7 @@ import { Button } from "primereact/button";
 
 export default function ButtonPay({ transaction, disabled }) {
     return (
-        <form action={transaction.payuURL} method="post">
+        <form action={transaction.pay > 0 ? transaction.payuURL : transaction.successURL} method="post">
             <input type="hidden" name="key" value={transaction.payuMerchantKey} />
             <input type="hidden" name="txnid" value={transaction.id} />
             <input type="hidden" name="productinfo" value={transaction.productTitle} />
