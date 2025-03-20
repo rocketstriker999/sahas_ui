@@ -59,14 +59,46 @@ export default function AdmissionForm() {
             setFormData((prev) => ({ ...prev, errors }));
         } else {
             console.log("Form Data:", formData);
-            setFormData(null);
-            setImagePreview(null);
 
             if (imagePreview) {
                 URL.revokeObjectURL(imagePreview);
             }
+            const admissionData = new FormData();
+            admissionData.append('product', formData.selectedProduct);
+            admissionData.append('branch', formData.branch);
+            admissionData.append('fullName', formData.fullName);
+            admissionData.append('studentMobile', formData.studentMobile);
+            admissionData.append('parentMobile', formData.parentMobile);
+            admissionData.append('email', formData.email);
+            admissionData.append('address', formData.address);
+            admissionData.append('area', formData.area);
+            admissionData.append('city', formData.city);
+            admissionData.append('paidFees', formData.paidFees);
+            admissionData.append('modeOfPayment', formData.modeOfPayment);
+            admissionData.append('totalFees', formData.totalFees);
+            admissionData.append('iCardNumber', formData.iCardNumber);
+            admissionData.append('lastSchool', formData.lastSchool);
+            admissionData.append('lastClass', formData.lastClass);
+            admissionData.append('reference', formData.reference);
+            admissionData.append('staffName', formData.staffName);
+            admissionData.append('note', formData.note);
+            admissionData.append('image', formData.image);
+            console.log(admissionData);
+            fetch('https://sahasinstitute.com/adminportal/mobileApis/admissionDetails.php', {
+                method: 'POST',
+                body: admissionData,
+                mode: "cors",
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log('Success:', data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
         }
-    };
+
+    }
 
     // File Upload Handler
     const handleFileUpload = (event) => {
