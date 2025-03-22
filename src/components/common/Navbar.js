@@ -39,12 +39,12 @@ export default function Navbar() {
         {
             template: (item, options) => {
                 return (
-                    <div>
-                        <Avatar icon="pi pi-user" size="xlarge" shape="circle" />
-                        <div>
-                            <span className="font-bold">{loggedInUser?.name || "Hello User"}</span>
-                            <span className="text-sm">{loggedInUser?.email}</span>
+                    <div className="p-2">
+                        <div className="flex align-items-center gap-2">
+                            <Avatar icon="pi pi-user" shape="circle" />
+                            <span className="font-bold m-0 p-0">{loggedInUser?.name}</span>
                         </div>
+                        <div className="text-xs mt-2 p-0 text-overflow-ellipsis overflow-hidden white-space-nowrap">{loggedInUser?.email}</div>
                     </div>
                 );
             },
