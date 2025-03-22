@@ -6,7 +6,8 @@ import { Checkbox } from "primereact/checkbox";
 import { Divider } from "primereact/divider";
 import Loading from "../components/common/Loading";
 import CouponCodeApplier from "../components/purchase/CouponCodeApplier";
-import { Message } from "primereact/message";
+import { Tag } from "primereact/tag";
+const moment = require("moment");
 
 export default function Purchase() {
     const [transaction, setTransaction] = useState();
@@ -42,17 +43,14 @@ export default function Purchase() {
             <div className="p-5">
                 <h2 className="text-lg font-bold">Review your purchase information</h2>
                 <p className="text-sm text-600 mb-4">{transaction.title}</p>
-
                 <div className="flex justify-content-between mb-3 text-xs">
                     <span className="font-bold">Original Price</span>
                     <span className="font-bold">{transaction.price} Rs.</span>
                 </div>
-
                 <div className="flex justify-content-between mb-3 text-xs">
                     <span className="font-bold">Discounted Price</span>
                     <span className="font-bold">{transaction.discounted} Rs.</span>
                 </div>
-
                 <div className="flex justify-content-between mb-3 text-xs">
                     <span className="font-bold">SGST</span>
                     <span className="font-bold">{transaction.sgst} Rs.</span>
@@ -61,17 +59,22 @@ export default function Purchase() {
                     <span className="font-bold">CGST</span>
                     <span className="font-bold">{transaction.cgst} Rs.</span>
                 </div>
-                <CouponCodeApplier appliedCouponCode={appliedCouponCode} couponCodeBenifit={transaction.benifit} applyCouponCode={setAppliedCouponCode} />
 
+                <div className="flex justify-content-between align-items-center mb-3">
+                    <Tag
+                        className="mr-2"
+                        icon="pi pi-info-circle"
+                        severity="info"
+                        value={`Validity ${moment(transaction.productAccessValidity, "YYYY-MM-DD HH:mm:ss").format("DD-MM-YYYY")}`}
+                    ></Tag>
+
+                    <CouponCodeApplier appliedCouponCode={appliedCouponCode} couponCodeBenifit={transaction.benifit} applyCouponCode={setAppliedCouponCode} />
+                </div>
                 <Divider />
-
-                <Message severity="info" text={`Valid Till ${transaction.productAccessValidity}`} />
-
                 <div className="flex justify-content-between font-bold text-base mb-2">
                     <span>Pay:</span>
                     <span className="text-primary text-base">{transaction.pay} Rs.</span>
                 </div>
-
                 <div className="flex align-items-center gap-2 mb-3 ">
                     <Checkbox id="terms" checked={termsAccepted} invalid={!termsAccepted} onChange={(e) => setTermsAccepted(e.checked)} />
                     <label htmlFor="terms" className="text-sm">
@@ -81,7 +84,6 @@ export default function Purchase() {
                         </a>
                     </label>
                 </div>
-
                 <ButtonPay transaction={transaction} disabled={!termsAccepted} />
             </div>
         );

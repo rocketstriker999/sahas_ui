@@ -33,6 +33,22 @@ export default function Navbar() {
             icon: "pi pi-sign-out",
             command: () => navigate("/logout"),
         },
+        {
+            separator: true,
+        },
+        {
+            template: (item, options) => {
+                return (
+                    <div>
+                        <Avatar icon="pi pi-user" size="xlarge" shape="circle" />
+                        <div>
+                            <span className="font-bold">{loggedInUser?.name || "Hello User"}</span>
+                            <span className="text-sm">{loggedInUser?.email}</span>
+                        </div>
+                    </div>
+                );
+            },
+        },
     ];
 
     useEffect(() => {
