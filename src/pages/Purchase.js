@@ -66,7 +66,7 @@ export default function Purchase() {
 
                 <div className="flex justify-content-between font-bold text-base mb-2">
                     <span>Validity:</span>
-                    <span className="text-primary text-base">{transaction.productAccessDuration}</span>
+                    <span className="text-primary text-base">{transaction.productAccessValidity}</span>
                 </div>
 
                 <div className="flex justify-content-between font-bold text-base mb-2">
