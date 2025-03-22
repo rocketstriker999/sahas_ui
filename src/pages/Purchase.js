@@ -6,6 +6,7 @@ import { Checkbox } from "primereact/checkbox";
 import { Divider } from "primereact/divider";
 import Loading from "../components/common/Loading";
 import CouponCodeApplier from "../components/purchase/CouponCodeApplier";
+import { Message } from "primereact/message";
 
 export default function Purchase() {
     const [transaction, setTransaction] = useState();
@@ -64,10 +65,7 @@ export default function Purchase() {
 
                 <Divider />
 
-                <div className="flex justify-content-between font-bold text-base mb-2">
-                    <span>Validity:</span>
-                    <span className="text-primary text-base">{transaction.productAccessValidity}</span>
-                </div>
+                <Message severity="info" text={`Valid Till ${transaction.productAccessValidity}`} />
 
                 <div className="flex justify-content-between font-bold text-base mb-2">
                     <span>Pay:</span>
