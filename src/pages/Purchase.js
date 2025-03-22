@@ -65,6 +65,11 @@ export default function Purchase() {
                 <Divider />
 
                 <div className="flex justify-content-between font-bold text-base mb-2">
+                    <span>Validity:</span>
+                    <span className="text-primary text-base">{transaction.accessDuration}</span>
+                </div>
+
+                <div className="flex justify-content-between font-bold text-base mb-2">
                     <span>Pay:</span>
                     <span className="text-primary text-base">{transaction.pay} Rs.</span>
                 </div>
