@@ -98,6 +98,12 @@ export default function Navbar() {
                         <Button className="p-0" onClick={() => appInstallEvent.prompt()} severity="warning" label="Install" size="small" text></Button>
                     </div>
                 )}
+                {!loggedInUser && (
+                    <div className="flex justify-content-between bg-red-400 text-white text text-xs px-3 shadow-4 font-bold align-items-center">
+                        <p>You are not logged in. Please log in to continue.</p>
+                        <Button className="p-0 text-white" onClick={() => navigate("/login")} label="Login" size="small" text></Button>
+                    </div>
+                )}
             </Fragment>
         );
     }
