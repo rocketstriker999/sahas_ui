@@ -45,7 +45,9 @@ export default function Purchase() {
                 <p className="text-sm text-600 mb-4">{transaction.title}</p>
                 <div className="flex justify-content-between mb-3 text-xs">
                     <span className="font-bold">Original Price</span>
-                    <span className="font-bold">{transaction.price} Rs.</span>
+                    <span className="font-bold">
+                        <strike>{transaction.price} Rs.</strike>
+                    </span>
                 </div>
                 <div className="flex justify-content-between mb-3 text-xs">
                     <span className="font-bold">Discounted Price</span>

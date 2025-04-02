@@ -39,7 +39,7 @@ export default function CouponCodeApplier({ appliedCouponCode, couponCodeBenifit
                 />
             </div>
         ) : (
-            <p className={`font-bold text-yellow-500 m-0 p-0 text-right text-sm mb-2`} onClick={() => setCouponCode()}>
+            <p className={`font-bold text-red-500 m-0 p-0 text-right text-sm mb-2`} onClick={() => setCouponCode()}>
                 Apply Coupon Code
             </p>
         );
