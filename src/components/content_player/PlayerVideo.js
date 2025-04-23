@@ -24,6 +24,7 @@ export default function PlayerVideo({ mediaItem }) {
     }, [id, mediaItem, navigate, selector, sourceError]);
 
     const refetchSource = () => {
+        console.log("CALLED");
         requestAPI({
             requestPath: `extract/${selector}/${id}/${mediaItem?.id}?skip_cache=true`,
             setLoading: setLoading,
