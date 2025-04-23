@@ -15,21 +15,23 @@ jobs:
 
             - name: SSH Deployment
               run: |
-                  sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@46.202.164.212 << 'EOF'
+                  sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no "${{secrets.SSH_SERVER}}" << 'EOF'
                     set -e
-                    cd /root/sahas/dev
-                    DIR="sahas_ui"
-                    if [ ! -d "$DIR" ]; then
-                      echo "Fetching Source - $DIR"
-                      git clone --branch dev https://github.com/rocketstriker999/$DIR
+                    REPO="sahas_ui"
+                    BRNACH="dev"
+                    ENVRIONMENT="dev"
+                    cd /root/sahas/$ENVRIONMENT
+                    if [ ! -d "$REPO" ]; then
+                      echo "Fetching Repository - $REPO"
+                      git clone --branch $BRNACH https://github.com/rocketstriker999/$REPO
                       npm install -g serve
                     fi
-                    cd "$DIR"
+                    cd "$REPO"
                     if [ -f process.id ]; then
-                      pid=$(cat process.id)
-                      if ps -p $pid > /dev/null; then
-                        echo "Terminating $DIR - pid $pid"
-                        kill -9 $pid
+                      PREVIOUS_PID=$(cat process.id)
+                      if ps -p $PREVIOUS_PID > /dev/null; then
+                        echo "Terminating $REPO - Previous Process ID : $PREVIOUS_PID"
+                        kill -9 $PREVIOUS_PID
                       fi
                     fi
                     git pull
@@ -42,7 +44,7 @@ jobs:
                     log_date=$(date +"%d-%m-%Y")
                     serve -s build -l 4000 > logs/"$log_date".log 2>&1 &
                     new_pid=$!
-                    echo "Starting $DIR - pid $new_pid"
+                    echo "Starting $REPO - pid $new_pid"
                     echo $new_pid > process.id
                     echo "Deployed & Disconnecting SSH"
                     exit 0

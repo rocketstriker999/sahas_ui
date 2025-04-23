@@ -10,6 +10,7 @@ export default function PlayerVideo({ mediaItem }) {
     const videoRef = useRef(null); // Reference to the video element
     const [loading, setLoading] = useState();
     const [sources, setSources] = useState();
+    const [sourceError, setSourceError] = useState(false);
 
     const { selector, id } = useParams();
     const navigate = useNavigate();
@@ -20,7 +21,15 @@ export default function PlayerVideo({ mediaItem }) {
             setLoading: setLoading,
             onResponseReceieved: (sources, responseCode) => (sources && responseCode === 200 ? setSources(sources) : navigate("/forbidden")),
         });
-    }, [id, mediaItem, navigate, selector]);
+    }, [id, mediaItem, navigate, selector, sourceError]);
+
+    const refetchSource = () => {
+        requestAPI({
+            requestPath: `extract/${selector}/${id}/${mediaItem?.id}?skip_cache=true`,
+            setLoading: setLoading,
+            onResponseReceieved: (sources, responseCode) => (sources && responseCode === 200 ? setSources(sources) : navigate("/forbidden")),
+        });
+    };
 
     if (loading) {
         return <Loading />;
@@ -28,6 +37,7 @@ export default function PlayerVideo({ mediaItem }) {
 
     return sources?.length ? (
         <video
+            onError={refetchSource}
             onPlay={() => playBackTimes[mediaItem.id] && (videoRef.current.currentTime = playBackTimes[mediaItem.id])}
             width="100%"
             ref={videoRef}
