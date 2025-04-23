@@ -24,11 +24,11 @@ export default function PlayerVideo({ mediaItem }) {
 
     const refetchSource = () => {
         console.log("FAILED TO PLAY");
-        // requestAPI({
-        //     requestPath: `extract/${selector}/${id}/${mediaItem?.id}?skip_cache=true`,
-        //     setLoading: setLoading,
-        //     onResponseReceieved: (sources, responseCode) => (sources && responseCode === 200 ? setSources(sources) : navigate("/forbidden")),
-        // });
+        requestAPI({
+            requestPath: `extract/${selector}/${id}/${mediaItem?.id}?skip_cache=true`,
+            setLoading: setLoading,
+            onResponseReceieved: (sources, responseCode) => (sources && responseCode === 200 ? setSources(sources) : navigate("/forbidden")),
+        });
     };
 
     if (loading) {
