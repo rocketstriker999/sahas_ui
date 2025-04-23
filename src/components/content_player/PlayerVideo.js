@@ -10,7 +10,6 @@ export default function PlayerVideo({ mediaItem }) {
     const videoRef = useRef(null); // Reference to the video element
     const [loading, setLoading] = useState();
     const [sources, setSources] = useState();
-    const [sourceError, setSourceError] = useState(false);
 
     const { selector, id } = useParams();
     const navigate = useNavigate();
@@ -21,15 +20,15 @@ export default function PlayerVideo({ mediaItem }) {
             setLoading: setLoading,
             onResponseReceieved: (sources, responseCode) => (sources && responseCode === 200 ? setSources(sources) : navigate("/forbidden")),
         });
-    }, [id, mediaItem, navigate, selector, sourceError]);
+    }, [id, mediaItem, navigate, selector]);
 
     const refetchSource = () => {
-        console.log("CALLED");
-        requestAPI({
-            requestPath: `extract/${selector}/${id}/${mediaItem?.id}?skip_cache=true`,
-            setLoading: setLoading,
-            onResponseReceieved: (sources, responseCode) => (sources && responseCode === 200 ? setSources(sources) : navigate("/forbidden")),
-        });
+        console.log("FAILED TO PLAY");
+        // requestAPI({
+        //     requestPath: `extract/${selector}/${id}/${mediaItem?.id}?skip_cache=true`,
+        //     setLoading: setLoading,
+        //     onResponseReceieved: (sources, responseCode) => (sources && responseCode === 200 ? setSources(sources) : navigate("/forbidden")),
+        // });
     };
 
     if (loading) {
