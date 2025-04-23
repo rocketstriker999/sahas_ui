@@ -20,7 +20,7 @@ export default function PlayerVideo({ mediaItem }) {
             setLoading: setLoading,
             onResponseReceieved: (sources, responseCode) => (sources && responseCode === 200 ? setSources(sources) : navigate("/forbidden")),
         });
-    }, [id, mediaItem, navigate, selector]);
+    }, [id, mediaItem, selector]);
 
     const refetchSource = () => {
         console.log("FAILED TO PLAY");
