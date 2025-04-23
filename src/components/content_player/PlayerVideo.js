@@ -15,31 +15,31 @@ export default function PlayerVideo({ mediaItem }) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!sources && !sourceError)
-            return requestAPI({
-                requestPath: `extract/${selector}/${id}/${mediaItem?.id}`,
-                setLoading: setLoading,
-                onRequestFailure: setError,
-                onResponseReceieved: (sources, responseCode) => (sources && responseCode === 200 ? setSources(sources) : navigate("/forbidden")),
-            });
-
-        if (error) {
-            return requestAPI({
-                requestPath: `extract/${selector}/${id}/${mediaItem?.id}`,
-                requestGetQuery: { skip_cache: true },
-                setLoading: setLoading,
-                onRequestFailure: setError,
-                onResponseReceieved: (sources, responseCode) => (sources && responseCode === 200 ? setSources(sources) : navigate("/forbidden")),
-            });
-        }
+        requestAPI({
+            requestPath: `extract/${selector}/${id}/${mediaItem?.id}`,
+            setLoading: setLoading,
+            onRequestFailure: setError,
+            onResponseReceieved: (sources, responseCode) => (sources && responseCode === 200 ? setSources(sources) : navigate("/forbidden")),
+        });
     }, [id, mediaItem, navigate, selector, error]);
 
     if (loading) {
         return <Loading />;
     }
 
-    return sources?.length ? (
+    const fetchSourcesWithCacheSkip = () => {
+        requestAPI({
+            requestPath: `extract/${selector}/${id}/${mediaItem?.id}`,
+            requestGetQuery: { skip_cache: true },
+            setLoading: setLoading,
+            onRequestFailure: setError,
+            onResponseReceieved: (sources, responseCode) => (sources && responseCode === 200 ? setSources(sources) : navigate("/forbidden")),
+        });
+    };
+
+    return sources?.length && !error ? (
         <video
+            onLoadedData={() => setError(false)}
             onError={() => setError(true)}
             onPlay={() => playBackTimes[mediaItem.id] && (videoRef.current.currentTime = playBackTimes[mediaItem.id])}
             width="100%"
@@ -58,6 +58,6 @@ export default function PlayerVideo({ mediaItem }) {
             ))}
         </video>
     ) : (
-        <NoContent error="Couldn't Stream The Media" retry={refetchSource} />
+        <NoContent error="Couldn't Stream The Media" retry={fetchSourcesWithCacheSkip} />
     );
 }
