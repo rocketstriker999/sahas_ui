@@ -10,27 +10,29 @@ export default function PlayerVideo({ mediaItem }) {
     const videoRef = useRef(null); // Reference to the video element
     const [loading, setLoading] = useState();
     const [sources, setSources] = useState();
-
+    const [error, setError] = useState();
     const { selector, id } = useParams();
     const navigate = useNavigate();
 
     useEffect(() => {
-        requestAPI({
-            requestPath: `extract/${selector}/${id}/${mediaItem?.id}`,
-            setLoading: setLoading,
-            onResponseReceieved: (sources, responseCode) => (sources && responseCode === 200 ? setSources(sources) : navigate("/forbidden")),
-        });
-    }, [id, mediaItem, selector]);
+        if (!sources && !sourceError)
+            return requestAPI({
+                requestPath: `extract/${selector}/${id}/${mediaItem?.id}`,
+                setLoading: setLoading,
+                onRequestFailure: setError,
+                onResponseReceieved: (sources, responseCode) => (sources && responseCode === 200 ? setSources(sources) : navigate("/forbidden")),
+            });
 
-    const refetchSource = () => {
-        console.log("FAILED TO PLAY");
-        requestAPI({
-            requestPath: `extract/${selector}/${id}/${mediaItem?.id}`,
-            requestGetQuery: { skip_cache: true },
-            setLoading: setLoading,
-            onResponseReceieved: (sources, responseCode) => (sources && responseCode === 200 ? setSources(sources) : navigate("/forbidden")),
-        });
-    };
+        if (error) {
+            return requestAPI({
+                requestPath: `extract/${selector}/${id}/${mediaItem?.id}`,
+                requestGetQuery: { skip_cache: true },
+                setLoading: setLoading,
+                onRequestFailure: setError,
+                onResponseReceieved: (sources, responseCode) => (sources && responseCode === 200 ? setSources(sources) : navigate("/forbidden")),
+            });
+        }
+    }, [id, mediaItem, navigate, selector, error]);
 
     if (loading) {
         return <Loading />;
@@ -38,7 +40,7 @@ export default function PlayerVideo({ mediaItem }) {
 
     return sources?.length ? (
         <video
-            onError={refetchSource}
+            onError={() => setError(true)}
             onPlay={() => playBackTimes[mediaItem.id] && (videoRef.current.currentTime = playBackTimes[mediaItem.id])}
             width="100%"
             ref={videoRef}
