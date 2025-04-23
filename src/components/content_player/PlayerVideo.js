@@ -56,6 +56,6 @@ export default function PlayerVideo({ mediaItem }) {
             ))}
         </video>
     ) : (
-        <NoContent error="Couldn't Stream The Media" />
+        <NoContent error="Couldn't Stream The Media" retry={refetchSource} />
     );
 }
