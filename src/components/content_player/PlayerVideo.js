@@ -33,21 +33,18 @@ export default function PlayerVideo({ mediaItem }) {
             requestGetQuery: { skip_cache: true },
             setLoading: setLoading,
             onRequestFailure: setError,
-            onResponseReceieved: (sources, responseCode) => {
-                if (sources && responseCode === 200) {
-                    setSources(sources);
-                }
-                navigate("/forbidden");
-            },
+            onResponseReceieved: (sources, responseCode) => (sources && responseCode === 200 ? setSources(sources) : navigate("/forbidden")),
         });
     };
 
     return sources?.length && !error ? (
         <video
             onLoadedData={() => {
+                console.log("Playing Correctly");
                 setError(false);
             }}
             onError={() => {
+                console.log("Error");
                 setError(true);
             }}
             onPlay={() => playBackTimes[mediaItem.id] && (videoRef.current.currentTime = playBackTimes[mediaItem.id])}
