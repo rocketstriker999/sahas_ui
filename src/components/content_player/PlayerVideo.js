@@ -21,7 +21,7 @@ export default function PlayerVideo({ mediaItem }) {
             onRequestFailure: setError,
             onResponseReceieved: (sources, responseCode) => (sources && responseCode === 200 ? setSources(sources) : navigate("/forbidden")),
         });
-    }, [id, mediaItem, navigate, selector, error]);
+    }, [id, mediaItem, navigate, selector]);
 
     if (loading) {
         return <Loading />;
@@ -33,14 +33,23 @@ export default function PlayerVideo({ mediaItem }) {
             requestGetQuery: { skip_cache: true },
             setLoading: setLoading,
             onRequestFailure: setError,
-            onResponseReceieved: (sources, responseCode) => (sources && responseCode === 200 ? setSources(sources) : navigate("/forbidden")),
+            onResponseReceieved: (sources, responseCode) => {
+                sources && responseCode === 200 ? setSources(sources) : navigate("/forbidden");
+                setError(false);
+            },
         });
     };
 
     return sources?.length && !error ? (
         <video
-            onLoadedData={() => setError(false)}
-            onError={() => setError(true)}
+            onLoadedData={() => {
+                console.log("Playing Correctly");
+                // setError(false);
+            }}
+            onError={() => {
+                console.log("Error");
+                // setError(true);
+            }}
             onPlay={() => playBackTimes[mediaItem.id] && (videoRef.current.currentTime = playBackTimes[mediaItem.id])}
             width="100%"
             ref={videoRef}
