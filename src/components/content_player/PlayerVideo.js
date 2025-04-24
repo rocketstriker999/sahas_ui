@@ -34,8 +34,10 @@ export default function PlayerVideo({ mediaItem }) {
             setLoading: setLoading,
             onRequestFailure: setError,
             onResponseReceieved: (sources, responseCode) => {
-                sources && responseCode === 200 ? setSources(sources) : navigate("/forbidden");
-                setError(false);
+                if (sources && responseCode === 200) {
+                    setSources(sources);
+                }
+                navigate("/forbidden");
             },
         });
     };
@@ -43,12 +45,10 @@ export default function PlayerVideo({ mediaItem }) {
     return sources?.length && !error ? (
         <video
             onLoadedData={() => {
-                console.log("Playing Correctly");
-                // setError(false);
+                setError(false);
             }}
             onError={() => {
-                console.log("Error");
-                // setError(true);
+                setError(true);
             }}
             onPlay={() => playBackTimes[mediaItem.id] && (videoRef.current.currentTime = playBackTimes[mediaItem.id])}
             width="100%"
