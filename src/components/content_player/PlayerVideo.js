@@ -45,14 +45,8 @@ export default function PlayerVideo({ mediaItem }) {
     if (streamSet?.streams?.length > 0)
         return (
             <video
-                onLoadedData={() => {
-                    console.log("Playing Correctly");
-                    setStreamSet((prev) => ({ ...prev, stream_broken: false }));
-                }}
-                onError={() => {
-                    console.log("Error");
-                    setStreamSet({ stream_broken: true });
-                }}
+                onLoadedData={() => setStreamSet((prev) => ({ ...prev, stream_broken: false }))}
+                onError={() => setStreamSet({ stream_broken: true })}
                 onPlay={() => playBackTimes[mediaItem.id] && (videoRef.current.currentTime = playBackTimes[mediaItem.id])}
                 width="100%"
                 ref={videoRef}
