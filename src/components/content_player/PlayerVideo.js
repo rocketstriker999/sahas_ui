@@ -19,7 +19,7 @@ export default function PlayerVideo({ mediaItem }) {
             setLoading: setLoading,
             onRequestFailure: setSources({ are_broken: true }),
             onResponseReceieved: (sources, responseCode) =>
-                sources && responseCode === 200 ? setSources({ are_broken: false, urls: sources }) : navigate("/forbidden"),
+                sources && responseCode === 200 ? setSources({ are_broken: sources.length > 0 ? false : true, urls: sources }) : navigate("/forbidden"),
         });
     }, [id, mediaItem, navigate, selector]);
 
@@ -30,7 +30,7 @@ export default function PlayerVideo({ mediaItem }) {
             setLoading: setLoading,
             onRequestFailure: setSources({ are_broken: true }),
             onResponseReceieved: (sources, responseCode) =>
-                sources && responseCode === 200 ? setSources({ are_broken: false, urls: sources }) : navigate("/forbidden"),
+                sources && responseCode === 200 ? setSources({ are_broken: sources.length > 0 ? false : true, urls: sources }) : navigate("/forbidden"),
         });
     };
 
