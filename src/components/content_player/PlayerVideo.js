@@ -9,7 +9,7 @@ export default function PlayerVideo({ mediaItem }) {
     const [playBackTimes, setPlayBackTimes] = useLocalStorage({}, "videoPlayBacks");
     const videoRef = useRef(null); // Reference to the video element
     const [loading, setLoading] = useState();
-    const [sources, setSources] = useState();
+    const [streamSet, setStreamSet] = useState();
     const { selector, id } = useParams();
     const navigate = useNavigate();
 
@@ -17,9 +17,9 @@ export default function PlayerVideo({ mediaItem }) {
         requestAPI({
             requestPath: `extract/${selector}/${id}/${mediaItem?.id}`,
             setLoading: setLoading,
-            onRequestFailure: setSources({ are_broken: true }),
-            onResponseReceieved: (sources, responseCode) =>
-                sources && responseCode === 200 ? setSources({ are_broken: sources.length > 0 ? false : true, urls: sources }) : navigate("/forbidden"),
+            onRequestFailure: setStreamSet({ stream_broken: true }),
+            onResponseReceieved: (streams, responseCode) =>
+                streams && responseCode === 200 ? setStreamSet({ stream_broken: streams.length > 0 ? false : true, streams }) : navigate("/forbidden"),
         });
     }, [id, mediaItem, navigate, selector]);
 
@@ -28,32 +28,30 @@ export default function PlayerVideo({ mediaItem }) {
             requestPath: `extract/${selector}/${id}/${mediaItem?.id}`,
             requestGetQuery: { skip_cache: true },
             setLoading: setLoading,
-            onRequestFailure: setSources({ are_broken: true }),
-            onResponseReceieved: (sources, responseCode) =>
-                sources && responseCode === 200 ? setSources({ are_broken: sources.length > 0 ? false : true, urls: sources }) : navigate("/forbidden"),
+            onRequestFailure: setStreamSet({ stream_broken: true }),
+            onResponseReceieved: (streams, responseCode) =>
+                streams && responseCode === 200 ? setStreamSet({ stream_broken: streams.length > 0 ? false : true, streams }) : navigate("/forbidden"),
         });
     };
-
-    console.log(sources);
 
     if (loading) {
         return <Loading />;
     }
 
-    if (sources?.are_broken) {
+    if (streamSet?.stream_broken) {
         return <NoContent error="Couldn't Stream The Media" retry={fetchSourcesWithCacheSkip} />;
     }
 
-    if (sources?.urls?.length > 0)
+    if (streamSet?.streams?.length > 0)
         return (
             <video
                 onLoadedData={() => {
                     console.log("Playing Correctly");
-                    setSources((prev) => ({ ...prev, are_broken: false }));
+                    setStreamSet((prev) => ({ ...prev, stream_broken: false }));
                 }}
                 onError={() => {
                     console.log("Error");
-                    setSources({ are_broken: true });
+                    setStreamSet({ stream_broken: true });
                 }}
                 onPlay={() => playBackTimes[mediaItem.id] && (videoRef.current.currentTime = playBackTimes[mediaItem.id])}
                 width="100%"
@@ -67,8 +65,8 @@ export default function PlayerVideo({ mediaItem }) {
                 }}
                 onContextMenu={(e) => e.preventDefault()}
             >
-                {sources.urls.map((source) => (
-                    <source key={source.url} src={source.url} type="video/mp4"></source>
+                {streamSet.streams.map((stream) => (
+                    <source key={stream.url} src={stream.url} type="video/mp4"></source>
                 ))}
             </video>
         );
