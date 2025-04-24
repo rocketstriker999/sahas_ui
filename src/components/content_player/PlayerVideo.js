@@ -38,7 +38,7 @@ export default function PlayerVideo({ mediaItem }) {
         return <Loading />;
     }
 
-    if (sources.are_broken) {
+    if (sources?.are_broken) {
         return <NoContent error="Couldn't Stream The Media" retry={fetchSourcesWithCacheSkip} />;
     }
 
