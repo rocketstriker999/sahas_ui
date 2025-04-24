@@ -34,6 +34,8 @@ export default function PlayerVideo({ mediaItem }) {
         });
     };
 
+    console.log(sources);
+
     if (loading) {
         return <Loading />;
     }
@@ -42,7 +44,7 @@ export default function PlayerVideo({ mediaItem }) {
         return <NoContent error="Couldn't Stream The Media" retry={fetchSourcesWithCacheSkip} />;
     }
 
-    if (sources?.length)
+    if (sources?.urls?.length > 0)
         return (
             <video
                 onLoadedData={() => {
