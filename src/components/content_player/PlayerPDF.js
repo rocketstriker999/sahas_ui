@@ -4,10 +4,10 @@ import { Document, Page } from "react-pdf";
 import { saveAs } from "file-saver";
 import { Button } from "primereact/button";
 import { pdfjs } from "react-pdf";
-import { getResource, requestAPI } from "../../utils";
-import Loading from "../common/Loading";
 import NoContent from "../common/NoContent";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { requestAPI } from "../../utils";
+import Loading from "../common/Loading";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.worker.min.js`;
 
@@ -20,11 +20,12 @@ export default function PlayerPDF({ mediaItem }) {
 
     const containerRef = useRef(null);
 
-    //const navigate = useNavigate();
-
     const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
     const [startDrag, setStartDrag] = useState({ x: 0, y: 0 });
     const [isDragging, setIsDragging] = useState(false);
+
+    const [loading, setLoading] = useState();
+    const [source, setSource] = useState();
 
     const onDocumentLoadSuccess = ({ numPages }) => {
         setNumPages(numPages);
@@ -32,8 +33,7 @@ export default function PlayerPDF({ mediaItem }) {
     };
     const { selector, id } = useParams();
 
-    //const [loading, setLoading] = useState();
-    const source = process.env.REACT_APP_BACKEND_SERVER.concat(process.env.REACT_APP_API_PATH).concat(`extract/${selector}/${id}/${mediaItem?.id}`);
+    //const source = process.env.REACT_APP_BACKEND_SERVER.concat(process.env.REACT_APP_API_PATH).concat(`extract/${selector}/${id}/${mediaItem?.id}`);
 
     const adjustScaleToFit = () => {
         const container = containerRef.current;
@@ -52,21 +52,25 @@ export default function PlayerPDF({ mediaItem }) {
         setScale(Math.min(scaleWidth, scaleHeight));
     };
 
-    //try to fetch the source
-    // useEffect(() => {
-    //     requestAPI({
-    //         requestPath: ``,
-    //         setLoading: setLoading,
-    //         onResponseReceieved: async (source, responseCode) => {
-    //             if (source && responseCode === 200) {
-    //                 console.log(source);
-    //                 setSource(getResource(source));
-    //             } else {
-    //                 navigate("/forbidden");
-    //             }
-    //         },
-    //     });
-    // }, [id, mediaItem, navigate, selector, source]);
+    // try {
+    //     const resourceResponse = await fetch(source);
+    //     return Readable.fromWeb(resourceResponse.body).pipe(res);
+    // } catch (e) {
+    //     console.error(e);
+    //     return res.status(400).json({ error: `Failed To Fetch Google Drive Source - ${req.params.cdn_id}` });
+    // }
+    useEffect(() => {
+        requestAPI({
+            requestPath: `extract/${selector}/${id}/${mediaItem?.id}`,
+            setLoading: setLoading,
+            onResponseReceieved: async (streamSet, responseCode) => {
+                if (streamSet && responseCode === 200) {
+                    const resourceResponse = await fetch(streamSet[0]);
+                    setSource(resourceResponse.body);
+                }
+            },
+        });
+    }, [id, mediaItem, selector]);
 
     useEffect(() => {
         // Adjust scale on window resize
@@ -130,7 +134,9 @@ export default function PlayerPDF({ mediaItem }) {
     //     return <Loading />;
     // }
 
-    return source ? (
+    return loading ? (
+        <Loading />
+    ) : source ? (
         <div className="flex flex-column w-full h-full">
             {/* PDF Viewer */}
             <div
@@ -176,7 +182,6 @@ export default function PlayerPDF({ mediaItem }) {
                     )}
                 </div>
 
-                {/* PDF Page Container with Drag */}
                 <div
                     className="flex justify-content-center align-items-center"
                     style={{
