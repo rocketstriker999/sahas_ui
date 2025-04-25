@@ -24,16 +24,13 @@ export default function PlayerPDF({ mediaItem }) {
     const [startDrag, setStartDrag] = useState({ x: 0, y: 0 });
     const [isDragging, setIsDragging] = useState(false);
 
-    const [loading, setLoading] = useState();
-    const [source, setSource] = useState();
-
     const onDocumentLoadSuccess = ({ numPages }) => {
         setNumPages(numPages);
         adjustScaleToFit();
     };
     const { selector, id } = useParams();
 
-    //const source = process.env.REACT_APP_BACKEND_SERVER.concat(process.env.REACT_APP_API_PATH).concat(`extract/${selector}/${id}/${mediaItem?.id}`);
+    const source = process.env.REACT_APP_BACKEND_SERVER.concat(process.env.REACT_APP_API_PATH).concat(`extract/${selector}/${id}/${mediaItem?.id}`);
 
     const adjustScaleToFit = () => {
         const container = containerRef.current;
@@ -51,26 +48,6 @@ export default function PlayerPDF({ mediaItem }) {
         // Choose the smaller scale to fit the entire page in the container
         setScale(Math.min(scaleWidth, scaleHeight));
     };
-
-    // try {
-    //     const resourceResponse = await fetch(source);
-    //     return Readable.fromWeb(resourceResponse.body).pipe(res);
-    // } catch (e) {
-    //     console.error(e);
-    //     return res.status(400).json({ error: `Failed To Fetch Google Drive Source - ${req.params.cdn_id}` });
-    // }
-    useEffect(() => {
-        requestAPI({
-            requestPath: `extract/${selector}/${id}/${mediaItem?.id}`,
-            setLoading: setLoading,
-            onResponseReceieved: async (streamSet, responseCode) => {
-                if (streamSet && responseCode === 200) {
-                    const resourceResponse = await fetch(streamSet[0]);
-                    setSource(resourceResponse.body);
-                }
-            },
-        });
-    }, [id, mediaItem, selector]);
 
     useEffect(() => {
         // Adjust scale on window resize
@@ -130,13 +107,7 @@ export default function PlayerPDF({ mediaItem }) {
 
     const endDragHandler = () => setIsDragging(false);
 
-    // if (loading) {
-    //     return <Loading />;
-    // }
-
-    return loading ? (
-        <Loading />
-    ) : source ? (
+    return source ? (
         <div className="flex flex-column w-full h-full">
             {/* PDF Viewer */}
             <div
