@@ -4,10 +4,10 @@ import { Document, Page } from "react-pdf";
 import { saveAs } from "file-saver";
 import { Button } from "primereact/button";
 import { pdfjs } from "react-pdf";
-import { getResource, requestAPI } from "../../utils";
-import Loading from "../common/Loading";
 import NoContent from "../common/NoContent";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { requestAPI } from "../../utils";
+import Loading from "../common/Loading";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.worker.min.js`;
 
@@ -20,8 +20,6 @@ export default function PlayerPDF({ mediaItem }) {
 
     const containerRef = useRef(null);
 
-    //const navigate = useNavigate();
-
     const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
     const [startDrag, setStartDrag] = useState({ x: 0, y: 0 });
     const [isDragging, setIsDragging] = useState(false);
@@ -32,7 +30,6 @@ export default function PlayerPDF({ mediaItem }) {
     };
     const { selector, id } = useParams();
 
-    //const [loading, setLoading] = useState();
     const source = process.env.REACT_APP_BACKEND_SERVER.concat(process.env.REACT_APP_API_PATH).concat(`extract/${selector}/${id}/${mediaItem?.id}`);
 
     const adjustScaleToFit = () => {
@@ -51,22 +48,6 @@ export default function PlayerPDF({ mediaItem }) {
         // Choose the smaller scale to fit the entire page in the container
         setScale(Math.min(scaleWidth, scaleHeight));
     };
-
-    //try to fetch the source
-    // useEffect(() => {
-    //     requestAPI({
-    //         requestPath: ``,
-    //         setLoading: setLoading,
-    //         onResponseReceieved: async (source, responseCode) => {
-    //             if (source && responseCode === 200) {
-    //                 console.log(source);
-    //                 setSource(getResource(source));
-    //             } else {
-    //                 navigate("/forbidden");
-    //             }
-    //         },
-    //     });
-    // }, [id, mediaItem, navigate, selector, source]);
 
     useEffect(() => {
         // Adjust scale on window resize
@@ -126,10 +107,6 @@ export default function PlayerPDF({ mediaItem }) {
 
     const endDragHandler = () => setIsDragging(false);
 
-    // if (loading) {
-    //     return <Loading />;
-    // }
-
     return source ? (
         <div className="flex flex-column w-full h-full">
             {/* PDF Viewer */}
@@ -176,7 +153,6 @@ export default function PlayerPDF({ mediaItem }) {
                     )}
                 </div>
 
-                {/* PDF Page Container with Drag */}
                 <div
                     className="flex justify-content-center align-items-center"
                     style={{
