@@ -23,11 +23,11 @@ export default function Navbar() {
             command: () => navigate("/manage-firm"),
             visible: hasGroupAccess(loggedInUser?.groups, ["FADMIN", "HADMIN"]),
         },
-        {
-            label: "Profile",
-            icon: "pi pi-user",
-            command: () => navigate("/profile"),
-        },
+        // {
+        //     label: "Profile",
+        //     icon: "pi pi-user",
+        //     command: () => navigate("/profile"),
+        // },
         {
             label: "Logout",
             icon: "pi pi-sign-out",
