@@ -103,7 +103,7 @@ export default function Navbar() {
                     <div className="flex justify-content-between text text-xs px-3 shadow-4 font-bold align-items-center">
                         <p>Do you want to install Sahas Smart Studies ?</p>
                         <Button className="p-1 text-white bg-black-alpha-90" onClick={() => {
-                            if (!isIOS) {
+                            if (isIOS) {
                                 setShowIOSInstructions(true);
                             } else {
                                 appInstallEvent.prompt();
