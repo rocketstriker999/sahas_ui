@@ -42,7 +42,7 @@ export default function Purchase() {
         return (
             <div className="p-5">
                 <h2 className="text-lg font-bold">Review your purchase information</h2>
-                <p className="text-sm text-600 mb-4">{transaction.title}</p>
+                <p className="text-sm text-600 mb-4">{transaction.productTitle}</p>
                 <div className="flex justify-content-between mb-3 text-xs">
                     <span className="font-bold">Original Price</span>
                     <span className="font-bold">
