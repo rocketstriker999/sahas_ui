@@ -62,9 +62,9 @@ export default function Purchase() {
                     <span className="font-bold">{transaction.cgst} Rs.</span>
                 </div>
 
-                <div className="flex justify-content-between align-items-center mb-3">
+                <div className="flex flex-column gap-2 sm:flex-row justify-content-between align-items-center mb-3">
                     <Tag
-                        className="mr-2"
+                        className="p-2"
                         icon="pi pi-info-circle"
                         severity="info"
                         value={`Validity ${moment(transaction.productAccessValidity, "YYYY-MM-DD HH:mm:ss").format("DD-MM-YYYY")}`}
