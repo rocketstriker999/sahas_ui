@@ -40,9 +40,17 @@ export default function Purchase() {
 
     if (!loading && transaction) {
         return (
-            <div className="p-5">
+            <div className="px-4 pt-2">
                 <h2 className="text-lg font-semibold">Review your purchase information</h2>
-                <p className="text-sm  mb-4 font-bold">{transaction.productTitle}</p>
+                <span className="font-bold text-sm ">{transaction.productTitle}</span>
+                <Tag
+                    className="mt-3"
+                    icon="pi pi-calendar"
+                    severity="info"
+                    value={`Validity ${moment(transaction.productAccessValidity, "YYYY-MM-DD HH:mm:ss").format("DD-MM-YYYY")}`}
+                ></Tag>
+                <Divider />
+
                 <div className="flex justify-content-between mb-3 text-xs text-600">
                     <span className="font-bold ">
                         <strike>Original Price</strike>
@@ -59,23 +67,17 @@ export default function Purchase() {
                     <span className="font-bold">SGST</span>
                     <span className="font-bold">{transaction.sgst} Rs.</span>
                 </div>
+
                 <div className="flex justify-content-between mb-3 text-xs">
                     <span className="font-bold">CGST</span>
                     <span className="font-bold">{transaction.cgst} Rs.</span>
                 </div>
 
-                <div className="flex justify-content-between align-items-center mb-3">
-                    <Tag
-                        className="mr-2"
-                        icon="pi pi-info-circle"
-                        severity="info"
-                        value={`Validity ${moment(transaction.productAccessValidity, "YYYY-MM-DD HH:mm:ss").format("DD-MM-YYYY")}`}
-                    ></Tag>
-
+                <div className="flex justify-content-end  ">
                     <CouponCodeApplier appliedCouponCode={appliedCouponCode} couponCodeBenifit={transaction.benifit} applyCouponCode={setAppliedCouponCode} />
                 </div>
                 <Divider />
-                <div className="flex justify-content-between font-bold text-base mb-2">
+                <div className="flex justify-content-between font-bold text-base mb-3">
                     <span>Pay:</span>
                     <span className="text-primary text-base">{transaction.pay} Rs.</span>
                 </div>
