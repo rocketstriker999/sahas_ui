@@ -21,7 +21,7 @@ const AdminUserProductAccess = () => {
 
     // Transaction options
     const companyOptions = [
-        { name: "Shahas Institute Pvt. Ltd.", code: "Shahas Institute Pvt. Ltd." },
+        { name: "Shahas Institute Pvt Ltd", code: "Shahas Institute Pvt Ltd" },
         { name: "Sahas Institute", code: "Sahas Institute" },
         { name: "Deep Institute", code: "Deep Institute" },
     ];
