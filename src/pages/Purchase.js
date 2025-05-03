@@ -42,9 +42,8 @@ export default function Purchase() {
         return (
             <div className="px-4 pt-2">
                 <h2 className="text-lg font-semibold">Review your purchase information</h2>
-                <span className="font-bold text-sm ">{transaction.productTitle}</span>
+                <p className="font-bold text-sm ">{transaction.productTitle}</p>
                 <Tag
-                    className="mt-3"
                     icon="pi pi-calendar"
                     severity="info"
                     value={`Validity ${moment(transaction.productAccessValidity, "YYYY-MM-DD HH:mm:ss").format("DD-MM-YYYY")}`}
