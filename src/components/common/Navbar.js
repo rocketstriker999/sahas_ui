@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 import { Button } from "primereact/button";
 import { Menu } from "primereact/menu";
 import { useAppContext } from "../../providers/ProviderAppContainer";
+import { Dialog } from "primereact/dialog";
+import { isIOS } from 'react-device-detect';
 
 export default function Navbar() {
     const navigate = useNavigate();
@@ -13,7 +15,7 @@ export default function Navbar() {
     const { templateConfig } = useAppContext();
 
     const [appInstallEvent, setAppInstallEvent] = useState();
-
+    const [showIOSInstructions, setShowIOSInstructions] = useState(false);
     const profileMenu = useRef(null);
 
     const profileMenuItems = [
@@ -52,14 +54,19 @@ export default function Navbar() {
     ];
 
     useEffect(() => {
-        // Check if the app is already installed
-        if (!window.matchMedia("(display-mode: standalone)").matches) {
-            window.addEventListener("beforeinstallprompt", (e) => {
-                e.preventDefault();
-                setAppInstallEvent(e);
-                window.removeEventListener("beforeinstallprompt", this);
-            });
+        const handleBeforeInstallPrompt = (e) => {
+            e.preventDefault();
+            setAppInstallEvent(e);
+        };
+
+        if (!window.matchMedia("(display-mode: standalone)").matches && !isIOS) {
+            window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
         }
+
+        // Clean up the event listener
+        return () => {
+            window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+        };
     }, []);
 
     if (templateConfig?.navbar) {
@@ -92,16 +99,38 @@ export default function Navbar() {
                     <Menu model={profileMenuItems} popup ref={profileMenu} />
                 </div>
 
-                {appInstallEvent && (
+                {(appInstallEvent || isIOS) && (
                     <div className="flex justify-content-between text text-xs px-3 shadow-4 font-bold align-items-center">
                         <p>Do you want to install Sahas Smart Studies ?</p>
-                        <Button className="p-0" onClick={() => appInstallEvent.prompt()} severity="warning" label="Install" size="small" text></Button>
+                        <Button className="p-1 text-white bg-black-alpha-90" onClick={() => {
+                            if (isIOS) {
+                                setShowIOSInstructions(true);
+                            } else {
+                                appInstallEvent.prompt();
+                            }
+                        }} severity="warning" label="Install" size="small" text />
                     </div>
                 )}
+
+                <Dialog
+                    header="Install on iOS"
+                    visible={showIOSInstructions}
+                    onHide={() => setShowIOSInstructions(false)}
+                    style={{ width: '60vw' }}
+                >
+                    <div className="flex flex-column gap-3 text-sm">
+                        <p>To install <strong>Sahas Smart Studies</strong>:</p>
+                        <div>
+                            <p className="m-0">1. Tap the <strong>Share</strong> icon in Safari</p>
+                            <p className="m-0">2. Choose <strong>"Add to Home Screen"</strong></p>
+                        </div>
+                    </div>
+                </Dialog>
+
                 {!loggedInUser && (
                     <div className="flex justify-content-between bg-red-400 text-white text text-xs px-3 shadow-4 font-bold align-items-center">
                         <p>You are not logged in. Please log in to continue.</p>
-                        <Button className="p-0 text-white" onClick={() => navigate("/login")} label="Login" size="small" text></Button>
+                        <Button className="p-1 text-red-400 bg-white" onClick={() => navigate("/login")} label="Login" size="small" text></Button>
                     </div>
                 )}
             </Fragment>

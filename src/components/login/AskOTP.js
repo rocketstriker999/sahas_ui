@@ -12,6 +12,7 @@ import { Messages } from "primereact/messages";
 export default function AskOTP({ email }) {
     const [loading, setLoading] = useState();
     const [error, setError] = useState();
+    const [otpValue, setOtpValue] = useState("");
 
     const dispatch = useDispatch();
     const message = useRef(null);
@@ -35,7 +36,8 @@ export default function AskOTP({ email }) {
             },
             onRequestFailure: (error) => {
                 setError(error);
-                message.current.show([{ severity: "error", detail: error.message, sticky: true }]);
+                setOtpValue("");
+                message.current.show([{ severity: "error", detail: error, sticky: true }]);
             },
         });
     };
@@ -53,9 +55,11 @@ export default function AskOTP({ email }) {
                     length={4}
                     disabled={loading}
                     invalid={error}
+                    value={otpValue}
                     integerOnly
                     mask
                     onChange={(e) => {
+                        setOtpValue(e.value);
                         if (e.value.length === 4) verifyOTP(e.value);
                     }}
                     pt={{
