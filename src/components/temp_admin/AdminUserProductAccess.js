@@ -7,6 +7,8 @@ import { Card } from "primereact/card";
 import { Message } from "primereact/message";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import { requestAPI } from "../../utils";
+import { BreadCrumb } from 'primereact/breadcrumb';
+import { classNames } from "primereact/utils";
 
 const AdminUserProductAccess = () => {
     const [email, setEmail] = useState("");
@@ -73,9 +75,19 @@ const AdminUserProductAccess = () => {
             },
         });
     };
+    const items = [{ label: 'Dashboard', url: 'https://www.sahasinstitute.com/adminportal/adminDashBoard.php' }, { label: 'User Product Access', url: 'https://prod.sahasinstitute.com/adminUserProductAccess' }];
 
     return (
-        <div className="flex justify-content-center align-items-center p-4">
+        <div className="p-4">
+            <div className="mb-3">
+                <BreadCrumb model={items}
+                    pt={{
+                        label: { className: classNames("text-primary font-bold no-underline hover:underline") },
+
+                    }}
+                />
+            </div>
+        <div className="flex justify-content-center align-items-center">
             <Card title="Add User Product Access">
                 <div className="grid gap-2">
                     <div className="col-12">
@@ -147,6 +159,7 @@ const AdminUserProductAccess = () => {
                     </div>
                 </div>
             </Card>
+        </div>
         </div>
     );
 };
