@@ -50,14 +50,6 @@ export default function Purchase() {
                 ></Tag>
                 <Divider />
 
-                <div className="flex justify-content-between mb-3 text-xs text-600">
-                    <span className="font-bold ">
-                        <strike>Original Price</strike>
-                    </span>
-                    <span className="font-bold">
-                        <strike>{transaction.price} Rs.</strike>
-                    </span>
-                </div>
                 <div className="flex justify-content-between mb-3 text-sm">
                     <span className="font-bold">Discounted Price</span>
                     <span className="font-bold">{transaction.discounted} Rs.</span>
@@ -73,12 +65,20 @@ export default function Purchase() {
                 </div>
 
                 <div className="flex justify-content-end  ">
-                    <CouponCodeApplier appliedCouponCode={appliedCouponCode} couponCodeBenifit={transaction.benifit} applyCouponCode={setAppliedCouponCode} />
+                    <CouponCodeApplier
+                        appliedCouponCode={appliedCouponCode}
+                        couponCodeBenifit={transaction.benifit}
+                        applyCouponCode={setAppliedCouponCode}
+                        couponCodeBenifitLabel={transaction.benifitLabel}
+                    />
                 </div>
                 <Divider />
                 <div className="flex justify-content-between font-bold text-base mb-3">
                     <span>Pay:</span>
-                    <span className="text-primary text-base">{transaction.pay} Rs.</span>
+                    <div className=" flex align-items-end gap-2 ">
+                        <strike className="text-600 text-xs">{transaction.price} Rs.</strike>
+                        <span className="text-primary text-base">{transaction.pay} Rs.</span>
+                    </div>
                 </div>
                 <div className="flex align-items-center gap-2 mb-3 ">
                     <Checkbox id="terms" checked={termsAccepted} invalid={!termsAccepted} onChange={(e) => setTermsAccepted(e.checked)} />
