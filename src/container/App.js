@@ -20,6 +20,12 @@ import Chapters from "../components/product/Chapters";
 import { BrowserRouter } from "react-router-dom";
 import AdminUserProductAccess from "../components/temp_admin/AdminUserProductAccess";
 import Logout from "../components/common/Logout";
+import Profile from "../pages/Profile";
+import PrimaryDetails from '../components/profile/PrimaryDetails';
+import ProductAccess from '../components/profile/ProductAccess';
+import Catelogue from "../components/profile/Catelogue";
+import TransactionDetails from "../components/profile/TransactionDetails";
+import GlobalNotes from "../components/profile/GlobalNotes";
 
 export default function App() {
     return (
@@ -64,8 +70,19 @@ export default function App() {
                         </HasAuthentication>
                     }
                 />
+
+                <Route path="/profile" element={<Profile />}>
+                    <Route index element={<Catelogue />} />
+                    <Route path="primary-details" element={<PrimaryDetails />} />
+                    <Route path="product-access" element={<ProductAccess />} />
+                    <Route path="product-access/transaction-details/:userId/:productId" element={<TransactionDetails />} />
+                    <Route path="global-notes" element={<GlobalNotes />} />
+
+                </Route>
+
                 <Route path="/adminUserProductAccess" element={<AdminUserProductAccess />} />
                 <Route path="/logout" element={<Logout />} />
+                <Route path="/profile" element={<Profile />} />
                 <Route path="/forbidden" element={<Forbidden />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
