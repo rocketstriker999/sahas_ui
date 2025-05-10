@@ -26,6 +26,8 @@ import ProductAccess from '../components/profile/ProductAccess';
 import Catelogue from "../components/profile/Catelogue";
 import TransactionDetails from "../components/profile/TransactionDetails";
 import GlobalNotes from "../components/profile/GlobalNotes";
+import WalletDetails from "../components/profile/WalletDetails";
+import WithdrawDetails from "../components/profile/WithdrawDetails";
 
 export default function App() {
     return (
@@ -75,9 +77,10 @@ export default function App() {
                     <Route index element={<Catelogue />} />
                     <Route path="primary-details" element={<PrimaryDetails />} />
                     <Route path="product-access" element={<ProductAccess />} />
-                    <Route path="product-access/transaction-details/:userId/:productId" element={<TransactionDetails />} />
-                    <Route path="global-notes" element={<GlobalNotes />} />
-
+                    <Route path="product-access/transaction-details/:transactionId/:transactionTitle" element={<TransactionDetails />} />
+                    <Route path="student-notes" element={<GlobalNotes />} />
+                    <Route path="wallet-details" element={<WalletDetails />} />
+                    <Route path="wallet-details/withdraw-details" element={<WithdrawDetails />} />
                 </Route>
 
                 <Route path="/adminUserProductAccess" element={<AdminUserProductAccess />} />
