@@ -21,10 +21,10 @@ jobs:
                   sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no "${{secrets.SSH_SERVER}}" << 'EOF'
                     set -e
                     
-                    cd ${{ secrets.DEPLOYMENT_DIRECTORY }}
+                    cd /var/www/sites/dev.sahasinstitute.com
                     if [ ! -d "${{env.REPO}}" ]; then
                       echo "Fetching Repository - $REPO"
-                      git clone --branch $BRNACH https://github.com/rocketstriker999/${{env.REPO}}
+                      git clone --branch ${{env.BRNACH}} https://github.com/rocketstriker999/${{env.REPO}}
                       npm install -g serve
                     fi
                     cd "${{env.REPO}}"
