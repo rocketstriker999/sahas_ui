@@ -9,27 +9,30 @@ on:
 jobs:
     deploy:
         runs-on: ubuntu-latest
+        env:
+            REPO: sahas_ui
+            BRNACH: main
         steps:
             - name: Preparing SSH
               run: sudo apt-get install -y sshpass
 
             - name: SSH Deployment
               run: |
-                  sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@46.202.164.212 << 'EOF'
+                  sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no "${{secrets.SSH_SERVER}}" << 'EOF'
                     set -e
-                    cd /root/sahas/prod
-                    DIR="sahas_ui"
-                    if [ ! -d "$DIR" ]; then
-                      echo "Fetching Source - $DIR"
-                      git clone --branch main https://github.com/rocketstriker999/$DIR
+                    
+                    cd /var/www/sites/prod.sahasinstitute.com
+                    if [ ! -d "${{env.REPO}}" ]; then
+                      echo "Fetching Repository - $REPO"
+                      git clone --branch ${{env.BRNACH}} https://github.com/rocketstriker999/${{env.REPO}}
                       npm install -g serve
                     fi
-                    cd "$DIR"
+                    cd "${{env.REPO}}"
                     if [ -f process.id ]; then
-                      pid=$(cat process.id)
-                      if ps -p $pid > /dev/null; then
-                        echo "Terminating $DIR - pid $pid"
-                        kill -9 $pid
+                      PREVIOUS_PID=$(cat process.id)
+                      if ps -p $PREVIOUS_PID > /dev/null; then
+                        echo "Terminating $REPO - Previous Process ID : $PREVIOUS_PID"
+                        kill -9 $PREVIOUS_PID
                       fi
                     fi
                     git pull
@@ -40,9 +43,9 @@ jobs:
                       mkdir logs
                     fi
                     log_date=$(date +"%d-%m-%Y")
-                    serve -s build -l 3000 > logs/"$log_date".log 2>&1 &
+                    serve -s build -l 4000 > logs/"$log_date".log 2>&1 &
                     new_pid=$!
-                    echo "Starting $DIR - pid $new_pid"
+                    echo "Starting $REPO - pid $new_pid"
                     echo $new_pid > process.id
                     echo "Deployed & Disconnecting SSH"
                     exit 0
