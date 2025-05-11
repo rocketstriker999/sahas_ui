@@ -19,8 +19,7 @@ jobs:
                     set -e
                     REPO="sahas_ui"
                     BRNACH="dev"
-                    ENVRIONMENT="dev"
-                    cd /root/sahas/$ENVRIONMENT
+                    cd ${{ secrets.DEPLOYMENT_DIRECTORY }}
                     if [ ! -d "$REPO" ]; then
                       echo "Fetching Repository - $REPO"
                       git clone --branch $BRNACH https://github.com/rocketstriker999/$REPO
