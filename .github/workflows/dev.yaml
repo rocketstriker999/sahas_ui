@@ -38,6 +38,7 @@ jobs:
                     git pull
                     npm install
                     rm -rf build
+                    ls
                     npm run build
                     if [ ! -d "logs" ]; then
                       mkdir logs
