@@ -23,7 +23,7 @@ jobs:
                     
                     cd /var/www/sites/dev.sahasinstitute.com
                     if [ ! -d "${{env.REPO}}" ]; then
-                      echo "Fetching Repository - $REPO"
+                      echo "Fetching Repository - ${{env.REPO}}"
                       git clone --branch ${{env.BRNACH}} https://github.com/rocketstriker999/${{env.REPO}}
                       npm install -g serve
                     fi
@@ -31,7 +31,7 @@ jobs:
                     if [ -f process.id ]; then
                       PREVIOUS_PID=$(cat process.id)
                       if ps -p $PREVIOUS_PID > /dev/null; then
-                        echo "Terminating $REPO - Previous Process ID : $PREVIOUS_PID"
+                        echo "Terminating ${{env.REPO}} - Previous Process ID : $PREVIOUS_PID"
                         kill -9 $PREVIOUS_PID
                       fi
                     fi
@@ -46,7 +46,7 @@ jobs:
                     log_date=$(date +"%d-%m-%Y")
                     serve -s build -l 4000 > logs/"$log_date".log 2>&1 &
                     new_pid=$!
-                    echo "Starting $REPO - pid $new_pid"
+                    echo "Starting ${{env.REPO}} - pid $new_pid"
                     echo $new_pid > process.id
                     echo "Deployed & Disconnecting SSH"
                     exit 0
