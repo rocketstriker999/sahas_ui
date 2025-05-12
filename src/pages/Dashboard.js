@@ -3,7 +3,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { SelectButton } from "primereact/selectbutton";
 import { useLocation } from "react-router-dom";
 import Navbar from "../components/common/Navbar";
-
+//1
 export default function Dashboard() {
     const navigate = useNavigate();
     const location = useLocation();
