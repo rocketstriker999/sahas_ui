@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate, Outlet } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Catelogue = () => {
     const navigate = useNavigate();
@@ -16,14 +16,19 @@ const Catelogue = () => {
             route: 'product-access',
         },
         {
+            icon: 'pi pi-wallet',
+            label: 'Wallet',
+            route: `wallet-details`,
+        },
+        {
             icon: 'pi pi-calendar',
             label: 'Attendance',
             route: '',
         },
         {
             icon: 'pi pi-bell',
-            label: 'Global Notes',
-            route: 'global-notes',
+            label: 'Student Notes',
+            route: 'student-notes',
         }
     ];
 

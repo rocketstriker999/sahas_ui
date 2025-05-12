@@ -24,7 +24,7 @@ const GlobalNotes = () => {
 
     return (
         <div className="p-4">
-            <h2 className="text-xl md:text-2xl font-bold border-bottom-1 surface-border pb-2 mb-4">Global Notes</h2>
+            <h2 className="text-xl md:text-2xl font-bold border-bottom-1 surface-border pb-2 m-0">Student Notes</h2>
             {dummyNotes.map((noteObj, index) => (
                 <Card className="shadow-2 border-round-xl mb-4" pt={{
                     content:classNames('p-0')
