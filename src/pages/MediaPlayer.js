@@ -23,7 +23,9 @@ export default function MediaPlayer() {
             onResponseReceieved: (media, responseCode) => {
                 if (media && responseCode === 200) {
                     setMedia(media);
-                } else {
+                }
+
+                if (responseCode === 401) {
                     navigate("/forbidden");
                 }
             },
