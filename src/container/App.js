@@ -28,6 +28,9 @@ import TransactionDetails from "../components/profile/TransactionDetails";
 import GlobalNotes from "../components/profile/GlobalNotes";
 import WalletDetails from "../components/profile/WalletDetails";
 import WithdrawDetails from "../components/profile/WithdrawDetails";
+import AdminDashboard from "../components/admin/AdminDashboard";
+import Admin from "../pages/Admin";
+import Test from "../pages/Test";
 
 export default function App() {
     return (
@@ -83,9 +86,15 @@ export default function App() {
                     <Route path="wallet-details/withdraw-details" element={<WithdrawDetails />} />
                 </Route>
 
+                <Route path="/manage-firm" element={<Admin />}>
+                    <Route index element={<AdminDashboard />} />
+                </Route>
+
+                <Route path="/test" element={<Test />} />
+
+
                 <Route path="/adminUserProductAccess" element={<AdminUserProductAccess />} />
                 <Route path="/logout" element={<Logout />} />
-                <Route path="/profile" element={<Profile />} />
                 <Route path="/forbidden" element={<Forbidden />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>

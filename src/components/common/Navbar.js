@@ -23,7 +23,7 @@ export default function Navbar() {
             label: "Manage Firm",
             icon: "pi pi-cog",
             command: () => navigate("/manage-firm"),
-            visible: hasGroupAccess(loggedInUser?.groups, ["FADMIN", "HADMIN"]),
+            // visible: hasGroupAccess(loggedInUser?.groups, ["FADMIN", "HADMIN"]),
         },
         {
             label: "Profile",
