@@ -46,14 +46,10 @@ jobs:
                     npm install
                     rm -rf build
                     npm run build
-
-                    nohup node "${{ env.ENTRY }}" > 
                     serve -s build -l 4000 > /dev/null 2>&1 &
-
                     new_pid=$!
                     echo "Starting ${{ env.REPO }} - pid $new_pid"
                     echo $new_pid > process.id
-
                     echo "✅ Deployed & Disconnecting SSH"
                     exit 0
                   EOF
