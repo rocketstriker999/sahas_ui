@@ -1,4 +1,4 @@
-name: sahas_ui DEV Deployment
+name: sahas_ui PROD Deployment
 
 on:
     push:
