@@ -12,6 +12,8 @@ import { Provider } from "react-redux";
 import state from "./redux/state";
 import { ProviderAppContainer } from "./providers/ProviderAppContainer";
 
+//1
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <React.StrictMode>
