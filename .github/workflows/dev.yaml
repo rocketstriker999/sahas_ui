@@ -9,7 +9,7 @@ on:
 
 env:
     DEPLOYMENT_DIRECTORY: "/var/www/sites/dev.sahasinstitute.com/"
-    REPO: "sahas_api"
+    REPO: "sahas_ui"
     BRANCH: "dev"
 
 jobs:
