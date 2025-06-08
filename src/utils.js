@@ -15,20 +15,13 @@ export async function requestAPI({
     requestGetQuery = false,
     requestPostBody = false,
     onRequestStart = false,
-    setLoading = false,
+    onLoading = false,
     onResponseReceieved = false,
     onRequestFailure = false,
     onRequestEnd = false,
-    deviceInfo = {
-        "Device-ID": localStorage.getItem(process.env.REACT_APP_DEVICE_KEY),
-        "Device-OS": platform.os.family,
-        "Device-Company": platform.product,
-        "Device-Browser": platform.name,
-        "Device-Browser-Version": platform.version,
-    },
 } = {}) {
     if (onRequestStart) onRequestStart();
-    if (setLoading) setLoading(true);
+    if (onLoading) onLoading(true);
 
     //append api backend service path
     requestPath = process.env.REACT_APP_BACKEND_SERVER.concat(process.env.REACT_APP_API_PATH).concat(requestPath);
@@ -46,14 +39,19 @@ export async function requestAPI({
     const fetchOptions = {
         // Adding headers to the request
         headers: {
+            "Auth-Token": localStorage.getItem(process.env.REACT_APP_AUTH_TOKEN_KEY),
             "Content-Type": "application/json",
-            ...deviceInfo,
+            "Device-ID": localStorage.getItem(process.env.REACT_APP_DEVICE_KEY),
+            "Device-OS": platform.os.family,
+            "Device-Company": platform.product,
+            "Device-Browser": platform.name,
+            "Device-Browser-Version": platform.version,
             ...requestHeaders,
         },
         // Adding method type
         method: requestMethod.toUpperCase(),
         //Adding Cookies as well
-        credentials: "include",
+        //credentials: "include",
     };
 
     if (requestPostBody) {
@@ -67,7 +65,7 @@ export async function requestAPI({
     } catch (e) {
         if (onRequestFailure) onRequestFailure(e.toString());
     } finally {
-        if (setLoading) setLoading(false);
+        if (onLoading) onLoading(false);
     }
     if (onRequestEnd) onRequestEnd();
 }

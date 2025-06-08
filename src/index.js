@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import App from "./container/App";
+import App from "./containers/App";
 import reportWebVitals from "./reportWebVitals";
 import { PrimeReactProvider } from "primereact/api";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
@@ -10,18 +10,16 @@ import "primeflex/primeflex.css";
 import "primereact/resources/primereact.css";
 import { Provider } from "react-redux";
 import state from "./redux/state";
-import { ProviderAppContainer } from "./providers/ProviderAppContainer";
-
-//1
+import { ProviderSahas } from "./providers/ProviderSahas";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <React.StrictMode>
         <PrimeReactProvider value={{ ripple: true, appendTo: "self" }}>
             <Provider store={state}>
-                <ProviderAppContainer>
+                <ProviderSahas>
                     <App />
-                </ProviderAppContainer>
+                </ProviderSahas>
             </Provider>
         </PrimeReactProvider>
     </React.StrictMode>

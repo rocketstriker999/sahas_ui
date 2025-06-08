@@ -4,7 +4,7 @@ import NoContent from "../common/NoContent";
 import { BlockUI } from "primereact/blockui";
 import { Button } from "primereact/button";
 import { classNames } from "primereact/utils";
-import { useAppContext } from "../../providers/ProviderAppContainer";
+import { useAppContext } from "../../providers/ProviderApp";
 import { Ripple } from "primereact/ripple";
 
 export default function Chapters() {

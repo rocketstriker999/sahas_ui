@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import NoContent from "../common/NoContent";
 import { useNavigate, useParams } from "react-router-dom";
-import { useAppContext } from "../../providers/ProviderAppContainer";
+import { useAppContext } from "../../providers/ProviderApp";
 import { Ripple } from "primereact/ripple";
 import { Button } from "primereact/button";
 

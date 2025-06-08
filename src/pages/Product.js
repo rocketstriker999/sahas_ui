@@ -6,7 +6,7 @@ import ButtonPurchase from "../components/common/ButtonBuyNow";
 import { Button } from "primereact/button";
 import NoContent from "../components/common/NoContent";
 import { getResource } from "../utils";
-import { useAppContext } from "../providers/ProviderAppContainer";
+import { useAppContext } from "../providers/ProviderApp";
 
 export default function Product() {
     const { catelogue } = useAppContext();

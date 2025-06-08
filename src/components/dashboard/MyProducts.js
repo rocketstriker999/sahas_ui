@@ -2,7 +2,7 @@ import { Fragment } from "react";
 import Product from "./Product";
 import { Divider } from "primereact/divider";
 import NoContent from "../common/NoContent";
-import { useAppContext } from "../../providers/ProviderAppContainer";
+import { useAppContext } from "../../providers/ProviderApp";
 
 export default function MyProducts() {
     const { catelogue } = useAppContext();

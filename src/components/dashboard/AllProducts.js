@@ -5,7 +5,7 @@ import { Divider } from "primereact/divider";
 import Product from "./Product";
 import NoContent from "../common/NoContent";
 import { Badge } from "primereact/badge";
-import { useAppContext } from "../../providers/ProviderAppContainer";
+import { useAppContext } from "../../providers/ProviderApp";
 
 export default function AllProducts() {
     const { catelogue } = useAppContext();

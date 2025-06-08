@@ -4,7 +4,7 @@ import React from "react";
 import { classNames } from "primereact/utils";
 import NoContent from "../common/NoContent";
 import { getResource } from "../../utils";
-import { useAppContext } from "../../providers/ProviderAppContainer";
+import { useAppContext } from "../../providers/ProviderSahas";
 
 export default function CarouselHeader() {
     const { templateConfig } = useAppContext();

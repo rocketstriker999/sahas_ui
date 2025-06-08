@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import NoContent from "../common/NoContent";
-import { useAppContext } from "../../providers/ProviderAppContainer";
+import { useAppContext } from "../../providers/ProviderApp";
 import { Ripple } from "primereact/ripple";
 
 export default function Subjects() {
