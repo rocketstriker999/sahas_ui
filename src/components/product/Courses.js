@@ -13,7 +13,7 @@ export default function Courses() {
 
     const product = catelogue?.products?.find((product) => product.id == productId);
 
-    const courses = catelogue.courses?.filter((course) => course.product_id == productId);
+    const courses = catelogue.courses?.filter((course) => course.product_id == productId).sort((course1, course2) => course2.id - course1.id);
 
     return courses?.length > 0 ? (
         <Fragment>
