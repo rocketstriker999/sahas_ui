@@ -1,4 +1,6 @@
-import platform from "platform";
+import { ClientJS } from "clientjs";
+
+const client = new ClientJS();
 
 export function hasGroupAccess(userGroups, allowedGroups) {
     return userGroups ? userGroups.some((group) => allowedGroups.includes(group)) : false;
@@ -19,13 +21,7 @@ export async function requestAPI({
     onResponseReceieved = false,
     onRequestFailure = false,
     onRequestEnd = false,
-    deviceInfo = {
-        "Device-ID": localStorage.getItem(process.env.REACT_APP_DEVICE_KEY),
-        "Device-OS": platform.os.family,
-        "Device-Company": platform.product,
-        "Device-Browser": platform.name,
-        "Device-Browser-Version": platform.version,
-    },
+    deviceId = client.getFingerprint(),
 } = {}) {
     if (onRequestStart) onRequestStart();
     if (setLoading) setLoading(true);
@@ -47,7 +43,7 @@ export async function requestAPI({
         // Adding headers to the request
         headers: {
             "Content-Type": "application/json",
-            ...deviceInfo,
+            ...deviceId,
             ...requestHeaders,
         },
         // Adding method type
