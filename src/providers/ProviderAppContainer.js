@@ -5,7 +5,6 @@ import { requestAPI } from "../utils";
 import NoContent from "../components/common/NoContent";
 import { useSelector } from "react-redux";
 import ProcessToken from "../security/ProcessToken";
-import { useLocalStorage } from "primereact/hooks";
 import platform from "platform";
 
 const ContextApp = createContext();
@@ -19,7 +18,7 @@ export const ProviderAppContainer = ({ children }) => {
     const [loadingCatelogue, setLoadingCatelogue] = useState();
     const [loadingDevice, setLoadingDevice] = useState();
 
-    const [deviceId, setDeviceId] = useLocalStorage(localStorage.getItem(process.env.REACT_APP_DEVICE_KEY), process.env.REACT_APP_DEVICE_KEY);
+    const [deviceId, setDeviceId] = useState(localStorage.getItem(process.env.REACT_APP_DEVICE_KEY));
 
     const [error, setError] = useState();
 
@@ -51,13 +50,15 @@ export const ProviderAppContainer = ({ children }) => {
                 onRequestFailure: setError,
                 onResponseReceieved: (deviceCreation, responseCode) => {
                     if (deviceCreation?.device_id && responseCode === 201 && !deviceId) {
-                        console.log("CALLED");
-                        setDeviceId(deviceCreation.device_id);
+                        setDeviceId(() => {
+                            localStorage.setItem(process.env.REACT_APP_DEVICE_KEY, deviceCreation.device_id);
+                            return deviceCreation.device_id;
+                        });
                     }
                 },
             });
         }
-    }, [deviceId, setDeviceId]);
+    }, [deviceId]);
 
     useEffect(() => {
         requestAPI({
