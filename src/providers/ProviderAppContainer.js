@@ -5,6 +5,7 @@ import { requestAPI } from "../utils";
 import NoContent from "../components/common/NoContent";
 import { useSelector } from "react-redux";
 import ProcessToken from "../security/ProcessToken";
+import { useLocalStorage } from "primereact/hooks";
 
 const ContextApp = createContext();
 
@@ -15,23 +16,41 @@ export const ProviderAppContainer = ({ children }) => {
 
     const [loadingTemplateConfig, setLoadingTemplateConfig] = useState();
     const [loadingCatelogue, setLoadingCatelogue] = useState();
+    const [loadingDevice, setLoadingDevice] = useState();
+
+    const [deviceId, setDeviceId] = useLocalStorage(localStorage.getItem(process.env.REACT_APP_DEVICE_KEY), process.env.REACT_APP_DEVICE_KEY);
 
     const [error, setError] = useState();
 
     const loggedInUser = useSelector((state) => state.stateUser.user);
 
     useEffect(() => {
-        requestAPI({
-            requestPath: "configs/template",
-            setLoading: setLoadingTemplateConfig,
-            onRequestFailure: setError,
-            onResponseReceieved: (config, responseCode) => {
-                if (config && responseCode === 200) {
-                    setTemplateConfig(config);
-                }
-            },
-        });
-    }, []);
+        if (!templateConfig)
+            requestAPI({
+                requestPath: "configs/template",
+                setLoading: setLoadingTemplateConfig,
+                onRequestFailure: setError,
+                onResponseReceieved: (config, responseCode) => {
+                    if (config && responseCode === 200) {
+                        setTemplateConfig(config);
+                    }
+                },
+            });
+    }, [templateConfig]);
+
+    useEffect(() => {
+        if (!deviceId)
+            requestAPI({
+                requestPath: "device/create",
+                setLoading: setLoadingDevice,
+                onRequestFailure: setError,
+                onResponseReceieved: (deviceCreation, responseCode) => {
+                    if (deviceCreation?.device_id && responseCode === 200 && !deviceId) {
+                        setDeviceId(deviceCreation.device_id);
+                    }
+                },
+            });
+    }, [deviceId, setDeviceId]);
 
     useEffect(() => {
         requestAPI({
@@ -48,8 +67,12 @@ export const ProviderAppContainer = ({ children }) => {
 
     const generateAppView = () => {
         if (loadingTemplateConfig || loadingCatelogue) return <Loading message="Loading App Configuration..." />;
+        if (loadingCatelogue) return <Loading message="Loading Courses..." />;
+        if (loadingDevice) return <Loading message="Validating Device..." />;
         if (error) return <NoContent error={error} />;
-        return children;
+        if (templateConfig && catelogue && deviceId) return children;
+
+        return <NoContent error={"Failed To Load Application"} />;
     };
 
     return (

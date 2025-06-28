@@ -10,7 +10,7 @@ export default function CarouselHeader() {
     const { templateConfig } = useAppContext();
 
     const itemTemplate = (carouselItem) =>
-        carouselItem.type === "image" && <Image width="100%" src={getResource(carouselItem?.image)} alt={process.env.REACT_APP_FALLBACK_IMAGE} />;
+        carouselItem.type === "image" && <Image width="100%" src={getResource(carouselItem?.image)} alt={carouselItem?.image} />;
 
     if (templateConfig?.carousel?.images && templateConfig?.carousel?.images?.length) {
         return (

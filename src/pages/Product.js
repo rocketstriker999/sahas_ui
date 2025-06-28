@@ -23,13 +23,7 @@ export default function Product() {
                         <p className="lg:text-base text-xs text-white m-0 mt-3 line-height-3">{product?.description}</p>
                     </div>
                     <div>
-                        <img
-                            className="border-round m-0 p-0 shadow-4"
-                            width="100"
-                            height="100"
-                            src={getResource(product?.image)}
-                            alt={process.env.REACT_APP_FALLBACK_IMAGE}
-                        />
+                        <img className="border-round m-0 p-0 shadow-4" width="100" height="100" src={getResource(product?.image)} alt={product?.image} />
                     </div>
                 </div>
                 <div className="flex gap-2 mt-3 justify-content-end">
