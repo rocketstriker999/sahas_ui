@@ -45,7 +45,7 @@ export const ProviderAppContainer = ({ children }) => {
                 requestPath: "device/create",
                 requestMethod: "POST",
                 requestPostBody: {
-                    description: platform.description,
+                    device: platform.description,
                 },
                 setLoading: setLoadingDevice,
                 onRequestFailure: setError,
