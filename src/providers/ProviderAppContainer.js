@@ -40,7 +40,7 @@ export const ProviderAppContainer = ({ children }) => {
     }, [templateConfig]);
 
     useEffect(() => {
-        if (!deviceId)
+        if (!deviceId) {
             requestAPI({
                 requestPath: "device/create",
                 requestMethod: "POST",
@@ -51,10 +51,12 @@ export const ProviderAppContainer = ({ children }) => {
                 onRequestFailure: setError,
                 onResponseReceieved: (deviceCreation, responseCode) => {
                     if (deviceCreation?.device_id && responseCode === 201 && !deviceId) {
+                        console.log("CALLED");
                         setDeviceId(deviceCreation.device_id);
                     }
                 },
             });
+        }
     }, [deviceId, setDeviceId]);
 
     useEffect(() => {
