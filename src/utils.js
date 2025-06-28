@@ -1,5 +1,3 @@
-import platform from "platform";
-
 export function hasGroupAccess(userGroups, allowedGroups) {
     return userGroups ? userGroups.some((group) => allowedGroups.includes(group)) : false;
 }
@@ -19,12 +17,6 @@ export async function requestAPI({
     onResponseReceieved = false,
     onRequestFailure = false,
     onRequestEnd = false,
-    deviceInfo = {
-        "Device-ID": localStorage.getItem(process.env.REACT_APP_DEVICE_KEY),
-        "Device-OS": platform.os.family,
-        "Device-Company": platform.product,
-        "Device-Browser": `${platform.name}(${platform.version})`,
-    },
 } = {}) {
     if (onRequestStart) onRequestStart();
     if (setLoading) setLoading(true);
@@ -46,7 +38,7 @@ export async function requestAPI({
         // Adding headers to the request
         headers: {
             "Content-Type": "application/json",
-            ...deviceInfo,
+            device_id: localStorage.getItem(process.env.REACT_APP_DEVICE_KEY),
             ...requestHeaders,
         },
         // Adding method type

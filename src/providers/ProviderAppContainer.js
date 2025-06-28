@@ -6,6 +6,7 @@ import NoContent from "../components/common/NoContent";
 import { useSelector } from "react-redux";
 import ProcessToken from "../security/ProcessToken";
 import { useLocalStorage } from "primereact/hooks";
+import platform from "platform";
 
 const ContextApp = createContext();
 
@@ -42,10 +43,14 @@ export const ProviderAppContainer = ({ children }) => {
         if (!deviceId)
             requestAPI({
                 requestPath: "device/create",
+                requestMethod: "POST",
+                requestPostBody: {
+                    description: platform.description,
+                },
                 setLoading: setLoadingDevice,
                 onRequestFailure: setError,
                 onResponseReceieved: (deviceCreation, responseCode) => {
-                    if (deviceCreation?.device_id && responseCode === 200 && !deviceId) {
+                    if (deviceCreation?.device_id && responseCode === 201 && !deviceId) {
                         setDeviceId(deviceCreation.device_id);
                     }
                 },
