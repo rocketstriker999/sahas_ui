@@ -4,10 +4,11 @@ import MediaSelector from "../components/content_player/MediaSelector";
 import { requestAPI } from "../utils";
 import Loading from "../components/common/Loading";
 import { TabMenu } from "primereact/tabmenu";
-import { Fragment, useMemo } from "react";
+import { useMemo } from "react";
 import PlayerVideo from "../components/content_player/PlayerVideo";
 import PlayerAudio from "../components/content_player/PlayerAudio";
 import PlayerPDF from "../components/content_player/PlayerPDF";
+import { useAppContext } from "../providers/ProviderAppContainer";
 
 export default function MediaPlayer() {
     const { selector, id } = useParams();
@@ -16,6 +17,7 @@ export default function MediaPlayer() {
     const [loading, setLoading] = useState();
     const navigate = useNavigate();
     const [activeTabIndex, setActiveTabIndex] = useState(0);
+    const { setApplicationError } = useAppContext();
 
     useEffect(() => {
         requestAPI({
@@ -26,12 +28,12 @@ export default function MediaPlayer() {
                 }
 
                 if (responseCode === 401) {
-                    navigate("/forbidden");
+                    setApplicationError(media.error);
                 }
             },
             setLoading: setLoading,
         });
-    }, [selector, id, navigate]);
+    }, [selector, id, navigate, setApplicationError]);
 
     const organizedMedia = useMemo(
         () =>

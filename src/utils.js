@@ -38,7 +38,7 @@ export async function requestAPI({
         // Adding headers to the request
         headers: {
             "Content-Type": "application/json",
-            device_id: localStorage.getItem(process.env.REACT_APP_DEVICE_KEY),
+            "Device-Finger-Print": localStorage.getItem("device_finger_print"),
             ...requestHeaders,
         },
         // Adding method type

@@ -1,5 +1,5 @@
 import { Toast } from "primereact/toast";
-import React, { createContext, useContext, useEffect, useRef, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import Loading from "../components/common/Loading";
 import { requestAPI } from "../utils";
 import NoContent from "../components/common/NoContent";
@@ -13,12 +13,10 @@ export const ProviderAppContainer = ({ children }) => {
     const toast = useRef(null);
     const [templateConfig, setTemplateConfig] = useState();
     const [catelogue, setCatelogue] = useState();
-
     const [loadingTemplateConfig, setLoadingTemplateConfig] = useState();
     const [loadingCatelogue, setLoadingCatelogue] = useState();
     const [loadingDevice, setLoadingDevice] = useState();
-
-    const [deviceId, setDeviceId] = useState(localStorage.getItem(process.env.REACT_APP_DEVICE_KEY));
+    const [deviceFingerPrint, setDeviceFingerPrint] = useState(localStorage.getItem("device_finger_print"));
 
     const [error, setError] = useState();
 
@@ -39,7 +37,7 @@ export const ProviderAppContainer = ({ children }) => {
     }, [templateConfig]);
 
     useEffect(() => {
-        if (!deviceId) {
+        if (!deviceFingerPrint) {
             requestAPI({
                 requestPath: "device/create",
                 requestMethod: "POST",
@@ -49,16 +47,16 @@ export const ProviderAppContainer = ({ children }) => {
                 setLoading: setLoadingDevice,
                 onRequestFailure: setError,
                 onResponseReceieved: (deviceCreation, responseCode) => {
-                    if (deviceCreation?.device_id && responseCode === 201 && !deviceId) {
-                        setDeviceId(() => {
-                            localStorage.setItem(process.env.REACT_APP_DEVICE_KEY, deviceCreation.device_id);
-                            return deviceCreation.device_id;
+                    if (deviceCreation?.device_finger_print && responseCode === 201 && !deviceFingerPrint) {
+                        setDeviceFingerPrint(() => {
+                            localStorage.setItem("device_finger_print", deviceCreation?.device_finger_print);
+                            return deviceCreation?.device_finger_print;
                         });
                     }
                 },
             });
         }
-    }, [deviceId]);
+    }, [deviceFingerPrint]);
 
     useEffect(() => {
         requestAPI({
@@ -78,14 +76,13 @@ export const ProviderAppContainer = ({ children }) => {
         if (loadingCatelogue) return <Loading message="Loading Courses..." />;
         if (loadingDevice) return <Loading message="Validating Device..." />;
         if (error) return <NoContent error={error} />;
-        if (templateConfig && catelogue && deviceId) return children;
-
+        if (templateConfig && catelogue && deviceFingerPrint) return children;
         return <NoContent error={"Failed To Load Application"} />;
     };
 
     return (
         <div className="max-w-full lg:max-w-30rem lg:mx-auto lg:border-1 lg:my-2">
-            <ContextApp.Provider value={{ toast, templateConfig, catelogue }}>
+            <ContextApp.Provider value={{ toast, templateConfig, catelogue, setApplicationError: setError }}>
                 <Toast ref={toast} position="top-right" />
                 <ProcessToken>{generateAppView()}</ProcessToken>
             </ContextApp.Provider>
