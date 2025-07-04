@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocalStorage } from "primereact/hooks";
 import Loading from "../common/Loading";
-import { requestAPI } from "../../utils";
 import NoContent from "../common/NoContent";
 import { useNavigate, useParams } from "react-router-dom";
+import { useAppContext } from "../../providers/ProviderAppContainer";
 
 export default function PlayerVideo({ mediaItem }) {
     const [playBackTimes, setPlayBackTimes] = useLocalStorage({}, "videoPlayBacks");
@@ -12,6 +12,7 @@ export default function PlayerVideo({ mediaItem }) {
     const [streamSet, setStreamSet] = useState();
     const { selector, id } = useParams();
     const navigate = useNavigate();
+    const { requestAPI } = useAppContext();
 
     useEffect(() => {
         requestAPI({

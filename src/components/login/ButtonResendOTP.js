@@ -1,12 +1,13 @@
 import { Fragment, useEffect, useRef, useState } from "react";
-import { requestAPI } from "../../utils";
 import { Button } from "primereact/button";
 import { Messages } from "primereact/messages";
+import { useAppContext } from "../../providers/ProviderAppContainer";
 
 export default function ButtonResendOTP({ email }) {
     const [waitTime, setWaitTime] = useState();
     const [loading, setLoading] = useState();
     const message = useRef(null);
+    const { requestAPI } = useAppContext();
 
     const resendOTP = () => {
         requestAPI({

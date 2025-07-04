@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import MediaSelector from "../components/content_player/MediaSelector";
-import { requestAPI } from "../utils";
 import Loading from "../components/common/Loading";
 import { TabMenu } from "primereact/tabmenu";
 import { useMemo } from "react";
@@ -17,7 +16,7 @@ export default function MediaPlayer() {
     const [loading, setLoading] = useState();
     const navigate = useNavigate();
     const [activeTabIndex, setActiveTabIndex] = useState(0);
-    const { setApplicationError } = useAppContext();
+    const { setApplicationError, requestAPI } = useAppContext();
 
     useEffect(() => {
         requestAPI({

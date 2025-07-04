@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { requestAPI } from "../utils";
 import { useParams } from "react-router-dom";
 import ButtonPay from "../components/purchase/ButtonPay";
 import { Checkbox } from "primereact/checkbox";
@@ -7,6 +6,7 @@ import { Divider } from "primereact/divider";
 import Loading from "../components/common/Loading";
 import CouponCodeApplier from "../components/purchase/CouponCodeApplier";
 import { Tag } from "primereact/tag";
+import { useAppContext } from "../providers/ProviderAppContainer";
 const moment = require("moment");
 
 export default function Purchase() {
@@ -15,6 +15,7 @@ export default function Purchase() {
     const { productId } = useParams();
     const [termsAccepted, setTermsAccepted] = useState(false);
     const [appliedCouponCode, setAppliedCouponCode] = useState();
+    const { requestAPI } = useAppContext();
 
     useEffect(() => {
         //hit API Once

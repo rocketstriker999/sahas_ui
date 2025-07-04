@@ -5,22 +5,24 @@ import { generateDeviceFingerprint } from "../utils";
 import Loading from "../components/common/Loading";
 import { KEY_DEVICE_FINGER_PRINT } from "../constants";
 import { useNavigate } from "react-router-dom";
+import Error from "../pages/Error";
 
 const ContextApp = createContext();
 
 export const ProviderAppContainer = ({ children }) => {
     const [applicationError, setApplicationError] = useState();
-    const [loadingDevice, setLoadingDevice] = useState();
+    const [loading, setLoading] = useState();
     const [deviceFingerPrint, setDeviceFingerPrint] = useState();
 
     const toastRef = useRef(null);
 
-    const navigate = useNavigate();
-
     //generating Device FingerPrint
     useEffect(() => {
-        setLoadingDevice(true);
-        generateDeviceFingerprint().then(setDeviceFingerPrint).catch(setApplicationError).finally(setLoadingDevice);
+        setLoading({ message: "Generating Device Fingerprint..." });
+        generateDeviceFingerprint()
+            .then(setDeviceFingerPrint)
+            .catch(() => setApplicationError("Failed To Generate Device Fingerprint"))
+            .finally(setLoading);
     }, []);
 
     //api requests
@@ -72,7 +74,11 @@ export const ProviderAppContainer = ({ children }) => {
                 const response = await fetch(requestPath, fetchOptions);
                 const jsonResponse = await response.json();
                 if (response.status === 503 || response.status === 404) {
-                    navigate("/maintenance");
+                    return setApplicationError({
+                        icon: "images/maintenance.gif",
+                        title: "Under Maintenance",
+                        message: "The application is currently under maintenance. Please try again later.",
+                    });
                 }
                 if (onResponseReceieved) onResponseReceieved(jsonResponse, response.status);
             } catch (e) {
@@ -82,22 +88,20 @@ export const ProviderAppContainer = ({ children }) => {
             }
             if (onRequestEnd) onRequestEnd();
         },
-        [deviceFingerPrint, navigate]
+        [deviceFingerPrint]
     );
 
-    if (loadingDevice) return <Loading message="Loading Device Information..." />;
+    if (loading) return <Loading {...loading} />;
 
-    if (!loadingDevice && applicationError) return <NoContent error={applicationError} />;
+    if (!loading && applicationError) return <Error {...applicationError} />;
 
-    if (!loadingDevice && !applicationError && deviceFingerPrint) {
+    if (!loading && !applicationError && deviceFingerPrint) {
         return (
-            <div className="max-w-full lg:max-w-30rem lg:mx-auto lg:border-1 lg:my-2">
-                <ContextApp.Provider value={{ toastRef, setApplicationError, requestAPI }}>
-                    <Toast ref={toastRef} position="top-right" />
-                    <p>Device ID - {deviceFingerPrint} </p>
-                    {children}
-                </ContextApp.Provider>
-            </div>
+            <ContextApp.Provider value={{ toastRef, setApplicationError, requestAPI, setLoading }}>
+                <Toast ref={toastRef} position="top-right" />
+                <p>Device ID - {deviceFingerPrint} </p>
+                {children}
+            </ContextApp.Provider>
         );
     }
 };

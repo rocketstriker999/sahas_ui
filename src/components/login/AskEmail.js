@@ -2,12 +2,13 @@ import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { Divider } from "primereact/divider";
 import { useRef, useState } from "react";
-import { requestAPI } from "../../utils";
+import { useAppContext } from "../../providers/ProviderAppContainer";
 
 export default function AskEmail({ updateComponentState }) {
     const refUserEmail = useRef();
     const [loading, setLoading] = useState();
     const [error, setError] = useState();
+    const { requestAPI } = useAppContext();
 
     const generateOTP = () => {
         const email = refUserEmail.current.value;

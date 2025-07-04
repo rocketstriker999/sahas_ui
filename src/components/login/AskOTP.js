@@ -1,6 +1,5 @@
 import { Divider } from "primereact/divider";
 import { useRef, useState } from "react";
-import { requestAPI } from "../../utils";
 import { InputOtp } from "primereact/inputotp";
 import { classNames } from "primereact/utils";
 import { useDispatch } from "react-redux";
@@ -8,11 +7,13 @@ import { setCurrentUser } from "../../redux/sliceUser";
 import { Button } from "primereact/button";
 import ButtonResendOTP from "./ButtonResendOTP";
 import { Messages } from "primereact/messages";
+import { useAppContext } from "../../providers/ProviderAppContainer";
 
 export default function AskOTP({ email }) {
     const [loading, setLoading] = useState();
     const [error, setError] = useState();
     const [otpValue, setOtpValue] = useState("");
+    const { requestAPI } = useAppContext();
 
     const dispatch = useDispatch();
     const message = useRef(null);

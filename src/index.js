@@ -17,11 +17,13 @@ root.render(
     <React.StrictMode>
         <PrimeReactProvider value={{ ripple: true, appendTo: "self" }}>
             <Provider store={state}>
-                <BrowserRouter>
-                    <ProviderAppContainer>
-                        <App />
-                    </ProviderAppContainer>
-                </BrowserRouter>
+                <div className="max-w-full lg:max-w-30rem lg:mx-auto   min-h-screen	p-2">
+                    <BrowserRouter>
+                        <ProviderAppContainer>
+                            <App />
+                        </ProviderAppContainer>
+                    </BrowserRouter>
+                </div>
             </Provider>
         </PrimeReactProvider>
     </React.StrictMode>

@@ -2,13 +2,15 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
-import { requestAPI } from "../utils";
-import { setCurrentUser } from "../redux/sliceUser";
+import { setCurrentUser } from "../../redux/sliceUser";
 import { useNavigate } from "react-router-dom";
 import { Divider } from "primereact/divider";
 import { Avatar } from "primereact/avatar";
+import { useAppContext } from "../../providers/ProviderAppContainer";
 
 export default function HasPrimaryDetails({ children }) {
+    const { requestAPI } = useAppContext();
+
     const loggedInUser = useSelector((state) => state.stateUser.user);
     const [loading, setLoading] = useState();
     const dispatch = useDispatch();

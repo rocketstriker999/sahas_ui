@@ -1,23 +1,19 @@
 import { Route, Routes } from "react-router-dom";
 import Dashboard from "../pages/Dashboard";
-// import CustomError from "../pages/CustomError";
-// import Forbidden from "../pages/Forbidden";
-// import HasNoAuthentication from "../security/HasAuthentication";
 import Product from "../pages/Product";
 import Courses from "../components/product/Courses";
 import MediaPlayer from "../pages/MediaPlayer";
 import AllProducts from "../components/dashboard/AllProducts";
 import MyProducts from "../components/dashboard/MyProducts";
-import HasAuthentication from "../security/HasAuthentication";
-import HasNoAuthentication from "../security/HasNoAuthentication";
+import HasAuthentication from "../components/security/HasAuthentication";
+import HasNoAuthentication from "../components/security/HasNoAuthentication";
 import FormLogin from "../components/login/FormLogin";
 import Forbidden from "../pages/Forbidden";
 import NotFound from "../pages/NotFound";
 import Purchase from "../pages/Purchase";
-import HasPrimaryDetails from "../security/HasPrimaryDetails";
+import HasPrimaryDetails from "../components/security/HasPrimaryDetails";
 import Subjects from "../components/product/Subjects";
 import Chapters from "../components/product/Chapters";
-import AdminUserProductAccess from "../components/temp_admin/AdminUserProductAccess";
 import Logout from "../components/common/Logout";
 import Profile from "../pages/Profile";
 import PrimaryDetails from "../components/profile/PrimaryDetails";
@@ -32,107 +28,71 @@ import Loading from "../components/common/Loading";
 import { useSelector } from "react-redux";
 import { useAppContext } from "../providers/ProviderAppContainer";
 
+import RequiresTemplateConfiguration from "../components/dependencies/RequiresTemplateConfiguration";
+
 export default function App() {
-    const [templateConfig, setTemplateConfig] = useState();
-    const [catelogue, setCatelogue] = useState();
-    const [loadingTemplateConfig, setLoadingTemplateConfig] = useState();
-    const [loadingCatelogue, setLoadingCatelogue] = useState();
-
-    const { requestAPI } = useAppContext();
-
-    const loggedInUser = useSelector((state) => state.stateUser.user);
-    const [error, setError] = useState();
-
-    useEffect(() => {
-        if (!templateConfig)
-            requestAPI({
-                requestPath: "configs/template",
-                setLoading: setLoadingTemplateConfig,
-                onRequestFailure: setError,
-                onResponseReceieved: (config, responseCode) => {
-                    if (config && responseCode === 200) {
-                        setTemplateConfig(config);
-                    }
-                },
-            });
-    }, [requestAPI, templateConfig]);
-
-    useEffect(() => {
-        requestAPI({
-            requestPath: "catelogue",
-            setLoading: setLoadingCatelogue,
-            onRequestFailure: setError,
-            onResponseReceieved: (catelogue, responseCode) => {
-                if (catelogue && responseCode === 200) {
-                    setCatelogue(catelogue);
-                }
-            },
-        });
-    }, [loggedInUser]);
-
-    if (loadingTemplateConfig || loadingCatelogue) return <Loading message="Loading App Configuration..." />;
-
-    if (error) return <NotFound error={error} />;
-
     return (
-        <Routes>
-            <Route path="/" element={<Dashboard />}>
-                <Route index element={<AllProducts />} />
+        <RequiresTemplateConfiguration>
+            <p>Dashboard</p>
+            {/* <Routes>
+                <Route path="/" element={<Dashboard />}>
+                    <Route index element={<AllProducts />} />
+                    <Route
+                        path="my-products"
+                        element={
+                            <HasAuthentication>
+                                <MyProducts />
+                            </HasAuthentication>
+                        }
+                    />
+                    <Route
+                        path="login"
+                        element={
+                            <HasNoAuthentication>
+                                <FormLogin />
+                            </HasNoAuthentication>
+                        }
+                    />
+                </Route>
+
+                <Route path="/products/:productId" element={<Product />}>
+                    <Route index element={<Courses />} />
+                    <Route path="courses/:courseId">
+                        <Route index element={<Subjects />} />
+                        <Route path="subjects/:subjectId" element={<Chapters />} />
+                    </Route>
+                </Route>
+                <Route path="/media-player/:selector/:id" element={<MediaPlayer />} />
+
                 <Route
-                    path="my-products"
+                    path="/purchase/:productId"
                     element={
                         <HasAuthentication>
-                            <MyProducts />
+                            <HasPrimaryDetails>
+                                <Purchase />
+                            </HasPrimaryDetails>
                         </HasAuthentication>
                     }
                 />
-                <Route
-                    path="login"
-                    element={
-                        <HasNoAuthentication>
-                            <FormLogin />
-                        </HasNoAuthentication>
-                    }
-                />
-            </Route>
 
-            <Route path="/products/:productId" element={<Product />}>
-                <Route index element={<Courses />} />
-                <Route path="courses/:courseId">
-                    <Route index element={<Subjects />} />
-                    <Route path="subjects/:subjectId" element={<Chapters />} />
+                <Route path="/profile" element={<Profile />}>
+                    <Route index element={<Catelogue />} />
+                    <Route path="primary-details" element={<PrimaryDetails />} />
+                    <Route path="product-access" element={<ProductAccess />} />
+                    <Route path="product-access/transaction-details/:transactionId/:transactionTitle" element={<TransactionDetails />} />
+                    <Route path="student-notes" element={<GlobalNotes />} />
+                    <Route path="wallet-details" element={<WalletDetails />} />
+                    <Route path="wallet-details/withdraw-details" element={<WithdrawDetails />} />
                 </Route>
-            </Route>
-            <Route path="/media-player/:selector/:id" element={<MediaPlayer />} />
 
-            <Route
-                path="/purchase/:productId"
-                element={
-                    <HasAuthentication>
-                        <HasPrimaryDetails>
-                            <Purchase />
-                        </HasPrimaryDetails>
-                    </HasAuthentication>
-                }
-            />
+                <Route path="/adminUserProductAccess" element={<p>Admin Product access</p>} />
+                <Route path="/logout" element={<Logout />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/maintenance" element={<div>Under Maintenance</div>} />
 
-            <Route path="/profile" element={<Profile />}>
-                <Route index element={<Catelogue />} />
-                <Route path="primary-details" element={<PrimaryDetails />} />
-                <Route path="product-access" element={<ProductAccess />} />
-                <Route path="product-access/transaction-details/:transactionId/:transactionTitle" element={<TransactionDetails />} />
-                <Route path="student-notes" element={<GlobalNotes />} />
-                <Route path="wallet-details" element={<WalletDetails />} />
-                <Route path="wallet-details/withdraw-details" element={<WithdrawDetails />} />
-            </Route>
-
-            <Route path="/adminUserProductAccess" element={<AdminUserProductAccess />} />
-            <Route path="/logout" element={<Logout />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/maintenance" element={<div>Under Maintenance</div>} />
-
-            <Route path="/forbidden" element={<Forbidden />} />
-            <Route path="*" element={<NotFound />} />
-        </Routes>
+                <Route path="/forbidden" element={<Forbidden />} />
+                <Route path="*" element={<NotFound />} />
+            </Routes> */}
+        </RequiresTemplateConfiguration>
     );
 }

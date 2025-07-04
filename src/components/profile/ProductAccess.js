@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { Card } from 'primereact/card';
-import { classNames } from 'primereact/utils';
-import { useNavigate } from 'react-router-dom';
-import { Button } from 'primereact/button';
-import { useSelector } from 'react-redux';
-import { requestAPI } from "../../utils";
+import React, { useEffect, useState } from "react";
+import { Card } from "primereact/card";
+import { classNames } from "primereact/utils";
+import { useNavigate } from "react-router-dom";
+import { Button } from "primereact/button";
+import { useSelector } from "react-redux";
+import { useAppContext } from "../../providers/ProviderAppContainer";
 
 const ProductAccess = () => {
+    const { requestAPI } = useAppContext();
+
     const navigate = useNavigate();
     const [myProducts, setMyProducts] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -14,14 +16,14 @@ const ProductAccess = () => {
 
     useEffect(() => {
         requestAPI({
-            requestMethod: 'GET',
+            requestMethod: "GET",
             requestPath: `access/${loggedInUser?.id}/getProfileUserProductAccess`,
             setLoading: setLoading,
             onResponseReceieved: (data, responseCode) => {
                 if (responseCode === 200) {
                     setMyProducts(data);
                 }
-            }
+            },
         });
     }, [loggedInUser?.id]);
 
@@ -31,9 +33,7 @@ const ProductAccess = () => {
 
     return (
         <div className="flex flex-column gap-4 p-4">
-            <h2 className="text-xl md:text-2xl font-bold border-bottom-1 surface-border pb-2 m-0">
-                Course Details
-            </h2>
+            <h2 className="text-xl md:text-2xl font-bold border-bottom-1 surface-border pb-2 m-0">Course Details</h2>
             {myProducts?.length > 0 ? (
                 myProducts.map((product) => (
                     <Card
@@ -41,8 +41,8 @@ const ProductAccess = () => {
                         title={product.product_title}
                         className="shadow-3 border-round-xl"
                         pt={{
-                            title: classNames('text-base md:text-lg font-bold'),
-                            content: classNames('p-0')
+                            title: classNames("text-base md:text-lg font-bold"),
+                            content: classNames("p-0"),
                         }}
                     >
                         <div className="text-xs sm:text-sm mb-2">
@@ -51,7 +51,7 @@ const ProductAccess = () => {
                         </div>
                         <div className="text-xs sm:text-sm">
                             <span className="font-semibold">Course Access: </span>
-                            {product.active ? 'Yes' : 'No'}
+                            {product.active ? "Yes" : "No"}
                         </div>
                         <Button
                             label="Transaction Details"
@@ -64,9 +64,7 @@ const ProductAccess = () => {
                     </Card>
                 ))
             ) : (
-                <p className="text-center text-color-secondary">
-                    {loading ? 'Loading products...' : 'No products found'}
-                </p>
+                <p className="text-center text-color-secondary">{loading ? "Loading products..." : "No products found"}</p>
             )}
         </div>
     );

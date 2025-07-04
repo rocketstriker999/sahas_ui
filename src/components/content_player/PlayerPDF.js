@@ -6,8 +6,7 @@ import { Button } from "primereact/button";
 import { pdfjs } from "react-pdf";
 import NoContent from "../common/NoContent";
 import { useParams } from "react-router-dom";
-import { requestAPI } from "../../utils";
-import Loading from "../common/Loading";
+import { useAppContext } from "../../providers/ProviderAppContainer";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.worker.min.js`;
 

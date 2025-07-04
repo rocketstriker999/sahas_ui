@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "../redux/sliceUser";
-import { requestAPI } from "../utils";
 import Loading from "../components/common/Loading";
+import { useAppContext } from "../providers/ProviderAppContainer";
 
 export default function ProcessToken({ children }) {
+    const { requestAPI } = useAppContext();
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(true);
 

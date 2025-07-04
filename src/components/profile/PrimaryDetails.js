@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { InputText } from 'primereact/inputtext';
-import { Button } from 'primereact/button';
+import React, { useState, useEffect } from "react";
+import { InputText } from "primereact/inputtext";
+import { Button } from "primereact/button";
 import { useDispatch, useSelector } from "react-redux";
-import { requestAPI } from "../../utils";
 import { setCurrentUser } from "../../redux/sliceUser";
+import { useAppContext } from "../../providers/ProviderAppContainer";
 
 // Static configuration moved outside component
-const editableFields = ['name', 'phone', 'address'];
+const editableFields = ["name", "phone", "address"];
 const fields = [
     { label: "Name", field: "name", editable: true },
     { label: "Email Address", field: "email", editable: false },
@@ -19,7 +19,7 @@ const fields = [
     // { label: "City", field: "city", editable: true },
     { label: "Last School", field: "lastSchool", editable: false },
     { label: "Last Tution Class", field: "lastTutionClass", editable: false },
-    { label: "Account Created On", field: "created_on", editable: false }
+    { label: "Account Created On", field: "created_on", editable: false },
 ];
 
 const PrimaryDetails = () => {
@@ -27,6 +27,8 @@ const PrimaryDetails = () => {
     const [formData, setFormData] = useState({});
     const [isChanged, setIsChanged] = useState(false);
     const [loading, setLoading] = useState(false);
+
+    const { requestAPI } = useAppContext();
 
     const loggedInUser = useSelector((state) => state.stateUser.user);
     const dispatch = useDispatch();
@@ -49,7 +51,7 @@ const PrimaryDetails = () => {
                             dispatch(setCurrentUser(user));
                         }
                     }
-                }
+                },
             });
         };
 
@@ -58,12 +60,12 @@ const PrimaryDetails = () => {
 
     // Check for changes in editable fields
     useEffect(() => {
-        const hasChanges = editableFields.some(key => formData[key] !== initialData[key]);
+        const hasChanges = editableFields.some((key) => formData[key] !== initialData[key]);
         setIsChanged(hasChanges);
     }, [formData, initialData]);
 
     const handleChange = (field, value) => {
-        setFormData(prev => ({ ...prev, [field]: value }));
+        setFormData((prev) => ({ ...prev, [field]: value }));
     };
 
     const handleCancel = () => {
@@ -72,10 +74,7 @@ const PrimaryDetails = () => {
 
     const handleUpdate = () => {
         // Create payload with only editable fields
-        const payload = Object.fromEntries(
-        editableFields.map(key => [key, formData[key]])
-    );
-        
+        const payload = Object.fromEntries(editableFields.map((key) => [key, formData[key]]));
 
         requestAPI({
             requestMethod: "PATCH",
@@ -88,21 +87,19 @@ const PrimaryDetails = () => {
                     setFormData(user);
                     dispatch(setCurrentUser(user));
                 }
-            }
+            },
         });
     };
 
     return (
         <div className="flex flex-column gap-4 p-4 surface-0">
-            <h2 className="text-xl md:text-2xl font-bold border-bottom-1 surface-border pb-2 m-0">
-                User Primary Details
-            </h2>
+            <h2 className="text-xl md:text-2xl font-bold border-bottom-1 surface-border pb-2 m-0">User Primary Details</h2>
 
             {fields.map(({ label, field, editable }) => (
                 <div key={field}>
                     <label className="text-xs md:text-sm font-semibold mb-1 block">{label}:</label>
                     <InputText
-                        value={formData?.[field] || ''}
+                        value={formData?.[field] || ""}
                         onChange={(e) => editable && handleChange(field, e.target.value)}
                         disabled={!editable || loading}
                         className="w-full text-xs md:text-sm font-semibold"
@@ -120,14 +117,7 @@ const PrimaryDetails = () => {
                     onClick={handleUpdate}
                     loading={loading}
                 />
-                <Button
-                    label="Cancel"
-                    severity="danger"
-                    className="p-2 text-xs sm:text-sm"
-                    raised
-                    onClick={handleCancel}
-                    disabled={!isChanged || loading}
-                />
+                <Button label="Cancel" severity="danger" className="p-2 text-xs sm:text-sm" raised onClick={handleCancel} disabled={!isChanged || loading} />
             </div>
         </div>
     );

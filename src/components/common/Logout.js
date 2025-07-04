@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Loading from "./Loading";
-import { requestAPI } from "../../utils";
+import { useAppContext } from "../../providers/ProviderAppContainer";
 
 export default function Logout() {
+    const { requestAPI } = useAppContext();
+
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
@@ -16,7 +18,7 @@ export default function Logout() {
                 navigate("/");
             },
         });
-    }, [navigate]);
+    }, [navigate, requestAPI]);
 
     return loading && <Loading message="Logging out, please wait..." />;
 }
