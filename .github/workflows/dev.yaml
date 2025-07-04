@@ -4,8 +4,7 @@ on:
     push:
         branches:
             - dev
-    schedule:
-        - cron: "30 18 * * *"
+            - dev_new_layout
 
 env:
     DEPLOYMENT_DIRECTORY: "/var/www/sites/dev.sahasinstitute.com/"

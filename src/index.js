@@ -10,15 +10,18 @@ import "primereact/resources/primereact.css";
 import { Provider } from "react-redux";
 import state from "./redux/state";
 import { ProviderAppContainer } from "./providers/ProviderAppContainer";
+import { BrowserRouter } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <React.StrictMode>
         <PrimeReactProvider value={{ ripple: true, appendTo: "self" }}>
             <Provider store={state}>
-                <ProviderAppContainer>
-                    <App />
-                </ProviderAppContainer>
+                <BrowserRouter>
+                    <ProviderAppContainer>
+                        <App />
+                    </ProviderAppContainer>
+                </BrowserRouter>
             </Provider>
         </PrimeReactProvider>
     </React.StrictMode>

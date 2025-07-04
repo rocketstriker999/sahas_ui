@@ -1,93 +1,105 @@
 import { Toast } from "primereact/toast";
-import { createContext, useContext, useEffect, useRef, useState } from "react";
-import Loading from "../components/common/Loading";
-import { requestAPI } from "../utils";
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 import NoContent from "../components/common/NoContent";
-import { useSelector } from "react-redux";
-import ProcessToken from "../security/ProcessToken";
-import platform from "platform";
+import { generateDeviceFingerprint } from "../utils";
+import Loading from "../components/common/Loading";
+import { KEY_DEVICE_FINGER_PRINT } from "../constants";
+import { useNavigate } from "react-router-dom";
 
 const ContextApp = createContext();
 
 export const ProviderAppContainer = ({ children }) => {
-    const toast = useRef(null);
-    const [templateConfig, setTemplateConfig] = useState();
-    const [catelogue, setCatelogue] = useState();
-    const [loadingTemplateConfig, setLoadingTemplateConfig] = useState();
-    const [loadingCatelogue, setLoadingCatelogue] = useState();
+    const [applicationError, setApplicationError] = useState();
     const [loadingDevice, setLoadingDevice] = useState();
-    const [deviceFingerPrint, setDeviceFingerPrint] = useState(localStorage.getItem("device_finger_print"));
+    const [deviceFingerPrint, setDeviceFingerPrint] = useState();
 
-    const [error, setError] = useState();
+    const toastRef = useRef(null);
 
-    const loggedInUser = useSelector((state) => state.stateUser.user);
+    const navigate = useNavigate();
 
+    //generating Device FingerPrint
     useEffect(() => {
-        if (!templateConfig)
-            requestAPI({
-                requestPath: "configs/template",
-                setLoading: setLoadingTemplateConfig,
-                onRequestFailure: setError,
-                onResponseReceieved: (config, responseCode) => {
-                    if (config && responseCode === 200) {
-                        setTemplateConfig(config);
-                    }
-                },
-            });
-    }, [templateConfig]);
+        setLoadingDevice(true);
+        generateDeviceFingerprint().then(setDeviceFingerPrint).catch(setApplicationError).finally(setLoadingDevice);
+    }, []);
 
-    useEffect(() => {
-        if (!deviceFingerPrint) {
-            requestAPI({
-                requestPath: "device/create",
-                requestMethod: "POST",
-                requestPostBody: {
-                    device: platform.description,
-                },
-                setLoading: setLoadingDevice,
-                onRequestFailure: setError,
-                onResponseReceieved: (deviceCreation, responseCode) => {
-                    if (deviceCreation?.device_finger_print && responseCode === 201 && !deviceFingerPrint) {
-                        setDeviceFingerPrint(() => {
-                            localStorage.setItem("device_finger_print", deviceCreation?.device_finger_print);
-                            return deviceCreation?.device_finger_print;
-                        });
-                    }
-                },
-            });
-        }
-    }, [deviceFingerPrint]);
+    //api requests
+    const requestAPI = useCallback(
+        async function requestAPI({
+            requestHeaders = {},
+            requestPath,
+            requestMethod = "GET",
+            requestGetQuery = false,
+            requestPostBody = false,
+            onRequestStart = false,
+            setLoading = false,
+            onResponseReceieved = false,
+            onRequestFailure = false,
+            onRequestEnd = false,
+        } = {}) {
+            if (onRequestStart) onRequestStart();
+            if (setLoading) setLoading(true);
 
-    useEffect(() => {
-        requestAPI({
-            requestPath: "catelogue",
-            setLoading: setLoadingCatelogue,
-            onRequestFailure: setError,
-            onResponseReceieved: (catelogue, responseCode) => {
-                if (catelogue && responseCode === 200) {
-                    setCatelogue(catelogue);
+            //append api backend service path
+            requestPath = process.env.REACT_APP_BACKEND_SERVER.concat(process.env.REACT_APP_API_PATH).concat(requestPath);
+
+            //api specific path
+            if (requestGetQuery) {
+                requestPath = requestPath + "?";
+                requestPath =
+                    requestPath +
+                    Object.keys(requestGetQuery)
+                        .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(requestGetQuery[key]))
+                        .join("&");
+            }
+
+            const fetchOptions = {
+                // Adding headers to the request
+                headers: {
+                    "Content-Type": "application/json",
+                    [KEY_DEVICE_FINGER_PRINT]: deviceFingerPrint,
+                    ...requestHeaders,
+                },
+                // Adding method type
+                method: requestMethod.toUpperCase(),
+            };
+
+            if (requestPostBody) {
+                fetchOptions.body = JSON.stringify(requestPostBody);
+            }
+
+            try {
+                const response = await fetch(requestPath, fetchOptions);
+                const jsonResponse = await response.json();
+                if (response.status === 503 || response.status === 404) {
+                    navigate("/maintenance");
                 }
-            },
-        });
-    }, [loggedInUser]);
-
-    const generateAppView = () => {
-        if (loadingTemplateConfig || loadingCatelogue) return <Loading message="Loading App Configuration..." />;
-        if (loadingCatelogue) return <Loading message="Loading Courses..." />;
-        if (loadingDevice) return <Loading message="Validating Device..." />;
-        if (error) return <NoContent error={error} />;
-        if (templateConfig && catelogue && deviceFingerPrint) return children;
-        return <NoContent error={"Failed To Load Application"} />;
-    };
-
-    return (
-        <div className="max-w-full lg:max-w-30rem lg:mx-auto lg:border-1 lg:my-2">
-            <ContextApp.Provider value={{ toast, templateConfig, catelogue, setApplicationError: setError }}>
-                <Toast ref={toast} position="top-right" />
-                <ProcessToken>{generateAppView()}</ProcessToken>
-            </ContextApp.Provider>
-        </div>
+                if (onResponseReceieved) onResponseReceieved(jsonResponse, response.status);
+            } catch (e) {
+                if (onRequestFailure) onRequestFailure(e.toString());
+            } finally {
+                if (setLoading) setLoading(false);
+            }
+            if (onRequestEnd) onRequestEnd();
+        },
+        [deviceFingerPrint, navigate]
     );
+
+    if (loadingDevice) return <Loading message="Loading Device Information..." />;
+
+    if (!loadingDevice && applicationError) return <NoContent error={applicationError} />;
+
+    if (!loadingDevice && !applicationError && deviceFingerPrint) {
+        return (
+            <div className="max-w-full lg:max-w-30rem lg:mx-auto lg:border-1 lg:my-2">
+                <ContextApp.Provider value={{ toastRef, setApplicationError, requestAPI }}>
+                    <Toast ref={toastRef} position="top-right" />
+                    <p>Device ID - {deviceFingerPrint} </p>
+                    {children}
+                </ContextApp.Provider>
+            </div>
+        );
+    }
 };
 
 // Custom hook to access the Toast context
