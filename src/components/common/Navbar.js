@@ -1,13 +1,12 @@
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Avatar } from "primereact/avatar";
-import { hasGroupAccess } from "../../utils";
 import { useSelector } from "react-redux";
 import { Button } from "primereact/button";
 import { Menu } from "primereact/menu";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import { Dialog } from "primereact/dialog";
-import { isIOS } from 'react-device-detect';
+import { isIOS } from "react-device-detect";
 
 export default function Navbar() {
     const navigate = useNavigate();
@@ -23,7 +22,7 @@ export default function Navbar() {
             label: "Manage Firm",
             icon: "pi pi-cog",
             command: () => navigate("/manage-firm"),
-            visible: hasGroupAccess(loggedInUser?.groups, ["FADMIN", "HADMIN"]),
+            visible: true,
         },
         {
             label: "Profile",
@@ -102,27 +101,35 @@ export default function Navbar() {
                 {(appInstallEvent || isIOS) && (
                     <div className="flex justify-content-between text text-xs px-3 shadow-4 font-bold align-items-center">
                         <p>Do you want to install Sahas Smart Studies ?</p>
-                        <Button className="p-1 text-white bg-black-alpha-90" onClick={() => {
-                            if (isIOS) {
-                                setShowIOSInstructions(true);
-                            } else {
-                                appInstallEvent.prompt();
-                            }
-                        }} severity="warning" label="Install" size="small" text />
+                        <Button
+                            className="p-1 text-white bg-black-alpha-90"
+                            onClick={() => {
+                                if (isIOS) {
+                                    setShowIOSInstructions(true);
+                                } else {
+                                    appInstallEvent.prompt();
+                                }
+                            }}
+                            severity="warning"
+                            label="Install"
+                            size="small"
+                            text
+                        />
                     </div>
                 )}
 
-                <Dialog
-                    header="Install on iOS"
-                    visible={showIOSInstructions}
-                    onHide={() => setShowIOSInstructions(false)}
-                    style={{ width: '60vw' }}
-                >
+                <Dialog header="Install on iOS" visible={showIOSInstructions} onHide={() => setShowIOSInstructions(false)} style={{ width: "60vw" }}>
                     <div className="flex flex-column gap-3 text-sm">
-                        <p>To install <strong>Sahas Smart Studies</strong>:</p>
+                        <p>
+                            To install <strong>Sahas Smart Studies</strong>:
+                        </p>
                         <div>
-                            <p className="m-0">1. Tap the <strong>Share</strong> icon in Safari</p>
-                            <p className="m-0">2. Choose <strong>"Add to Home Screen"</strong></p>
+                            <p className="m-0">
+                                1. Tap the <strong>Share</strong> icon in Safari
+                            </p>
+                            <p className="m-0">
+                                2. Choose <strong>"Add to Home Screen"</strong>
+                            </p>
                         </div>
                     </div>
                 </Dialog>

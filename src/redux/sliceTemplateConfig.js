@@ -4,9 +4,7 @@ export const sliceTemplateConfig = createSlice({
     name: "sliceTemplateConfig",
     initialState: null,
     reducers: {
-        setTemplateConfig: (state, action) => {
-            state.config = action.payload;
-        },
+        setTemplateConfig: (state, action) => action.payload,
     },
 });
 

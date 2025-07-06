@@ -17,7 +17,7 @@ root.render(
     <React.StrictMode>
         <PrimeReactProvider value={{ ripple: true, appendTo: "self" }}>
             <Provider store={state}>
-                <div className="max-w-full lg:max-w-30rem lg:mx-auto   min-h-screen	p-2">
+                <div className="max-w-full lg:w-8 lg:mx-auto  min-h-screen	bg-white">
                     <BrowserRouter>
                         <ProviderAppContainer>
                             <App />

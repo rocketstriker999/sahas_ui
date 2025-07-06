@@ -1,10 +1,8 @@
 import { Toast } from "primereact/toast";
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
-import NoContent from "../components/common/NoContent";
-import { generateDeviceFingerprint } from "../utils";
+import { generateDeviceDescription, generateDeviceFingerprint } from "../utils";
 import Loading from "../components/common/Loading";
-import { KEY_DEVICE_FINGER_PRINT } from "../constants";
-import { useNavigate } from "react-router-dom";
+import { KEY_DEVICE_DESCRIPTION, KEY_DEVICE_FINGER_PRINT } from "../constants";
 import Error from "../pages/Error";
 
 const ContextApp = createContext();
@@ -13,6 +11,7 @@ export const ProviderAppContainer = ({ children }) => {
     const [applicationError, setApplicationError] = useState();
     const [loading, setLoading] = useState();
     const [deviceFingerPrint, setDeviceFingerPrint] = useState();
+    const isDevelopmentBuild = process.env.NODE_ENV === "development";
 
     const toastRef = useRef(null);
 
@@ -60,6 +59,7 @@ export const ProviderAppContainer = ({ children }) => {
                 headers: {
                     "Content-Type": "application/json",
                     [KEY_DEVICE_FINGER_PRINT]: deviceFingerPrint,
+                    [KEY_DEVICE_DESCRIPTION]: generateDeviceDescription(),
                     ...requestHeaders,
                 },
                 // Adding method type
@@ -91,19 +91,15 @@ export const ProviderAppContainer = ({ children }) => {
         [deviceFingerPrint]
     );
 
-    if (loading) return <Loading {...loading} />;
-
-    if (!loading && applicationError) return <Error {...applicationError} />;
-
-    if (!loading && !applicationError && deviceFingerPrint) {
-        return (
-            <ContextApp.Provider value={{ toastRef, setApplicationError, requestAPI, setLoading }}>
-                <Toast ref={toastRef} position="top-right" />
-                <p>Device ID - {deviceFingerPrint} </p>
-                {children}
-            </ContextApp.Provider>
-        );
-    }
+    return (
+        <ContextApp.Provider value={{ toastRef, setApplicationError, requestAPI, loading, setLoading, isDevelopmentBuild }}>
+            <Toast ref={toastRef} position="top-right" />
+            {isDevelopmentBuild && (
+                <p className="p-2 text-xs m-0 bg-blue-800 text-white overflow-x-scroll	white-space-nowrap		">Device ID - {deviceFingerPrint}</p>
+            )}
+            {loading ? <Loading message={loading.message} /> : applicationError ? <Error {...applicationError} /> : deviceFingerPrint && children}
+        </ContextApp.Provider>
+    );
 };
 
 // Custom hook to access the Toast context

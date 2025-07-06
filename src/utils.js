@@ -1,5 +1,20 @@
-export function hasGroupAccess(userGroups, allowedGroups) {
-    return userGroups ? userGroups.some((group) => allowedGroups.includes(group)) : false;
+import DeviceDetector from "device-detector-js";
+
+export function generateDeviceDescription() {
+    const deviceDetector = new DeviceDetector();
+    const userAgent = navigator.userAgent;
+    const device = deviceDetector.parse(userAgent);
+
+    const brand = device.device?.brand || "Unknown Brand";
+    const model = device.device?.model || "Unknown Model";
+    const type = device.device?.type || "Unknown Type";
+    const os = device.os?.name || "Unknown OS";
+    const osVersion = device.os?.version || "";
+    const browser = device.client?.name || "Unknown Browser";
+    const browserVersion = device.client?.version || "";
+    const screenRes = `${global.screen.width}x${global.screen.height}`;
+
+    return `${type} - ${brand} ${model} - ${os}(${osVersion}) - ${browser}(${browserVersion}) - ${screenRes}`;
 }
 
 export async function generateDeviceFingerprint() {
@@ -22,8 +37,7 @@ export async function generateDeviceFingerprint() {
         webglInfo.renderer,
     ].join("::");
 
-    const hash = await sha256(entropy);
-    return hash.substring(0, 32);
+    return await sha256(entropy);
 }
 
 function getCanvasFingerprint() {

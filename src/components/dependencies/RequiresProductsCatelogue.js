@@ -1,17 +1,17 @@
 import { useEffect } from "react";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import { useDispatch, useSelector } from "react-redux";
-import { stateProductsCatelogue } from "../../redux/sliceProductsCatelogue";
+import { setProductsCatelogue } from "../../redux/sliceProductsCatelogue";
 
 export default function RequiresProductsCatelogue({ children }) {
-    const { requestAPI, setApplicationError, setLoading } = useAppContext();
+    const { requestAPI, setApplicationError, setLoading, loading } = useAppContext();
 
     const productsCatelogue = useSelector((state) => state.stateProductsCatelogue);
 
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (!productsCatelogue)
+        if (!productsCatelogue && !loading)
             requestAPI({
                 requestPath: "catelogue",
                 setLoading: (loading) => setLoading(loading ? { message: "Loading Products Catelogue..." } : loading),
@@ -22,12 +22,12 @@ export default function RequiresProductsCatelogue({ children }) {
                     }),
                 onResponseReceieved: (productsCatelogue, responseCode) => {
                     if (productsCatelogue && responseCode === 200) {
-                        return dispatch(stateProductsCatelogue(productsCatelogue));
+                        return dispatch(setProductsCatelogue(productsCatelogue));
                     }
                     throw new Error("Invalid Products Catelogue Response");
                 },
             });
-    }, [productsCatelogue, requestAPI, setApplicationError, setLoading, dispatch]);
+    }, [productsCatelogue, requestAPI, setApplicationError, loading, setLoading, dispatch]);
 
     return children;
 }
