@@ -26,7 +26,6 @@ import WithdrawDetails from "../components/profile/WithdrawDetails";
 import { useEffect, useState } from "react";
 import Loading from "../components/common/Loading";
 import { useSelector } from "react-redux";
-import { useAppContext } from "../providers/ProviderAppContainer";
 import RequiresTemplateConfiguration from "../components/dependencies/RequiresTemplateConfiguration";
 import RequiresProductsCatelogue from "../components/dependencies/RequiresProductsCatelogue";
 
