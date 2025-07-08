@@ -1,23 +1,24 @@
-import CarouselHeader from "../components/dashboard/CarouselHeader";
-import { Outlet, useNavigate } from "react-router-dom";
-import { SelectButton } from "primereact/selectbutton";
-import { useLocation } from "react-router-dom";
-import Navbar from "../components/common/Navbar";
+import Carousel from "../components/dashboard/Carousel";
 import { useSelector } from "react-redux";
 import UserPanel from "../components/dashboard/UserPanel";
+import LoginAdvice from "../components/dashboard/LoginAdvice";
+import Operations from "../components/dashboard/Operations";
 
 export default function Dashboard() {
-    const navigate = useNavigate();
-    const location = useLocation();
-
     const loggedInUser = useSelector((state) => state.stateUser.user);
 
+    const pageConfig = useSelector((state) => state.stateTemplateConfig?.dash_board);
+
     return (
-        <UserPanel user={loggedInUser || { name: "dwa" }} />
+        <div>
+            <Carousel images={pageConfig?.carousel?.images} />
+            {loggedInUser ? <UserPanel {...loggedInUser} /> : <LoginAdvice />}
+            <Operations operationsSections={pageConfig?.opertions_sections} />
+        </div>
 
         // <div className="text-center ">
         //     <Navbar />
-        //     <CarouselHeader />
+        //
         //     <SelectButton
         //         className="mt-3"
         //         value={location.pathname === "/" ? "All Courses" : "My Courses"}
