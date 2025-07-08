@@ -6,14 +6,15 @@ on:
             - dev
             - dev_new_layout
 
-env:
-    DEPLOYMENT_DIRECTORY: "/var/www/sites/dev.sahasinstitute.com/"
-    REPO: "sahas_ui"
-    BRANCH: "dev"
-
 jobs:
     deploy:
         runs-on: ubuntu-latest
+
+        env:
+            DEPLOYMENT_DIRECTORY: "/var/www/sites/dev.sahasinstitute.com/"
+            REPO: "sahas_ui"
+            BRANCH: ${{ github.ref_name }}
+
         steps:
             - name: Preparing SSH
               run: sudo apt-get install -y sshpass
@@ -31,6 +32,7 @@ jobs:
                         echo "Terminating ${{ env.REPO }} - pid $pid"
                         kill -9 $pid
                       fi
+                      echo "Fetching Changes..."
                       git stash
                       git checkout "${{env.BRANCH}}"
                       git fetch origin "${{env.BRANCH}}"
@@ -43,8 +45,10 @@ jobs:
 
                     echo "Installing dependencies..."
                     npm install
+                    echo "Removing Previous Build..."
                     rm -rf build
                     npm run build
+                    echo "Starting app..."
                     serve -s build -l 4000 > /dev/null 2>&1 &
                     new_pid=$!
                     echo "Starting ${{ env.REPO }} - pid $new_pid"
