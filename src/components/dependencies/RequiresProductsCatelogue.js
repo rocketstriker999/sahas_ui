@@ -29,5 +29,5 @@ export default function RequiresProductsCatelogue({ children }) {
             });
     }, [productsCatelogue, requestAPI, setApplicationError, loading, setLoading, dispatch]);
 
-    return children;
+    if (productsCatelogue) return children;
 }

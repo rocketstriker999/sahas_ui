@@ -73,7 +73,7 @@ export const ProviderAppContainer = ({ children }) => {
             try {
                 const response = await fetch(requestPath, fetchOptions);
                 const jsonResponse = await response.json();
-                if (response.status === 503 || response.status === 404) {
+                if (response.status === 503) {
                     return setApplicationError({
                         icon: "images/maintenance.gif",
                         title: "Under Maintenance",
@@ -91,12 +91,15 @@ export const ProviderAppContainer = ({ children }) => {
         [deviceFingerPrint]
     );
 
+    //role
+    //permission
+    //install option
+    //notification
+
     return (
-        <ContextApp.Provider value={{ toastRef, setApplicationError, requestAPI, loading, setLoading, isDevelopmentBuild }}>
+        <ContextApp.Provider value={{ toastRef, setApplicationError, requestAPI, loading, setLoading, isDevelopmentBuild, deviceFingerPrint }}>
             <Toast ref={toastRef} position="top-right" />
-            {isDevelopmentBuild && (
-                <p className="p-2 text-xs m-0 bg-blue-800 text-white overflow-x-scroll	white-space-nowrap		">Device ID - {deviceFingerPrint}</p>
-            )}
+
             {loading ? <Loading message={loading.message} /> : applicationError ? <Error {...applicationError} /> : deviceFingerPrint && children}
         </ContextApp.Provider>
     );

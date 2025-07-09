@@ -14,7 +14,6 @@ export default function Carousel({ images }) {
     if (images?.length) {
         return (
             <Galleria
-                className="mt-2"
                 value={images}
                 showThumbnails={false}
                 showIndicators

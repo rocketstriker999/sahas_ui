@@ -1,6 +1,5 @@
 import { Avatar } from "primereact/avatar";
 import { Button } from "primereact/button";
-import { Card } from "primereact/card";
 import { Divider } from "primereact/divider";
 import { useNavigate } from "react-router-dom";
 
@@ -8,7 +7,7 @@ export default function LoginAdvice() {
     const navigate = useNavigate();
 
     return (
-        <div className="m-2 pl-2 py-2 border-round border-1 border-gray-300 relative overflow-hidden ">
+        <div className="my-2 pl-2 py-2 border-round border-1 border-gray-300 relative overflow-hidden ">
             <div className=" flex align-items-center">
                 <Avatar icon="pi pi-user" size="xlarge" shape="circle" />
                 <Divider layout="vertical" />

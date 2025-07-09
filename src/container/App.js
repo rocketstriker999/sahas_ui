@@ -1,33 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 import Dashboard from "../pages/Dashboard";
-import Product from "../pages/Product";
-import Courses from "../components/product/Courses";
-import MediaPlayer from "../pages/MediaPlayer";
-import AllProducts from "../components/dashboard/AllProducts";
-import MyProducts from "../components/dashboard/MyProducts";
-import HasAuthentication from "../components/security/HasAuthentication";
-import HasNoAuthentication from "../components/security/HasNoAuthentication";
-import FormLogin from "../components/login/FormLogin";
-import Forbidden from "../pages/Forbidden";
-import NotFound from "../pages/NotFound";
-import Purchase from "../pages/Purchase";
-import HasPrimaryDetails from "../components/security/HasPrimaryDetails";
-import Subjects from "../components/product/Subjects";
-import Chapters from "../components/product/Chapters";
-import Logout from "../components/common/Logout";
-import Profile from "../pages/Profile";
-import PrimaryDetails from "../components/profile/PrimaryDetails";
-import ProductAccess from "../components/profile/ProductAccess";
-import Catelogue from "../components/profile/Catelogue";
-import TransactionDetails from "../components/profile/TransactionDetails";
-import GlobalNotes from "../components/profile/GlobalNotes";
-import WalletDetails from "../components/profile/WalletDetails";
-import WithdrawDetails from "../components/profile/WithdrawDetails";
-import { useEffect, useState } from "react";
-import Loading from "../components/common/Loading";
-import { useSelector } from "react-redux";
 import RequiresTemplateConfiguration from "../components/dependencies/RequiresTemplateConfiguration";
 import RequiresProductsCatelogue from "../components/dependencies/RequiresProductsCatelogue";
+import Courses from "../pages/Courses";
 
 export default function App() {
     return (
@@ -53,6 +28,7 @@ export default function App() {
                             }
                         /> */}
                     </Route>
+                    <Route path="/courses" element={<Courses />} />
 
                     {/* <Route path="/products/:productId" element={<Product />}>
                         <Route index element={<Courses />} />
