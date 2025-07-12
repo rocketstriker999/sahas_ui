@@ -1,10 +1,10 @@
 import Carousel from "../components/dashboard/Carousel";
 import { useSelector } from "react-redux";
-import UserPanel from "../components/dashboard/UserPanel";
-import LoginAdvice from "../components/dashboard/LoginAdvice";
 import Operations from "../components/dashboard/Operations";
 import { useAppContext } from "../providers/ProviderAppContainer";
 import { Badge } from "primereact/badge";
+import HasRequiredAuthority from "../components/dependencies/HasRequiredAuthority";
+import ProfileCard from "../components/dashboard/ProfileCard";
 
 export default function Dashboard() {
     const { isDevelopmentBuild, deviceFingerPrint } = useAppContext();
@@ -29,9 +29,17 @@ export default function Dashboard() {
                 </i>
             </div>
             <div className="p-2">
-                <Carousel images={pageConfig?.carousel?.images} />
-                {loggedInUser ? <UserPanel {...loggedInUser} /> : <LoginAdvice />}
-                <Operations operationsSections={pageConfig?.opertions_sections} />
+                <HasRequiredAuthority requiredAuthority="READ_FEATURE_CAROUSEL">
+                    <Carousel images={pageConfig?.carousel?.images} />
+                </HasRequiredAuthority>
+
+                <HasRequiredAuthority requiredAuthority="ACCESS_PAGE_PROFILE">
+                    <ProfileCard {...loggedInUser} />
+                </HasRequiredAuthority>
+
+                <HasRequiredAuthority requiredAuthority="ACCESS_CONTAINER_OPERATIONS">
+                    <Operations operationsSections={pageConfig?.opertions_sections} />
+                </HasRequiredAuthority>
             </div>
         </div>
     );

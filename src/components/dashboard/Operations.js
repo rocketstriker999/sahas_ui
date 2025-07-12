@@ -1,12 +1,12 @@
 import NoContent from "../common/NoContent";
-import HasAnyAllowedRole from "../security/HasAnyAllowedRole";
+import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
 
 export default function Operations({ operationsSections }) {
     return operationsSections?.length ? (
         <div className="mt-3">
             {operationsSections?.map((section) => {
                 return (
-                    <HasAnyAllowedRole allowedRoles={section?.allowed_roles}>
+                    <HasRequiredAuthority allowedRoles={section?.allowed_roles}>
                         <div className=" border-round bg-gray-100 border-1 border-gray-300">
                             <p className="m-0 py-3 px-2  font-semibold">{section?.title}</p>
 
@@ -21,7 +21,7 @@ export default function Operations({ operationsSections }) {
                                 })}
                             </div>
                         </div>
-                    </HasAnyAllowedRole>
+                    </HasRequiredAuthority>
                 );
             })}
         </div>

@@ -2,7 +2,7 @@ import { Toast } from "primereact/toast";
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { generateDeviceDescription, generateDeviceFingerprint } from "../utils";
 import Loading from "../components/common/Loading";
-import { KEY_DEVICE_DESCRIPTION, KEY_DEVICE_FINGER_PRINT } from "../constants";
+import { KEY_DEVICE_DESCRIPTION, KEY_DEVICE_FINGER_PRINT, KEY_AUTHENTICATION_TOKEN } from "../constants";
 import Error from "../pages/Error";
 
 const ContextApp = createContext();
@@ -60,6 +60,7 @@ export const ProviderAppContainer = ({ children }) => {
                     "Content-Type": "application/json",
                     [KEY_DEVICE_FINGER_PRINT]: deviceFingerPrint,
                     [KEY_DEVICE_DESCRIPTION]: generateDeviceDescription(),
+                    [KEY_AUTHENTICATION_TOKEN]: localStorage.getItem(KEY_AUTHENTICATION_TOKEN),
                     ...requestHeaders,
                 },
                 // Adding method type
@@ -99,7 +100,6 @@ export const ProviderAppContainer = ({ children }) => {
     return (
         <ContextApp.Provider value={{ toastRef, setApplicationError, requestAPI, loading, setLoading, isDevelopmentBuild, deviceFingerPrint }}>
             <Toast ref={toastRef} position="top-right" />
-
             {loading ? <Loading message={loading.message} /> : applicationError ? <Error {...applicationError} /> : deviceFingerPrint && children}
         </ContextApp.Provider>
     );
