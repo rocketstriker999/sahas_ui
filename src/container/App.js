@@ -5,15 +5,11 @@ import RequiresProductsCatelogue from "../components/dependencies/RequiresProduc
 import Courses from "../pages/Courses";
 import Forbidden from "../pages/Forbidden";
 import HasRequiredAuthority from "../components/dependencies/HasRequiredAuthority";
-import { useSelector } from "react-redux";
-import Authentication from "../pages/Authentication";
 import Logout from "../pages/Logout";
 import HasAuthentication from "../components/dependencies/HasAuthentication";
 
 export default function App() {
     const navigate = useNavigate();
-
-    const loggedInUser = useSelector((state) => state.stateUser.user);
 
     return (
         <HasAuthentication>

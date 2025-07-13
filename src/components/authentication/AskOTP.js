@@ -5,7 +5,7 @@ import { classNames } from "primereact/utils";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "../../redux/sliceUser";
 import { Button } from "primereact/button";
-import ButtonResendOTP from "./ButtonResendOTP";
+import ButtonResendOTP from "./ButtonReGenerateOTP";
 import { Messages } from "primereact/messages";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 

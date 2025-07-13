@@ -24,6 +24,10 @@ export const ProviderAppContainer = ({ children }) => {
             .finally(setLoading);
     }, []);
 
+    const showToast = (config) => {
+        toastRef.current.show(config);
+    };
+
     //api requests
     const requestAPI = useCallback(
         async function requestAPI({
@@ -35,6 +39,7 @@ export const ProviderAppContainer = ({ children }) => {
             onRequestStart = false,
             setLoading = false,
             onResponseReceieved = false,
+            parseResponseBody = true,
             onRequestFailure = false,
             onRequestEnd = false,
         } = {}) {
@@ -73,7 +78,7 @@ export const ProviderAppContainer = ({ children }) => {
 
             try {
                 const response = await fetch(requestPath, fetchOptions);
-                const jsonResponse = await response.json();
+                const jsonResponse = parseResponseBody ? await response.json() : response;
                 if (response.status === 503) {
                     return setApplicationError({
                         icon: "images/maintenance.gif",
@@ -98,7 +103,7 @@ export const ProviderAppContainer = ({ children }) => {
     //notification
 
     return (
-        <ContextApp.Provider value={{ toastRef, setApplicationError, requestAPI, loading, setLoading, isDevelopmentBuild, deviceFingerPrint }}>
+        <ContextApp.Provider value={{ showToast, setApplicationError, requestAPI, loading, setLoading, isDevelopmentBuild, deviceFingerPrint }}>
             <Toast ref={toastRef} position="top-right" />
             {loading ? <Loading message={loading.message} /> : applicationError ? <Error {...applicationError} /> : deviceFingerPrint && children}
         </ContextApp.Provider>
