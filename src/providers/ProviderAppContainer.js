@@ -1,15 +1,15 @@
 import { Toast } from "primereact/toast";
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
-import { generateDeviceDescription, generateDeviceFingerprint } from "../utils";
+import { generateDeviceFingerprint } from "../utils";
 import Loading from "../components/common/Loading";
-import { KEY_DEVICE_DESCRIPTION, KEY_DEVICE_FINGER_PRINT, KEY_AUTHENTICATION_TOKEN } from "../constants";
+import { KEY_DEVICE_FINGER_PRINT, KEY_AUTHENTICATION_TOKEN } from "../constants";
 import Error from "../pages/Error";
 
 const ContextApp = createContext();
 
 export const ProviderAppContainer = ({ children }) => {
     const [applicationError, setApplicationError] = useState();
-    const [loading, setLoading] = useState();
+    const [applicationLoading, setApplicationLoading] = useState();
     const [deviceFingerPrint, setDeviceFingerPrint] = useState();
     const isDevelopmentBuild = process.env.NODE_ENV === "development";
 
@@ -17,11 +17,11 @@ export const ProviderAppContainer = ({ children }) => {
 
     //generating Device FingerPrint
     useEffect(() => {
-        setLoading({ message: "Generating Device Fingerprint..." });
+        setApplicationLoading({ message: "Generating Device Fingerprint..." });
         generateDeviceFingerprint()
             .then(setDeviceFingerPrint)
             .catch(() => setApplicationError("Failed To Generate Device Fingerprint"))
-            .finally(setLoading);
+            .finally(setApplicationLoading);
     }, []);
 
     const showToast = (config) => {
@@ -30,7 +30,7 @@ export const ProviderAppContainer = ({ children }) => {
 
     //api requests
     const requestAPI = useCallback(
-        async function requestAPI({
+        async function ({
             requestHeaders = {},
             requestPath,
             requestMethod = "GET",
@@ -64,7 +64,6 @@ export const ProviderAppContainer = ({ children }) => {
                 headers: {
                     "Content-Type": "application/json",
                     [KEY_DEVICE_FINGER_PRINT]: deviceFingerPrint,
-                    [KEY_DEVICE_DESCRIPTION]: generateDeviceDescription(),
                     [KEY_AUTHENTICATION_TOKEN]: localStorage.getItem(KEY_AUTHENTICATION_TOKEN),
                     ...requestHeaders,
                 },
@@ -97,15 +96,18 @@ export const ProviderAppContainer = ({ children }) => {
         [deviceFingerPrint]
     );
 
-    //role
-    //permission
-    //install option
-    //notification
-
     return (
-        <ContextApp.Provider value={{ showToast, setApplicationError, requestAPI, loading, setLoading, isDevelopmentBuild, deviceFingerPrint }}>
+        <ContextApp.Provider
+            value={{ showToast, setApplicationError, requestAPI, applicationLoading, setApplicationLoading, isDevelopmentBuild, deviceFingerPrint }}
+        >
             <Toast ref={toastRef} position="top-right" />
-            {loading ? <Loading message={loading.message} /> : applicationError ? <Error {...applicationError} /> : deviceFingerPrint && children}
+            {applicationLoading ? (
+                <Loading message={applicationLoading.message} />
+            ) : applicationError ? (
+                <Error {...applicationError} />
+            ) : (
+                deviceFingerPrint && children
+            )}
         </ContextApp.Provider>
     );
 };

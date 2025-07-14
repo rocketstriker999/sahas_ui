@@ -6,14 +6,14 @@ import { removeCurrentUser } from "../redux/sliceUser";
 export default function Logout() {
     const loggedInUser = useSelector((state) => state.stateUser.user);
 
-    const { loading, setLoading } = useAppContext();
+    const { applicationLoading, setApplicationLoading } = useAppContext();
 
     const disaptch = useDispatch();
 
-    if (loggedInUser && !loading) {
-        setLoading({ message: "Logging out..." });
+    if (loggedInUser && !applicationLoading) {
+        setApplicationLoading({ message: "Logging out..." });
         localStorage.removeItem(KEY_AUTHENTICATION_TOKEN);
         disaptch(removeCurrentUser());
-        setLoading(false);
+        setApplicationLoading(false);
     }
 }

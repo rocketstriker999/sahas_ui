@@ -3,13 +3,17 @@ import { InputOtp } from "primereact/inputotp";
 import { useUpdateEffect } from "primereact/hooks";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import { useState } from "react";
-import ButtonResendOTP from "./ButtonReGenerateOTP";
+import ButtonResendOTP from "./ButtonResendOTP";
 import Loading from "../common/Loading";
 import Error from "../common/Error";
 import { KEY_AUTHENTICATION_TOKEN } from "../../constants";
+import { useDispatch } from "react-redux";
+import { setCurrentUser } from "../../redux/sliceUser";
 
-export default function DialogVerifyOTP({ authenticationToken, setAuthenticationToken, requestOTP }) {
+export default function DialogCollectOTP({ authenticationToken, setAuthenticationToken, requestOTP }) {
     const { requestAPI } = useAppContext();
+
+    const dispatch = useDispatch();
 
     const [otp, setOTP] = useState();
     const [loading, setLoading] = useState();
@@ -30,10 +34,10 @@ export default function DialogVerifyOTP({ authenticationToken, setAuthentication
                 otp,
                 authentication_token: authenticationToken,
             },
-            parseResponseBody: false,
-            onResponseReceieved: (_, responseCode) => {
-                if (_ && responseCode === 200) {
+            onResponseReceieved: (user, responseCode) => {
+                if (user && responseCode === 200) {
                     localStorage.setItem(KEY_AUTHENTICATION_TOKEN, authenticationToken);
+                    dispatch(setCurrentUser(user));
                 } else setError("Invalid OTP");
             },
         });

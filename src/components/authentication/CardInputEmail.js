@@ -6,7 +6,7 @@ import { APP_NAME } from "../../constants";
 import { useState } from "react";
 import Error from "../common/Error";
 
-export default function CardEmailCollect({ email, setEmail, requestOTP }) {
+export default function CardCollectEmail({ email, setEmail, requestOTP }) {
     const [loading, setLoading] = useState();
     const [error, setError] = useState();
 

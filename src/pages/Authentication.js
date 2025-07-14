@@ -2,8 +2,8 @@ import { APP_NAME, REGEX_EMAIL } from "../constants";
 
 import { useState } from "react";
 
-import CardEmailCollect from "../components/authentication/GenerateOTP";
-import DialogVerifyOTP from "../components/authentication/ActivateOTP";
+import CardInputEmail from "../components/authentication/CardInputEmail";
+import DialogInputOTP from "../components/authentication/DialogInputOTP";
 import { useAppContext } from "../providers/ProviderAppContainer";
 
 export default function Authentication() {
@@ -35,9 +35,9 @@ export default function Authentication() {
 
     return (
         <div className="h-screen bg-blue-500 text-white">
-            <CardEmailCollect email={email} setEmail={setEmail} requestOTP={requestOTP} />
+            <CardInputEmail email={email} setEmail={setEmail} requestOTP={requestOTP} />
             {authenticationToken && (
-                <DialogVerifyOTP authenticationToken={authenticationToken} setAuthenticationToken={setAuthenticationToken} requestOTP={requestOTP} />
+                <DialogInputOTP authenticationToken={authenticationToken} setAuthenticationToken={setAuthenticationToken} requestOTP={requestOTP} />
             )}
             <p className="text-sm absolute bottom-0 w-full text-center ">{`Copyright © 2019-2025 ${APP_NAME}`} </p>
         </div>

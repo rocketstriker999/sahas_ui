@@ -4,17 +4,17 @@ import { useEffect } from "react";
 import { setTemplateConfig } from "../../redux/sliceTemplateConfig";
 
 export default function RequiresTemplateConfiguration({ children }) {
-    const { requestAPI, setApplicationError, setLoading, loading } = useAppContext();
+    const { requestAPI, setApplicationError, setApplicationLoading, applicationLoading } = useAppContext();
 
     const templateConfig = useSelector((state) => state.stateTemplateConfig);
 
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (!templateConfig && !loading) {
+        if (!templateConfig && !applicationLoading) {
             requestAPI({
                 requestPath: "configs/template",
-                setLoading: (loading) => setLoading(loading ? { message: "Loading Template Configuration..." } : loading),
+                setLoading: (loading) => setApplicationLoading(loading ? { message: "Loading Template Configuration..." } : loading),
                 onRequestFailure: (error) =>
                     setApplicationError({
                         title: "No Template Configuration",
@@ -29,7 +29,7 @@ export default function RequiresTemplateConfiguration({ children }) {
                 },
             });
         }
-    }, [dispatch, requestAPI, setApplicationError, loading, setLoading, templateConfig]);
+    }, [dispatch, requestAPI, setApplicationError, applicationLoading, setApplicationLoading, templateConfig]);
 
     if (templateConfig) {
         return children;

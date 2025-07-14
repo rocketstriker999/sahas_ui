@@ -13,7 +13,7 @@ export default function App() {
 
     return (
         <HasAuthentication>
-            <HasRequiredAuthority requiredAuthority="ACCESS_APP" fallBack={() => <Forbidden />}>
+            <HasRequiredAuthority requiredAuthority="ACCESS_CONTAINER_APP" fallBack={() => <Forbidden />}>
                 <RequiresTemplateConfiguration>
                     <RequiresProductsCatelogue>
                         <Routes>
@@ -45,9 +45,8 @@ export default function App() {
     );
 }
 
-//ACCESS_PAGE_DASHBOARD
-//ACCESS_PAGE_COURSES
-//ACCESS_CONTAINER_COURSES
+//ACCESS_CONTAINER_CONTAINERNAME
+//ACCESS_PAGE_PAGENAME
 //READ_FEATURE_CAROUSEL
 //WRITE_FEATURE
 //DELETE_FEATURE

@@ -1,7 +1,8 @@
 import DeviceDetector from "device-detector-js";
 
-export function generateDeviceDescription() {
-    const deviceDetector = new DeviceDetector();
+const deviceDetector = new DeviceDetector();
+
+export async function generateDeviceFingerprint() {
     const userAgent = navigator.userAgent;
     const device = deviceDetector.parse(userAgent);
 
@@ -14,30 +15,32 @@ export function generateDeviceDescription() {
     const browserVersion = device.client?.version || "";
     const screenRes = `${global.screen.width}x${global.screen.height}`;
 
-    return `${type} - ${brand} ${model} - ${os}(${osVersion}) - ${browser}(${browserVersion}) - ${screenRes}`;
-}
-
-export async function generateDeviceFingerprint() {
-    const canvasFingerprint = getCanvasFingerprint();
     const webglInfo = getWebGLFingerprint();
+    const canvasFingerprint = getCanvasFingerprint();
 
-    const entropy = [
-        navigator.language,
-        global.screen.width,
-        global.screen.height,
-        global.screen.colorDepth,
-        window.devicePixelRatio,
-        navigator.hardwareConcurrency,
-        navigator.deviceMemory || "unknown",
-        navigator.platform,
-        navigator.maxTouchPoints,
-        Intl.DateTimeFormat().resolvedOptions().timeZone,
-        canvasFingerprint,
-        webglInfo.vendor,
-        webglInfo.renderer,
-    ].join("::");
+    const hardwareFingerPrint = await sha256(
+        [
+            navigator.language,
+            global.screen.width,
+            global.screen.height,
+            global.screen.colorDepth,
+            window.devicePixelRatio,
+            navigator.hardwareConcurrency,
+            navigator.deviceMemory || "unknown",
+            navigator.platform,
+            navigator.maxTouchPoints,
+            Intl.DateTimeFormat().resolvedOptions().timeZone,
+            canvasFingerprint,
+            webglInfo.vendor,
+            webglInfo.renderer,
+        ].join("::")
+    );
 
-    return await sha256(entropy);
+    return btoa(
+        unescape(
+            encodeURIComponent(`${type} - ${brand} ${model} - ${os}(${osVersion}) - ${browser}(${browserVersion}) - ${screenRes} | ${hardwareFingerPrint}`)
+        )
+    );
 }
 
 function getCanvasFingerprint() {
