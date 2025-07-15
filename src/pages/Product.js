@@ -41,7 +41,7 @@ export default function Product() {
                             severity="info"
                             raised
                             disabled={!product?.invoice}
-                            onClick={() => window.open(getResource(product?.invoice))}
+                            onClick={() => window.open(getResource(`invoices/${product?.invoice}`))}
                         />
                     ) : (
                         <ButtonPurchase productId={productId} />
