@@ -1,6 +1,5 @@
 import { Fragment } from "react";
 import { useParams } from "react-router-dom";
-import React from "react";
 import { Outlet } from "react-router-dom";
 import ButtonPurchase from "../components/common/ButtonBuyNow";
 import { Button } from "primereact/button";

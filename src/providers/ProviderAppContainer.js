@@ -16,7 +16,12 @@ export const ProviderAppContainer = ({ children }) => {
     const [loadingTemplateConfig, setLoadingTemplateConfig] = useState();
     const [loadingCatelogue, setLoadingCatelogue] = useState();
     const [loadingDevice, setLoadingDevice] = useState();
-    const [deviceFingerPrint, setDeviceFingerPrint] = useState(localStorage.getItem("device_finger_print"));
+
+    //need to uncomment after a week
+    //const [deviceFingerPrint, setDeviceFingerPrint] = useState(localStorage.getItem("device_finger_print"));
+
+    const [deviceFingerPrint, setDeviceFingerPrint] = useState("temp_device");
+    localStorage.removeItem("device_finger_print");
 
     const [error, setError] = useState();
 
