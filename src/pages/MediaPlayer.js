@@ -69,7 +69,13 @@ export default function MediaPlayer() {
     if (!loading && media) {
         return (
             <div className="flex flex-column h-screen gap-4">
-                <div className="bg-gray-900 shadow-4 text-white">{MediaPlayer ? MediaPlayer : <p className="font-bold p-4 m-0">Select Media To Start</p>}</div>
+                <div className="bg-gray-900 shadow-4 text-white">
+                    <p className="font-bold px-2 py-3 m-0">
+                        <i className="pi pi-arrow-left mr-3" onClick={() => navigate(-1)}></i>
+                        Select Media To Start
+                    </p>
+                    {MediaPlayer}
+                </div>
                 <TabMenu model={tabItems} activeIndex={activeTabIndex} onTabChange={(e) => setActiveTabIndex(e.index)} className="overflow-visible"></TabMenu>
                 <MediaSelector currentTab={currentTab} setMediaPlayer={setMediaPlayer} />
             </div>
