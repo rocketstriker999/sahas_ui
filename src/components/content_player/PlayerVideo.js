@@ -3,50 +3,38 @@ import { useLocalStorage } from "primereact/hooks";
 import Loading from "../common/Loading";
 import { requestAPI } from "../../utils";
 import NoContent from "../common/NoContent";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 export default function PlayerVideo({ mediaItem }) {
     const [playBackTimes, setPlayBackTimes] = useLocalStorage({}, "videoPlayBacks");
     const videoRef = useRef(null); // Reference to the video element
     const [loading, setLoading] = useState();
-    const [streamSet, setStreamSet] = useState();
+    const [error, setError] = useState();
+
+    const [stream, setStream] = useState();
     const { selector, id } = useParams();
-    const navigate = useNavigate();
 
     useEffect(() => {
         requestAPI({
             requestPath: `extract/${selector}/${id}/${mediaItem?.id}`,
             setLoading: setLoading,
-            onRequestFailure: setStreamSet({ stream_broken: true }),
-            onResponseReceieved: (streams, responseCode) =>
-                streams && responseCode === 200 ? setStreamSet({ stream_broken: streams.length > 0 ? false : true, streams }) : navigate("/forbidden"),
+            onRequestFailure: setError,
+            onResponseReceieved: ({ stream = false }, _) => setStream(stream),
         });
-    }, [id, mediaItem, navigate, selector]);
-
-    const fetchSourcesWithCacheSkip = () => {
-        requestAPI({
-            requestPath: `extract/${selector}/${id}/${mediaItem?.id}`,
-            requestGetQuery: { skip_cache: true },
-            setLoading: setLoading,
-            onRequestFailure: setStreamSet({ stream_broken: true }),
-            onResponseReceieved: (streams, responseCode) =>
-                streams && responseCode === 200 ? setStreamSet({ stream_broken: streams.length > 0 ? false : true, streams }) : navigate("/forbidden"),
-        });
-    };
+    }, [id, mediaItem, selector]);
 
     if (loading) {
         return <Loading />;
     }
 
-    if (streamSet?.stream_broken) {
-        return <NoContent error="Couldn't Stream The Media" retry={fetchSourcesWithCacheSkip} />;
+    if (!stream || error) {
+        return <NoContent error="Couldn't Stream The Media" />;
     }
 
-    if (streamSet?.streams?.length > 0)
+    if (stream)
         return (
             <video
-                onLoadedData={() => setStreamSet((prev) => ({ ...prev, stream_broken: false }))}
-                onError={() => setStreamSet({ stream_broken: true })}
+                onError={setStream}
                 onPlay={() => playBackTimes[mediaItem.id] && (videoRef.current.currentTime = playBackTimes[mediaItem.id])}
                 width="100%"
                 ref={videoRef}
@@ -59,9 +47,7 @@ export default function PlayerVideo({ mediaItem }) {
                 }}
                 onContextMenu={(e) => e.preventDefault()}
             >
-                {streamSet.streams.map((stream) => (
-                    <source key={stream.url} src={stream.url} type="video/mp4"></source>
-                ))}
+                <source key={stream} src={stream} type="video/mp4"></source>
             </video>
         );
 }
