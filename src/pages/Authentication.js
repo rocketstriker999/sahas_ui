@@ -7,7 +7,7 @@ import DialogInputOTP from "../components/authentication/DialogInputOTP";
 import { useAppContext } from "../providers/ProviderAppContainer";
 
 export default function Authentication() {
-    const { requestAPI } = useAppContext();
+    const { requestAPI, showToast } = useAppContext();
 
     const [email, setEmail] = useState();
 
@@ -25,7 +25,11 @@ export default function Authentication() {
                 onResponseReceieved: ({ authentication_token }, responseCode) => {
                     if (responseCode === 201) {
                         setAuthenticationToken(authentication_token);
-                    } else setError("Failed To Generate OTP, Try Again Later !");
+                        showToast({ severity: "success", summary: "OTP", detail: "New OTP is Sent !", life: 1000 });
+                    } else {
+                        setError("Failed To Generate OTP, Try Again Later !");
+                        showToast({ severity: "error", summary: "OTP", detail: "Failed To Request OTP !", life: 3000 });
+                    }
                 },
             });
         } else {

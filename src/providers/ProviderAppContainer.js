@@ -100,7 +100,7 @@ export const ProviderAppContainer = ({ children }) => {
         <ContextApp.Provider
             value={{ showToast, setApplicationError, requestAPI, applicationLoading, setApplicationLoading, isDevelopmentBuild, deviceFingerPrint }}
         >
-            <Toast ref={toastRef} position="top-right" />
+            <Toast ref={toastRef} position="top-center" />
             {applicationLoading ? (
                 <Loading message={applicationLoading.message} />
             ) : applicationError ? (
