@@ -1,15 +1,19 @@
 import Carousel from "../components/dashboard/Carousel";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Operations from "../components/dashboard/Operations";
 import { useAppContext } from "../providers/ProviderAppContainer";
 import { Badge } from "primereact/badge";
 import HasRequiredAuthority from "../components/dependencies/HasRequiredAuthority";
 import ProfileCard from "../components/dashboard/ProfileCard";
+import { removeCurrentUser } from "../redux/sliceUser";
+import { KEY_AUTHENTICATION_TOKEN } from "../constants";
 
 export default function Dashboard() {
     const { isDevelopmentBuild, deviceFingerPrint } = useAppContext();
 
-    const loggedInUser = useSelector((state) => state.stateUser.user);
+    const dispatch = useDispatch();
+
+    const loggedInUser = useSelector((state) => state.stateUser);
 
     const pageConfig = useSelector((state) => state.stateTemplateConfig?.dash_board);
 
@@ -24,21 +28,31 @@ export default function Dashboard() {
                         </div>
                     )}
                 </div>
-                <i className="pi pi-bell p-overlay-badge mx-2" style={{ fontSize: "1.5rem" }}>
-                    <Badge value="2" severity="warning"></Badge>
-                </i>
+                <div className="flex justify-content-end align-items-center gap-4">
+                    <i className="pi pi-bell p-overlay-badge " style={{ fontSize: "1.5rem" }}>
+                        <Badge value="2" severity="warning"></Badge>
+                    </i>
+                    <i
+                        className="pi pi-power-off"
+                        style={{ fontSize: "1.5rem" }}
+                        onClick={() => {
+                            localStorage.removeItem(KEY_AUTHENTICATION_TOKEN);
+                            dispatch(removeCurrentUser());
+                        }}
+                    ></i>
+                </div>
             </div>
             <div className="p-2">
-                <HasRequiredAuthority requiredAuthority="READ_FEATURE_CAROUSEL">
+                <HasRequiredAuthority requiredAuthority="USE_FEATURE_CAROUSEL">
                     <Carousel images={pageConfig?.carousel?.images} />
                 </HasRequiredAuthority>
 
-                <HasRequiredAuthority requiredAuthority="ACCESS_PAGE_PROFILE">
+                <HasRequiredAuthority requiredAuthority="USE_FEATURE_PROFILE_CARD">
                     <ProfileCard {...loggedInUser} />
                 </HasRequiredAuthority>
 
-                <HasRequiredAuthority requiredAuthority="ACCESS_CONTAINER_OPERATIONS">
-                    <Operations operationsSections={pageConfig?.opertions_sections} />
+                <HasRequiredAuthority requiredAuthority="USE_FEATURE_OPERATIONS">
+                    <Operations />
                 </HasRequiredAuthority>
             </div>
         </div>

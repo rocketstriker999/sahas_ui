@@ -8,7 +8,7 @@ const WalletDetails = () => {
     const { requestAPI } = useAppContext();
 
     const navigate = useNavigate();
-    const loggedInUser = useSelector((state) => state.stateUser.user);
+    const loggedInUser = useSelector((state) => state.stateUser);
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(false);
 

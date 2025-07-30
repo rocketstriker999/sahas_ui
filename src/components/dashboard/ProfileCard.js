@@ -1,4 +1,5 @@
 import { Avatar } from "primereact/avatar";
+import { Tag } from "primereact/tag";
 import { Divider } from "primereact/divider";
 
 export default function ProfileCard({ id = 1, name = "Nisarg Jani", phone = "9909727302", email = "hammerbyte.nisarg@gmail.com", image }) {
@@ -16,13 +17,13 @@ export default function ProfileCard({ id = 1, name = "Nisarg Jani", phone = "990
                         <p className="m-0 p-0">{email}</p>
                     </div>
                     <div className="flex align-items-center gap-2 text-sm">
-                        <i className="pi pi-phone"></i>
-                        <p className="m-0 p-0">{phone}</p>
+                        {phone && <i className="pi pi-phone"></i>}
+                        {phone ? <p className="m-0 p-0">{phone}</p> : <Tag icon="pi pi-exclamation-circle" severity="danger" value="Missing Contact Details" />}
                     </div>
                 </div>
             </div>
 
-            <p class="absolute top-0 right-0 m-0 p-2 text-xs bg-orange-500 shadow-3 text-white font-semibold" style={{ borderBottomLeftRadius: "6px" }}>
+            <p className="absolute top-0 right-0 m-0 p-2 text-xs bg-orange-500 shadow-3 text-white font-semibold" style={{ borderBottomLeftRadius: "6px" }}>
                 View More
             </p>
         </div>

@@ -12,12 +12,12 @@ const ProductAccess = () => {
     const navigate = useNavigate();
     const [myProducts, setMyProducts] = useState([]);
     const [loading, setLoading] = useState(false);
-    const loggedInUser = useSelector((state) => state.stateUser.user);
+    const { id } = useSelector((state) => state.stateUser);
 
     useEffect(() => {
         requestAPI({
             requestMethod: "GET",
-            requestPath: `access/${loggedInUser?.id}/getProfileUserProductAccess`,
+            requestPath: `access/${id}/getProfileUserProductAccess`,
             setLoading: setLoading,
             onResponseReceieved: (data, responseCode) => {
                 if (responseCode === 200) {
@@ -25,7 +25,7 @@ const ProductAccess = () => {
                 }
             },
         });
-    }, [loggedInUser?.id]);
+    }, [id]);
 
     const handleTransactionClick = (product) => {
         navigate(`transaction-details/${product.transaction_id}/${product.product_title}`);

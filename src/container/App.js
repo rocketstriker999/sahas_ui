@@ -13,14 +13,14 @@ export default function App() {
 
     return (
         <HasAuthentication>
-            <HasRequiredAuthority requiredAuthority="ACCESS_CONTAINER_APP" fallBack={() => <Forbidden />}>
+            <HasRequiredAuthority requiredAuthority="USE_CONTAINER_APP" fallBack={() => <Forbidden />}>
                 <RequiresTemplateConfiguration>
                     <RequiresProductsCatelogue>
                         <Routes>
                             <Route
                                 path="/"
                                 element={
-                                    <HasRequiredAuthority fallBack={() => navigate("/forbidden")} requiredAuthority="ACCESS_PAGE_DASHBOARD">
+                                    <HasRequiredAuthority fallBack={() => navigate("/forbidden")} requiredAuthority="USE_PAGE_DASHBOARD">
                                         <Dashboard />
                                     </HasRequiredAuthority>
                                 }
@@ -28,7 +28,7 @@ export default function App() {
                             <Route
                                 path="/courses"
                                 element={
-                                    <HasRequiredAuthority fallBack={() => navigate("/forbidden")} requiredAuthority="ACCESS_PAGE_COURSES">
+                                    <HasRequiredAuthority fallBack={() => navigate("/forbidden")} requiredAuthority="USE_PAGE_COURSES">
                                         <Courses />
                                     </HasRequiredAuthority>
                                 }
@@ -45,9 +45,10 @@ export default function App() {
     );
 }
 
-//ACCESS_CONTAINER_CONTAINERNAME
-//ACCESS_PAGE_PAGENAME
-//READ_FEATURE_CAROUSEL
+//USE_CONTAINER_CONTAINERNAME
+//USE_PAGE_PAGENAME
+//USE_FEATURE_FEATURENAME
+//READ_FEATURE
 //WRITE_FEATURE
 //DELETE_FEATURE
 //UPDATE_FEATURE

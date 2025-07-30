@@ -10,7 +10,7 @@ import { isIOS } from "react-device-detect";
 
 export default function Navbar() {
     const navigate = useNavigate();
-    const loggedInUser = useSelector((state) => state.stateUser.user);
+    const loggedInUser = useSelector((state) => state.stateUser);
     const { templateConfig } = useAppContext();
 
     const [appInstallEvent, setAppInstallEvent] = useState();

@@ -30,7 +30,7 @@ const PrimaryDetails = () => {
 
     const { requestAPI } = useAppContext();
 
-    const loggedInUser = useSelector((state) => state.stateUser.user);
+    const loggedInUser = useSelector((state) => state.stateUser);
     const dispatch = useDispatch();
 
     // Single API call on mount

@@ -11,8 +11,9 @@ export default function CardCollectEmail({ email, setEmail, requestOTP }) {
     const [error, setError] = useState();
 
     return (
-        <div className="px-3 py-4">
-            <Card title={APP_NAME}>
+        <div>
+            <img className="w-full" src="images/banner.jpg" alt="banner" />
+            <Card title={APP_NAME} className="mx-3 mt-4">
                 <div className="text-center flex flex-column align-items-center justify-content-center">
                     <Avatar icon="pi pi-user" size="xlarge" shape="circle" />
                     <p className="p-0 m-0 font-semibold mt-2">Verify Your User Credentials To Continue</p>

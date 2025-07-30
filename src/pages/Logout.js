@@ -4,7 +4,7 @@ import { KEY_AUTHENTICATION_TOKEN } from "../constants";
 import { removeCurrentUser } from "../redux/sliceUser";
 
 export default function Logout() {
-    const loggedInUser = useSelector((state) => state.stateUser.user);
+    const loggedInUser = useSelector((state) => state.stateUser);
 
     const { applicationLoading, setApplicationLoading } = useAppContext();
 

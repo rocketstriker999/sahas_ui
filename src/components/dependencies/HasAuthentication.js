@@ -8,7 +8,7 @@ import { setCurrentUser } from "../../redux/sliceUser";
 export default function HasAuthentication({ children }) {
     const { requestAPI, applicationLoading, setApplicationLoading } = useAppContext();
 
-    const loggedInUser = useSelector((state) => state.stateUser.user);
+    const loggedInUser = useSelector((state) => state.stateUser);
 
     const dispatch = useDispatch();
 
