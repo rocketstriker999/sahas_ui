@@ -15,9 +15,9 @@ export default function Operations() {
                         required_authority: "USE_PAGE_COURSES",
                     },
                     {
-                        title: "Devices",
-                        icon: "pi-mobile",
-                        required_authority: "A2",
+                        title: "Exam",
+                        icon: "pi-pencil",
+                        required_authority: "USE_PAGE_EXAM",
                     },
                 ],
             },
