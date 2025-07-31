@@ -7,6 +7,7 @@ import Forbidden from "../pages/Forbidden";
 import HasRequiredAuthority from "../components/dependencies/HasRequiredAuthority";
 import Logout from "../pages/Logout";
 import HasAuthentication from "../components/dependencies/HasAuthentication";
+import NotFound from "../pages/NotFound";
 
 export default function App() {
     const navigate = useNavigate();
@@ -36,7 +37,7 @@ export default function App() {
 
                             <Route path="/logout" element={<Logout />} />
                             <Route path="/forbidden" element={<Forbidden />} />
-                            <Route path="*" element={<p>Not Found</p>} />
+                            <Route path="*" element={<NotFound />} />
                         </Routes>
                     </RequiresProductsCatelogue>
                 </RequiresTemplateConfiguration>

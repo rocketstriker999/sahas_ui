@@ -1,8 +1,10 @@
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export default function Operations() {
     const { authorities = [] } = useSelector((state) => state.stateUser);
+    const navigate = useNavigate();
 
     const operationsSections = useMemo(() => {
         const configOperations = [
@@ -13,11 +15,13 @@ export default function Operations() {
                         title: "Courses",
                         icon: "pi-video",
                         required_authority: "USE_PAGE_COURSES",
+                        path: "/courses",
                     },
                     {
                         title: "Exam",
                         icon: "pi-pencil",
                         required_authority: "USE_PAGE_EXAM",
+                        path: "/exam",
                     },
                 ],
             },
@@ -47,7 +51,11 @@ export default function Operations() {
                         <div className="grid grid-nogutter">
                             {section?.operations?.map((operation) => {
                                 return (
-                                    <div className="col-3  flex flex-column gap-1 align-items-center p-2 " key={operation?.title}>
+                                    <div
+                                        className="col-3  flex flex-column gap-1 align-items-center p-2 "
+                                        key={operation?.title}
+                                        onClick={() => navigate(operation?.path)}
+                                    >
                                         <i className={`pi ${operation?.icon} border-circle bg-gray-800	p-3 text-white`} style={{ fontSize: "1.25rem" }}></i>
                                         <p className="p-0 m-0 text-xs ">{operation?.title}</p>
                                     </div>
