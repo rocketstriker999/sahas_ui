@@ -19,7 +19,7 @@ export default function Dashboard() {
 
     return (
         <div>
-            <div className="bg-blue-800 text-white flex align-items-center justify-content-between p-2">
+            <div className="bg-blue-800 shadow-3 text-white flex align-items-center justify-content-between p-2">
                 <div className="w-8">
                     <p className="m-0 font-semibold">Sahas Smart Studies</p>
                     {isDevelopmentBuild && (
@@ -28,6 +28,7 @@ export default function Dashboard() {
                         </div>
                     )}
                 </div>
+
                 <div className="flex justify-content-end align-items-center gap-4">
                     <i className="pi pi-bell p-overlay-badge " style={{ fontSize: "1.5rem" }}>
                         <Badge value="2" severity="warning"></Badge>

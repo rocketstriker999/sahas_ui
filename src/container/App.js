@@ -8,6 +8,7 @@ import HasRequiredAuthority from "../components/dependencies/HasRequiredAuthorit
 import Logout from "../pages/Logout";
 import HasAuthentication from "../components/dependencies/HasAuthentication";
 import NotFound from "../pages/NotFound";
+import ManageUsers from "../pages/ManageUsers";
 
 export default function App() {
     const navigate = useNavigate();
@@ -23,6 +24,14 @@ export default function App() {
                                 element={
                                     <HasRequiredAuthority fallBack={() => navigate("/forbidden")} requiredAuthority="USE_PAGE_DASHBOARD">
                                         <Dashboard />
+                                    </HasRequiredAuthority>
+                                }
+                            />
+                            <Route
+                                path="/manage-users"
+                                element={
+                                    <HasRequiredAuthority fallBack={() => navigate("/forbidden")} requiredAuthority="USE_PAGE_MANAGE_USERS">
+                                        <ManageUsers />
                                     </HasRequiredAuthority>
                                 }
                             />

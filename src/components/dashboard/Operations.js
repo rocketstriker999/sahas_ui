@@ -23,11 +23,150 @@ export default function Operations() {
                         required_authority: "USE_PAGE_EXAM",
                         path: "/exam",
                     },
+                    {
+                        title: "Invoices",
+                        icon: "pi-receipt",
+                        required_authority: "USE_PAGE_INVOICES",
+                        path: "/invoices",
+                    },
+                    {
+                        title: "Devices",
+                        icon: "pi-mobile",
+                        required_authority: "USE_PAGE_DEVICES",
+                        path: "/devices",
+                    },
+                    {
+                        title: "Wallet",
+                        icon: "pi-wallet",
+                        required_authority: "USE_PAGE_WALLET",
+                        path: "/wallet",
+                    },
+                    {
+                        title: "My Reminders",
+                        icon: "pi-calendar-clock",
+                        required_authority: "USE_PAGE_REMINDERS",
+                        path: "/my-reminders",
+                    },
+                    {
+                        title: "My Exams",
+                        icon: "pi-question",
+                        required_authority: "USE_PAGE_EXAMS",
+                        path: "/my-exams",
+                    },
                 ],
             },
             {
-                title: "Category 2",
-                operations: [],
+                title: "Employee Corner",
+                operations: [
+                    {
+                        title: "Products",
+                        icon: "pi-box",
+                        required_authority: "USE_PAGE_MANAGE_PRODUCTS",
+                        path: "/manage-products",
+                    },
+                    {
+                        title: "Users",
+                        icon: "pi-users",
+                        required_authority: "USE_PAGE_MANAGE_USERS",
+                        path: "/manage-users",
+                    },
+
+                    {
+                        title: "My Expenses",
+                        icon: "pi-images",
+                        required_authority: "USE_PAGE_MY_EXPENSES",
+                        path: "/my-expenses",
+                    },
+
+                    {
+                        title: "My Tasks",
+                        icon: "pi-check-square",
+                        required_authority: "USE_PAGE_TASKS",
+                        path: "/tasks",
+                    },
+                    {
+                        title: "Analytics",
+                        icon: "pi-chart-bar",
+                        required_authority: "USE_PAGE_MANAGE_ANALYTICS",
+                        path: "/manage-analytics",
+                    },
+                    {
+                        title: "Exams",
+                        icon: "pi-question",
+                        required_authority: "USE_PAGE_MANAGE_EXAMS",
+                        path: "/manage-exams",
+                    },
+                ],
+            },
+            {
+                title: "Admin Corner",
+                operations: [
+                    {
+                        title: "Carousel",
+                        icon: "pi-images",
+                        required_authority: "USE_PAGE_MANAGE_CAROUSEL",
+                        path: "/manage-carousel",
+                    },
+                    {
+                        title: "Branches",
+                        icon: "pi-building-columns",
+                        required_authority: "USE_PAGE_MANAGE_BRANCHES",
+                        path: "/manage-branches",
+                    },
+                    // {
+                    //     title: "Employees",
+                    //     icon: "pi-users",
+                    //     required_authority: "USE_PAGE_MANAGE_CAROUSEL",
+                    //     path: "/manage-employees",
+                    // },
+                    {
+                        title: "Expenses",
+                        icon: "pi-images",
+                        required_authority: "USE_PAGE_MANAGE_EXPENSES",
+                        path: "/manage-expenses",
+                    },
+                    {
+                        title: "Devices",
+                        icon: "pi-mobile",
+                        required_authority: "USE_PAGE_MANAGE_DEVICES",
+                        path: "/manage-devices",
+                    },
+                    {
+                        title: "Tasks",
+                        icon: "pi-list-check",
+                        required_authority: "USE_PAGE_MANAGE_TASKS",
+                        path: "/manage-tasks",
+                    },
+                    {
+                        title: "Reminders",
+                        icon: "pi-calendar-clock",
+                        required_authority: "USE_PAGE_MANAGE_REMINDERS",
+                        path: "/manage-reminders",
+                    },
+                    {
+                        title: "Coupons",
+                        icon: "pi-ticket",
+                        required_authority: "USE_PAGE_MANAGE_COUPON_CODES",
+                        path: "/manage-coupon-codes",
+                    },
+                ],
+            },
+            {
+                title: "Developer Corner",
+                operations: [
+                    {
+                        title: "Configs",
+                        icon: "pi-cog",
+                        required_authority: "USE_PAGE_MANAGE_CONFIGS",
+                        path: "/manage-branches",
+                    },
+                    {
+                        title: "Admins",
+                        icon: "pi-user",
+                        required_authority: "USE_PAGE_MANAGE_ADMINS",
+                        path: "/manage-branches",
+                    },
+                ],
             },
         ];
 
@@ -45,7 +184,7 @@ export default function Operations() {
         <div className="mt-3">
             {operationsSections?.map((section) => {
                 return (
-                    <div className=" border-round bg-gray-100 border-1 border-gray-300" key={section?.title}>
+                    <div className="border-round bg-gray-100 border-1 border-gray-300 mb-2" key={section?.title}>
                         <p className="m-0 py-3 px-2  font-semibold">{section?.title}</p>
 
                         <div className="grid grid-nogutter">
@@ -57,7 +196,7 @@ export default function Operations() {
                                         onClick={() => navigate(operation?.path)}
                                     >
                                         <i className={`pi ${operation?.icon} border-circle bg-gray-800	p-3 text-white`} style={{ fontSize: "1.25rem" }}></i>
-                                        <p className="p-0 m-0 text-xs ">{operation?.title}</p>
+                                        <p className="p-0 m-0 text-xs text-center">{operation?.title}</p>
                                     </div>
                                 );
                             })}

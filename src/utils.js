@@ -80,5 +80,9 @@ async function sha256(input) {
     return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
+export function getRoleFormalized(role) {
+    return `${role[0].toUpperCase()}s`;
+}
+
 //resource getter
 export const getResource = (resource) => process.env.REACT_APP_BACKEND_SERVER.concat(process.env.REACT_APP_RESOURCES_PATH).concat(resource);

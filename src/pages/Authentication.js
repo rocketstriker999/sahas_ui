@@ -21,7 +21,7 @@ export default function Authentication() {
                 onRequestFailure: setError,
                 onRequestStart: setError,
                 setLoading: setLoading,
-                requestPostBody: { email },
+                requestPostBody: { email: email.trim() },
                 onResponseReceieved: ({ authentication_token }, responseCode) => {
                     if (responseCode === 201) {
                         setAuthenticationToken(authentication_token);
