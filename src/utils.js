@@ -80,8 +80,8 @@ async function sha256(input) {
     return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
-export function getRoleFormalized(role) {
-    return `${role[0].toUpperCase()}s`;
+export function getFilterNameFormalized(input) {
+    return input.charAt(0).toUpperCase().concat(input.slice(1));
 }
 
 //resource getter
