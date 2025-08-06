@@ -10,7 +10,7 @@ import { KEY_AUTHENTICATION_TOKEN } from "../../constants";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "../../redux/sliceUser";
 
-export default function DialogCollectOTP({ authenticationToken, setAuthenticationToken, requestOTP }) {
+export default function DialogInputOTP({ authenticationToken, setAuthenticationToken, requestOTP }) {
     const { requestAPI } = useAppContext();
 
     const dispatch = useDispatch();

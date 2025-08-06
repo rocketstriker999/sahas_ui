@@ -4,6 +4,7 @@ const APPLICATION_CONSTANTS = {
     KEY_AUTHENTICATION_TOKEN: "Authentication-Token",
     APP_NAME: "Sahas Smart Studies",
     REGEX_EMAIL: /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com|hotmail\.com|icloud\.com)$/,
+    EMPTY_VALUE: "--",
 };
 
 module.exports = APPLICATION_CONSTANTS;
