@@ -10,7 +10,6 @@ import FiltersDrawer from "../components/manage_users/FiltersDrawer";
 import User from "../components/manage_users/User";
 import Loading from "../components/common/Loading";
 import NoContent from "../components/common/NoContent";
-import AppliedFilters from "../components/manage_users/AppliedFilters";
 
 export default function ManageUsers() {
     const title = useMemo(() => "Manage Users", []);
@@ -23,23 +22,9 @@ export default function ManageUsers() {
     const [filters, setFilters] = useState();
     const [filtersDrawerVisibility, setFiltersDrawerVisibility] = useState();
 
-    const [appliedFilters, setAppliedFilters] = useState();
-
     const limit = useMemo(() => 6, []);
 
     const [searchQuery, setSearchQuery] = useState({ limit, offSet: 0 });
-
-    const applySearchQuery = useCallback(() => {
-        const generatedSearchQuery = { limit };
-
-        if (appliedFilters) {
-            Object.keys(appliedFilters).forEach((key) => {
-                generatedSearchQuery[key] = appliedFilters[key].map((selectedFilter) => selectedFilter.id).join(",");
-            });
-        }
-
-        setSearchQuery((prev) => ({ ...prev, ...generatedSearchQuery }));
-    }, [appliedFilters, limit]);
 
     //Initially We need to fetch all the filters
     useEffect(() => {
@@ -72,12 +57,21 @@ export default function ManageUsers() {
         });
     }, [requestAPI, searchQuery]);
 
+    const countAppliedFilters = useMemo(() => {
+        const { search, limit, offSet, ...appliedFilters } = searchQuery;
+
+        return Object.keys(appliedFilters).length;
+    }, [searchQuery]);
+
     return (
         <div className="flex flex-column h-screen">
             <PageTitle title={title} />
-            <SearchBar disable={loading} setFiltersDrawerVisibility={setFiltersDrawerVisibility} setSearchQuery={setSearchQuery} />
-
-            {searchQuery?.appliedFilters && <AppliedFilters appliedFilters={searchQuery.appliedFilters} />}
+            <SearchBar
+                countAppliedFilters={countAppliedFilters}
+                disable={loading}
+                setFiltersDrawerVisibility={setFiltersDrawerVisibility}
+                setSearchQuery={setSearchQuery}
+            />
 
             <div className="flex-grow-1 p-2 ">
                 {loading ? (
@@ -103,9 +97,7 @@ export default function ManageUsers() {
                 filtersDrawerVisibility={filtersDrawerVisibility}
                 setFiltersDrawerVisibility={setFiltersDrawerVisibility}
                 filters={filters}
-                appliedFilters={appliedFilters}
-                setAppliedFilters={setAppliedFilters}
-                applySearchQuery={applySearchQuery}
+                setSearchQuery={setSearchQuery}
             />
         </div>
     );
