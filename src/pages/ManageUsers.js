@@ -22,7 +22,7 @@ export default function ManageUsers() {
     const [filters, setFilters] = useState();
     const [filtersDrawerVisibility, setFiltersDrawerVisibility] = useState();
 
-    const limit = useMemo(() => 6, []);
+    const limit = useMemo(() => 5, []);
 
     const [searchQuery, setSearchQuery] = useState({ limit, offSet: 0 });
 
@@ -83,15 +83,24 @@ export default function ManageUsers() {
                 )}
             </div>
 
-            <Paginator
-                first={searchQuery?.offSet}
-                rows={limit}
-                totalRecords={users?.recordsCount}
-                onPageChange={(e) => {
-                    setSearchQuery((prev) => ({ ...prev, offSet: e.first }));
-                }}
-                template={{ layout: "FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink" }}
-            />
+            {!loading && (
+                <Paginator
+                    first={searchQuery?.offSet}
+                    rows={limit}
+                    totalRecords={users?.recordsCount}
+                    onPageChange={(e) => {
+                        setSearchQuery((prev) => ({ ...prev, offSet: e.first }));
+                    }}
+                    template={{
+                        layout: "FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink",
+                        CurrentPageReport: (options) => (
+                            <span className="text-center text-sm w-8rem">
+                                {options.first} - {options.last} of {options.totalRecords}
+                            </span>
+                        ),
+                    }}
+                />
+            )}
 
             <FiltersDrawer
                 filtersDrawerVisibility={filtersDrawerVisibility}
