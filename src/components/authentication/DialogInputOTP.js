@@ -9,6 +9,7 @@ import Error from "../common/Error";
 import { KEY_AUTHENTICATION_TOKEN } from "../../constants";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "../../redux/sliceUser";
+import { classNames } from "primereact/utils";
 
 export default function DialogInputOTP({ authenticationToken, setAuthenticationToken, requestOTP }) {
     const { requestAPI } = useAppContext();
@@ -51,7 +52,10 @@ export default function DialogInputOTP({ authenticationToken, setAuthenticationT
                     <p className="text-sm">Enter The OTP That We have Sent You !</p>
                 </div>
 
-                <InputOtp length={4} disabled={loading} invalid={error} value={otp} integerOnly mask onChange={(e) => setOTP(e.value)} />
+                <InputOtp length={4} disabled={loading} invalid={error} value={otp} integerOnly mask onChange={(e) => setOTP(e.value)}
+                    pt={{
+                        root: { className: classNames("text-sm sm:text-base md:text-lg lg:text-xl") },
+                    }} />
 
                 {error && <Error className="p-2" error={error} />}
 

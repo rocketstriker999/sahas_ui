@@ -185,18 +185,18 @@ export default function Operations() {
             {operationsSections?.map((section) => {
                 return (
                     <div className="border-round bg-gray-100 border-1 border-gray-300 mb-2" key={section?.title}>
-                        <p className="m-0 py-3 px-2  font-semibold">{section?.title}</p>
+                        <p className="m-0 py-3 px-2 text-sm sm:text-base md:text-lg lg:text-xl font-semibold">{section?.title}</p>
 
                         <div className="grid grid-nogutter">
                             {section?.operations?.map((operation) => {
                                 return (
                                     <div
-                                        className="col-3  flex flex-column gap-1 align-items-center p-2 "
+                                        className="col-3 flex flex-column gap-1 align-items-center p-2 "
                                         key={operation?.title}
                                         onClick={() => navigate(operation?.path)}
                                     >
-                                        <i className={`pi ${operation?.icon} border-circle bg-gray-800	p-3 text-white`} style={{ fontSize: "1.25rem" }}></i>
-                                        <p className="p-0 m-0 text-xs text-center">{operation?.title}</p>
+                                        <i className={`pi ${operation?.icon} border-circle bg-gray-800 p-3 text-white text-sm sm:text-base md:text-lg lg:text-xl`}></i>
+                                        <p className="p-0 m-0 text-xs sm:text-sm md:text-base lg:text-lg text-center">{operation?.title}</p>
                                     </div>
                                 );
                             })}
