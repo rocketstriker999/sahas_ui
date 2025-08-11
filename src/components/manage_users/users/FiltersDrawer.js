@@ -1,10 +1,10 @@
 import { Sidebar } from "primereact/sidebar";
-import { getFilterNameFormalized } from "../../utils";
 import { MultiSelect } from "primereact/multiselect";
 import { FloatLabel } from "primereact/floatlabel";
-import NoContent from "../common/NoContent";
 import { Button } from "primereact/button";
 import { useState } from "react";
+import NoContent from "../../common/NoContent";
+import { getFilterNameFormalized } from "../../../utils";
 export default function FiltersDrawer({ filtersDrawerVisibility, setFiltersDrawerVisibility, filters, setSearchQuery }) {
     const [selectedFilters, setSelectedFilters] = useState();
 

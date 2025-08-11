@@ -1,4 +1,4 @@
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Dashboard from "../pages/Dashboard";
 import RequiresTemplateConfiguration from "../components/dependencies/RequiresTemplateConfiguration";
 import RequiresProductsCatelogue from "../components/dependencies/RequiresProductsCatelogue";
@@ -8,7 +8,9 @@ import HasRequiredAuthority from "../components/dependencies/HasRequiredAuthorit
 import Logout from "../pages/Logout";
 import HasAuthentication from "../components/dependencies/HasAuthentication";
 import NotFound from "../pages/NotFound";
+import Users from "../components/manage_users/Users";
 import ManageUsers from "../pages/ManageUsers";
+import User from "../components/manage_users/User";
 
 export default function App() {
     const navigate = useNavigate();
@@ -30,11 +32,28 @@ export default function App() {
                             <Route
                                 path="/manage-users"
                                 element={
-                                    <HasRequiredAuthority fallBack={() => navigate("/forbidden")} requiredAuthority="USE_PAGE_MANAGE_USERS">
+                                    <HasRequiredAuthority fallBack={() => navigate("/forbidden")} requiredAuthority="USE_CONTAINER_MANAGE_USERS">
                                         <ManageUsers />
                                     </HasRequiredAuthority>
                                 }
-                            />
+                            >
+                                <Route
+                                    index
+                                    element={
+                                        <HasRequiredAuthority fallBack={() => navigate("/forbidden")} requiredAuthority="USE_PAGE_USERS">
+                                            <Users />
+                                        </HasRequiredAuthority>
+                                    }
+                                />
+                                <Route
+                                    path=":id"
+                                    element={
+                                        <HasRequiredAuthority fallBack={() => navigate("/forbidden")} requiredAuthority="USE_PAGE_USER">
+                                            <User />
+                                        </HasRequiredAuthority>
+                                    }
+                                />
+                            </Route>
                             <Route
                                 path="/courses"
                                 element={
@@ -43,7 +62,6 @@ export default function App() {
                                     </HasRequiredAuthority>
                                 }
                             />
-
                             <Route path="/logout" element={<Logout />} />
                             <Route path="/forbidden" element={<Forbidden />} />
                             <Route path="*" element={<NotFound />} />

@@ -67,7 +67,7 @@ export default function Operations() {
                     {
                         title: "Users",
                         icon: "pi-users",
-                        required_authority: "USE_PAGE_MANAGE_USERS",
+                        required_authority: "USE_CONTAINER_MANAGE_USERS",
                         path: "/manage-users",
                     },
 
@@ -113,12 +113,18 @@ export default function Operations() {
                         required_authority: "USE_PAGE_MANAGE_BRANCHES",
                         path: "/manage-branches",
                     },
-                    // {
-                    //     title: "Employees",
-                    //     icon: "pi-users",
-                    //     required_authority: "USE_PAGE_MANAGE_CAROUSEL",
-                    //     path: "/manage-employees",
-                    // },
+                    {
+                        title: "Device Requests",
+                        icon: "pi-tablet",
+                        required_authority: "USE_PAGE_MANAGE_STREAMING_DEVICES",
+                        path: "/manage-streaming-devices",
+                    },
+                    {
+                        title: "Revenue",
+                        icon: "pi-indian-rupee",
+                        required_authority: "USE_PAGE_REVENUE",
+                        path: "/revenue",
+                    },
                     {
                         title: "Expenses",
                         icon: "pi-images",
