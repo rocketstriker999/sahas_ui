@@ -1,9 +1,8 @@
-import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Dashboard from "../pages/Dashboard";
 import RequiresTemplateConfiguration from "../components/dependencies/RequiresTemplateConfiguration";
 import RequiresProductsCatelogue from "../components/dependencies/RequiresProductsCatelogue";
 import Courses from "../pages/Courses";
-import Forbidden from "../pages/Forbidden";
 import HasRequiredAuthority from "../components/dependencies/HasRequiredAuthority";
 import Logout from "../pages/Logout";
 import HasAuthentication from "../components/dependencies/HasAuthentication";
@@ -13,18 +12,16 @@ import ManageUsers from "../pages/ManageUsers";
 import User from "../components/manage_users/User";
 
 export default function App() {
-    const navigate = useNavigate();
-
     return (
         <HasAuthentication>
-            <HasRequiredAuthority requiredAuthority="USE_CONTAINER_APP" fallBack={() => <Forbidden />}>
+            <HasRequiredAuthority requiredAuthority="USE_CONTAINER_APP" showForBidden={true}>
                 <RequiresTemplateConfiguration>
                     <RequiresProductsCatelogue>
                         <Routes>
                             <Route
                                 path="/"
                                 element={
-                                    <HasRequiredAuthority fallBack={() => navigate("/forbidden")} requiredAuthority="USE_PAGE_DASHBOARD">
+                                    <HasRequiredAuthority showForBidden={true} requiredAuthority="USE_PAGE_DASHBOARD">
                                         <Dashboard />
                                     </HasRequiredAuthority>
                                 }
@@ -32,7 +29,7 @@ export default function App() {
                             <Route
                                 path="/manage-users"
                                 element={
-                                    <HasRequiredAuthority fallBack={() => navigate("/forbidden")} requiredAuthority="USE_CONTAINER_MANAGE_USERS">
+                                    <HasRequiredAuthority showForBidden={true} requiredAuthority="USE_CONTAINER_MANAGE_USERS">
                                         <ManageUsers />
                                     </HasRequiredAuthority>
                                 }
@@ -40,15 +37,15 @@ export default function App() {
                                 <Route
                                     index
                                     element={
-                                        <HasRequiredAuthority fallBack={() => navigate("/forbidden")} requiredAuthority="USE_PAGE_USERS">
+                                        <HasRequiredAuthority showForBidden={true} requiredAuthority="USE_PAGE_USERS">
                                             <Users />
                                         </HasRequiredAuthority>
                                     }
                                 />
                                 <Route
-                                    path=":id"
+                                    path=":userId"
                                     element={
-                                        <HasRequiredAuthority fallBack={() => navigate("/forbidden")} requiredAuthority="USE_PAGE_USER">
+                                        <HasRequiredAuthority showForBidden={true} requiredAuthority="USE_PAGE_USER">
                                             <User />
                                         </HasRequiredAuthority>
                                     }
@@ -57,13 +54,13 @@ export default function App() {
                             <Route
                                 path="/courses"
                                 element={
-                                    <HasRequiredAuthority fallBack={() => navigate("/forbidden")} requiredAuthority="USE_PAGE_COURSES">
+                                    <HasRequiredAuthority showForBidden={true} requiredAuthority="USE_PAGE_COURSES">
                                         <Courses />
                                     </HasRequiredAuthority>
                                 }
                             />
                             <Route path="/logout" element={<Logout />} />
-                            <Route path="/forbidden" element={<Forbidden />} />
+
                             <Route path="*" element={<NotFound />} />
                         </Routes>
                     </RequiresProductsCatelogue>

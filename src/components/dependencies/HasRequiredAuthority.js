@@ -1,14 +1,14 @@
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import Forbidden from "../../pages/Forbidden";
 
-export default function HasRequiredAuthority({ requiredAuthority, fallBack, children }) {
+export default function HasRequiredAuthority({ requiredAuthority, showForBidden, children }) {
     const { authorities = [] } = useSelector((state) => state.stateUser);
 
-    useEffect(() => {
-        if (!authorities.includes(requiredAuthority)) {
-            fallBack();
-        }
-    }, [authorities, fallBack, requiredAuthority]);
+    if (authorities.includes(requiredAuthority)) {
+        return children;
+    }
 
-    return children;
+    if (showForBidden) {
+        return <Forbidden />;
+    }
 }
