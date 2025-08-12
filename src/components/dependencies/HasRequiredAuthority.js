@@ -1,10 +1,11 @@
 import { useSelector } from "react-redux";
 import Forbidden from "../../pages/Forbidden";
+import { hasRequiredAuthority } from "../../utils";
 
 export default function HasRequiredAuthority({ requiredAuthority, showForBidden, children }) {
     const { authorities = [] } = useSelector((state) => state.stateUser);
 
-    if (authorities.includes(requiredAuthority)) {
+    if (hasRequiredAuthority(authorities, requiredAuthority)) {
         return children;
     }
 

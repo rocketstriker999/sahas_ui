@@ -81,7 +81,7 @@ export default function Users() {
                 )}
             </div>
 
-            <Button className="shadow-3 align-self-end mx-2" icon="pi pi-plus" rounded severity="warning" aria-label="Cancel" />
+            <Button className="shadow-3 align-self-end mx-4" icon="pi pi-plus" rounded severity="warning" aria-label="Cancel" />
 
             {!loading && (
                 <Paginator

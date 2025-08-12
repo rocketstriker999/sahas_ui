@@ -86,3 +86,5 @@ export function getFilterNameFormalized(input) {
 
 //resource getter
 export const getResource = (resource) => process.env.REACT_APP_BACKEND_SERVER.concat(process.env.REACT_APP_RESOURCES_PATH).concat(resource);
+
+export const hasRequiredAuthority = (authorities, requiredAuthority) => authorities.includes(requiredAuthority);
