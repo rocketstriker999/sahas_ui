@@ -7,6 +7,7 @@ import NoContent from "../common/NoContent";
 import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
 import FiltersDrawer from "./users/FiltersDrawer";
 import User from "./users/User";
+import { Button } from "primereact/button";
 
 export default function Users() {
     const { requestAPI } = useAppContext();
@@ -98,6 +99,8 @@ export default function Users() {
                     }}
                 />
             )}
+
+            <Button className="absolute right-0 bottom-0 mr-4 mb-8 shadow-3" icon="pi pi-plus" rounded severity="warning" aria-label="Cancel" />
 
             <FiltersDrawer
                 filtersDrawerVisibility={filtersDrawerVisibility}
