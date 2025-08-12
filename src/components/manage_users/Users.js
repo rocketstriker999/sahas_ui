@@ -81,6 +81,8 @@ export default function Users() {
                 )}
             </div>
 
+            <Button className="shadow-3 align-self-end mx-2" icon="pi pi-plus" rounded severity="warning" aria-label="Cancel" />
+
             {!loading && (
                 <Paginator
                     first={searchQuery?.offSet}
@@ -99,8 +101,6 @@ export default function Users() {
                     }}
                 />
             )}
-
-            <Button className="absolute right-0 bottom-0 mr-4 mb-8 shadow-3" icon="pi pi-plus" rounded severity="warning" aria-label="Cancel" />
 
             <FiltersDrawer
                 filtersDrawerVisibility={filtersDrawerVisibility}
