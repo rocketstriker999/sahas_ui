@@ -26,7 +26,7 @@ export default function CouponCodeApplier({ appliedCouponCode, couponCodeBenifit
                     className="p-button-success"
                     onClick={() => {
                         if (couponCode) {
-                            applyCouponCode(couponCode);
+                            applyCouponCode(couponCode.trim());
                         }
                     }}
                 />
