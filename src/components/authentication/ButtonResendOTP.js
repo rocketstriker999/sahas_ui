@@ -1,7 +1,7 @@
 import { Button } from "primereact/button";
 import { useInterval } from "primereact/hooks";
-import { classNames } from "primereact/utils";
 import { useState } from "react";
+import { TEXT_SIZE_NORMAL } from "../../styles";
 
 export default function ButtonResendOTP({ resendInterval = 60, requestOTP, setError }) {
     const [waitSeconds, setWaitSeconds] = useState(resendInterval);
@@ -21,8 +21,8 @@ export default function ButtonResendOTP({ resendInterval = 60, requestOTP, setEr
             disabled={loading || waitSeconds > 0}
             loading={loading}
             pt={{
-                label: { className: classNames("text-sm sm:text-base md:text-lg lg:text-xl") },
-                icon: { className: classNames("text-sm sm:text-base md:text-lg lg:text-xl") }
+                label: { className: TEXT_SIZE_NORMAL },
+                icon: { className: TEXT_SIZE_NORMAL }
             }}
         />
     );

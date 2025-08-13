@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { SUB_TITLE_TEXT,TEXT_SIZE_SMALL } from "../../styles";
 
 export default function Operations() {
     const { authorities = [] } = useSelector((state) => state.stateUser);
@@ -185,7 +186,7 @@ export default function Operations() {
             {operationsSections?.map((section) => {
                 return (
                     <div className="border-round bg-gray-100 border-1 border-gray-300 mb-2" key={section?.title}>
-                        <p className="m-0 py-3 px-2 text-sm sm:text-base md:text-lg lg:text-xl font-semibold">{section?.title}</p>
+                        <p className={`m-0 py-3 px-2 font-semibold ${SUB_TITLE_TEXT}`}>{section?.title}</p>
 
                         <div className="grid grid-nogutter">
                             {section?.operations?.map((operation) => {
@@ -196,7 +197,7 @@ export default function Operations() {
                                         onClick={() => navigate(operation?.path)}
                                     >
                                         <i className={`pi ${operation?.icon} border-circle bg-gray-800 p-3 text-white text-sm sm:text-base md:text-lg lg:text-xl`}></i>
-                                        <p className="p-0 m-0 text-xs sm:text-sm md:text-base lg:text-lg text-center">{operation?.title}</p>
+                                        <p className={`p-0 m-0 text-center ${TEXT_SIZE_SMALL}`}>{operation?.title}</p>
                                     </div>
                                 );
                             })}

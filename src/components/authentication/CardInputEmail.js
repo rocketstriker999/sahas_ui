@@ -9,6 +9,7 @@ import { classNames } from "primereact/utils";
 import { Dialog } from 'primereact/dialog';
 import { InputTextarea } from "primereact/inputtextarea";
 import { Dropdown } from "primereact/dropdown";
+import { TEXT_SIZE_NORMAL,TITLE_TEXT } from "../../styles";
 
 export default function CardInputEmail({ email, setEmail, requestOTP }) {
     const [loading, setLoading] = useState();
@@ -26,21 +27,17 @@ export default function CardInputEmail({ email, setEmail, requestOTP }) {
         { label: "Academic Issue", value: "academic" }
     ];
 
-    const handleSubmit = () => {
-        console.log({ name, phone, email, description, issueType });
-        setVisible(false);
-    };
-
     return (
         <div className="flex flex-column align-items-center w-full ">
             <img className="w-full" src="images/banner.jpg" alt="banner" />
             <Card title={APP_NAME} className="w-10 mx-3 mt-4"
                 pt={{
-                    title: { className: classNames("text-base sm:text-xl md:text-2xl lg:text-3xl text-center") }
-                }}>
+                    title: { className: classNames(TITLE_TEXT, "text-center") }
+                }}
+            >
                 <div className="flex flex-column align-items-center text-center w-full">
                     <Avatar icon="pi pi-user" size="large" shape="circle" />
-                    <p className="p-0 m-0 font-semibold mt-2 text-sm sm:text-base md:text-lg lg:text-xl">Verify Your User Credentials To Continue</p>
+                    <p className={`p-0 m-0 font-semibold mt-2 ${TEXT_SIZE_NORMAL}`}>Verify Your User Credentials To Continue</p>
 
                     <div className="p-inputgroup mt-3 w-full">
                         <span className="p-inputgroup-addon">
@@ -53,7 +50,7 @@ export default function CardInputEmail({ email, setEmail, requestOTP }) {
                             onInput={(e) => setEmail(e.target.value)}
                             invalid={error}
                             pt={{
-                                root: { className: classNames("text-sm sm:text-base md:text-lg lg:text-xl") },
+                                root: { className: TEXT_SIZE_NORMAL },
                             }}
                         />
                     </div>
@@ -68,8 +65,8 @@ export default function CardInputEmail({ email, setEmail, requestOTP }) {
                         disabled={loading}
                         loading={loading}
                         pt={{
-                            label: { className: classNames("text-sm sm:text-base md:text-lg lg:text-xl") },
-                            icon: { className: classNames("text-sm sm:text-base md:text-lg lg:text-xl") }
+                            label: { className: TEXT_SIZE_NORMAL },
+                            icon: { className: TEXT_SIZE_NORMAL }
                         }}
                     />
                     <Button
@@ -79,8 +76,8 @@ export default function CardInputEmail({ email, setEmail, requestOTP }) {
                         label="Help"
                         onClick={() => setVisible(true)}
                         pt={{
-                            label: { className: classNames("text-sm sm:text-base md:text-lg lg:text-xl") },
-                            icon: { className: classNames("text-sm sm:text-base md:text-lg lg:text-xl") }
+                            label: { className: TEXT_SIZE_NORMAL },
+                            icon: { className: TEXT_SIZE_NORMAL }
                         }}
                     />
 
@@ -105,7 +102,7 @@ export default function CardInputEmail({ email, setEmail, requestOTP }) {
                                     value={name}
                                     onInput={(e) => setName(e.target.value)}
                                     pt={{
-                                        root: { className: classNames("text-sm sm:text-base md:text-lg lg:text-xl") },
+                                        root: { className: TEXT_SIZE_NORMAL },
                                     }}
                                 />
                             </div>
@@ -120,7 +117,7 @@ export default function CardInputEmail({ email, setEmail, requestOTP }) {
                                     onInput={(e) => setPhone(e.target.value)}
                                     keyfilter="pint"
                                     pt={{
-                                        root: { className: classNames("text-sm sm:text-base md:text-lg lg:text-xl") },
+                                        root: { className: TEXT_SIZE_NORMAL },
                                     }}
                                 />
                             </div>
@@ -134,7 +131,7 @@ export default function CardInputEmail({ email, setEmail, requestOTP }) {
                                     value={registerEmail}
                                     onInput={(e) => setRegisterEmail(e.target.value)}
                                     pt={{
-                                        root: { className: classNames("text-sm sm:text-base md:text-lg lg:text-xl") },
+                                        root: { className: TEXT_SIZE_NORMAL },
                                     }}
                                 />
                             </div>
@@ -149,8 +146,8 @@ export default function CardInputEmail({ email, setEmail, requestOTP }) {
                                     onChange={(e) => setIssueType(e.value)}
                                     placeholder="Select Issue"
                                     pt={{
-                                        input: { className: classNames("text-sm sm:text-base md:text-lg lg:text-xl") },
-                                        itemlabel: { className: classNames("text-sm sm:text-base md:text-lg lg:text-xl") },
+                                        input: { className: TEXT_SIZE_NORMAL },
+                                        itemlabel: { className: TEXT_SIZE_NORMAL },
                                     }}
                                 />
                             </div>
@@ -166,21 +163,21 @@ export default function CardInputEmail({ email, setEmail, requestOTP }) {
                                     onInput={(e) => setDescription(e.target.value)}
                                     autoResize
                                     pt={{
-                                        root: { className: classNames("text-sm sm:text-base md:text-lg lg:text-xl") },
+                                        root: { className: TEXT_SIZE_NORMAL },
                                     }}
                                 />
                             </div>
 
                             <div className="flex gap-2">
-                                <Button label="Submit" className="w-full" onClick={handleSubmit}
+                                <Button label="Submit" className="w-full" onClick={() => setVisible(false)}
                                     pt={{
-                                        label: { className: classNames("text-sm sm:text-base md:text-lg lg:text-xl") },
-                                        icon: { className: classNames("text-sm sm:text-base md:text-lg lg:text-xl") }
+                                        input: { className: TEXT_SIZE_NORMAL },
+                                        itemlabel: { className: TEXT_SIZE_NORMAL },
                                     }} />
                                 <Button label="Cancel" severity="secondary" className="w-full" onClick={() => setVisible(false)}
                                     pt={{
-                                        label: { className: classNames("text-sm sm:text-base md:text-lg lg:text-xl") },
-                                        icon: { className: classNames("text-sm sm:text-base md:text-lg lg:text-xl") }
+                                        input: { className: TEXT_SIZE_NORMAL },
+                                        itemlabel: { className: TEXT_SIZE_NORMAL },
                                     }} />
                             </div>
                         </div>
