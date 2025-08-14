@@ -9,6 +9,7 @@ import Detail from "../../common/Detail";
 import { useCallback, useEffect, useState } from "react";
 import { useAppContext } from "../../../providers/ProviderAppContainer";
 import Loading from "../../common/Loading";
+import { Badge } from "primereact/badge";
 
 export default function Inquiries({ userId, branches, authorities, courses }) {
     const [inquiries, setInquiries] = useState();
@@ -16,8 +17,9 @@ export default function Inquiries({ userId, branches, authorities, courses }) {
     const { requestAPI, showToast } = useAppContext();
     const [loading, setLoading] = useState();
     const [deletingInquiryNote, setDeletingInquiryNote] = useState();
-
     const [error, setError] = useState();
+
+    const [addInquiryVisible, setAddInquiryVisible] = useState();
 
     useEffect(() => {
         requestAPI({
@@ -90,8 +92,9 @@ export default function Inquiries({ userId, branches, authorities, courses }) {
             <TabHeader
                 title="User's Inquiries & Notes"
                 highlightOne={`Total - ${inquiries?.length} Inquiries`}
-                actionItems={[<Button icon="pi pi-plus" aria-label="Filter" severity="warning" />]}
+                actionItems={[<Button icon="pi pi-plus" severity="warning" onClick={setAddInquiryVisible} />]}
             />
+
             <Divider />
             <div className="px-3">
                 {loading ? (
@@ -125,18 +128,21 @@ export default function Inquiries({ userId, branches, authorities, courses }) {
                                         </div>
                                         <Button
                                             className="w-2rem h-2rem"
-                                            icon="pi pi-clipboard"
-                                            rounded
-                                            severity="warning"
-                                            onClick={() => setselectedInquiryIndex(index)}
-                                        />
-                                        <Button
-                                            className="w-2rem h-2rem"
                                             icon="pi pi-trash"
                                             rounded
                                             severity="danger"
                                             onClick={() => deleteInquiry(inquiry.id)}
                                         />
+                                        <div className="p-overlay-badge">
+                                            <Button
+                                                className="w-2rem h-2rem"
+                                                icon="pi pi-clipboard"
+                                                rounded
+                                                severity="warning"
+                                                onClick={() => setselectedInquiryIndex(index)}
+                                            />
+                                            <Badge value={inquiry?.notes?.length} severity="secondary"></Badge>
+                                        </div>
                                     </div>
                                 </AccordionTab>
                             ))
@@ -168,6 +174,12 @@ export default function Inquiries({ userId, branches, authorities, courses }) {
                     ) : (
                         <NoContent error="No Notes Found" />
                     )}
+                </div>
+            </Dialog>
+
+            <Dialog header={`Add New Inquiry`} visible={addInquiryVisible} className="w-11" onHide={() => setAddInquiryVisible(false)}>
+                <div className="pt-2">
+                    <p>Add New Inquiry</p>
                 </div>
             </Dialog>
         </div>
