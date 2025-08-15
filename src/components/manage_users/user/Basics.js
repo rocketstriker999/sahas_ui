@@ -67,6 +67,7 @@ export default function Basics({ userId, branches, authorities }) {
     return (
         <div>
             <TabHeader
+                className={"px-3 pt-3"}
                 title="User's Basic Details & Profile"
                 highlightOne={`Created At - ${basics?.created_on}`}
                 highlightTwo={`Updated At - ${basics?.updated_at}`}
@@ -101,12 +102,12 @@ export default function Basics({ userId, branches, authorities }) {
                     </FloatLabel>
                     <FloatLabel className="mt-4">
                         <Dropdown
-                            value={branches?.find((branch) => branch.id === basics?.branch)}
+                            value={branches?.find((branch) => branch.id === basics?.branch_id)}
                             inputId="branch"
                             options={branches}
                             optionLabel="title"
                             className="w-full"
-                            onChange={(e) => setBasics((prev) => ({ ...prev, branch: e.value?.id }))}
+                            onChange={(e) => setBasics((prev) => ({ ...prev, branch_id: e.value?.id }))}
                             disabled={disableInputs}
                         />
                         <label htmlFor="branch">Branch</label>

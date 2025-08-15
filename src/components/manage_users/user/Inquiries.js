@@ -10,16 +10,16 @@ import { useCallback, useEffect, useState } from "react";
 import { useAppContext } from "../../../providers/ProviderAppContainer";
 import Loading from "../../common/Loading";
 import { Badge } from "primereact/badge";
+import DialogInquiryNotes from "./inquiries/DialogInquiryNotes";
+import DialogAddInquiry from "./inquiries/DialogAddInquiry";
 
 export default function Inquiries({ userId, branches, authorities, courses }) {
     const [inquiries, setInquiries] = useState();
-    const [selectedInquiryIndex, setselectedInquiryIndex] = useState(false);
+    const [selectedInquiryForNotes, setSelectedInquiryForNotes] = useState();
     const { requestAPI, showToast } = useAppContext();
     const [loading, setLoading] = useState();
-    const [deletingInquiryNote, setDeletingInquiryNote] = useState();
     const [error, setError] = useState();
-
-    const [addInquiryVisible, setAddInquiryVisible] = useState();
+    const [addingNewInquiry, setAddingNewInquiry] = useState();
 
     useEffect(() => {
         requestAPI({
@@ -57,42 +57,15 @@ export default function Inquiries({ userId, branches, authorities, courses }) {
         [inquiries, requestAPI, showToast]
     );
 
-    const deleteInquiryNote = useCallback(
-        (noteId) => {
-            requestAPI({
-                requestPath: `inquiry-notes/${noteId}`,
-                requestMethod: "DELETE",
-                setLoading: setDeletingInquiryNote,
-                parseResponseBody: false,
-                onResponseReceieved: (_, responseCode) => {
-                    if (responseCode === 204) {
-                        showToast({ severity: "success", summary: "Updated", detail: "Inquiry Note Deleted", life: 1000 });
-                        setInquiries((prev) => {
-                            prev[selectedInquiryIndex].notes = prev?.[selectedInquiryIndex]?.notes?.filter((note) => note.id !== noteId);
-                            return prev;
-                        });
-                    } else {
-                        showToast({ severity: "error", summary: "Failed", detail: "Failed To Deleted Inquiry Note !", life: 2000 });
-                    }
-                },
-            });
-        },
-        [requestAPI, selectedInquiryIndex, showToast]
-    );
-
-    const getCourseTitle = useCallback(
-        (courseId) => {
-            return courses?.find((course) => course.id === courseId)?.title;
-        },
-        [courses]
-    );
+    const getCourseTitle = useCallback((courseId) => courses?.find((course) => course.id === courseId)?.title, [courses]);
 
     return (
         <div>
             <TabHeader
+                className={"px-3 pt-3"}
                 title="User's Inquiries & Notes"
                 highlightOne={`Total - ${inquiries?.length} Inquiries`}
-                actionItems={[<Button icon="pi pi-plus" severity="warning" onClick={setAddInquiryVisible} />]}
+                actionItems={[<Button icon="pi pi-plus" severity="warning" onClick={setAddingNewInquiry} />]}
             />
 
             <Divider />
@@ -104,7 +77,7 @@ export default function Inquiries({ userId, branches, authorities, courses }) {
                 ) : inquiries?.length ? (
                     <Accordion>
                         {inquiries?.length ? (
-                            inquiries.map((inquiry, index) => (
+                            inquiries.map((inquiry) => (
                                 <AccordionTab
                                     key={inquiry.id}
                                     header={() => (
@@ -124,7 +97,7 @@ export default function Inquiries({ userId, branches, authorities, courses }) {
                                     <div className="flex gap-2 align-items-start justify-content-end">
                                         <div className="flex-1 flex flex-column gap-2">
                                             <Detail title="Created By" value={inquiry.created_by_full_name} />
-                                            <Detail title="Branch" value={branches?.find((branch) => branch.id === inquiry?.branch)?.title} />
+                                            <Detail title="Branch" value={branches?.find((branch) => branch.id === inquiry?.branch_id)?.title} />
                                         </div>
                                         <Button
                                             className="w-2rem h-2rem"
@@ -139,7 +112,7 @@ export default function Inquiries({ userId, branches, authorities, courses }) {
                                                 icon="pi pi-clipboard"
                                                 rounded
                                                 severity="warning"
-                                                onClick={() => setselectedInquiryIndex(index)}
+                                                onClick={() => setSelectedInquiryForNotes(inquiry)}
                                             />
                                             <Badge value={inquiry?.notes?.length} severity="secondary"></Badge>
                                         </div>
@@ -155,33 +128,21 @@ export default function Inquiries({ userId, branches, authorities, courses }) {
                 )}
             </div>
 
-            <Dialog
-                header={`Inquiry Notes - ${getCourseTitle(inquiries?.[selectedInquiryIndex]?.course_id)}`}
-                visible={selectedInquiryIndex !== false}
-                className="w-11"
-                onHide={() => setselectedInquiryIndex(false)}
-            >
-                <div className="pt-2">
-                    {deletingInquiryNote ? (
-                        <Loading message={"Deleting Inquiry Note"} />
-                    ) : inquiries?.[selectedInquiryIndex]?.notes?.length ? (
-                        inquiries?.[selectedInquiryIndex]?.notes.map(({ id, created_by_full_name, created_on, note }) => (
-                            <div className="flex align-items-start gap-2 mb-2">
-                                <Detail className={"flex-1 mb-2"} title={`${created_by_full_name} at ${created_on}`} value={note} />
-                                <Button className="w-2rem h-2rem" icon="pi pi-trash" rounded severity="danger" onClick={() => deleteInquiryNote(id)} />
-                            </div>
-                        ))
-                    ) : (
-                        <NoContent error="No Notes Found" />
-                    )}
-                </div>
-            </Dialog>
+            <DialogInquiryNotes
+                selectedInquiryForNotes={selectedInquiryForNotes}
+                setSelectedInquiryForNotes={setSelectedInquiryForNotes}
+                setInquiries={setInquiries}
+                getCourseTitle={getCourseTitle}
+            />
 
-            <Dialog header={`Add New Inquiry`} visible={addInquiryVisible} className="w-11" onHide={() => setAddInquiryVisible(false)}>
-                <div className="pt-2">
-                    <p>Add New Inquiry</p>
-                </div>
-            </Dialog>
+            <DialogAddInquiry
+                userId={userId}
+                addingNewInquiry={addingNewInquiry}
+                setAddingNewInquiry={setAddingNewInquiry}
+                courses={courses}
+                branches={branches}
+                setInquiries={setInquiries}
+            />
         </div>
     );
 }
