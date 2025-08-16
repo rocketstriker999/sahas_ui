@@ -81,21 +81,26 @@ export default function Enrollments() {
                                 </div>
                                 <Divider className="m-0 p-0" />
 
-                                <div className="flex align-items-center justify-content-between">
+                                <TabHeader
+                                    title="Enrollment Transactions"
+                                    highlightOne={`Total - ${enrollment?.transactions?.length} Transactions`}
+                                    actionItems={[<Tag icon="pi pi-indian-rupee" severity="success" value="Transcations"></Tag>]}
+                                />
+
+                                <div className="flex align-items-center justify-content-evenly">
                                     <Detail title="Total" value={enrollment?.total.concat(RUPEE)} />
                                     <Detail title="Paid" value={"0".concat(RUPEE)} />
                                     <Detail title="Due" value={"0".concat(RUPEE)} />
-                                    <Tag className="p-overlay-badge" icon="pi pi-indian-rupee" severity="warning" value="Transactions">
-                                        <Badge value={enrollment?.transcations?.length}></Badge>
-                                    </Tag>
                                 </div>
 
                                 <Divider className="m-0 p-0" />
 
-                                <div className="flex align-items-center gap-1">
-                                    <Badge value={enrollment?.courses?.length} severity={"warning"}></Badge>
-                                    <span>Courses</span>
-                                </div>
+                                <TabHeader
+                                    className={" "}
+                                    title="Enrollment Courses"
+                                    highlightOne={`Total - ${enrollment?.courses?.length} Enrollments`}
+                                    actionItems={[<Button icon="pi pi-plus" severity="warning" />]}
+                                />
 
                                 {enrollment?.courses?.length ? (
                                     enrollment.courses.map((course) => (
