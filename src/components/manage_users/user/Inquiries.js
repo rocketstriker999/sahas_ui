@@ -12,8 +12,11 @@ import Loading from "../../common/Loading";
 import { Badge } from "primereact/badge";
 import DialogInquiryNotes from "./inquiries/DialogInquiryNotes";
 import DialogAddInquiry from "./inquiries/DialogAddInquiry";
+import { useOutletContext } from "react-router-dom";
 
-export default function Inquiries({ userId, branches, authorities, courses }) {
+export default function Inquiries() {
+    const { userId, courses, branches, getCourseTitle } = useOutletContext();
+
     const [inquiries, setInquiries] = useState();
     const [selectedInquiryForNotes, setSelectedInquiryForNotes] = useState();
     const { requestAPI, showToast } = useAppContext();
@@ -56,8 +59,6 @@ export default function Inquiries({ userId, branches, authorities, courses }) {
         },
         [inquiries, requestAPI, showToast]
     );
-
-    const getCourseTitle = useCallback((courseId) => courses?.find((course) => course.id === courseId)?.title, [courses]);
 
     return (
         <div>

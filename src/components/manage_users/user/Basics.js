@@ -14,8 +14,10 @@ import ProfileCard from "../../dashboard/ProfileCard";
 import Loading from "../../common/Loading";
 import NoContent from "../../common/NoContent";
 import { AUTHORITIES } from "../../../constants";
+import { useOutletContext } from "react-router-dom";
 
-export default function Basics({ userId, branches, authorities }) {
+export default function Basics() {
+    const { userId, authorities, branches } = useOutletContext();
     const [basics, setBasics] = useState();
 
     const { requestAPI, showToast } = useAppContext();

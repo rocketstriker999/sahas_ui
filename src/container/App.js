@@ -2,7 +2,6 @@ import { Route, Routes } from "react-router-dom";
 import Dashboard from "../pages/Dashboard";
 import RequiresTemplateConfiguration from "../components/dependencies/RequiresTemplateConfiguration";
 import RequiresProductsCatelogue from "../components/dependencies/RequiresProductsCatelogue";
-import Courses from "../pages/Courses";
 import HasRequiredAuthority from "../components/dependencies/HasRequiredAuthority";
 import Logout from "../pages/Logout";
 import HasAuthentication from "../components/dependencies/HasAuthentication";
@@ -10,6 +9,10 @@ import NotFound from "../pages/NotFound";
 import Users from "../components/manage_users/Users";
 import ManageUsers from "../pages/ManageUsers";
 import User from "../components/manage_users/User";
+import Basics from "../components/manage_users/user/Basics";
+import Inquiries from "../components/manage_users/user/Inquiries";
+import Enrollments from "../pages/Enrollments";
+import Courses from "../pages/Courses";
 
 export default function App() {
     return (
@@ -49,7 +52,18 @@ export default function App() {
                                             <User />
                                         </HasRequiredAuthority>
                                     }
-                                />
+                                >
+                                    <Route
+                                        path="basics"
+                                        element={
+                                            <HasRequiredAuthority showForBidden={true} requiredAuthority="READ_USERS_BASICS">
+                                                <Basics />
+                                            </HasRequiredAuthority>
+                                        }
+                                    />
+                                    <Route path="inquiries" element={<Inquiries />} />
+                                    <Route path="enrollments" element={<Enrollments />} />
+                                </Route>
                             </Route>
                             <Route
                                 path="/courses"
@@ -60,7 +74,6 @@ export default function App() {
                                 }
                             />
                             <Route path="/logout" element={<Logout />} />
-
                             <Route path="*" element={<NotFound />} />
                         </Routes>
                     </RequiresProductsCatelogue>

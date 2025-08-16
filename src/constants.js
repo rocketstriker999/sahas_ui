@@ -8,6 +8,7 @@ const APPLICATION_CONSTANTS = {
     AUTHORITIES: {
         WRITE_USERS_BASICS: "WRITE_USERS_BASICS",
     },
+    RUPEE: " ₹",
 };
 
 module.exports = APPLICATION_CONSTANTS;

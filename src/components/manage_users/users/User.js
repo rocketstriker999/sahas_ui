@@ -7,7 +7,7 @@ export default function User({ id, email, image, full_name, phone, active }) {
     const navigate = useNavigate();
 
     return (
-        <div onClick={() => navigate(`${id}`)} className="bg-white border-round-md shadow-3 mb-2 flex p-3 align-items-center gap-4 relative" key={id}>
+        <div onClick={() => navigate(`${id}/basics`)} className="bg-white border-round-md shadow-3 mb-2 flex p-3 align-items-center gap-4 relative" key={id}>
             <Avatar {...(image ? { image: image } : { icon: "pi pi-user" })} size="xlarge" shape="circle" />
             <div className="flex flex-column gap-1 flex-1">
                 <p className="text-md m-0 p-0 font-semibold">
