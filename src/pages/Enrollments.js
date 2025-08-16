@@ -97,7 +97,7 @@ export default function Enrollments() {
                                     <span>Courses</span>
                                 </div>
 
-                                {enrollment?.course?.length ? (
+                                {enrollment?.courses?.length ? (
                                     enrollment.courses.map((course) => (
                                         <div key={course?.id} className="flex align-items-start gap-2 mb-2">
                                             <Detail icon="pi pi-angle-right" className="flex-1 mb-2" title={`Course #${course?.id}`} value={course?.title} />
