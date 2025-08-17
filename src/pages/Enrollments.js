@@ -6,19 +6,20 @@ import { Button } from "primereact/button";
 import { Divider } from "primereact/divider";
 import Loading from "../components/common/Loading";
 import NoContent from "../components/common/NoContent";
-import { Panel } from "primereact/panel";
-import Detail from "../components/common/Detail";
-import { InputSwitch } from "primereact/inputswitch";
-import { Badge } from "primereact/badge";
+import Enrollment from "../components/manage_users/user/enrollments/Enrollment";
+import DialogAddCourse from "../components/manage_users/user/enrollments/DialogAddCourse";
+import { Accordion, AccordionTab } from "primereact/accordion";
 import { Tag } from "primereact/tag";
-import { RUPEE } from "../constants";
+import { getFormattedDate } from "../utils";
 
 export default function Enrollments() {
-    const { userId, authorities, branches } = useOutletContext();
+    const { userId, courses, getCourseTitle } = useOutletContext();
     const [enrollments, setEnrollments] = useState();
     const { requestAPI, showToast } = useAppContext();
     const [loading, setLoading] = useState();
     const [error, setError] = useState();
+
+    const [addingNewCouse, setAddingNewCourse] = useState();
 
     useEffect(() => {
         requestAPI({
@@ -37,88 +38,60 @@ export default function Enrollments() {
     }, [requestAPI, userId]);
 
     return (
-        <div>
+        <div className="flex flex-column h-full min-h-0">
             <TabHeader
                 className={"px-3 pt-3"}
                 title="User's Enrollments"
-                highlightOne={`Total - ${enrollments?.length} Enrollments`}
+                highlights={[`Total - ${enrollments?.length} Enrollments`]}
                 actionItems={[<Button icon="pi pi-plus" severity="warning" />]}
             />
-
             <Divider />
-            <div className="px-3">
+            <div className="flex-1 min-h-0 px-3 pb-2 overflow-y-auto gap-2 flex flex-column">
                 {loading ? (
                     <Loading message="Loading Enrollments" />
                 ) : error ? (
                     <NoContent error={error} />
                 ) : enrollments?.length ? (
-                    enrollments.map((enrollment) => (
-                        <Panel
-                            key={enrollment?.id}
-                            headerTemplate={(options) => (
-                                <div className={`${options.className} justify-content-space-between`}>
-                                    <Detail title={`Created at ${enrollment?.created_on}`} value={`Enrollment #${enrollment?.id}`} />
-                                    {options.togglerElement}
-                                </div>
-                            )}
-                            footerTemplate={(options) => {
-                                return (
-                                    <div className={`${options.className} flex  align-items-center justify-content-between gap-3`}>
-                                        <span className="p-text-secondary text-xs">Updated at {enrollment?.updated_at}</span>
-                                        <div className=" flex align-items-center gap-2">
-                                            <span className="flex-1 text-xs">Active</span>
-                                            <InputSwitch checked={Boolean(enrollment?.active)} />
+                    <Accordion>
+                        {enrollments.map((enrollment, index) => (
+                            <AccordionTab
+                                key={enrollment?.id}
+                                header={() => (
+                                    <div className="flex align-items-center">
+                                        <div className="flex-1 flex flex-column gap-2 align-items-start">
+                                            <p className="m-0 p-0 text-sm">
+                                                <i className="pi text-xs pi-calendar"></i> {getFormattedDate({ date: enrollment?.created_on })}
+                                            </p>
+                                            <p className="m-0 p-0 text-xs font-medium text-color-secondary">
+                                                {enrollments.length - index}. By {enrollment?.created_by_full_name}
+                                            </p>
                                         </div>
+                                        <Tag severity={enrollment?.active ? "success" : "danger"} value={enrollment?.active ? "Active" : "Inactive"} />
+                                        <Tag
+                                            icon="pi pi-user"
+                                            className="ml-2"
+                                            severity={enrollment.created_by == userId ? "success" : "danger"}
+                                            value={`By ${enrollment.created_by == userId ? "Self" : "Staff"} `}
+                                        />
                                     </div>
-                                );
-                            }}
-                            toggleable
-                        >
-                            <div className="flex flex-column gap-3">
-                                <div className="flex align-items-center justify-content-between">
-                                    <Detail icon="pi pi-calendar" title="Start Date" value={enrollment?.start_date} />
-                                    <Detail icon="pi pi-calendar" title="End Date" value={enrollment?.end_date} />
-                                </div>
-                                <Divider className="m-0 p-0" />
-
-                                <TabHeader
-                                    title="Enrollment Transactions"
-                                    highlightOne={`Total - ${enrollment?.transactions?.length} Transactions`}
-                                    actionItems={[<Tag icon="pi pi-indian-rupee" severity="success" value="Transcations"></Tag>]}
-                                />
-
-                                <div className="flex align-items-center justify-content-evenly">
-                                    <Detail title="Total" value={enrollment?.total.concat(RUPEE)} />
-                                    <Detail title="Paid" value={"0".concat(RUPEE)} />
-                                    <Detail title="Due" value={"0".concat(RUPEE)} />
-                                </div>
-
-                                <Divider className="m-0 p-0" />
-
-                                <TabHeader
-                                    className={" "}
-                                    title="Enrollment Courses"
-                                    highlightOne={`Total - ${enrollment?.courses?.length} Enrollments`}
-                                    actionItems={[<Button icon="pi pi-plus" severity="warning" />]}
-                                />
-
-                                {enrollment?.courses?.length ? (
-                                    enrollment.courses.map((course) => (
-                                        <div key={course?.id} className="flex align-items-start gap-2 mb-2">
-                                            <Detail icon="pi pi-angle-right" className="flex-1 mb-2" title={`Course #${course?.id}`} value={course?.title} />
-                                            <Button className="w-2rem h-2rem" icon="pi pi-trash" rounded severity="danger" />
-                                        </div>
-                                    ))
-                                ) : (
-                                    <NoContent error="No Courses Assigned" />
                                 )}
-                            </div>
-                        </Panel>
-                    ))
+                            >
+                                <Enrollment
+                                    getCourseTitle={getCourseTitle}
+                                    setAddingNewCourse={setAddingNewCourse}
+                                    setEnrollments={setEnrollments}
+                                    key={index}
+                                    index={index}
+                                    {...enrollment}
+                                />
+                            </AccordionTab>
+                        ))}
+                    </Accordion>
                 ) : (
                     <NoContent error={"No Enrollments Found"} />
                 )}
             </div>
+            <DialogAddCourse enrollmentId={addingNewCouse} setAddingNewCourse={setAddingNewCourse} courses={courses} setEnrollments={setEnrollments} />
         </div>
     );
 }

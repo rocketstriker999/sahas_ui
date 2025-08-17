@@ -1,6 +1,13 @@
 import DeviceDetector from "device-detector-js";
+import { EMPTY_VALUE } from "./constants";
+import libDayJS from "dayjs";
 
 const deviceDetector = new DeviceDetector();
+
+export function getFormattedDate({ date = "", removeTime = false }) {
+    const d = libDayJS(date);
+    return d.isValid() ? d.format(removeTime ? "DD-MM-YY" : "DD-MM-YY HH:mm") : EMPTY_VALUE;
+}
 
 export async function generateDeviceFingerprint() {
     const userAgent = navigator.userAgent;

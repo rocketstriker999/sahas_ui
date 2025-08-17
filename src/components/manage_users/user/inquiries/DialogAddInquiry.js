@@ -38,8 +38,7 @@ export default function DialogAddInquiry({ userId, addingNewInquiry, setAddingNe
             <TabHeader
                 className="pt-3"
                 title="Requred Information - New Inquiry"
-                highlightOne="Active Inquiry Will Be Added"
-                highlightTwo="Course Is Not Changable Post Add"
+                highlights={[`Active Inquiry Will Be Added`, "Course Is Not Changable Post Add"]}
             />
 
             <FloatLabel className="mt-5">

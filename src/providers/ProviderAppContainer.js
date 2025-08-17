@@ -40,7 +40,7 @@ export const ProviderAppContainer = ({ children }) => {
             setLoading = false,
             onResponseReceieved = false,
             parseResponseBody = true,
-            onRequestFailure = false,
+            onRequestFailure = console.log,
             onRequestEnd = false,
         } = {}) {
             if (onRequestStart) onRequestStart();

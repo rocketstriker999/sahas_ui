@@ -1,7 +1,6 @@
 import { Divider } from "primereact/divider";
 import TabHeader from "./TabHeader";
 import { Tag } from "primereact/tag";
-import { Dialog } from "primereact/dialog";
 import { Accordion, AccordionTab } from "primereact/accordion";
 import NoContent from "../../common/NoContent";
 import { Button } from "primereact/button";
@@ -13,6 +12,7 @@ import { Badge } from "primereact/badge";
 import DialogInquiryNotes from "./inquiries/DialogInquiryNotes";
 import DialogAddInquiry from "./inquiries/DialogAddInquiry";
 import { useOutletContext } from "react-router-dom";
+import { getFormattedDate } from "../../../utils";
 
 export default function Inquiries() {
     const { userId, courses, branches, getCourseTitle } = useOutletContext();
@@ -61,68 +61,58 @@ export default function Inquiries() {
     );
 
     return (
-        <div>
+        <div className="flex flex-column h-full min-h-0">
             <TabHeader
                 className={"px-3 pt-3"}
                 title="User's Inquiries & Notes"
-                highlightOne={`Total - ${inquiries?.length} Inquiries`}
+                highlights={[`Total - ${inquiries?.length} Inquiries`]}
                 actionItems={[<Button icon="pi pi-plus" severity="warning" onClick={setAddingNewInquiry} />]}
             />
 
             <Divider />
-            <div className="px-3">
+            <div className="flex-1 min-h-0 px-3 pb-2 overflow-y-auto gap-2 flex flex-column">
                 {loading ? (
                     <Loading message="Loading Inquiries" />
                 ) : error ? (
                     <NoContent error={error} />
                 ) : inquiries?.length ? (
                     <Accordion>
-                        {inquiries?.length ? (
-                            inquiries.map((inquiry) => (
-                                <AccordionTab
-                                    key={inquiry.id}
-                                    header={() => (
-                                        <div className="flex align-items-center">
-                                            <div className="flex-1 flex flex-column gap-2 align-items-start">
-                                                <p className="m-0 p-0 text-sm">
-                                                    {inquiry.id}. {getCourseTitle(inquiry.course_id)}
-                                                </p>
-                                                <p className="m-0 p-0 text-xs font-medium text-color-secondary">
-                                                    <i className="pi text-xs pi-calendar"></i> {inquiry.created_on}
-                                                </p>
-                                            </div>
-                                            <Tag severity={inquiry?.active ? "success" : "danger"} value={inquiry?.active ? "Active" : "Closed"} />
+                        {inquiries.map((inquiry, index) => (
+                            <AccordionTab
+                                key={inquiry.id}
+                                header={() => (
+                                    <div className="flex align-items-center">
+                                        <div className="flex-1 flex flex-column gap-2 align-items-start">
+                                            <p className="m-0 p-0 text-sm">
+                                                {inquiries.length - index}. {getCourseTitle(inquiry.course_id)}
+                                            </p>
+                                            <p className="m-0 p-0 text-xs font-medium text-color-secondary">
+                                                <i className="pi text-xs pi-calendar"></i> {getFormattedDate({ date: inquiry?.created_on })}
+                                            </p>
                                         </div>
-                                    )}
-                                >
-                                    <div className="flex gap-2 align-items-start justify-content-end">
-                                        <div className="flex-1 flex flex-column gap-2">
-                                            <Detail title="Created By" value={inquiry.created_by_full_name} />
-                                            <Detail title="Branch" value={branches?.find((branch) => branch.id === inquiry?.branch_id)?.title} />
-                                        </div>
+                                        <Tag severity={inquiry?.active ? "success" : "danger"} value={inquiry?.active ? "Active" : "Closed"} />
+                                    </div>
+                                )}
+                            >
+                                <div className="flex gap-2 align-items-start justify-content-end">
+                                    <div className="flex-1 flex flex-column gap-2">
+                                        <Detail title="Created By" value={inquiry.created_by_full_name} />
+                                        <Detail title="Branch" value={branches?.find((branch) => branch.id === inquiry?.branch_id)?.title} />
+                                    </div>
+                                    <Button className="w-2rem h-2rem" icon="pi pi-trash" rounded severity="danger" onClick={() => deleteInquiry(inquiry.id)} />
+                                    <div className="p-overlay-badge">
                                         <Button
                                             className="w-2rem h-2rem"
-                                            icon="pi pi-trash"
+                                            icon="pi pi-clipboard"
                                             rounded
-                                            severity="danger"
-                                            onClick={() => deleteInquiry(inquiry.id)}
+                                            severity="warning"
+                                            onClick={() => setSelectedInquiryForNotes(inquiry)}
                                         />
-                                        <div className="p-overlay-badge">
-                                            <Button
-                                                className="w-2rem h-2rem"
-                                                icon="pi pi-clipboard"
-                                                rounded
-                                                severity="warning"
-                                                onClick={() => setSelectedInquiryForNotes(inquiry)}
-                                            />
-                                            <Badge value={inquiry?.notes?.length} severity="secondary"></Badge>
-                                        </div>
+                                        <Badge value={inquiry?.notes?.length} severity="secondary"></Badge>
                                     </div>
-                                </AccordionTab>
-                            ))
-                        ) : (
-                            <NoContent error={"No Inquiries Found"} />
-                        )}
+                                </div>
+                            </AccordionTab>
+                        ))}
                     </Accordion>
                 ) : (
                     <NoContent error={"No Inquiries Found"} />

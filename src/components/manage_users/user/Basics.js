@@ -5,7 +5,7 @@ import { InputTextarea } from "primereact/inputtextarea";
 import { InputSwitch } from "primereact/inputswitch";
 import { Button } from "primereact/button";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { hasRequiredAuthority } from "../../../utils";
+import { getFormattedDate, hasRequiredAuthority } from "../../../utils";
 import HasRequiredAuthority from "../../dependencies/HasRequiredAuthority";
 import TabHeader from "./TabHeader";
 import { Divider } from "primereact/divider";
@@ -34,7 +34,7 @@ export default function Basics() {
 
     useEffect(() => {
         requestAPI({
-            requestPath: `users/${userId}/basics`,
+            requestPath: `users/${userId}`,
             requestMethod: "GET",
             setLoading: setLoading,
             onRequestFailure: setError,
@@ -50,7 +50,7 @@ export default function Basics() {
 
     const updateUserBasics = useCallback(() => {
         requestAPI({
-            requestPath: `users/${userId}/basics`,
+            requestPath: `users/${userId}`,
             requestMethod: "PUT",
             requestPostBody: basics,
             setLoading: setUpdating,
@@ -71,8 +71,10 @@ export default function Basics() {
             <TabHeader
                 className={"px-3 pt-3"}
                 title="User's Basic Details & Profile"
-                highlightOne={`Created At - ${basics?.created_on}`}
-                highlightTwo={`Updated At - ${basics?.updated_at}`}
+                highlights={[
+                    `Created At - ${getFormattedDate({ date: basics?.created_on })}`,
+                    `Updated At - ${getFormattedDate({ date: basics?.updated_at })}`,
+                ]}
             />
             <Divider className="mb-0" />
             {loading ? (

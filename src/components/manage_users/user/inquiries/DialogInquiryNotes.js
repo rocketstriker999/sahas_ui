@@ -7,6 +7,7 @@ import { Button } from "primereact/button";
 import { useAppContext } from "../../../../providers/ProviderAppContainer";
 
 import { InputText } from "primereact/inputtext";
+import { getFormattedDate } from "../../../../utils";
 
 export default function DialogInquiryNotes({ selectedInquiryForNotes, setSelectedInquiryForNotes, setInquiries, getCourseTitle }) {
     const { requestAPI, showToast } = useAppContext();
@@ -18,7 +19,7 @@ export default function DialogInquiryNotes({ selectedInquiryForNotes, setSelecte
     const deleteInquiryNote = useCallback(
         (noteId) => {
             requestAPI({
-                requestPath: `inquiry-notes/${noteId}`,
+                requestPath: `inquiries/${selectedInquiryForNotes?.id}/notes/${noteId}`,
                 requestMethod: "DELETE",
                 setLoading: setLoading,
                 parseResponseBody: false,
@@ -45,22 +46,23 @@ export default function DialogInquiryNotes({ selectedInquiryForNotes, setSelecte
 
     const addInquiryNote = useCallback(() => {
         requestAPI({
-            requestPath: `inquiry-notes/`,
+            requestPath: `inquiries/${selectedInquiryForNotes?.id}/notes`,
             requestMethod: "POST",
             setLoading: setLoading,
             requestPostBody: { note, inquiry_id: selectedInquiryForNotes.id },
 
-            onResponseReceieved: (inquiryNote, responseCode) => {
+            onResponseReceieved: (inquiryNotes, responseCode) => {
                 if (responseCode === 201) {
                     showToast({ severity: "success", summary: "Added", detail: "Inquiry Note Added", life: 1000 });
                     setInquiries((prev) =>
                         prev?.map((inquiry) => {
                             if (inquiry.id === selectedInquiryForNotes.id) {
-                                inquiry.notes = [inquiryNote, ...inquiry?.notes];
+                                inquiry.notes = inquiryNotes;
                             }
                             return inquiry;
                         })
                     );
+                    setNote();
                 } else {
                     showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Inquiry Note !", life: 2000 });
                 }
@@ -91,7 +93,7 @@ export default function DialogInquiryNotes({ selectedInquiryForNotes, setSelecte
                                         <Detail
                                             icon="pi pi-angle-right"
                                             className="flex-1 mb-2"
-                                            title={`${created_by_full_name} at ${created_on}`}
+                                            title={`${created_by_full_name} at ${getFormattedDate({ date: created_on })}`}
                                             value={note}
                                         />
                                         <Button className="w-2rem h-2rem" icon="pi pi-trash" rounded severity="danger" onClick={() => deleteInquiryNote(id)} />

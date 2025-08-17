@@ -3,9 +3,11 @@ import { Outlet } from "react-router-dom";
 
 export default function ManageUsers() {
     return (
-        <div className="flex flex-column h-screen">
+        <div className="flex flex-column h-full overflow-hidden">
             <PageTitle title={"Manage Users"} />
-            <Outlet />
+            <div className="flex-1 min-h-0 overflow-hidden">
+                <Outlet />
+            </div>
         </div>
     );
 }

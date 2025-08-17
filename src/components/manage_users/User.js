@@ -26,9 +26,11 @@ export default function User() {
     ];
 
     return (
-        <div>
+        <div className="flex flex-column h-full overflow-hidden">
             <TabMenu model={items} />
-            <Outlet context={{ userId, authorities, courses, branches, getCourseTitle }} />
+            <div className="flex-1 min-h-0 overflow-hidden">
+                <Outlet context={{ userId, authorities, courses, branches, getCourseTitle }} />
+            </div>
         </div>
     );
 }

@@ -1,10 +1,10 @@
-export default function Detail({ className, title = "Title", value = "Value", icon }) {
+export default function Detail({ className, title, value, icon }) {
     return (
         <div className={`flex align-items-center gap-2 ${className}`}>
             {icon && <i className={icon} style={{ fontSize: "1.5rem" }}></i>}
             <div>
-                <p className="p-0 m-0 text-xs font-bold text-color-secondary">{title}</p>
-                <p className="p-0 m-0 text-sm">{value}</p>
+                {title && <div className="text-xs font-bold text-color-secondary">{title}</div>}
+                {value && <div className="text-sm">{value}</div>}
             </div>
         </div>
     );
