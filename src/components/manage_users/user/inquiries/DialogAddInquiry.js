@@ -8,7 +8,7 @@ import TabHeader from "../TabHeader";
 import { useAppContext } from "../../../../providers/ProviderAppContainer";
 
 export default function DialogAddInquiry({ userId, addingNewInquiry, setAddingNewInquiry, courses, branches, setInquiries }) {
-    const [inquiry, setInquiry] = useState({ user_id: userId });
+    const [inquiry, setInquiry] = useState();
     const [loading, setLoading] = useState();
     const { requestAPI, showToast } = useAppContext();
 
@@ -16,7 +16,7 @@ export default function DialogAddInquiry({ userId, addingNewInquiry, setAddingNe
         requestAPI({
             requestPath: `inquiries/`,
             requestMethod: "POST",
-            requestPostBody: inquiry,
+            requestPostBody: { ...inquiry, user_id: userId },
             setLoading: setLoading,
             onResponseReceieved: (inquiry, responseCode) => {
                 if (responseCode === 201) {
@@ -54,7 +54,7 @@ export default function DialogAddInquiry({ userId, addingNewInquiry, setAddingNe
                 <label htmlFor="branch">Branch</label>
             </FloatLabel>
 
-            <FloatLabel className="mt-4">
+            <FloatLabel className="mt-5">
                 <Dropdown
                     value={courses?.find((course) => course.id === inquiry?.course_id)}
                     inputId="course"
@@ -67,7 +67,7 @@ export default function DialogAddInquiry({ userId, addingNewInquiry, setAddingNe
                 <label htmlFor="course">Course</label>
             </FloatLabel>
 
-            <FloatLabel className="mt-4">
+            <FloatLabel className="mt-5">
                 <InputTextarea
                     value={inquiry?.note}
                     id="note"

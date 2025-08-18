@@ -11,15 +11,17 @@ import DialogAddCourse from "../components/manage_users/user/enrollments/DialogA
 import { Accordion, AccordionTab } from "primereact/accordion";
 import { Tag } from "primereact/tag";
 import { getFormattedDate } from "../utils";
+import DialogAddTransaction from "../components/manage_users/user/enrollments/DialogAddTransactions";
 
 export default function Enrollments() {
-    const { userId, courses, getCourseTitle } = useOutletContext();
+    const { userId, courses, getCourseTitle, paymentTypes } = useOutletContext();
     const [enrollments, setEnrollments] = useState();
-    const { requestAPI, showToast } = useAppContext();
+    const { requestAPI } = useAppContext();
     const [loading, setLoading] = useState();
     const [error, setError] = useState();
 
     const [addingNewCouse, setAddingNewCourse] = useState();
+    const [selectedEnrollmentForTransaction, setSelectedEnrollmentForTransaction] = useState();
 
     useEffect(() => {
         requestAPI({
@@ -55,6 +57,9 @@ export default function Enrollments() {
                     <Accordion>
                         {enrollments.map((enrollment, index) => (
                             <AccordionTab
+                                pt={{
+                                    content: { className: "p-0" }, // nav area
+                                }}
                                 key={enrollment?.id}
                                 header={() => (
                                     <div className="flex align-items-center">
@@ -80,6 +85,7 @@ export default function Enrollments() {
                                     getCourseTitle={getCourseTitle}
                                     setAddingNewCourse={setAddingNewCourse}
                                     setEnrollments={setEnrollments}
+                                    setSelectedEnrollmentForTransaction={setSelectedEnrollmentForTransaction}
                                     key={index}
                                     index={index}
                                     {...enrollment}
@@ -91,6 +97,13 @@ export default function Enrollments() {
                     <NoContent error={"No Enrollments Found"} />
                 )}
             </div>
+            <DialogAddTransaction
+                setSelectedEnrollmentForTransaction={setSelectedEnrollmentForTransaction}
+                selectedEnrollmentForTransaction={selectedEnrollmentForTransaction}
+                setEnrollments={setEnrollments}
+                paymentTypes={paymentTypes}
+            />
+
             <DialogAddCourse enrollmentId={addingNewCouse} setAddingNewCourse={setAddingNewCourse} courses={courses} setEnrollments={setEnrollments} />
         </div>
     );

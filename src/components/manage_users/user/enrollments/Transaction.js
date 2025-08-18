@@ -1,0 +1,21 @@
+import Detail from "../../../common/Detail";
+import { RUPEE } from "../../../../constants";
+
+export default function Transaction({ index, amount, created_by_full_name, note, created_on, getFormattedDate }) {
+    return (
+        <div className="flex align-items-start gap-2 mb-2">
+            <Detail
+                icon="pi pi-angle-right"
+                className="flex-1 mb-2"
+                title={`${index + 1}. By ${created_by_full_name} at ${getFormattedDate({ date: created_on })}`}
+                value={note}
+            />
+            {/* <Button className="w-2rem h-2rem" icon="pi pi-trash" rounded severity="danger" /> */}
+
+            <div className="flex justify-content-center align-items-center gap-2">
+                <span className="font-semibold">{`${amount} ${RUPEE}`}</span>
+                <i className="pi pi-file-pdf font-semibold text-red-500"></i>
+            </div>
+        </div>
+    );
+}

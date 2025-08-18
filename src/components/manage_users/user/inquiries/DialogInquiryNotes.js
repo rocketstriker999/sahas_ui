@@ -19,7 +19,7 @@ export default function DialogInquiryNotes({ selectedInquiryForNotes, setSelecte
     const deleteInquiryNote = useCallback(
         (noteId) => {
             requestAPI({
-                requestPath: `inquiries/${selectedInquiryForNotes?.id}/notes/${noteId}`,
+                requestPath: `inquiry-notes/${noteId}`,
                 requestMethod: "DELETE",
                 setLoading: setLoading,
                 parseResponseBody: false,
