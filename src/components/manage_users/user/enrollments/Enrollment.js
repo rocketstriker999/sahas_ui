@@ -8,7 +8,7 @@ import NoContent from "../../../common/NoContent";
 import { RUPEE } from "../../../../constants";
 import { useAppContext } from "../../../../providers/ProviderAppContainer";
 import Loading from "../../../common/Loading";
-import { getFormattedDate } from "../../../../utils";
+import { getReadableDate } from "../../../../utils";
 import { TabView, TabPanel } from "primereact/tabview";
 import { Badge } from "primereact/badge";
 import Course from "./Course";
@@ -104,8 +104,8 @@ export default function Enrollment({ getCourseTitle, setEnrollments, setSelected
     ) : (
         <div className="flex flex-column ">
             <div className="flex align-items-center justify-content-between	px-4 py-3 border-bottom-1	border-300">
-                <Detail icon="pi pi-calendar" title="Start Date" value={getFormattedDate({ date: enrollment?.start_date, removeTime: true })} />
-                <Detail icon="pi pi-calendar" title="End Date" value={getFormattedDate({ date: enrollment?.end_date, removeTime: true })} />
+                <Detail icon="pi pi-calendar" title="Start Date" value={getReadableDate({ date: enrollment?.start_date, removeTime: true })} />
+                <Detail icon="pi pi-calendar" title="End Date" value={getReadableDate({ date: enrollment?.end_date, removeTime: true })} />
                 <Detail value={<InputSwitch checked={Boolean(enrollment?.active)} onChange={(e) => updateEnrollment({ active: e.value })} />} />
             </div>
 
@@ -142,7 +142,7 @@ export default function Enrollment({ getCourseTitle, setEnrollments, setSelected
 
                         {enrollment?.transactions?.length ? (
                             enrollment?.transactions?.map((transaction, index) => (
-                                <Transaction index={index} key={transaction?.id} {...transaction} getFormattedDate={getFormattedDate} />
+                                <Transaction index={index} key={transaction?.id} {...transaction} getReadableDate={getReadableDate} />
                             ))
                         ) : (
                             <NoContent error="No Transactions Found" />
@@ -168,7 +168,7 @@ export default function Enrollment({ getCourseTitle, setEnrollments, setSelected
                                 <Course
                                     key={course?.id}
                                     course={course}
-                                    getFormattedDate={getFormattedDate}
+                                    getReadableDate={getReadableDate}
                                     getCourseTitle={getCourseTitle}
                                     deleteEnrollmentCourse={deleteEnrollmentCourse}
                                 />

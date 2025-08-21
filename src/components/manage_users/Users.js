@@ -8,15 +8,24 @@ import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
 import FiltersDrawer from "./users/FiltersDrawer";
 import User from "./users/User";
 import { Button } from "primereact/button";
+import { useSelector } from "react-redux";
 
 export default function Users() {
     const { requestAPI } = useAppContext();
+
+    const { roles = [] } = useSelector((state) => state.stateTemplateConfig?.global);
+    const { courses = [] } = useSelector((state) => state.stateTemplateConfig?.global);
+    const { branches = [] } = useSelector((state) => state.stateTemplateConfig?.global);
 
     const [loading, setLoading] = useState();
     const [users, setUsers] = useState();
     const [error, setError] = useState();
 
-    const [filters, setFilters] = useState();
+    const [filters, setFilters] = useState({
+        roles,
+        courses,
+        branches,
+    });
     const [filtersDrawerVisibility, setFiltersDrawerVisibility] = useState();
 
     const limit = useMemo(() => 5, []);
@@ -31,7 +40,7 @@ export default function Users() {
             setLoading: setLoading,
             onResponseReceieved: (filters, responseCode) => {
                 if (filters && responseCode === 200) {
-                    return setFilters(filters);
+                    return setFilters((prev) => ({ ...prev, ...filters }));
                 }
                 setError("Failed to Fetch Filters");
             },

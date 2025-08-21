@@ -1,13 +1,13 @@
 import Detail from "../../../common/Detail";
 import { RUPEE } from "../../../../constants";
 
-export default function Transaction({ index, amount, created_by_full_name, note, created_on, getFormattedDate }) {
+export default function Transaction({ index, amount, created_by_full_name, note, created_on, getReadableDate }) {
     return (
         <div className="flex align-items-start gap-2 mb-2">
             <Detail
                 icon="pi pi-angle-right"
                 className="flex-1 mb-2"
-                title={`${index + 1}. By ${created_by_full_name} at ${getFormattedDate({ date: created_on })}`}
+                title={`${index + 1}. By ${created_by_full_name} at ${getReadableDate({ date: created_on })}`}
                 value={note}
             />
             {/* <Button className="w-2rem h-2rem" icon="pi pi-trash" rounded severity="danger" /> */}

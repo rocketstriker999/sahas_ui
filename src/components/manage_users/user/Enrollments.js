@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
-import { useAppContext } from "../providers/ProviderAppContainer";
-import TabHeader from "../components/manage_users/user/TabHeader";
+import { useAppContext } from "../../../providers/ProviderAppContainer";
+import TabHeader from "./TabHeader";
 import { Button } from "primereact/button";
 import { Divider } from "primereact/divider";
-import Loading from "../components/common/Loading";
-import NoContent from "../components/common/NoContent";
-import Enrollment from "../components/manage_users/user/enrollments/Enrollment";
-import DialogAddCourse from "../components/manage_users/user/enrollments/DialogAddCourse";
+import Loading from "../../common/Loading";
+import NoContent from "../../common/NoContent";
+import Enrollment from "./enrollments/Enrollment";
+import DialogAddCourse from "./enrollments/DialogAddCourse";
 import { Accordion, AccordionTab } from "primereact/accordion";
 import { Tag } from "primereact/tag";
-import { getFormattedDate } from "../utils";
-import DialogAddTransaction from "../components/manage_users/user/enrollments/DialogAddTransactions";
+import { getReadableDate } from "../../../utils";
+import DialogAddTransaction from "./enrollments/DialogAddTransactions";
+import DialogAddEnrollment from "./enrollments/DialogAddEnrollment";
 
 export default function Enrollments() {
     const { userId, courses, getCourseTitle, paymentTypes } = useOutletContext();
@@ -21,6 +22,8 @@ export default function Enrollments() {
     const [error, setError] = useState();
 
     const [addingNewCouse, setAddingNewCourse] = useState();
+    const [addingEnrollment, setAddingEnrollments] = useState();
+
     const [selectedEnrollmentForTransaction, setSelectedEnrollmentForTransaction] = useState();
 
     useEffect(() => {
@@ -45,7 +48,7 @@ export default function Enrollments() {
                 className={"px-3 pt-3"}
                 title="User's Enrollments"
                 highlights={[`Total - ${enrollments?.length} Enrollments`]}
-                actionItems={[<Button icon="pi pi-plus" severity="warning" />]}
+                actionItems={[<Button icon="pi pi-plus" severity="warning" onClick={setAddingEnrollments} />]}
             />
             <Divider />
             <div className="flex-1 min-h-0 px-3 pb-2 overflow-y-auto gap-2 flex flex-column">
@@ -64,12 +67,12 @@ export default function Enrollments() {
                                 header={() => (
                                     <div className="flex align-items-center">
                                         <div className="flex-1 flex flex-column gap-2 align-items-start">
-                                            <p className="m-0 p-0 text-sm">
-                                                <i className="pi text-xs pi-calendar"></i> {getFormattedDate({ date: enrollment?.created_on })}
-                                            </p>
-                                            <p className="m-0 p-0 text-xs font-medium text-color-secondary">
+                                            <span className="text-sm">
+                                                <i className="pi text-xs pi-calendar"></i> {getReadableDate({ date: enrollment?.created_on })}
+                                            </span>
+                                            <span className=" text-xs font-medium text-color-secondary">
                                                 {enrollments.length - index}. By {enrollment?.created_by_full_name}
-                                            </p>
+                                            </span>
                                         </div>
                                         <Tag severity={enrollment?.active ? "success" : "danger"} value={enrollment?.active ? "Active" : "Inactive"} />
                                         <Tag
@@ -97,13 +100,19 @@ export default function Enrollments() {
                     <NoContent error={"No Enrollments Found"} />
                 )}
             </div>
+            <DialogAddEnrollment
+                userId={userId}
+                addingEnrollment={addingEnrollment}
+                setAddingEnrollments={setAddingEnrollments}
+                courses={courses}
+                setEnrollments={setEnrollments}
+            />
             <DialogAddTransaction
                 setSelectedEnrollmentForTransaction={setSelectedEnrollmentForTransaction}
                 selectedEnrollmentForTransaction={selectedEnrollmentForTransaction}
                 setEnrollments={setEnrollments}
                 paymentTypes={paymentTypes}
             />
-
             <DialogAddCourse enrollmentId={addingNewCouse} setAddingNewCourse={setAddingNewCourse} courses={courses} setEnrollments={setEnrollments} />
         </div>
     );

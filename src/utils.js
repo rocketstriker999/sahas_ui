@@ -1,12 +1,17 @@
 import DeviceDetector from "device-detector-js";
 import { EMPTY_VALUE } from "./constants";
-import libDayJS from "dayjs";
+import moment from "moment";
 
 const deviceDetector = new DeviceDetector();
 
-export function getFormattedDate({ date = "", removeTime = false }) {
-    const d = libDayJS(date);
-    return d.isValid() ? d.format(removeTime ? "DD-MM-YY" : "DD-MM-YY HH:mm") : EMPTY_VALUE;
+export function getReadableDate({ date = "", removeTime = false }) {
+    const parsingDate = moment(date);
+    return parsingDate.isValid() ? parsingDate.format(removeTime ? "DD-MM-YY" : "DD-MM-YY HH:mm") : EMPTY_VALUE;
+}
+
+export function getWriteableDate({ date = "", removeTime = false }) {
+    const parsingDate = moment(date);
+    return parsingDate.isValid() ? parsingDate.format(removeTime ? "YYYY-MM-DD" : "YYYY-MM-DD HH:mm") : EMPTY_VALUE;
 }
 
 export async function generateDeviceFingerprint() {

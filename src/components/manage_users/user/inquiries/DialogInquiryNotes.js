@@ -5,9 +5,8 @@ import Loading from "../../../common/Loading";
 import Detail from "../../../common/Detail";
 import { Button } from "primereact/button";
 import { useAppContext } from "../../../../providers/ProviderAppContainer";
-
 import { InputText } from "primereact/inputtext";
-import { getFormattedDate } from "../../../../utils";
+import { getReadableDate } from "../../../../utils";
 
 export default function DialogInquiryNotes({ selectedInquiryForNotes, setSelectedInquiryForNotes, setInquiries, getCourseTitle }) {
     const { requestAPI, showToast } = useAppContext();
@@ -93,7 +92,7 @@ export default function DialogInquiryNotes({ selectedInquiryForNotes, setSelecte
                                         <Detail
                                             icon="pi pi-angle-right"
                                             className="flex-1 mb-2"
-                                            title={`${created_by_full_name} at ${getFormattedDate({ date: created_on })}`}
+                                            title={`${created_by_full_name} at ${getReadableDate({ date: created_on })}`}
                                             value={note}
                                         />
                                         <Button className="w-2rem h-2rem" icon="pi pi-trash" rounded severity="danger" onClick={() => deleteInquiryNote(id)} />

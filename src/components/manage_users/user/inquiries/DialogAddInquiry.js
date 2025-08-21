@@ -14,7 +14,7 @@ export default function DialogAddInquiry({ userId, addingNewInquiry, setAddingNe
 
     const addInquiry = useCallback(() => {
         requestAPI({
-            requestPath: `inquiries/`,
+            requestPath: `users/${userId}/inquiries/`,
             requestMethod: "POST",
             requestPostBody: { ...inquiry, user_id: userId },
             setLoading: setLoading,

@@ -5,7 +5,7 @@ import { InputTextarea } from "primereact/inputtextarea";
 import { InputSwitch } from "primereact/inputswitch";
 import { Button } from "primereact/button";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { getFormattedDate, hasRequiredAuthority } from "../../../utils";
+import { getReadableDate, hasRequiredAuthority } from "../../../utils";
 import HasRequiredAuthority from "../../dependencies/HasRequiredAuthority";
 import TabHeader from "./TabHeader";
 import { Divider } from "primereact/divider";
@@ -71,10 +71,7 @@ export default function Basics() {
             <TabHeader
                 className={"px-3 pt-3"}
                 title="User's Basic Details & Profile"
-                highlights={[
-                    `Created At - ${getFormattedDate({ date: basics?.created_on })}`,
-                    `Updated At - ${getFormattedDate({ date: basics?.updated_at })}`,
-                ]}
+                highlights={[`Created At - ${getReadableDate({ date: basics?.created_on })}`, `Updated At - ${getReadableDate({ date: basics?.updated_at })}`]}
             />
             <Divider className="mb-0" />
             {loading ? (

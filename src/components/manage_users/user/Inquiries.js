@@ -12,7 +12,7 @@ import { Badge } from "primereact/badge";
 import DialogInquiryNotes from "./inquiries/DialogInquiryNotes";
 import DialogAddInquiry from "./inquiries/DialogAddInquiry";
 import { useOutletContext } from "react-router-dom";
-import { getFormattedDate } from "../../../utils";
+import { getReadableDate } from "../../../utils";
 
 export default function Inquiries() {
     const { userId, courses, branches, getCourseTitle } = useOutletContext();
@@ -87,7 +87,7 @@ export default function Inquiries() {
                                                 {inquiries.length - index}. {getCourseTitle(inquiry.course_id)}
                                             </p>
                                             <p className="m-0 p-0 text-xs font-medium text-color-secondary">
-                                                <i className="pi text-xs pi-calendar"></i> {getFormattedDate({ date: inquiry?.created_on })}
+                                                <i className="pi text-xs pi-calendar"></i> {getReadableDate({ date: inquiry?.created_on })}
                                             </p>
                                         </div>
                                         <Tag severity={inquiry?.active ? "success" : "danger"} value={inquiry?.active ? "Active" : "Closed"} />
