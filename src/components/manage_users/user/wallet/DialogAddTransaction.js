@@ -33,7 +33,9 @@ export default function DialogAddTransaction({ userId, balance, setWalletTransAc
                         prev.transactions = [walletTransaction, ...prev?.transactions];
                         return prev;
                     });
-                    setTransaction(); //reset this form
+                    setTransaction((prev) => ({
+                        newBalance: prev.newBalance,
+                    })); //reset this form
                     setAddingTransaction(() => false); //close the dialog
                 } else {
                     showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Transaction !", life: 2000 });
