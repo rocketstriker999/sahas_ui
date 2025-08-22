@@ -11,7 +11,7 @@ import DialogAddCourse from "./enrollments/DialogAddCourse";
 import { Accordion, AccordionTab } from "primereact/accordion";
 import { Tag } from "primereact/tag";
 import { getReadableDate } from "../../../utils";
-import DialogAddTransaction from "./enrollments/DialogAddTransactions";
+import DialogAddTransaction from "./enrollments/DialogAddTransaction";
 import DialogAddEnrollment from "./enrollments/DialogAddEnrollment";
 
 export default function Enrollments() {

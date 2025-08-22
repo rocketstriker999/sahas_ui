@@ -142,7 +142,7 @@ export default function Enrollment({ getCourseTitle, setEnrollments, setSelected
 
                         {enrollment?.transactions?.length ? (
                             enrollment?.transactions?.map((transaction, index) => (
-                                <Transaction index={index} key={transaction?.id} {...transaction} getReadableDate={getReadableDate} />
+                                <Transaction index={index + 1} key={transaction?.id} {...transaction} getReadableDate={getReadableDate} />
                             ))
                         ) : (
                             <NoContent error="No Transactions Found" />

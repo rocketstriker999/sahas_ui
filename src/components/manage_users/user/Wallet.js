@@ -16,7 +16,7 @@ export default function Wallet() {
 
     const { requestAPI, showToast } = useAppContext();
 
-    const [addingTransaction, setAddingTransactions] = useState();
+    const [addingTransaction, setAddingTransaction] = useState();
 
     const [walletTransActions, setWalletTransActions] = useState();
     const [error, setError] = useState();
@@ -42,9 +42,9 @@ export default function Wallet() {
         <div className="flex flex-column h-full min-h-0">
             <TabHeader
                 className={"px-3 pt-3"}
-                title={`User's Wallet - ${walletTransActions?.balanace} ${RUPEE}`}
+                title={`User's Wallet - ${walletTransActions?.balance} ${RUPEE}`}
                 highlights={[`Total - ${walletTransActions?.transactions?.length} Transactions`]}
-                actionItems={[<Button icon="pi pi-plus" severity="warning" onClick={setAddingTransactions} />]}
+                actionItems={[<Button icon="pi pi-plus" severity="warning" onClick={setAddingTransaction} />]}
             />
             <Divider />
             <div className="flex-1 min-h-0 px-3 pb-2 overflow-y-auto gap-2 flex flex-column">
@@ -53,13 +53,21 @@ export default function Wallet() {
                 ) : error ? (
                     <NoContent error={error} />
                 ) : walletTransActions?.transactions?.length ? (
-                    walletTransActions.transactions?.map((transaction) => <Transactions {...transaction} />)
+                    walletTransActions.transactions?.map((transaction, index) => <Transactions index={index + 1} key={transaction?.id} {...transaction} />)
                 ) : (
                     <NoContent error={"No Wallet Transactions Found"} />
                 )}
             </div>
 
-            <DialogAddTransaction addingTransaction={addingTransaction} setAddingTransactions={setAddingTransactions} />
+            {walletTransActions && (
+                <DialogAddTransaction
+                    userId={userId}
+                    balance={Number(walletTransActions?.balance)}
+                    setWalletTransActions={setWalletTransActions}
+                    addingTransaction={addingTransaction}
+                    setAddingTransaction={setAddingTransaction}
+                />
+            )}
         </div>
     );
 }

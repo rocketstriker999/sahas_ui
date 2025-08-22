@@ -7,7 +7,7 @@ export default function Transaction({ index, amount, created_by_full_name, note,
             <Detail
                 icon="pi pi-angle-right"
                 className="flex-1 mb-2"
-                title={`${index + 1}. By ${created_by_full_name} at ${getReadableDate({ date: created_on })}`}
+                title={`${index}. By ${created_by_full_name} at ${getReadableDate({ date: created_on })}`}
                 value={note}
             />
             {/* <Button className="w-2rem h-2rem" icon="pi pi-trash" rounded severity="danger" /> */}
