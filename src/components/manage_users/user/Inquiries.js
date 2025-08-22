@@ -1,5 +1,5 @@
 import { Divider } from "primereact/divider";
-import TabHeader from "./TabHeader";
+import TabHeader from "../../common/TabHeader";
 import { Tag } from "primereact/tag";
 import { Accordion, AccordionTab } from "primereact/accordion";
 import NoContent from "../../common/NoContent";

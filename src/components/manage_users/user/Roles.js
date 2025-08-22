@@ -1,4 +1,4 @@
-import TabHeader from "./TabHeader";
+import TabHeader from "../../common/TabHeader";
 import { Divider } from "primereact/divider";
 import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";

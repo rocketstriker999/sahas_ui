@@ -1,5 +1,5 @@
 import { Dialog } from "primereact/dialog";
-import TabHeader from "../TabHeader";
+import TabHeader from "../../../common/TabHeader";
 import { useAppContext } from "../../../../providers/ProviderAppContainer";
 import { useCallback, useState } from "react";
 import { FloatLabel } from "primereact/floatlabel";

@@ -4,7 +4,7 @@ import { Dropdown } from "primereact/dropdown";
 import { FloatLabel } from "primereact/floatlabel";
 import { InputTextarea } from "primereact/inputtextarea";
 import { useCallback, useState } from "react";
-import TabHeader from "../TabHeader";
+import TabHeader from "../../../common/TabHeader";
 import { useAppContext } from "../../../../providers/ProviderAppContainer";
 
 export default function DialogAddInquiry({ userId, addingNewInquiry, setAddingNewInquiry, courses, branches, setInquiries }) {

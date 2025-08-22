@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { useAppContext } from "../../../providers/ProviderAppContainer";
-import TabHeader from "./TabHeader";
+import TabHeader from "../../common/TabHeader";
 import { Button } from "primereact/button";
 import { Divider } from "primereact/divider";
 import Loading from "../../common/Loading";

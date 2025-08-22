@@ -15,6 +15,7 @@ import Enrollments from "../components/manage_users/user/Enrollments";
 import Courses from "../pages/Courses";
 import NoContent from "../components/common/NoContent";
 import Roles from "../components/manage_users/user/Roles";
+import Wallet from "../components/manage_users/user/Wallet";
 
 export default function App() {
     return (
@@ -66,7 +67,7 @@ export default function App() {
                                     <Route path="inquiries" element={<Inquiries />} />
                                     <Route path="enrollments" element={<Enrollments />} />
                                     <Route path="devices" element={<NoContent error={"Coming soon !"} />} />
-                                    <Route path="wallet" element={<NoContent error={"Coming soon !"} />} />
+                                    <Route path="wallet" element={<Wallet />} />
                                     <Route path="notes" element={<NoContent error={"Coming soon !"} />} />
                                     <Route path="roles" element={<Roles />} />
                                 </Route>

@@ -7,7 +7,7 @@ import { Button } from "primereact/button";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { getReadableDate, hasRequiredAuthority } from "../../../utils";
 import HasRequiredAuthority from "../../dependencies/HasRequiredAuthority";
-import TabHeader from "./TabHeader";
+import TabHeader from "../../common/TabHeader";
 import { Divider } from "primereact/divider";
 import { useAppContext } from "../../../providers/ProviderAppContainer";
 import ProfileCard from "../../dashboard/ProfileCard";

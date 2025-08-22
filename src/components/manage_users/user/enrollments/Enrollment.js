@@ -3,7 +3,7 @@ import { Tag } from "primereact/tag";
 import { useCallback, useMemo, useState } from "react";
 
 import Detail from "../../../common/Detail";
-import TabHeader from "../TabHeader";
+import TabHeader from "../../../common/TabHeader";
 import NoContent from "../../../common/NoContent";
 import { RUPEE } from "../../../../constants";
 import { useAppContext } from "../../../../providers/ProviderAppContainer";
