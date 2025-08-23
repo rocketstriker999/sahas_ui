@@ -34,7 +34,7 @@ export default function Roles() {
         <div className="flex flex-column h-full min-h-0">
             <TabHeader className={"px-3 pt-3"} title="User's Roles" highlights={[`Total - ${userRoles?.length} Roles`]} />
             <Divider />
-            <div className="flex-1 min-h-0 px-3 pb-2 overflow-y-auto gap-2 flex flex-column">
+            <div className="flex-1 min-h-0 px-3 pb-2 overflow-y-scroll gap-2 flex flex-column">
                 {loading ? (
                     <Loading message="Loading Roles" />
                 ) : error ? (

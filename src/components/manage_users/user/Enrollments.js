@@ -51,7 +51,7 @@ export default function Enrollments() {
                 actionItems={[<Button icon="pi pi-plus" severity="warning" onClick={setAddingEnrollments} />]}
             />
             <Divider />
-            <div className="flex-1 min-h-0 px-3 pb-2 overflow-y-auto gap-2 flex flex-column">
+            <div className="flex-1 min-h-0 px-3 pb-2 overflow-y-scroll gap-2 flex flex-column">
                 {loading ? (
                     <Loading message="Loading Enrollments" />
                 ) : error ? (

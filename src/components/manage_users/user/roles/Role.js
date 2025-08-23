@@ -11,8 +11,6 @@ export default function Role({ userId, role, ...props }) {
 
     const [userRole, setUserRole] = useState(props?.userRole);
 
-    console.log(userRole);
-
     const addRole = useCallback(() => {
         requestAPI({
             requestPath: `users/${userId}/roles`,

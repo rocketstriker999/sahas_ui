@@ -16,6 +16,8 @@ import Courses from "../pages/Courses";
 import NoContent from "../components/common/NoContent";
 import Roles from "../components/manage_users/user/Roles";
 import Wallet from "../components/manage_users/user/Wallet";
+import ManageRoles from "../pages/ManageRoles";
+import ManageAuthorities from "../pages/ManageAuthorities";
 
 export default function App() {
     return (
@@ -80,6 +82,25 @@ export default function App() {
                                     </HasRequiredAuthority>
                                 }
                             />
+
+                            <Route
+                                path="/manage-roles"
+                                element={
+                                    <HasRequiredAuthority showForBidden={true} requiredAuthority="USE_CONTAINER_MANAGE_USERS">
+                                        <ManageRoles />
+                                    </HasRequiredAuthority>
+                                }
+                            />
+
+                            <Route
+                                path="/manage-authorities"
+                                element={
+                                    <HasRequiredAuthority showForBidden={true} requiredAuthority="USE_CONTAINER_MANAGE_USERS">
+                                        <ManageAuthorities />
+                                    </HasRequiredAuthority>
+                                }
+                            />
+
                             <Route path="/logout" element={<Logout />} />
                             <Route path="*" element={<NotFound />} />
                         </Routes>

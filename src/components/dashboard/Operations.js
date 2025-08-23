@@ -155,6 +155,12 @@ export default function Operations({ className }) {
                         required_authority: "USE_PAGE_MANAGE_COUPON_CODES",
                         path: "/manage-coupon-codes",
                     },
+                    {
+                        title: "Roles",
+                        icon: "pi-id-card",
+                        required_authority: "USE_PAGE_MANAGE_COUPON_CODES",
+                        path: "/manage-roles",
+                    },
                 ],
             },
             {
@@ -167,10 +173,10 @@ export default function Operations({ className }) {
                         path: "/manage-branches",
                     },
                     {
-                        title: "Admins",
-                        icon: "pi-user",
-                        required_authority: "USE_PAGE_MANAGE_ADMINS",
-                        path: "/manage-branches",
+                        title: "Authorities",
+                        icon: "pi-key",
+                        required_authority: "USE_PAGE_MANAGE_COUPON_CODES",
+                        path: "/manage-authorities",
                     },
                 ],
             },

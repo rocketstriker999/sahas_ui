@@ -10,7 +10,6 @@ export default function Transaction({ index, amount, created_by_full_name, note,
                 title={`${index}. By ${created_by_full_name} at ${getReadableDate({ date: created_on })}`}
                 value={note}
             />
-            {/* <Button className="w-2rem h-2rem" icon="pi pi-trash" rounded severity="danger" /> */}
 
             <div className="flex justify-content-center align-items-center gap-2">
                 <span className="font-semibold">{`${amount} ${RUPEE}`}</span>
