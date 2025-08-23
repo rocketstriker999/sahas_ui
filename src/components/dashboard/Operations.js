@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-export default function Operations() {
+export default function Operations({ className }) {
     const { authorities = [] } = useSelector((state) => state.stateUser);
     const navigate = useNavigate();
 
@@ -187,7 +187,7 @@ export default function Operations() {
     }, [authorities]);
 
     return (
-        <div className="mt-3">
+        <div className={className}>
             {operationsSections?.map((section) => {
                 return (
                     <div className="border-round bg-gray-100 border-1 border-gray-300 mb-2" key={section?.title}>

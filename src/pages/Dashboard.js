@@ -18,7 +18,7 @@ export default function Dashboard() {
     const pageConfig = useSelector((state) => state.stateTemplateConfig?.dash_board);
 
     return (
-        <div>
+        <div className="flex flex-column h-full overflow-hidden">
             <div className="bg-blue-800 shadow-3 text-white flex align-items-center justify-content-between p-2">
                 <div className="w-8">
                     <p className="m-0 font-semibold">Sahas Smart Studies</p>
@@ -43,19 +43,17 @@ export default function Dashboard() {
                     ></i>
                 </div>
             </div>
-            <div className="p-2">
-                <HasRequiredAuthority requiredAuthority="USE_FEATURE_CAROUSEL">
-                    <Carousel images={pageConfig?.carousel?.images} />
-                </HasRequiredAuthority>
+            <HasRequiredAuthority requiredAuthority="USE_FEATURE_CAROUSEL">
+                <Carousel className={"mt-2"} images={pageConfig?.carousel?.images} />
+            </HasRequiredAuthority>
 
-                <HasRequiredAuthority requiredAuthority="USE_FEATURE_PROFILE_CARD">
-                    <ProfileCard {...loggedInUser} />
-                </HasRequiredAuthority>
+            <HasRequiredAuthority requiredAuthority="USE_FEATURE_PROFILE_CARD">
+                <ProfileCard className={"mx-2"} {...loggedInUser} />
+            </HasRequiredAuthority>
 
-                <HasRequiredAuthority requiredAuthority="USE_FEATURE_OPERATIONS">
-                    <Operations />
-                </HasRequiredAuthority>
-            </div>
+            <HasRequiredAuthority requiredAuthority="USE_FEATURE_OPERATIONS">
+                <Operations className={"mx-2 flex-1 min-h-0 overflow-scroll"} />
+            </HasRequiredAuthority>
         </div>
     );
 }

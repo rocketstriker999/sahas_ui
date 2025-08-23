@@ -28,7 +28,7 @@ export default function Users() {
     });
     const [filtersDrawerVisibility, setFiltersDrawerVisibility] = useState();
 
-    const limit = useMemo(() => 5, []);
+    const limit = useMemo(() => 7, []);
 
     const [searchQuery, setSearchQuery] = useState({ limit, offSet: 0 });
 
@@ -70,7 +70,7 @@ export default function Users() {
     }, [searchQuery]);
 
     return (
-        <>
+        <div className="flex flex-column h-full overflow-hidden">
             <HasRequiredAuthority requiredAuthority="USE_FEATURE_USERS_SEARCH">
                 <SearchBar
                     countAppliedFilters={countAppliedFilters}
@@ -80,7 +80,7 @@ export default function Users() {
                 />
             </HasRequiredAuthority>
 
-            <div className="flex-grow-1 p-2 ">
+            <div className="flex-1 min-h-0 overflow-hidden overflow-y-scroll p-2 bg-gray-100">
                 {loading ? (
                     <Loading />
                 ) : error || !users?.dataSet?.length ? (
@@ -89,8 +89,6 @@ export default function Users() {
                     users?.dataSet?.map((user) => <User key={user?.id} {...user} />)
                 )}
             </div>
-
-            <Button className="shadow-3 align-self-end mx-4" icon="pi pi-plus" rounded severity="warning" aria-label="Cancel" />
 
             {!loading && (
                 <Paginator
@@ -117,6 +115,6 @@ export default function Users() {
                 filters={filters}
                 setSearchQuery={setSearchQuery}
             />
-        </>
+        </div>
     );
 }

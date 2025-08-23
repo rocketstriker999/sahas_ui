@@ -3,6 +3,7 @@ import { Tag } from "primereact/tag";
 import { Divider } from "primereact/divider";
 
 export default function ProfileCard({
+    className,
     id = 1,
     full_name = "Nisarg Jani",
     phone = "9909727302",
@@ -11,7 +12,7 @@ export default function ProfileCard({
     showViewMore = true,
 }) {
     return (
-        <div className={`my-2 pl-2 py-2 border-round border-1 border-gray-300 relative overflow-hidden`}>
+        <div className={`my-2 pl-2 py-2 border-round border-1 border-gray-300 relative overflow-hidden ${className}`}>
             <div className=" flex  align-items-center">
                 <Avatar {...(image ? { image } : { icon: "pi pi-user" })} size="xlarge" shape="circle" />
                 <Divider layout="vertical" />

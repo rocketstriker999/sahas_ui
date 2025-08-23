@@ -4,7 +4,7 @@ import { classNames } from "primereact/utils";
 import NoContent from "../common/NoContent";
 import { getResource } from "../../utils";
 
-export default function Carousel({ images }) {
+export default function Carousel({ className, images }) {
     const itemTemplate = (carouselItem) => (
         <div className="border-round-lg shadow-4 overflow-hidden  h-8rem">
             <Image width="100%" className="block" src={getResource(carouselItem?.image)} alt={carouselItem?.image} />
@@ -14,6 +14,7 @@ export default function Carousel({ images }) {
     if (images?.length) {
         return (
             <Galleria
+                className={className}
                 value={images}
                 showThumbnails={false}
                 showIndicators
