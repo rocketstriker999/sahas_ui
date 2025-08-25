@@ -31,27 +31,27 @@ export default function Authority({ id, roleId, roleAuthorityId, title, created_
 
     const deleteRoleAuthority = useCallback(() => {
         requestAPI({
-            requestPath: `role-authorities/${id}`,
+            requestPath: `role-authorities/${roleAuthorityId}`,
             requestMethod: "DELETE",
-            requestPostBody: { authority_id: id },
+            parseResponseBody: false,
             setLoading: setLoading,
-            onResponseReceieved: (authority, responseCode) => {
-                if (responseCode === 201) {
+            onResponseReceieved: (_, responseCode) => {
+                if (responseCode === 204) {
                     showToast({ severity: "success", summary: "Added", detail: "Authority Deleted", life: 1000 });
-                    setChecked(false);
+                    setChecked(() => false);
                 } else {
                     showToast({ severity: "error", summary: "Failed", detail: "Failed To Delete Authority !", life: 2000 });
                 }
             },
         });
-    }, [id, requestAPI, showToast]);
+    }, [requestAPI, roleAuthorityId, showToast]);
 
     return (
         <div className="flex align-items-center gap-2 ">
             <Detail
                 icon="pi pi-angle-right"
                 className="flex-1 "
-                title={created_by_full_name && `Created At ${getReadableDate({ date: created_on })} By ${created_by_full_name}`}
+                title={checked && `Created At ${getReadableDate({ date: created_on })} By ${created_by_full_name}`}
                 value={title}
             />
             {loading ? (
