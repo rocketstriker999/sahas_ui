@@ -12,7 +12,7 @@ export default function CardInputEmail({ email, setEmail, requestOTP }) {
 
     return (
         <div>
-            <img className="w-full" src="images/banner.jpg" alt="banner" />
+            <img className="w-full" src="/images/banner.jpg" alt="banner" />
             <Card title={APP_NAME} className="mx-3 mt-4">
                 <div className="text-center flex flex-column align-items-center justify-content-center">
                     <Avatar icon="pi pi-user" size="xlarge" shape="circle" />

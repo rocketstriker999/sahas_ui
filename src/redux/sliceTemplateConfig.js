@@ -11,9 +11,15 @@ export const sliceTemplateConfig = createSlice({
         addAuthority: (state, action) => {
             state.global.authorities = [action?.payload, ...state.global.authorities];
         },
+        removeRole: (state, action) => {
+            state.global.roles = state.global.roles.filter((role) => role.id !== action?.payload);
+        },
+        addRole: (state, action) => {
+            state.global.roles = [action?.payload, ...state.global.roles];
+        },
     },
 });
 
-export const { setTemplateConfig, removeAuthority, addAuthority } = sliceTemplateConfig.actions;
+export const { setTemplateConfig, removeAuthority, removeRole, addAuthority, addRole } = sliceTemplateConfig.actions;
 
 export default sliceTemplateConfig.reducer;

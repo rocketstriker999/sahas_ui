@@ -18,7 +18,10 @@ export default function ManageAuthorities() {
 
     const [addingAuthority, setAddingAuthority] = useState();
 
-    const searchedAuthorities = useMemo(() => authorities?.filter((authority) => authority?.title?.toLowerCase()?.includes(search)), [authorities, search]);
+    const searchedAuthorities = useMemo(
+        () => authorities?.filter((authority) => authority?.title?.toLowerCase()?.includes(search.toLowerCase())),
+        [authorities, search]
+    );
 
     return (
         <div className="flex flex-column h-full overflow-hidden">
@@ -36,7 +39,7 @@ export default function ManageAuthorities() {
             </div>
             <div className="flex-1 mt-2 px-3 py-2 overflow-y-scroll gap-3 flex flex-column">
                 {searchedAuthorities?.length ? (
-                    searchedAuthorities?.map((authority, index) => <Authority key={authority?.id} {...authority} />)
+                    searchedAuthorities?.map((authority) => <Authority key={authority?.id} {...authority} />)
                 ) : (
                     <NoContent error={"No Authorities Found"} />
                 )}
