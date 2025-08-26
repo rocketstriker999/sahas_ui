@@ -1,12 +1,13 @@
 import { Avatar } from "primereact/avatar";
 import { Tag } from "primereact/tag";
 import { Divider } from "primereact/divider";
+import { EMPTY_VALUE } from "../../constants";
 
 export default function ProfileCard({
     className,
-    id = 1,
-    full_name = "Nisarg Jani",
-    phone = "9909727302",
+    id,
+    full_name = EMPTY_VALUE,
+    phone = EMPTY_VALUE,
     email = "hammerbyte.nisarg@gmail.com",
     image,
     showViewMore = true,
