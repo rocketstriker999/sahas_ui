@@ -12,8 +12,8 @@ export default function ProfileCard({
     showViewMore = true,
 }) {
     return (
-        <div className={` pl-2 py-2 border-round border-1 border-gray-300 relative overflow-hidden ${className}`}>
-            <div className=" flex  align-items-center">
+        <div className={`pl-2 py-2 border-round border-1 border-gray-300 relative  ${className}`}>
+            <div className="flex align-items-center">
                 <Avatar {...(image ? { image } : { icon: "pi pi-user" })} size="xlarge" shape="circle" />
                 <Divider layout="vertical" />
                 <div className="flex-1 flex flex-column gap-2 py-2">
@@ -32,7 +32,10 @@ export default function ProfileCard({
             </div>
 
             {showViewMore && (
-                <p className="absolute top-0 right-0 m-0 p-2 text-xs bg-orange-500 shadow-3 text-white font-semibold" style={{ borderBottomLeftRadius: "6px" }}>
+                <p
+                    className="absolute top-0 right-0 m-0 p-2 text-xs bg-orange-500 shadow-3 text-white font-semibold "
+                    style={{ borderBottomLeftRadius: "6px", borderTopRightRadius: "6px" }}
+                >
                     View More
                 </p>
             )}

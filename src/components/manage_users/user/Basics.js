@@ -72,6 +72,13 @@ export default function Basics() {
                 className={"px-3 pt-3"}
                 title="User's Basic Details & Profile"
                 highlights={[`Created At - ${getReadableDate({ date: basics?.created_on })}`, `Updated At - ${getReadableDate({ date: basics?.updated_at })}`]}
+                actionItems={[
+                    <InputSwitch
+                        checked={Boolean(basics?.active)}
+                        onChange={(e) => setBasics((prev) => ({ ...prev, active: e.value }))}
+                        disabled={disableInputs}
+                    />,
+                ]}
             />
             <Divider />
 
@@ -126,14 +133,6 @@ export default function Basics() {
                         />
                         <label htmlFor="address">Address</label>
                     </FloatLabel>
-                    <div className="px-3 border-1 border-gray-300 border-round mt-2 flex align-items-center">
-                        <p className="flex-1">Active</p>
-                        <InputSwitch
-                            checked={Boolean(basics?.active)}
-                            onChange={(e) => setBasics((prev) => ({ ...prev, active: e.value }))}
-                            disabled={disableInputs}
-                        />
-                    </div>
                 </div>
             ) : (
                 <NoContent error={"No Inquiries Found"} />

@@ -44,15 +44,15 @@ export default function Dashboard() {
                 </div>
             </div>
             <HasRequiredAuthority requiredAuthority="USE_FEATURE_CAROUSEL">
-                <Carousel className={"mt-2"} images={pageConfig?.carousel?.images} />
+                <Carousel className={"mt-2 mx-2"} images={pageConfig?.carousel?.images} />
             </HasRequiredAuthority>
 
             <HasRequiredAuthority requiredAuthority="USE_FEATURE_PROFILE_CARD">
-                <ProfileCard className={"mx-2"} {...loggedInUser} />
+                <ProfileCard className={"mx-2 "} {...loggedInUser} />
             </HasRequiredAuthority>
 
             <HasRequiredAuthority requiredAuthority="USE_FEATURE_OPERATIONS">
-                <Operations className={"mx-2 flex-1 min-h-0 overflow-scroll"} />
+                <Operations className={"mx-2 mt-2 flex-1 min-h-0 overflow-scroll"} />
             </HasRequiredAuthority>
         </div>
     );
