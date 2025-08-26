@@ -3,7 +3,7 @@ import { Tag } from "primereact/tag";
 import { useNavigate } from "react-router-dom";
 import { EMPTY_VALUE } from "../../../constants";
 
-export default function User({ id, email, image, full_name, phone, active }) {
+export default function UserCard({ id, email, image, full_name, phone, active }) {
     const navigate = useNavigate();
 
     return (

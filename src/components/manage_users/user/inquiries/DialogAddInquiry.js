@@ -6,15 +6,18 @@ import { InputTextarea } from "primereact/inputtextarea";
 import { useCallback, useState } from "react";
 import TabHeader from "../../../common/TabHeader";
 import { useAppContext } from "../../../../providers/ProviderAppContainer";
+import { useOutletContext } from "react-router-dom";
 
-export default function DialogAddInquiry({ userId, addingNewInquiry, setAddingNewInquiry, courses, branches, setInquiries }) {
+export default function DialogAddInquiry({ visible, setVisible, setInquiries }) {
+    const { userId, courses, branches } = useOutletContext();
+
     const [inquiry, setInquiry] = useState();
     const [loading, setLoading] = useState();
     const { requestAPI, showToast } = useAppContext();
 
     const addInquiry = useCallback(() => {
         requestAPI({
-            requestPath: `users/${userId}/inquiries/`,
+            requestPath: `inquiries/`,
             requestMethod: "POST",
             requestPostBody: { ...inquiry, user_id: userId },
             setLoading: setLoading,
@@ -25,16 +28,16 @@ export default function DialogAddInquiry({ userId, addingNewInquiry, setAddingNe
                     setInquiry(() => ({
                         user_id: userId,
                     })); //reset this form
-                    setAddingNewInquiry(() => false); //close the dialog
+                    setVisible(() => false); //close the dialog
                 } else {
                     showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Inquiry !", life: 2000 });
                 }
             },
         });
-    }, [inquiry, requestAPI, setAddingNewInquiry, setInquiries, showToast, userId]);
+    }, [inquiry, requestAPI, setInquiries, setVisible, showToast, userId]);
 
     return (
-        <Dialog header={`Add New Inquiry`} visible={addingNewInquiry} className="w-11" onHide={() => setAddingNewInquiry(false)}>
+        <Dialog header={`Add New Inquiry`} visible={visible} className="w-11" onHide={() => setVisible(false)}>
             <TabHeader
                 className="pt-3"
                 title="Requred Information - New Inquiry"

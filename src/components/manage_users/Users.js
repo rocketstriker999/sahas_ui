@@ -6,9 +6,8 @@ import Loading from "../common/Loading";
 import NoContent from "../common/NoContent";
 import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
 import FiltersDrawer from "./users/FiltersDrawer";
-import User from "./users/User";
-import { Button } from "primereact/button";
 import { useSelector } from "react-redux";
+import UserCard from "./users/UserCard";
 
 export default function Users() {
     const { requestAPI } = useAppContext();
@@ -86,7 +85,7 @@ export default function Users() {
                 ) : error || !users?.dataSet?.length ? (
                     <NoContent error="No Users Found" />
                 ) : (
-                    users?.dataSet?.map((user) => <User key={user?.id} {...user} />)
+                    users?.dataSet?.map((user) => <UserCard key={user?.id} {...user} />)
                 )}
             </div>
 

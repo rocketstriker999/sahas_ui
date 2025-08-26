@@ -106,7 +106,7 @@ export default function Enrollment({ getCourseTitle, setEnrollments, setSelected
             <div className="flex align-items-center justify-content-between	px-4 py-3 border-bottom-1	border-300">
                 <Detail icon="pi pi-calendar" title="Start Date" value={getReadableDate({ date: enrollment?.start_date, removeTime: true })} />
                 <Detail icon="pi pi-calendar" title="End Date" value={getReadableDate({ date: enrollment?.end_date, removeTime: true })} />
-                <Detail value={<InputSwitch checked={Boolean(enrollment?.active)} onChange={(e) => updateEnrollment({ active: e.value })} />} />
+                <InputSwitch checked={Boolean(enrollment?.active)} onChange={(e) => updateEnrollment({ active: e.value })} />
             </div>
 
             <TabView>
