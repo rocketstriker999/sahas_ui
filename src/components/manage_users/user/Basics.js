@@ -75,74 +75,73 @@ export default function Basics() {
             />
             <Divider />
 
-            <div className="flex-1 px-3 pb-2 overflow-y-scroll gap-2 flex flex-column">
-                {loading ? (
-                    <Loading message="Loading Inquiries" />
-                ) : error ? (
-                    <NoContent error={error} />
-                ) : basics ? (
-                    <div className="flex flex-column gap-2">
-                        <ProfileCard {...basics} showViewMore={false} />
-                        <FloatLabel className="mt-4">
-                            <InputText
-                                value={basics?.full_name}
-                                id="fullname"
-                                className="w-full"
-                                onChange={(e) => setBasics((prev) => ({ ...prev, full_name: e.target.value }))}
-                                disabled={disableInputs}
-                            />
-                            <label htmlFor="fullname">Full Name</label>
-                        </FloatLabel>
-                        <FloatLabel className="mt-4">
-                            <InputText
-                                value={basics?.phone}
-                                id="phone"
-                                className="w-full"
-                                onChange={(e) => setBasics((prev) => ({ ...prev, phone: e.target.value }))}
-                                disabled={disableInputs}
-                            />
-                            <label htmlFor="phone">Phone</label>
-                        </FloatLabel>
-                        <FloatLabel className="mt-4">
-                            <Dropdown
-                                value={branches?.find((branch) => branch.id === basics?.branch_id)}
-                                inputId="branch"
-                                options={branches}
-                                optionLabel="title"
-                                className="w-full"
-                                onChange={(e) => setBasics((prev) => ({ ...prev, branch_id: e.value?.id }))}
-                                disabled={disableInputs}
-                            />
-                            <label htmlFor="branch">Branch</label>
-                        </FloatLabel>
-                        <FloatLabel className="mt-4">
-                            <InputTextarea
-                                value={basics?.address}
-                                id="address"
-                                rows={5}
-                                cols={30}
-                                className="w-full"
-                                onChange={(e) => setBasics((prev) => ({ ...prev, address: e.target.value }))}
-                                disabled={disableInputs}
-                            />
-                            <label htmlFor="address">Address</label>
-                        </FloatLabel>
-                        <div className="px-3 border-1 border-gray-300 border-round mt-2 flex align-items-center">
-                            <p className="flex-1">Active</p>
-                            <InputSwitch
-                                checked={Boolean(basics?.active)}
-                                onChange={(e) => setBasics((prev) => ({ ...prev, active: e.value }))}
-                                disabled={disableInputs}
-                            />
-                        </div>
-                        <HasRequiredAuthority requiredAuthority={AUTHORITIES.WRITE_USERS_BASICS}>
-                            <Button className="mt-3" label="Update" severity="warning" onClick={updateUserBasics} loading={updating} />
-                        </HasRequiredAuthority>
+            {loading ? (
+                <Loading message="Loading Inquiries" />
+            ) : error ? (
+                <NoContent error={error} />
+            ) : basics ? (
+                <div className="flex-1 px-3 flex flex-column gap-2 overflow-y-scroll">
+                    <ProfileCard {...basics} showViewMore={false} />
+                    <FloatLabel className="mt-4">
+                        <InputText
+                            value={basics?.full_name}
+                            id="fullname"
+                            className="w-full"
+                            onChange={(e) => setBasics((prev) => ({ ...prev, full_name: e.target.value }))}
+                            disabled={disableInputs}
+                        />
+                        <label htmlFor="fullname">Full Name</label>
+                    </FloatLabel>
+                    <FloatLabel className="mt-4">
+                        <InputText
+                            value={basics?.phone}
+                            id="phone"
+                            className="w-full"
+                            onChange={(e) => setBasics((prev) => ({ ...prev, phone: e.target.value }))}
+                            disabled={disableInputs}
+                        />
+                        <label htmlFor="phone">Phone</label>
+                    </FloatLabel>
+                    <FloatLabel className="mt-4">
+                        <Dropdown
+                            value={branches?.find((branch) => branch.id === basics?.branch_id)}
+                            inputId="branch"
+                            options={branches}
+                            optionLabel="title"
+                            className="w-full"
+                            onChange={(e) => setBasics((prev) => ({ ...prev, branch_id: e.value?.id }))}
+                            disabled={disableInputs}
+                        />
+                        <label htmlFor="branch">Branch</label>
+                    </FloatLabel>
+                    <FloatLabel className="mt-4">
+                        <InputTextarea
+                            value={basics?.address}
+                            id="address"
+                            rows={5}
+                            cols={30}
+                            className="w-full"
+                            onChange={(e) => setBasics((prev) => ({ ...prev, address: e.target.value }))}
+                            disabled={disableInputs}
+                        />
+                        <label htmlFor="address">Address</label>
+                    </FloatLabel>
+                    <div className="px-3 border-1 border-gray-300 border-round mt-2 flex align-items-center">
+                        <p className="flex-1">Active</p>
+                        <InputSwitch
+                            checked={Boolean(basics?.active)}
+                            onChange={(e) => setBasics((prev) => ({ ...prev, active: e.value }))}
+                            disabled={disableInputs}
+                        />
                     </div>
-                ) : (
-                    <NoContent error={"No Inquiries Found"} />
-                )}
-            </div>
+                </div>
+            ) : (
+                <NoContent error={"No Inquiries Found"} />
+            )}
+
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.WRITE_USERS_BASICS}>
+                <Button className="m-3" label="Update" severity="warning" onClick={updateUserBasics} loading={updating} disabled={!basics} />
+            </HasRequiredAuthority>
         </div>
     );
 }
