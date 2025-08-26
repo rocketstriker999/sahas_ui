@@ -48,7 +48,7 @@ export default function Dashboard() {
             </HasRequiredAuthority>
 
             <HasRequiredAuthority requiredAuthority="USE_FEATURE_PROFILE_CARD">
-                <ProfileCard className={"mx-2 "} {...loggedInUser} />
+                <ProfileCard className={"mx-2"} {...loggedInUser} />
             </HasRequiredAuthority>
 
             <HasRequiredAuthority requiredAuthority="USE_FEATURE_OPERATIONS">
