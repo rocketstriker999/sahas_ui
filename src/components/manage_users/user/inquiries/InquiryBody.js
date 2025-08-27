@@ -15,9 +15,13 @@ export default function InquiryBody({ setInquiries, ...props }) {
 
     const [deleting, setDeleting] = useState();
     const [updating, setUpdating] = useState();
-    const [notesCount, setNotesCount] = useState(props?.notes_count);
+    const [notesCount, setNotesCount] = useState();
 
-    const [dialogManageInquiryNotes, setDialogManageInquiryNotes] = useState();
+    const [dialogManageInquiryNotes, setDialogManageInquiryNotes] = useState({
+        inquiry_id: props?.id,
+        course_id: props?.course_id,
+        setInquiries,
+    });
 
     const deleteInquiry = useCallback(() => {
         requestAPI({
@@ -56,6 +60,10 @@ export default function InquiryBody({ setInquiries, ...props }) {
         [props, requestAPI, setInquiries, showToast]
     );
 
+    const closeDialogManageInquiryNotes = useCallback(() => {
+        setDialogManageInquiryNotes((prev) => ({ ...prev, visible: false }));
+    }, []);
+
     return (
         <div className="flex gap-2 align-items-center justify-content-end">
             <Detail className="flex-1" title="Branch" value={branches?.find((branch) => branch.id === props?.branch_id)?.title} />
@@ -77,19 +85,17 @@ export default function InquiryBody({ setInquiries, ...props }) {
                     rounded
                     severity="warning"
                     onClick={() =>
-                        setDialogManageInquiryNotes({
+                        setDialogManageInquiryNotes((prev) => ({
+                            ...prev,
                             visible: true,
-                            inquiry_id: props?.id,
-                            course_id: props?.course_id,
-                            closeDialog: setDialogManageInquiryNotes,
-                            setInquiries,
-                        })
+                            closeDialog: closeDialogManageInquiryNotes,
+                        }))
                     }
                 />
                 <Badge value={notesCount} severity="secondary"></Badge>
             </div>
 
-            <DialogManageInquiryNotes updateNotesCount={(newNotesCount) => setNotesCount(() => newNotesCount)} {...dialogManageInquiryNotes} />
+            <DialogManageInquiryNotes {...dialogManageInquiryNotes} setNotesCount={setNotesCount} />
         </div>
     );
 }

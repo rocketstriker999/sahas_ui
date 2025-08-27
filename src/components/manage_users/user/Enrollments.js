@@ -13,6 +13,7 @@ import { Tag } from "primereact/tag";
 import { getReadableDate } from "../../../utils";
 import DialogAddTransaction from "./enrollments/DialogAddTransaction";
 import DialogAddEnrollment from "./enrollments/DialogAddEnrollment";
+import EnrollmentHead from "./enrollments/EnrollmentHead";
 
 export default function Enrollments() {
     const { userId, courses, getCourseTitle, paymentTypes } = useOutletContext();
@@ -61,38 +62,12 @@ export default function Enrollments() {
                         {enrollments.map((enrollment, index) => (
                             <AccordionTab
                                 pt={{
-                                    content: { className: "p-0" }, // nav area
+                                    content: { className: "p-0" },
                                 }}
                                 key={enrollment?.id}
-                                header={() => (
-                                    <div className="flex align-items-center">
-                                        <div className="flex-1 flex flex-column gap-2 align-items-start">
-                                            <span className="text-sm">
-                                                <i className="pi text-xs pi-calendar"></i> {getReadableDate({ date: enrollment?.created_on })}
-                                            </span>
-                                            <span className=" text-xs font-medium text-color-secondary">
-                                                {enrollments.length - index}. By {enrollment?.created_by_full_name}
-                                            </span>
-                                        </div>
-                                        <Tag severity={enrollment?.active ? "success" : "danger"} value={enrollment?.active ? "Active" : "Inactive"} />
-                                        <Tag
-                                            icon="pi pi-user"
-                                            className="ml-2"
-                                            severity={enrollment.created_by == userId ? "success" : "danger"}
-                                            value={`By ${enrollment.created_by == userId ? "Self" : "Staff"} `}
-                                        />
-                                    </div>
-                                )}
+                                header={() => <EnrollmentHead {...enrollment} index={enrollments.length - index} />}
                             >
-                                <Enrollment
-                                    getCourseTitle={getCourseTitle}
-                                    setAddingNewCourse={setAddingNewCourse}
-                                    setEnrollments={setEnrollments}
-                                    setSelectedEnrollmentForTransaction={setSelectedEnrollmentForTransaction}
-                                    key={index}
-                                    index={index}
-                                    {...enrollment}
-                                />
+                                <Enrollment setEnrollments={setEnrollments} key={index} index={index} {...enrollment} />
                             </AccordionTab>
                         ))}
                     </Accordion>

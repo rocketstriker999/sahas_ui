@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 import { useAppContext } from "../../../../providers/ProviderAppContainer";
 
 export default function CardInputNote({ inquiry_id, setNotes }) {
-    const [note, setNote] = useState();
+    const [note, setNote] = useState("");
     const { requestAPI, showToast } = useAppContext();
     const [loading, setLoading] = useState();
 

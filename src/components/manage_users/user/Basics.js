@@ -50,7 +50,7 @@ export default function Basics() {
 
     const updateUserBasics = useCallback(() => {
         requestAPI({
-            requestPath: `users/${userId}`,
+            requestPath: `users`,
             requestMethod: "PUT",
             requestPostBody: basics,
             setLoading: setUpdating,
@@ -64,7 +64,7 @@ export default function Basics() {
                 }
             },
         });
-    }, [basics, requestAPI, showToast, userId]);
+    }, [basics, requestAPI, showToast]);
 
     return (
         <div className="flex flex-column h-full ">

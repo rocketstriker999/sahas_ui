@@ -7,12 +7,12 @@ import CardInputNote from "./CardInputNote";
 import { useAppContext } from "../../../../providers/ProviderAppContainer";
 import Notes from "./Notes";
 
-export default function DialogManageInquiryNotes({ visible, closeDialog, course_id, inquiry_id, updateNotesCount }) {
+export default function DialogManageInquiryNotes({ visible, closeDialog, course_id, inquiry_id, setNotesCount }) {
     const { getCourseTitle } = useOutletContext();
     const { requestAPI } = useAppContext();
     const [loading, setLoading] = useState();
-    const [notes, setNotes] = useState([{ note: "wda" }, { note: "wda" }, { note: "wda" }]);
-    const [error, setError] = useState(false);
+    const [notes, setNotes] = useState();
+    const [error, setError] = useState();
 
     useEffect(() => {
         if (inquiry_id)
@@ -32,8 +32,8 @@ export default function DialogManageInquiryNotes({ visible, closeDialog, course_
     }, [inquiry_id, requestAPI]);
 
     useEffect(() => {
-        updateNotesCount(notes?.length);
-    }, [notes, updateNotesCount]);
+        setNotesCount(() => notes?.length);
+    }, [notes, setNotesCount]);
 
     return (
         <Dialog header={`Inquiry Notes - ${getCourseTitle(course_id)}`} visible={visible} className="w-11" onHide={closeDialog}>
