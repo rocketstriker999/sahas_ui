@@ -1,17 +1,22 @@
 import TabHeader from "../../../common/TabHeader";
 import { Tag } from "primereact/tag";
 import TransactionsSummary from "./TransactionsSummary";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Transaction from "./Transaction";
 import NoContent from "../../../common/NoContent";
 import { useAppContext } from "../../../../providers/ProviderAppContainer";
 import Loading from "../../../common/Loading";
+import DialogAddTransaction from "./DialogAddTransaction";
 
 export default function TransactionsTabBody({ fees, id, setTotalTransactions }) {
     const [transactions, setTransactions] = useState();
     const { requestAPI } = useAppContext();
     const [loading, setLoading] = useState();
     const [error, setError] = useState();
+    const [dialogAddTransaction, setDialogAddTransaction] = useState({
+        visible: false,
+        enrollment_id: id,
+    });
 
     useEffect(() => {
         requestAPI({
@@ -33,6 +38,10 @@ export default function TransactionsTabBody({ fees, id, setTotalTransactions }) 
         setTotalTransactions(() => transactions?.length);
     }, [setTotalTransactions, transactions]);
 
+    const closeDialogAddTransaction = useCallback(() => {
+        setDialogAddTransaction((prev) => ({ ...prev, visible: false }));
+    }, []);
+
     const [paid, due] = useMemo(() => {
         const paid = transactions?.reduce((sum, transaction) => sum + parseFloat(transaction?.amount), 0);
         const due = parseFloat(fees) - paid;
@@ -49,7 +58,13 @@ export default function TransactionsTabBody({ fees, id, setTotalTransactions }) 
                         key="transactions-tag"
                         icon="pi pi-indian-rupee"
                         value="Add Transcations"
-                        // onClick={() => setSelectedEnrollmentForTransaction(enrollment?.id)}
+                        onClick={() =>
+                            setDialogAddTransaction((prev) => ({
+                                ...prev,
+                                visible: true,
+                                closeDialog: closeDialogAddTransaction,
+                            }))
+                        }
                     ></Tag>,
                 ]}
             />
@@ -65,6 +80,7 @@ export default function TransactionsTabBody({ fees, id, setTotalTransactions }) 
             ) : (
                 <NoContent error="No Transactions Found" />
             )}
+            <DialogAddTransaction setTransactions={setTransactions} {...dialogAddTransaction} />
         </div>
     );
 }

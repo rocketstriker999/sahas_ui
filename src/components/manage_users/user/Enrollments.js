@@ -82,13 +82,6 @@ export default function Enrollments() {
                 courses={courses}
                 setEnrollments={setEnrollments}
             />
-            <DialogAddTransaction
-                setSelectedEnrollmentForTransaction={setSelectedEnrollmentForTransaction}
-                selectedEnrollmentForTransaction={selectedEnrollmentForTransaction}
-                setEnrollments={setEnrollments}
-                paymentTypes={paymentTypes}
-            />
-            <DialogAddCourse enrollmentId={addingNewCouse} setAddingNewCourse={setAddingNewCourse} courses={courses} setEnrollments={setEnrollments} />
         </div>
     );
 }

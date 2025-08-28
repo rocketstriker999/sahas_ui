@@ -8,48 +8,36 @@ import { Dropdown } from "primereact/dropdown";
 import { InputTextarea } from "primereact/inputtextarea";
 import { Button } from "primereact/button";
 import { EMPTY_VALUE } from "../../../../constants";
+import { useOutletContext } from "react-router-dom";
 
-export default function DialogAddTransaction({ selectedEnrollmentForTransaction, setSelectedEnrollmentForTransaction, setEnrollments, paymentTypes }) {
+export default function DialogAddTransaction({ visible, enrollment_id, setTransactions, closeDialog }) {
     const { requestAPI, showToast } = useAppContext();
-    const [loading, setLoading] = useState();
+    const { paymentTypes } = useOutletContext();
 
+    const [loading, setLoading] = useState();
     const [transaction, setTransaction] = useState();
 
     const addTransaction = useCallback(() => {
         requestAPI({
-            requestPath: `enrollments/${selectedEnrollmentForTransaction}/transactions`,
+            requestPath: `enrollment-transactions`,
             requestMethod: "POST",
-            requestPostBody: { ...transaction, note: transaction?.note || EMPTY_VALUE },
+            requestPostBody: { ...transaction, note: transaction?.note || EMPTY_VALUE, enrollment_id },
             setLoading: setLoading,
-            onResponseReceieved: (transactions, responseCode) => {
-                if (responseCode === 201) {
+            onResponseReceieved: (transaction, responseCode) => {
+                if (transaction && responseCode === 201) {
                     showToast({ severity: "success", summary: "Added", detail: "Transaction Added", life: 1000 });
-
-                    setEnrollments((prev) =>
-                        prev?.map((enrollment) => {
-                            if (enrollment.id === selectedEnrollmentForTransaction) {
-                                enrollment.transactions = transactions;
-                            }
-                            return enrollment;
-                        })
-                    );
-
+                    setTransactions((prev) => [transaction, ...prev]);
                     setTransaction(); //reset this form
-                    setSelectedEnrollmentForTransaction(() => false); //close the dialog
+                    closeDialog(); //close the dialog
                 } else {
                     showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Transaction !", life: 2000 });
                 }
             },
         });
-    }, [requestAPI, selectedEnrollmentForTransaction, setEnrollments, setSelectedEnrollmentForTransaction, showToast, transaction]);
+    }, [closeDialog, enrollment_id, requestAPI, setTransactions, showToast, transaction]);
 
     return (
-        <Dialog
-            header={`Add New Transaction`}
-            visible={selectedEnrollmentForTransaction}
-            className="w-11"
-            onHide={() => setSelectedEnrollmentForTransaction(false)}
-        >
+        <Dialog header={`Add New Transaction`} visible={visible} className="w-11" onHide={closeDialog}>
             <TabHeader
                 className="pt-3"
                 title="Add New Course To Enrollment"

@@ -11,7 +11,7 @@ export default function User() {
     const { roles = [] } = useSelector((state) => state.stateTemplateConfig?.global);
     const { courses = [] } = useSelector((state) => state.stateTemplateConfig?.global);
     const { branches = [] } = useSelector((state) => state.stateTemplateConfig?.global);
-    const { payment_types = [] } = useSelector((state) => state.stateTemplateConfig?.global);
+    const { paymentTypes = [] } = useSelector((state) => state.stateTemplateConfig?.global);
 
     const getCourseTitle = useCallback((courseId) => courses?.find((course) => course.id === courseId)?.title, [courses]);
 
@@ -31,7 +31,7 @@ export default function User() {
         <div className="flex flex-column h-full overflow-hidden">
             <TabMenu model={items} />
             <div className="flex-1 min-h-0 overflow-hidden">
-                <Outlet context={{ roles, userId, authorities, courses, branches, paymentTypes: payment_types, getCourseTitle }} />
+                <Outlet context={{ roles, userId, authorities, courses, branches, paymentTypes, getCourseTitle }} />
             </div>
         </div>
     );
