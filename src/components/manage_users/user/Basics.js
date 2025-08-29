@@ -17,7 +17,7 @@ import { AUTHORITIES } from "../../../constants";
 import { useOutletContext } from "react-router-dom";
 
 export default function Basics() {
-    const { userId, authorities, branches } = useOutletContext();
+    const { userId, branches } = useOutletContext();
     const [basics, setBasics] = useState();
 
     const { requestAPI, showToast } = useAppContext();
@@ -27,10 +27,7 @@ export default function Basics() {
 
     const [updating, setUpdating] = useState();
 
-    const disableInputs = useMemo(
-        () => !hasRequiredAuthority(authorities, AUTHORITIES.WRITE_USERS_BASICS) || updating || loading,
-        [authorities, loading, updating]
-    );
+    const [enableInputs, setEnableInputs] = useState();
 
     useEffect(() => {
         requestAPI({
@@ -73,11 +70,16 @@ export default function Basics() {
                 title="User's Basic Details & Profile"
                 highlights={[`Created At - ${getReadableDate({ date: basics?.created_on })}`, `Updated At - ${getReadableDate({ date: basics?.updated_at })}`]}
                 actionItems={[
-                    <InputSwitch
-                        checked={Boolean(basics?.active)}
-                        onChange={(e) => setBasics((prev) => ({ ...prev, active: e.value }))}
-                        disabled={disableInputs}
-                    />,
+                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.WRITE_USERS_BASICS}>
+                        <InputSwitch
+                            checked={Boolean(basics?.active)}
+                            onChange={(e) => setBasics((prev) => ({ ...prev, active: e.value }))}
+                            disabled={!enableInputs}
+                        />
+                    </HasRequiredAuthority>,
+                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.WRITE_USERS_BASICS}>
+                        <Button icon="pi pi-pencil" severity="warning" onClick={setEnableInputs} />
+                    </HasRequiredAuthority>,
                 ]}
             />
             <Divider />
@@ -95,32 +97,36 @@ export default function Basics() {
                             id="fullname"
                             className="w-full"
                             onChange={(e) => setBasics((prev) => ({ ...prev, full_name: e.target.value }))}
-                            disabled={disableInputs}
+                            disabled={!enableInputs}
                         />
                         <label htmlFor="fullname">Full Name</label>
                     </FloatLabel>
-                    <FloatLabel className="mt-4">
-                        <InputText
-                            value={basics?.phone}
-                            id="phone"
-                            className="w-full"
-                            onChange={(e) => setBasics((prev) => ({ ...prev, phone: e.target.value }))}
-                            disabled={disableInputs}
-                        />
-                        <label htmlFor="phone">Phone</label>
-                    </FloatLabel>
-                    <FloatLabel className="mt-4">
-                        <Dropdown
-                            value={branches?.find((branch) => branch.id === basics?.branch_id)}
-                            inputId="branch"
-                            options={branches}
-                            optionLabel="title"
-                            className="w-full"
-                            onChange={(e) => setBasics((prev) => ({ ...prev, branch_id: e.value?.id }))}
-                            disabled={disableInputs}
-                        />
-                        <label htmlFor="branch">Branch</label>
-                    </FloatLabel>
+                    <div className="flex mt-4 gap-2 items-center">
+                        <FloatLabel className="flex-1">
+                            <InputText
+                                className="w-full"
+                                value={basics?.phone}
+                                id="phone"
+                                onChange={(e) => setBasics((prev) => ({ ...prev, phone: e.target.value }))}
+                                disabled={!enableInputs}
+                            />
+                            <label htmlFor="phone">Phone</label>
+                        </FloatLabel>
+
+                        <FloatLabel className="flex-1">
+                            <Dropdown
+                                className="w-full"
+                                value={branches?.find((branch) => branch.id === basics?.branch_id)}
+                                inputId="branch"
+                                options={branches}
+                                optionLabel="title"
+                                onChange={(e) => setBasics((prev) => ({ ...prev, branch_id: e.value?.id }))}
+                                disabled={!enableInputs}
+                            />
+                            <label htmlFor="branch">Branch</label>
+                        </FloatLabel>
+                    </div>
+
                     <FloatLabel className="mt-4">
                         <InputTextarea
                             value={basics?.address}
@@ -129,7 +135,7 @@ export default function Basics() {
                             cols={30}
                             className="w-full"
                             onChange={(e) => setBasics((prev) => ({ ...prev, address: e.target.value }))}
-                            disabled={disableInputs}
+                            disabled={!enableInputs}
                         />
                         <label htmlFor="address">Address</label>
                     </FloatLabel>

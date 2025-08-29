@@ -10,7 +10,7 @@ export default function TabHeader({ title, highlights, actionItems, className })
                     </li>
                 ))}
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 align-items-center">
                 {actionItems?.map((item, index) => (
                     <span key={index}>{item}</span>
                 ))}

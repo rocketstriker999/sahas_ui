@@ -2,6 +2,7 @@ import { Avatar } from "primereact/avatar";
 import { Tag } from "primereact/tag";
 import { Divider } from "primereact/divider";
 import { EMPTY_VALUE } from "../../constants";
+import { InputSwitch } from "primereact/inputswitch";
 
 export default function ProfileCard({
     className,
@@ -11,11 +12,14 @@ export default function ProfileCard({
     email = "hammerbyte.nisarg@gmail.com",
     image,
     showViewMore = true,
+    showStatusController,
 }) {
     return (
         <div className={`pl-2 py-2 border-round border-1 border-gray-300 relative  ${className}`}>
             <div className="flex align-items-center">
-                <Avatar {...(image ? { image } : { icon: "pi pi-user" })} size="xlarge" shape="circle" />
+                <div className="flex flex-column align-items-center">
+                    <Avatar {...(image ? { image } : { icon: "pi pi-user" })} size="xlarge" shape="circle" />
+                </div>
                 <Divider layout="vertical" />
                 <div className="flex-1 flex flex-column gap-2 py-2">
                     <h2 className="text-xl font-semibold p-0 m-0">
@@ -40,6 +44,8 @@ export default function ProfileCard({
                     View More
                 </p>
             )}
+
+            {showStatusController}
         </div>
     );
 }

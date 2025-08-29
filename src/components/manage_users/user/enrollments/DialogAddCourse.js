@@ -5,41 +5,36 @@ import { FloatLabel } from "primereact/floatlabel";
 import { useCallback, useState } from "react";
 import TabHeader from "../../../common/TabHeader";
 import { useAppContext } from "../../../../providers/ProviderAppContainer";
+import { useOutletContext } from "react-router-dom";
 
-export default function DialogAddCourse({ enrollmentId, setAddingNewCourse, courses, setEnrollments }) {
+export default function DialogAddCourse({ visible, enrollment_id, setCourses, closeDialog }) {
     const { requestAPI, showToast } = useAppContext();
+    const { courses } = useOutletContext();
 
     const [courseId, setCourseId] = useState();
     const [loading, setLoading] = useState();
 
     const addInquiry = useCallback(() => {
         requestAPI({
-            requestPath: `enrollments/${enrollmentId}/courses`,
+            requestPath: `enrollment-courses`,
             requestMethod: "POST",
-            requestPostBody: { course_id: courseId },
+            requestPostBody: { course_id: courseId, enrollment_id },
             setLoading: setLoading,
-            onResponseReceieved: (courses, responseCode) => {
+            onResponseReceieved: (course, responseCode) => {
                 if (responseCode === 201) {
                     showToast({ severity: "success", summary: "Added", detail: "Course Added", life: 1000 });
-                    setEnrollments((prev) =>
-                        prev?.map((enrollment) => {
-                            if (enrollment?.id === enrollmentId) {
-                                enrollment.courses = courses;
-                            }
-                            return enrollment;
-                        })
-                    );
-                    setAddingNewCourse(() => false);
-                    setCourseId();
+                    setCourses((prev) => [course, ...prev]);
+                    setCourseId(); //reset this form
+                    closeDialog(); //close the dialog
                 } else {
                     showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Course !", life: 2000 });
                 }
             },
         });
-    }, [courseId, enrollmentId, requestAPI, setAddingNewCourse, setEnrollments, showToast]);
+    }, [closeDialog, courseId, enrollment_id, requestAPI, setCourses, showToast]);
 
     return (
-        <Dialog header={`Add New Course`} visible={enrollmentId} className="w-11" onHide={() => setAddingNewCourse(false)}>
+        <Dialog header={`Add New Course`} visible={visible} className="w-11" onHide={closeDialog}>
             <TabHeader
                 className="pt-3"
                 title="Add New Course To Enrollment"

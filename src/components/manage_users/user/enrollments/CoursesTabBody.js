@@ -1,16 +1,21 @@
 import TabHeader from "../../../common/TabHeader";
 import { Tag } from "primereact/tag";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import NoContent from "../../../common/NoContent";
 import { useAppContext } from "../../../../providers/ProviderAppContainer";
 import Course from "./Course";
 import Loading from "../../../common/Loading";
+import DialogAddCourse from "./DialogAddCourse";
 
 export default function CoursesTabBody({ id, setTotalCourses }) {
     const [courses, setCourses] = useState();
     const { requestAPI } = useAppContext();
     const [loading, setLoading] = useState();
     const [error, setError] = useState();
+    const [dialogAddCourse, setDialogAddCourse] = useState({
+        visible: false,
+        enrollment_id: id,
+    });
 
     useEffect(() => {
         requestAPI({
@@ -32,12 +37,28 @@ export default function CoursesTabBody({ id, setTotalCourses }) {
         setTotalCourses(() => courses?.length);
     }, [setTotalCourses, courses]);
 
+    const closeDialogAddCourse = useCallback(() => {
+        setDialogAddCourse((prev) => ({ ...prev, visible: false }));
+    }, []);
+
     return (
         <div className="flex flex-column gap-3">
             <TabHeader
                 title="Enrollment Courses"
                 highlights={[`Total - ${courses?.length} Courses`]}
-                actionItems={[<Tag icon="pi pi-plus" value="Add Course"></Tag>]}
+                actionItems={[
+                    <Tag
+                        icon="pi pi-plus"
+                        value="Add Course"
+                        onClick={() =>
+                            setDialogAddCourse((prev) => ({
+                                ...prev,
+                                visible: true,
+                                closeDialog: closeDialogAddCourse,
+                            }))
+                        }
+                    ></Tag>,
+                ]}
             />
 
             {loading ? (
@@ -45,11 +66,12 @@ export default function CoursesTabBody({ id, setTotalCourses }) {
             ) : error ? (
                 <NoContent error={error} />
             ) : courses?.length ? (
-                courses.map((course) => <Course key={course?.id} course={course} />)
+                courses.map((course) => <Course key={course?.id} {...course} setCourses={setCourses} />)
             ) : (
                 <NoContent error="No Courses Assigned" />
             )}
-            <DialogAddCourse enrollmentId={addingNewCouse} setAddingNewCourse={setAddingNewCourse} courses={courses} setEnrollments={setEnrollments} />
+
+            <DialogAddCourse setCourses={setCourses} {...dialogAddCourse} />
         </div>
     );
 }
