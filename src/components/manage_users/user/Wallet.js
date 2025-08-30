@@ -2,7 +2,7 @@ import { Divider } from "primereact/divider";
 import TabHeader from "../../common/TabHeader";
 import { Button } from "primereact/button";
 import { RUPEE } from "../../../constants";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAppContext } from "../../../providers/ProviderAppContainer";
 import { useOutletContext } from "react-router-dom";
 import Loading from "../../common/Loading";
@@ -14,11 +14,11 @@ import DialogAddTransaction from "./wallet/DialogAddTransaction";
 export default function Wallet() {
     const { userId } = useOutletContext();
 
-    const { requestAPI, showToast } = useAppContext();
-
-    const [addingTransaction, setAddingTransaction] = useState();
+    const { requestAPI } = useAppContext();
 
     const [walletTransActions, setWalletTransActions] = useState();
+    const [dialogAddTransaction, setDialogAddTransaction] = useState();
+
     const [error, setError] = useState();
     const [loading, setLoading] = useState();
 
@@ -38,13 +38,34 @@ export default function Wallet() {
         });
     }, [requestAPI, userId]);
 
+    const walletBalance = useMemo(() => {
+        return walletTransActions?.reduce((acc, { amount }) => acc + (amount || 0), 0) ?? 0;
+    }, [walletTransActions]);
+
+    const closeDialogAddTransaction = useCallback(() => {
+        setDialogAddTransaction((prev) => ({ ...prev, visible: false }));
+    }, []);
+
     return (
         <div className="flex flex-column h-full min-h-0">
             <TabHeader
                 className={"px-3 pt-3"}
-                title={`User's Wallet - ${walletTransActions?.balance} ${RUPEE}`}
-                highlights={[`Total - ${walletTransActions?.transactions?.length} Transactions`]}
-                actionItems={[<Button icon="pi pi-plus" severity="warning" onClick={setAddingTransaction} />]}
+                title={`User's Wallet - ${walletBalance} ${RUPEE}`}
+                highlights={[`Total - ${walletTransActions?.length} Transactions`]}
+                actionItems={[
+                    <Button
+                        icon="pi pi-plus"
+                        severity="warning"
+                        onClick={() =>
+                            setDialogAddTransaction((prev) => ({
+                                ...prev,
+                                visible: true,
+                                closeDialog: closeDialogAddTransaction,
+                                currentBalance: walletBalance,
+                            }))
+                        }
+                    />,
+                ]}
             />
             <Divider />
             <div className="flex-1 min-h-0 px-3 pb-2 overflow-y-scroll gap-2 flex flex-column">
@@ -52,24 +73,16 @@ export default function Wallet() {
                     <Loading message="Loading Wallet Transactions" />
                 ) : error ? (
                     <NoContent error={error} />
-                ) : walletTransActions?.transactions?.length ? (
-                    walletTransActions.transactions?.map((transaction, index) => (
-                        <Transactions index={walletTransActions?.transactions?.length - 1} key={transaction?.id} {...transaction} />
+                ) : walletTransActions?.length ? (
+                    walletTransActions.map((transaction, index) => (
+                        <Transactions index={walletTransActions?.length - index} key={transaction?.id} {...transaction} />
                     ))
                 ) : (
                     <NoContent error={"No Wallet Transactions Found"} />
                 )}
             </div>
 
-            {walletTransActions && (
-                <DialogAddTransaction
-                    userId={userId}
-                    balance={Number(walletTransActions?.balance)}
-                    setWalletTransActions={setWalletTransActions}
-                    addingTransaction={addingTransaction}
-                    setAddingTransaction={setAddingTransaction}
-                />
-            )}
+            {walletTransActions && <DialogAddTransaction {...dialogAddTransaction} setWalletTransActions={setWalletTransActions} />}
         </div>
     );
 }

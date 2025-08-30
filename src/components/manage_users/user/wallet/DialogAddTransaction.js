@@ -1,5 +1,5 @@
 import { Dialog } from "primereact/dialog";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import Detail from "../../../common/Detail";
 import { Button } from "primereact/button";
 import { useAppContext } from "../../../../providers/ProviderAppContainer";
@@ -9,43 +9,45 @@ import { FloatLabel } from "primereact/floatlabel";
 import { InputNumber } from "primereact/inputnumber";
 import { RUPEE } from "../../../../constants";
 import { InputTextarea } from "primereact/inputtextarea";
+import { useOutletContext } from "react-router-dom";
 
-export default function DialogAddTransaction({ userId, balance, setWalletTransActions, addingTransaction, setAddingTransaction }) {
+export default function DialogAddTransaction({ setWalletTransActions, currentBalance, visible, closeDialog }) {
     const { requestAPI, showToast } = useAppContext();
+
+    const { userId } = useOutletContext();
 
     const [loading, setLoading] = useState();
 
-    const [transaction, setTransaction] = useState({ newBalance: balance });
-
-    const getAmountByOperation = useCallback((operation, amount) => (operation === "Credit" ? amount : -amount), []);
+    const [transaction, setTransaction] = useState();
 
     const addTransaction = useCallback(() => {
         requestAPI({
-            requestPath: `users/${userId}/wallet-transactions`,
+            requestPath: `wallet-transactions`,
             requestMethod: "POST",
-            requestPostBody: { amount: getAmountByOperation(transaction?.operation, transaction?.amount), note: transaction?.note },
+            requestPostBody: { ...transaction, user_id: userId },
             setLoading: setLoading,
             onResponseReceieved: (walletTransaction, responseCode) => {
                 if (walletTransaction && responseCode === 201) {
                     showToast({ severity: "success", summary: "Added", detail: "Transaction Added", life: 1000 });
-                    setWalletTransActions((prev) => {
-                        prev.balance = transaction?.newBalance;
-                        prev.transactions = [walletTransaction, ...prev?.transactions];
-                        return prev;
-                    });
-                    setTransaction((prev) => ({
-                        newBalance: prev.newBalance,
-                    })); //reset this form
-                    setAddingTransaction(() => false); //close the dialog
+                    setWalletTransActions((prev) => [walletTransaction, ...prev]);
+                    setTransaction(); //reset this form
+                    closeDialog(); //close the dialog
                 } else {
                     showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Transaction !", life: 2000 });
                 }
             },
         });
-    }, [getAmountByOperation, requestAPI, setAddingTransaction, setWalletTransActions, showToast, transaction, userId]);
+    }, [closeDialog, requestAPI, setWalletTransActions, showToast, transaction, userId]);
+
+    const newWalletBalance = useMemo(() => {
+        if (transaction?.operation && transaction?.amount) {
+            return currentBalance + (transaction?.operation === "Credit" ? transaction?.amount : -transaction?.amount);
+        }
+        return currentBalance;
+    }, [transaction?.amount, transaction?.operation, currentBalance]);
 
     return (
-        <Dialog header={"Add New Transaction"} visible={addingTransaction} className="w-11" onHide={() => setAddingTransaction(false)}>
+        <Dialog header={"Add New Transaction"} visible={visible} className="w-11" onHide={closeDialog}>
             <TabHeader
                 className="pt-3"
                 title="Requred Information - New Transaction"
@@ -53,17 +55,10 @@ export default function DialogAddTransaction({ userId, balance, setWalletTransAc
             />
 
             <div className="flex  align-items-center mt-5 ">
-                <Detail className="flex-1" title="New Wallet" value={`${transaction?.newBalance} ${RUPEE}`} icon={"pi pi-wallet"} />
+                <Detail className="flex-1" title="New Wallet" value={`${newWalletBalance} ${RUPEE}`} icon={"pi pi-wallet"} />
                 <SelectButton
                     value={transaction?.operation}
-                    onChange={(e) =>
-                        setTransaction((prev) => {
-                            if (prev?.amount) {
-                                prev.newBalance = balance + getAmountByOperation(e.value, prev.amount);
-                            }
-                            return { ...prev, operation: e.value };
-                        })
-                    }
+                    onChange={(e) => setTransaction((prev) => ({ ...prev, operation: e.value }))}
                     options={["Credit", "Withdraw"]}
                 />
             </div>
@@ -74,12 +69,10 @@ export default function DialogAddTransaction({ userId, balance, setWalletTransAc
                         value={transaction?.amount}
                         id="amount"
                         className="w-full"
-                        disabled={!transaction?.operation}
                         onChange={(e) =>
                             setTransaction((prev) => ({
                                 ...prev,
                                 amount: e.value,
-                                newBalance: balance + getAmountByOperation(prev?.operation, e.value),
                             }))
                         }
                     />
@@ -92,7 +85,6 @@ export default function DialogAddTransaction({ userId, balance, setWalletTransAc
             <FloatLabel className="mt-5">
                 <InputTextarea
                     value={transaction?.note}
-                    disabled={!transaction?.operation}
                     id="note"
                     rows={5}
                     cols={30}
@@ -102,14 +94,7 @@ export default function DialogAddTransaction({ userId, balance, setWalletTransAc
                 <label htmlFor="note">Note</label>
             </FloatLabel>
 
-            <Button
-                className="mt-3"
-                disabled={!transaction?.operation || !transaction?.amount || !transaction?.note}
-                label={"Apply"}
-                severity="warning"
-                loading={loading}
-                onClick={addTransaction}
-            />
+            <Button className="mt-3" label={"Apply"} severity="warning" loading={loading} onClick={addTransaction} />
         </Dialog>
     );
 }

@@ -4,31 +4,34 @@ import Detail from "../../../common/Detail";
 import { getReadableDate } from "../../../../utils";
 import { Checkbox } from "primereact/checkbox";
 import Loading from "../../../common/Loading";
+import { useOutletContext } from "react-router-dom";
 
-export default function Role({ userId, role, ...props }) {
+export default function Role({ role_id, title, ...props }) {
     const { requestAPI, showToast } = useAppContext();
+    const { userId } = useOutletContext();
     const [loading, setLoading] = useState();
 
-    const [userRole, setUserRole] = useState(props?.userRole);
+    const [userRole, setUserRole] = useState(props);
 
     const addRole = useCallback(() => {
         requestAPI({
-            requestPath: `users/${userId}/roles`,
+            requestPath: `user-roles`,
             requestMethod: "POST",
             setLoading: setLoading,
             requestPostBody: {
-                role_id: role?.id,
+                role_id,
+                user_id: userId,
             },
             onResponseReceieved: (userRole, responseCode) => {
                 if (responseCode === 201) {
                     showToast({ severity: "success", summary: "Deleted", detail: "Role Added", life: 1000 });
-                    setUserRole(userRole);
+                    setUserRole(() => userRole);
                 } else {
                     showToast({ severity: "error", summary: "Failed", detail: "Failed To Delete Role !", life: 2000 });
                 }
             },
         });
-    }, [requestAPI, role?.id, showToast, userId]);
+    }, [requestAPI, role_id, showToast, userId]);
 
     const deleteUserRole = useCallback(() => {
         requestAPI({
@@ -39,7 +42,7 @@ export default function Role({ userId, role, ...props }) {
             onResponseReceieved: (_, responseCode) => {
                 if (responseCode === 204) {
                     showToast({ severity: "success", summary: "Deleted", detail: "Role Deleted", life: 1000 });
-                    setUserRole();
+                    setUserRole(({ id, ...rest }) => rest);
                 } else {
                     showToast({ severity: "error", summary: "Failed", detail: "Failed To Delete Role !", life: 2000 });
                 }
@@ -52,10 +55,10 @@ export default function Role({ userId, role, ...props }) {
             <Detail
                 icon="pi pi-angle-right"
                 className="flex-1 mb-2"
-                title={userRole && `Added By ${userRole?.created_by_full_name} at ${getReadableDate({ date: userRole?.created_on, removeTime: true })}`}
-                value={role?.title}
+                title={userRole?.id && `Added By ${userRole?.created_by_full_name} at ${getReadableDate({ date: userRole?.created_on, removeTime: true })}`}
+                value={title}
             />
-            {loading ? <Loading /> : <Checkbox checked={!!userRole} onChange={({ checked }) => (checked ? addRole() : deleteUserRole())}></Checkbox>}
+            {loading ? <Loading /> : <Checkbox checked={Boolean(userRole?.id)} onChange={({ checked }) => (checked ? addRole() : deleteUserRole())}></Checkbox>}
         </div>
     );
 }
