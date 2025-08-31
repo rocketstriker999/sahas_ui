@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { InputTextarea } from "primereact/inputtextarea";
 import { addAuthority } from "../../redux/sliceTemplateConfig";
 
-export default function DialogAddAuthority({ addingAuthority, setAddingAuthority }) {
+export default function DialogAddAuthority({ visible, closeDialog }) {
     const { requestAPI, showToast } = useAppContext();
 
     const [authority, setAuthority] = useState();
@@ -26,20 +26,18 @@ export default function DialogAddAuthority({ addingAuthority, setAddingAuthority
             onResponseReceieved: (authority, responseCode) => {
                 if (responseCode === 201) {
                     showToast({ severity: "success", summary: "Added", detail: "Authority Added", life: 1000 });
-                    //addhere
-                    //setEnrollments(enrollments);
                     dispatch(addAuthority(authority));
                     setAuthority(); //reset this form
-                    setAddingAuthority(() => false); //close the dialog
+                    closeDialog(); //close the dialog
                 } else {
                     showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Authority !", life: 2000 });
                 }
             },
         });
-    }, [authority, dispatch, requestAPI, setAddingAuthority, showToast]);
+    }, [authority, closeDialog, dispatch, requestAPI, showToast]);
 
     return (
-        <Dialog header={`Add New Authority`} visible={addingAuthority} className="w-11" onHide={() => setAddingAuthority(false)}>
+        <Dialog header={`Add New Authority`} visible={visible} className="w-11" onHide={closeDialog}>
             <TabHeader className="pt-3" title="Add New Authority" highlights={["Authority Will be Added Immidiatly", "Authority Can Be Mapped To Role"]} />
 
             <FloatLabel className="mt-5">
