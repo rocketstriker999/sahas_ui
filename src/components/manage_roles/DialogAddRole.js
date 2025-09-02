@@ -8,7 +8,7 @@ import { InputText } from "primereact/inputtext";
 import { useDispatch } from "react-redux";
 import { addRole } from "../../redux/sliceTemplateConfig";
 
-export default function DialogAddRole({ addingRole, setAddingRole }) {
+export default function DialogAddRole({ visible, closeDialog }) {
     const { requestAPI, showToast } = useAppContext();
 
     const [role, setRole] = useState();
@@ -25,20 +25,18 @@ export default function DialogAddRole({ addingRole, setAddingRole }) {
             onResponseReceieved: (role, responseCode) => {
                 if (responseCode === 201) {
                     showToast({ severity: "success", summary: "Added", detail: "Role Added", life: 1000 });
-                    //addhere
-
                     dispatch(addRole(role));
                     setRole(); //reset this form
-                    setAddingRole(() => false); //close the dialog
+                    closeDialog(); //close the dialog
                 } else {
                     showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Role !", life: 2000 });
                 }
             },
         });
-    }, [dispatch, requestAPI, role, setAddingRole, showToast]);
+    }, [closeDialog, dispatch, requestAPI, role, showToast]);
 
     return (
-        <Dialog header={`Add New Role`} visible={addingRole} className="w-11" onHide={() => setAddingRole(false)}>
+        <Dialog header={`Add New Role`} visible={visible} className="w-11" onHide={closeDialog}>
             <TabHeader className="pt-3" title="Add New Role" highlights={["Role Will be Added Immidiatly", "Authorities Can Be Mapped To Role"]} />
 
             <FloatLabel className="mt-5">
