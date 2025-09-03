@@ -3,8 +3,8 @@ import { useAppContext } from "../../../../providers/ProviderAppContainer";
 import Detail from "../../../common/Detail";
 import { getReadableDate } from "../../../../utils";
 import { Checkbox } from "primereact/checkbox";
-import Loading from "../../../common/Loading";
 import { useOutletContext } from "react-router-dom";
+import ProgressiveControl from "../../../common/ProgressiveControl";
 
 export default function Role({ role_id, title, ...props }) {
     const { requestAPI, showToast } = useAppContext();
@@ -48,7 +48,7 @@ export default function Role({ role_id, title, ...props }) {
                 }
             },
         });
-    }, [requestAPI, showToast, userRole?.id]);
+    }, [requestAPI, showToast, userRole]);
 
     return (
         <div className="flex align-items-center gap-2 mb-2">
@@ -58,7 +58,10 @@ export default function Role({ role_id, title, ...props }) {
                 title={userRole?.id && `Added By ${userRole?.created_by_full_name} at ${getReadableDate({ date: userRole?.created_on, removeTime: true })}`}
                 value={title}
             />
-            {loading ? <Loading /> : <Checkbox checked={Boolean(userRole?.id)} onChange={({ checked }) => (checked ? addRole() : deleteUserRole())}></Checkbox>}
+            <ProgressiveControl
+                loading={loading}
+                control={<Checkbox checked={Boolean(userRole?.id)} onChange={({ checked }) => (checked ? addRole() : deleteUserRole())} />}
+            />
         </div>
     );
 }

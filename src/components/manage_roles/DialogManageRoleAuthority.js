@@ -6,11 +6,10 @@ import { useSelector } from "react-redux";
 import Loading from "../common/Loading";
 import NoContent from "../common/NoContent";
 import Authority from "./Authority";
-import { InputText } from "primereact/inputtext";
-import { Button } from "primereact/button";
+import SearchBar from "../manage_authorities/SearchBar";
 
-export default function DialogManageRoleAuthorities({ managingRoleAuthorities, setManagingRoleAuthorities }) {
-    const { requestAPI, showToast } = useAppContext();
+export default function DialogManageRoleAuthorities({ visible, roleId, closeDialog }) {
+    const { requestAPI } = useAppContext();
     const { roles = [] } = useSelector((state) => state.stateTemplateConfig?.global);
 
     const [roleAuthorities, setRoleAuthorities] = useState();
@@ -25,7 +24,7 @@ export default function DialogManageRoleAuthorities({ managingRoleAuthorities, s
 
     useEffect(() => {
         requestAPI({
-            requestPath: `roles/${managingRoleAuthorities}/authorities`,
+            requestPath: `roles/${roleId}/authorities`,
             requestMethod: "GET",
             setLoading: setLoading,
             onRequestStart: setError,
@@ -38,13 +37,13 @@ export default function DialogManageRoleAuthorities({ managingRoleAuthorities, s
                 }
             },
         });
-    }, [requestAPI, managingRoleAuthorities]);
+    }, [requestAPI, roleId]);
 
     return (
-        <Dialog header={`Manage Role Authorities`} visible={managingRoleAuthorities} className="w-11" onHide={() => setManagingRoleAuthorities(false)}>
+        <Dialog header={`Manage Role Authorities`} visible={visible} className="w-11" onHide={closeDialog}>
             <TabHeader
                 className="pt-3 "
-                title={`Manage Authorities - ${roles?.find((role) => role?.id === managingRoleAuthorities)?.title}`}
+                title={`Manage Authorities - ${roles?.find((role) => role?.id === roleId)?.title}`}
                 highlights={["Authority Can Be Mapped To Role", "Impact Will be Immidiate"]}
             />
             {loading ? (
@@ -53,19 +52,18 @@ export default function DialogManageRoleAuthorities({ managingRoleAuthorities, s
                 <NoContent error={error} />
             ) : (
                 <div className="flex flex-column gap-3 mt-3">
-                    <div className="p-inputgroup  ">
-                        <InputText value={search} placeholder="Search By Authority" onChange={(e) => setSearch(e.target.value)} />
-                        <Button icon="pi pi-times" className="p-button-danger " disabled={!search} onClick={() => setSearch("")} />
-                    </div>
+                    <SearchBar search={search} setSearch={setSearch} />
                     {searchedRoleAuthorities?.length ? (
-                        searchedRoleAuthorities?.map((searchedRoleAuthority) => (
-                            <Authority
-                                key={searchedRoleAuthority?.id}
-                                roleId={managingRoleAuthorities}
-                                {...searchedRoleAuthority}
-                                setRoleAuthorities={setRoleAuthorities}
-                            />
-                        ))
+                        searchedRoleAuthorities
+                            ?.map(({ id, ...rest }) => ({ authority_id: id, ...rest }))
+                            ?.map((searchedRoleAuthority) => (
+                                <Authority
+                                    key={searchedRoleAuthority?.authority_id}
+                                    {...(roleAuthorities?.find(({ authority_id }) => authority_id === searchedRoleAuthority?.authority_id) ||
+                                        searchedRoleAuthority)}
+                                    roleId={roleId}
+                                />
+                            ))
                     ) : (
                         <NoContent error={"Failed To Load Role Authorities"} />
                     )}

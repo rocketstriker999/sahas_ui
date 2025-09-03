@@ -5,6 +5,7 @@ import { Button } from "primereact/button";
 import Loading from "../common/Loading";
 import { useDispatch } from "react-redux";
 import { removeAuthority } from "../../redux/sliceTemplateConfig";
+import ProgressiveControl from "../common/ProgressiveControl";
 
 export default function Authority({ id, created_on, title, description }) {
     const { requestAPI, showToast } = useAppContext();
@@ -29,9 +30,13 @@ export default function Authority({ id, created_on, title, description }) {
     }, [dispatch, id, requestAPI, showToast]);
 
     return (
-        <div className="flex alig-items-center gap-1">
+        <div className="flex align-items-center gap-1">
             <Detail className={"flex-1"} icon="pi pi-angle-right" title={`Created At ${created_on}`} value={title} more={description} />
-            {deleting ? <Loading /> : <Button className="w-2rem h-2rem" icon="pi pi-trash" rounded severity="danger" onClick={deleteAuthority} />}
+
+            <ProgressiveControl
+                loading={deleting}
+                control={<Button className="w-2rem h-2rem" icon="pi pi-trash" rounded severity="danger" onClick={deleteAuthority} />}
+            />
         </div>
     );
 }

@@ -41,8 +41,8 @@ export default function Roles() {
                     <NoContent error={error} />
                 ) : roles?.length ? (
                     roles
-                        .map(({ id, ...rest }) => ({ role_id: id, ...rest }))
-                        .map((userRole) => <Role key={userRole?.role_id} {...(userRoles?.find(({ role_id }) => role_id === userRole?.role_id) || userRole)} />)
+                        ?.map(({ id, ...rest }) => ({ role_id: id, ...rest }))
+                        ?.map((userRole) => <Role key={userRole?.role_id} {...(userRoles?.find(({ role_id }) => role_id === userRole?.role_id) || userRole)} />)
                 ) : (
                     <NoContent error={"No Roles Found"} />
                 )}

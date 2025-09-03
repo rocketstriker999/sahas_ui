@@ -3,62 +3,60 @@ import { Checkbox } from "primereact/checkbox";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import Detail from "../common/Detail";
 import { getReadableDate } from "../../utils";
-import Loading from "../common/Loading";
+import ProgressiveControl from "../common/ProgressiveControl";
 
-export default function Authority({ id, roleId, roleAuthorityId, title, created_on, created_by_full_name, setRoleAuthorities }) {
+export default function Authority({ roleId, authority_id, title, ...props }) {
     const { requestAPI, showToast } = useAppContext();
     const [loading, setLoading] = useState();
-
-    const [checked, setChecked] = useState(!!roleAuthorityId);
+    const [roleAuthority, setRoleAuthority] = useState(props);
 
     const addRoleAuthority = useCallback(() => {
         requestAPI({
-            requestPath: `roles/${roleId}/authorities`,
+            requestPath: `role-authorities`,
             requestMethod: "POST",
-            requestPostBody: { authority_id: id },
+            requestPostBody: { role_id: roleId, authority_id },
             setLoading: setLoading,
             onResponseReceieved: (roleAuthority, responseCode) => {
                 if (responseCode === 201) {
                     showToast({ severity: "success", summary: "Added", detail: "Authority Added", life: 1000 });
-                    setRoleAuthorities((prev) => prev.map((authority) => (authority.id === id ? roleAuthority : authority)));
-                    setChecked(() => true);
+                    setRoleAuthority(() => roleAuthority);
                 } else {
                     showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Authority !", life: 2000 });
                 }
             },
         });
-    }, [id, requestAPI, roleId, setRoleAuthorities, showToast]);
+    }, [authority_id, requestAPI, roleId, showToast]);
 
     const deleteRoleAuthority = useCallback(() => {
         requestAPI({
-            requestPath: `role-authorities/${roleAuthorityId}`,
+            requestPath: `role-authorities/${roleAuthority?.id}`,
             requestMethod: "DELETE",
             parseResponseBody: false,
             setLoading: setLoading,
             onResponseReceieved: (_, responseCode) => {
                 if (responseCode === 204) {
                     showToast({ severity: "success", summary: "Added", detail: "Authority Deleted", life: 1000 });
-                    setChecked(() => false);
+                    setRoleAuthority(({ id, ...rest }) => rest);
                 } else {
                     showToast({ severity: "error", summary: "Failed", detail: "Failed To Delete Authority !", life: 2000 });
                 }
             },
         });
-    }, [requestAPI, roleAuthorityId, showToast]);
+    }, [requestAPI, roleAuthority?.id, showToast]);
 
     return (
         <div className="flex align-items-center gap-2 ">
             <Detail
                 icon="pi pi-angle-right"
                 className="flex-1 "
-                title={checked && `Created At ${getReadableDate({ date: created_on })} By ${created_by_full_name}`}
+                title={roleAuthority?.id && `Created At ${getReadableDate({ date: roleAuthority?.created_on })} By ${roleAuthority?.created_by_full_name}`}
                 value={title}
             />
-            {loading ? (
-                <Loading />
-            ) : (
-                <Checkbox checked={!!checked} onChange={({ checked }) => (checked ? addRoleAuthority() : deleteRoleAuthority())}></Checkbox>
-            )}
+
+            <ProgressiveControl
+                loading={loading}
+                control={<Checkbox checked={Boolean(roleAuthority?.id)} onChange={({ checked }) => (checked ? addRoleAuthority() : deleteRoleAuthority())} />}
+            />
         </div>
     );
 }

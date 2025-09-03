@@ -51,7 +51,7 @@ export default function ManageAuthorities() {
             />
             <Divider />
 
-            <SearchBar search={search} setSearch={setSearch} />
+            <SearchBar className={"px-3"} search={search} setSearch={setSearch} />
 
             <div className="flex-1 mt-2 px-3 py-2 overflow-y-scroll gap-3 flex flex-column">
                 {searchedAuthorities?.length ? (

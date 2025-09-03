@@ -21,7 +21,7 @@ export default function ManageRoles() {
 
     return (
         <div className="flex flex-column h-full overflow-hidden">
-            <PageTitle title={"Manage Authorities"} />
+            <PageTitle title={"Manage Roles"} />
             <TabHeader
                 className={"px-3 pt-3"}
                 title="Roles"
