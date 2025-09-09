@@ -12,10 +12,16 @@ export default function Operations({ className }) {
                 title: "Student's Corner",
                 operations: [
                     {
-                        title: "Courses",
+                        title: "Enroll",
                         icon: "pi-video",
                         required_authority: "USE_PAGE_COURSES",
-                        path: "/courses",
+                        path: "/product-categories",
+                    },
+                    {
+                        title: "My Courses",
+                        icon: "pi-video",
+                        required_authority: "USE_PAGE_COURSES",
+                        path: "/my-courses",
                     },
                     {
                         title: "Exam",
@@ -29,18 +35,7 @@ export default function Operations({ className }) {
                         required_authority: "USE_PAGE_INVOICES",
                         path: "/invoices",
                     },
-                    {
-                        title: "Devices",
-                        icon: "pi-mobile",
-                        required_authority: "USE_PAGE_DEVICES",
-                        path: "/devices",
-                    },
-                    {
-                        title: "Wallet",
-                        icon: "pi-wallet",
-                        required_authority: "USE_PAGE_WALLET",
-                        path: "/wallet",
-                    },
+
                     {
                         title: "My Reminders",
                         icon: "pi-calendar-clock",

@@ -37,8 +37,6 @@ export default function Authentication() {
         }
     };
 
-    console.log(authenticationToken);
-
     return (
         <div className="h-screen bg-blue-500 text-white">
             <CardInputEmail email={email} setEmail={setEmail} requestOTP={requestOTP} />
