@@ -2,12 +2,12 @@ import { Galleria } from "primereact/galleria";
 import { Image } from "primereact/image";
 import { classNames } from "primereact/utils";
 import NoContent from "../common/NoContent";
-import { getResource } from "../../utils";
+import { getMedia } from "../../utils";
 
 export default function Carousel({ className, images }) {
     const itemTemplate = (carouselItem) => (
         <div className="border-round-lg shadow-4 overflow-hidden  h-8rem">
-            <Image width="100%" className="block" src={getResource(carouselItem?.image)} alt={carouselItem?.image} />
+            <Image width="100%" className="block" src={getMedia(carouselItem?.image)} alt={carouselItem?.image} />
         </div>
     );
 

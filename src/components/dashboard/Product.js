@@ -1,7 +1,7 @@
 import { Button } from "primereact/button";
 import { useNavigate } from "react-router-dom";
 import ButtonPurchase from "../common/ButtonBuyNow";
-import { getResource } from "../../utils";
+import { getMedia } from "../../utils";
 import { Ripple } from "primereact/ripple";
 
 export default function Product({ product }) {
@@ -14,7 +14,7 @@ export default function Product({ product }) {
                     root: { style: { background: "rgba(102, 189, 240, 0.4)" } },
                 }}
             />
-            <img className="border-round shadow-4" width="100" height="100" src={getResource(product.image)} alt={product.image} />
+            <img className="border-round shadow-4" width="100" height="100" src={getMedia(product.image)} alt={product.image} />
             <div className="flex flex-column gap-2 w-full">
                 <span className="font-bold text-sm text-left">{product.title}</span>
                 {!product.has_access && (

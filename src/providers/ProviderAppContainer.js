@@ -32,6 +32,7 @@ export const ProviderAppContainer = ({ children }) => {
     const requestAPI = useCallback(
         async function ({
             requestHeaders = {},
+            requestService = process.env.REACT_APP_API_PATH,
             requestPath,
             requestMethod = "GET",
             requestGetQuery = false,
@@ -47,7 +48,7 @@ export const ProviderAppContainer = ({ children }) => {
             if (setLoading) setLoading(true);
 
             //append api backend service path
-            requestPath = process.env.REACT_APP_BACKEND_SERVER.concat(process.env.REACT_APP_API_PATH).concat(requestPath);
+            requestPath = process.env.REACT_APP_BACKEND_SERVER.concat(requestService).concat(requestPath);
 
             //api specific path
             if (requestGetQuery) {
@@ -62,7 +63,7 @@ export const ProviderAppContainer = ({ children }) => {
             const fetchOptions = {
                 // Adding headers to the request
                 headers: {
-                    "Content-Type": "application/json",
+                    ...(!(requestPostBody instanceof FormData) && { "Content-Type": "application/json" }),
                     [KEY_DEVICE_FINGER_PRINT]: deviceFingerPrint,
                     [KEY_AUTHENTICATION_TOKEN]: localStorage.getItem(KEY_AUTHENTICATION_TOKEN),
                     ...requestHeaders,
@@ -72,7 +73,7 @@ export const ProviderAppContainer = ({ children }) => {
             };
 
             if (requestPostBody) {
-                fetchOptions.body = JSON.stringify(requestPostBody);
+                fetchOptions.body = requestPostBody instanceof FormData ? requestPostBody : JSON.stringify(requestPostBody);
             }
 
             try {
