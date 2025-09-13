@@ -7,7 +7,7 @@ export default function PageTitle({ title, action }) {
         <div className="bg-blue-800 text-white px-3 font-semibold shadow-3 flex align-items-center justify-content-between">
             <div className="flex gap-2 align-items-center" onClick={() => navigate(-1)}>
                 <i className="pi pi-angle-left"></i>
-                <p>{title}</p>
+                <p className="text-sm sm:text-base md:text-lg lg:text-xl">{title}</p>
             </div>
             {action}
         </div>

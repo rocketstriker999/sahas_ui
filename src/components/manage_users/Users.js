@@ -71,7 +71,7 @@ export default function Users() {
                 />
             </HasRequiredAuthority>
 
-            <div className="flex-grow-1 p-2 ">
+            <div className="flex-grow-1 p-2 overflow-auto">
                 {loading ? (
                     <Loading />
                 ) : error || !users?.dataSet?.length ? (
@@ -94,7 +94,7 @@ export default function Users() {
                     template={{
                         layout: "FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink",
                         CurrentPageReport: (options) => (
-                            <span className="text-center text-sm w-8rem">
+                            <span className="text-center text-xs sm:text-sm md:text-base lg:text-lg w-4rem sm:w-4rem md:w-6rem lg:w-8rem">
                                 {options.first} - {options.last} of {options.totalRecords}
                             </span>
                         ),
