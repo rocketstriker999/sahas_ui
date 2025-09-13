@@ -4,30 +4,38 @@ import { useCallback, useState } from "react";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import TabHeader from "../common/TabHeader";
 import FileInput from "../common/FileInput";
+import { FloatLabel } from "primereact/floatlabel";
+import { InputText } from "primereact/inputtext";
+import { useDispatch } from "react-redux";
+import { addCarouselImage } from "../../redux/sliceTemplateConfig";
 
-export default function DialogAddCarouselItem({ visible, closeDialog, setImages }) {
+export default function DialogAddCarouselItem({ visible, closeDialog }) {
     const { requestAPI, showToast } = useAppContext();
 
-    const [carouselItem, setCarouselItem] = useState({ type: "image" });
+    const [carouselImage, setCarouselImage] = useState();
+
     const [loading, setLoading] = useState();
+
+    const dispatch = useDispatch();
 
     const addCarouselItem = useCallback(() => {
         requestAPI({
-            requestPath: `product-categories`,
-            requestMethod: "POST",
-            requestPostBody: carouselItem,
+            requestPath: `configs/template/dashboard/carousel_images`,
+            requestMethod: "PATCH",
+            requestPostBody: carouselImage,
             setLoading: setLoading,
+            parseResponseBody: false,
             onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Carousel Item !", life: 2000 }),
-            onResponseReceieved: (carouselItem, responseCode) => {
-                if (carouselItem && responseCode === 201) {
+            onResponseReceieved: (_, responseCode) => {
+                if (responseCode === 201) {
                     showToast({ severity: "success", summary: "Added", detail: "Carousel Item Added", life: 1000 });
-                    setImages((prev) => [carouselItem, ...prev]);
-                    setCarouselItem(); //reset form
+                    dispatch(addCarouselImage(carouselImage));
+                    setCarouselImage(); //reset form
                     closeDialog(); //close the dialog
                 } else showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Carousel Item !", life: 2000 });
             },
         });
-    }, [carouselItem, closeDialog, requestAPI, setImages, showToast]);
+    }, [carouselImage, closeDialog, dispatch, requestAPI, showToast]);
 
     return (
         <Dialog header={`Add New Carousel Item`} visible={visible} className="w-11" onHide={closeDialog}>
@@ -41,10 +49,21 @@ export default function DialogAddCarouselItem({ visible, closeDialog, setImages 
                 className={"mt-3"}
                 label="Carousel Item"
                 type="image"
-                cdn_url={carouselItem?.source}
-                setCDNUrl={(cdn_url) => setCarouselItem((prev) => ({ ...prev, source: cdn_url }))}
+                cdn_url={carouselImage?.source}
+                setCDNUrl={(cdn_url) => setCarouselImage((prev) => ({ ...prev, source: cdn_url }))}
                 disabled={loading}
             />
+
+            <FloatLabel className="mt-5">
+                <InputText
+                    value={carouselImage?.click_link || ""}
+                    id="click_link"
+                    className="w-full"
+                    onChange={(e) => setCarouselImage((prev) => ({ ...prev, click_link: e.target.value }))}
+                    disabled={loading}
+                />
+                <label htmlFor="click_link">Action URL</label>
+            </FloatLabel>
 
             <Button className="mt-3" label="Add Carousel Item" severity="warning" loading={loading} onClick={addCarouselItem} />
         </Dialog>

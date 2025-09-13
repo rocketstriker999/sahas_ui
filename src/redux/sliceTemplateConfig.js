@@ -20,9 +20,12 @@ export const sliceTemplateConfig = createSlice({
         replaceRole: (state, action) => {
             state.global.roles = state?.global?.roles?.map((role) => (action?.payload?.id === role?.id ? action?.payload : role));
         },
+        addCarouselImage: (state, action) => {
+            state.dash_board.carousel_images.push(action?.payload);
+        },
     },
 });
 
-export const { setTemplateConfig, removeAuthority, removeRole, addAuthority, addRole, replaceRole } = sliceTemplateConfig.actions;
+export const { setTemplateConfig, removeAuthority, removeRole, addAuthority, addRole, replaceRole, addCarouselImage } = sliceTemplateConfig.actions;
 
 export default sliceTemplateConfig.reducer;

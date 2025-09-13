@@ -5,9 +5,7 @@ import { Button } from "primereact/button";
 import { useCallback, useState } from "react";
 import DialogAddCarouselItem from "./DialogAddCarouselItems";
 
-export default function Carousel({ className, ...props }) {
-    const [images, setImages] = useState(props?.images);
-
+export default function Carousel({ className, images }) {
     const [dialogAddCarouselItem, setDialogAddCarouselItem] = useState({
         visible: false,
     });
@@ -17,13 +15,16 @@ export default function Carousel({ className, ...props }) {
     }, []);
 
     const itemTemplate = ({ click_link, source }) => (
-        <div
-            className="relative w-full"
-            onClick={() => {
-                if (click_link) window.open(click_link, "_blank");
-            }}
-        >
-            <img width="100%" className="border-round-lg shadow-4 block max-h-8rem" src={source} alt={source} />
+        <div className="relative w-full">
+            <img
+                onClick={() => {
+                    if (click_link) window.open(click_link, "_blank");
+                }}
+                width="100%"
+                className="border-round-lg shadow-4 block max-h-8rem"
+                src={source}
+                alt={source}
+            />
             <Button className="absolute bottom-0 left-0 m-2" icon="pi pi-trash" rounded outlined severity="danger" aria-label="Cancel" />
         </div>
     );
@@ -55,7 +56,7 @@ export default function Carousel({ className, ...props }) {
                 onClick={() => setDialogAddCarouselItem((prev) => ({ ...prev, visible: true, closeDialog: closeDialogAddCarouselItem }))}
             />
 
-            <DialogAddCarouselItem {...dialogAddCarouselItem} setImages={setImages} />
+            <DialogAddCarouselItem {...dialogAddCarouselItem} />
         </div>
     );
 }
