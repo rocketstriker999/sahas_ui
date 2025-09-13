@@ -44,7 +44,7 @@ export default function Dashboard() {
                 </div>
             </div>
             <HasRequiredAuthority requiredAuthority="USE_FEATURE_CAROUSEL">
-                <Carousel className={"mt-2 mx-2"} images={pageConfig?.carousel?.images} />
+                <Carousel className={"mt-2 mx-2"} images={pageConfig?.carousel_images} />
             </HasRequiredAuthority>
 
             <HasRequiredAuthority requiredAuthority="USE_FEATURE_PROFILE_CARD">

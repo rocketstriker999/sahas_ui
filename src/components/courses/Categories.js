@@ -64,7 +64,7 @@ export default function Categories() {
                 <NoContent error={"No Categories Found"} />
             )}
 
-            <DialogAddCategory {...dialogAddCategory} />
+            <DialogAddCategory {...dialogAddCategory} setCategories={setCategories} />
         </div>
     );
 }

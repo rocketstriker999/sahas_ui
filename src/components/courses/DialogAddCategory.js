@@ -7,7 +7,7 @@ import TabHeader from "../common/TabHeader";
 import { InputText } from "primereact/inputtext";
 import FileInput from "../common/FileInput";
 
-export default function DialogAddCategory({ visible, closeDialog }) {
+export default function DialogAddCategory({ visible, closeDialog, setCategories }) {
     const { requestAPI, showToast } = useAppContext();
 
     const [category, setCategory] = useState();
@@ -17,15 +17,19 @@ export default function DialogAddCategory({ visible, closeDialog }) {
         requestAPI({
             requestPath: `product-categories`,
             requestMethod: "POST",
-            requestPostBody: {},
+            requestPostBody: category,
             setLoading: setLoading,
+            onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Category !", life: 2000 }),
             onResponseReceieved: (productCategory, responseCode) => {
                 if (productCategory && responseCode === 201) {
                     showToast({ severity: "success", summary: "Added", detail: "Category Added", life: 1000 });
+                    setCategories((prev) => [productCategory, ...prev]);
+                    setCategory(); //reset form
+                    closeDialog(); //close the dialog
                 } else showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Category !", life: 2000 });
             },
         });
-    }, [requestAPI, showToast]);
+    }, [category, closeDialog, requestAPI, setCategories, showToast]);
 
     return (
         <Dialog header={`Add New Category`} visible={visible} className="w-11" onHide={closeDialog}>
@@ -40,7 +44,7 @@ export default function DialogAddCategory({ visible, closeDialog }) {
                     value={category?.title || ""}
                     id="title"
                     className="w-full"
-                    onChange={(e) => setCategory((prev) => ({ ...prev, title: e.target.value.toUpperCase() }))}
+                    onChange={(e) => setCategory((prev) => ({ ...prev, title: e.target.value }))}
                     disabled={loading}
                 />
                 <label htmlFor="title">Title</label>
@@ -50,8 +54,9 @@ export default function DialogAddCategory({ visible, closeDialog }) {
                 className={"mt-3"}
                 label="Product Category"
                 type="image"
-                file={category?.image}
-                setFile={(file) => setCategory((prev) => ({ ...prev, image: file }))}
+                cdn_url={category?.image}
+                setCDNUrl={(cdn_url) => setCategory((prev) => ({ ...prev, image: cdn_url }))}
+                disabled={loading}
             />
 
             <Button className="mt-3" label="Add Category" severity="warning" loading={loading} onClick={addProductCategory} />
