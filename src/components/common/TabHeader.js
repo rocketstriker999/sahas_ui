@@ -5,7 +5,7 @@ export default function TabHeader({ title, highlights, actionItems, className })
                 {title && <p className="m-0 font-bold">{title}</p>}
 
                 {highlights?.map((highlight) => (
-                    <li key={highlight} className="text-xs">
+                    <li key={highlight} className="text-xs ml-2">
                         {highlight}
                     </li>
                 ))}
