@@ -1,4 +1,3 @@
-import Carousel from "../components/dashboard/Carousel";
 import { useDispatch, useSelector } from "react-redux";
 import Operations from "../components/dashboard/Operations";
 import { useAppContext } from "../providers/ProviderAppContainer";
@@ -7,6 +6,7 @@ import HasRequiredAuthority from "../components/dependencies/HasRequiredAuthorit
 import ProfileCard from "../components/dashboard/ProfileCard";
 import { removeCurrentUser } from "../redux/sliceUser";
 import { KEY_AUTHENTICATION_TOKEN } from "../constants";
+import CarouselImages from "../components/dashboard/CarouselImages";
 
 export default function Dashboard() {
     const { isDevelopmentBuild, deviceFingerPrint } = useAppContext();
@@ -44,7 +44,7 @@ export default function Dashboard() {
                 </div>
             </div>
             <HasRequiredAuthority requiredAuthority="USE_FEATURE_CAROUSEL">
-                <Carousel className={"mt-2 mx-2"} images={pageConfig?.carousel_images} />
+                <CarouselImages className={"mb-2"} images={pageConfig?.carousel_images} />
             </HasRequiredAuthority>
 
             <HasRequiredAuthority requiredAuthority="USE_FEATURE_PROFILE_CARD">

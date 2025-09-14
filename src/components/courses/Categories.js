@@ -2,10 +2,13 @@ import { useCallback, useEffect, useState } from "react";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import Loading from "../common/Loading";
 import NoContent from "../common/NoContent";
-import Category from "./Category";
+import { OrderList } from "primereact/orderlist";
 import TabHeader from "../common/TabHeader";
 import { Button } from "primereact/button";
 import DialogAddCategory from "./DialogAddCategory";
+import Category from "./Category";
+import { classNames } from "primereact/utils";
+import { Divider } from "primereact/divider";
 
 export default function Categories() {
     const [categories, setCategories] = useState();
@@ -40,9 +43,9 @@ export default function Categories() {
     }, [requestAPI]);
 
     return (
-        <div className="px-3 flex flex-column gap-3">
+        <div className="flex flex-column h-full ">
             <TabHeader
-                className="pt-3"
+                className={"px-3 pt-3"}
                 title="Enrollments & Courses"
                 highlights={["New Enrollments Can be Happen Here", "Enrolled Courses Can Be Explored"]}
                 actionItems={[
@@ -54,12 +57,31 @@ export default function Categories() {
                 ]}
             />
 
+            <Divider />
+
             {loading ? (
                 <Loading message="Loading Categories" />
             ) : error ? (
                 <NoContent error={error} />
             ) : categories?.length ? (
-                categories?.map((category) => <Category key={category?.id} {...category} />)
+                <OrderList
+                    pt={{
+                        root: classNames(" h-full bg-blue-300 mb-6 overflow-hidden"),
+                        controls: classNames("flex flex-row gap-2 p-0 "),
+                        container: classNames("mx-2  p-2 overflow-scroll"),
+                        list: {
+                            style: { maxHeight: "none", minHeight: "none" },
+                            className: "border-0 p-0 bg-green-100 overflow-y-scroll h-full",
+                        },
+
+                        item: classNames("p-0"),
+                    }}
+                    dataKey="id"
+                    value={categories}
+                    onChange={(e) => setCategories(e.value)}
+                    itemTemplate={Category}
+                    dragdrop
+                />
             ) : (
                 <NoContent error={"No Categories Found"} />
             )}
@@ -68,3 +90,7 @@ export default function Categories() {
         </div>
     );
 }
+
+// <OrderList dataKey="id" value={products} onChange={(e) => setProducts(e.value)} itemTemplate={itemTemplate} header="Products" dragdrop></OrderList>;
+
+//categories?.map((category) => <Category key={category?.id} {...category} />);

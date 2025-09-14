@@ -2,7 +2,6 @@ import Detail from "../common/Detail";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import { useCallback, useState } from "react";
 import { Button } from "primereact/button";
-import Loading from "../common/Loading";
 import { useDispatch } from "react-redux";
 import { removeAuthority } from "../../redux/sliceTemplateConfig";
 import ProgressiveControl from "../common/ProgressiveControl";

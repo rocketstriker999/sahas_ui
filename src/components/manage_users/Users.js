@@ -79,7 +79,7 @@ export default function Users() {
                 />
             </HasRequiredAuthority>
 
-            <div className="flex-1 min-h-0 overflow-hidden overflow-y-scroll p-2 bg-gray-100">
+            <div className="flex-1 min-h-0  overflow-y-scroll p-2 bg-gray-100">
                 {loading ? (
                     <Loading />
                 ) : error || !users?.dataSet?.length ? (

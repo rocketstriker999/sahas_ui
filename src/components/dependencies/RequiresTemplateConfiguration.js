@@ -13,7 +13,7 @@ export default function RequiresTemplateConfiguration({ children }) {
     useEffect(() => {
         if (!templateConfig && !applicationLoading) {
             requestAPI({
-                requestPath: "configs/template",
+                requestPath: "template-configs",
                 setLoading: (loading) => setApplicationLoading(loading ? { message: "Loading Template Configuration..." } : loading),
                 onRequestFailure: (error) =>
                     setApplicationError({

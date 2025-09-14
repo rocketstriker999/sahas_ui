@@ -3,7 +3,7 @@ import PageTitle from "../components/common/PageTitle";
 
 export default function Catelogue() {
     return (
-        <div className="flex flex-column gap-2">
+        <div className="h-full overflow-hidden ">
             <PageTitle title={"Courses"} />
             <Outlet />
         </div>

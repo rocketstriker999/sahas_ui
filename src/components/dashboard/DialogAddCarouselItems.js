@@ -20,14 +20,13 @@ export default function DialogAddCarouselItem({ visible, closeDialog }) {
 
     const addCarouselItem = useCallback(() => {
         requestAPI({
-            requestPath: `configs/template/dashboard/carousel_images`,
-            requestMethod: "PATCH",
+            requestPath: `template-configs/dashboard/carousel-images`,
+            requestMethod: "POST",
             requestPostBody: carouselImage,
             setLoading: setLoading,
-            parseResponseBody: false,
             onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Carousel Item !", life: 2000 }),
-            onResponseReceieved: (_, responseCode) => {
-                if (responseCode === 201) {
+            onResponseReceieved: (carouselImage, responseCode) => {
+                if (carouselImage && responseCode === 201) {
                     showToast({ severity: "success", summary: "Added", detail: "Carousel Item Added", life: 1000 });
                     dispatch(addCarouselImage(carouselImage));
                     setCarouselImage(); //reset form
