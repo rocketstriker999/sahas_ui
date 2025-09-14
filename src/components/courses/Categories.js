@@ -43,7 +43,7 @@ export default function Categories() {
     }, [requestAPI]);
 
     return (
-        <div className="flex flex-column h-full ">
+        <div className="flex-1    overflow-hidden flex flex-column">
             <TabHeader
                 className={"px-3 pt-3"}
                 title="Enrollments & Courses"
@@ -66,14 +66,13 @@ export default function Categories() {
             ) : categories?.length ? (
                 <OrderList
                     pt={{
-                        root: classNames(" h-full border-1  overflow-hidden"),
-                        controls: classNames("flex flex-row gap-2 p-0 "),
-                        container: classNames("mx-2 border-1 p-2 overflow-scroll"),
+                        root: classNames("flex flex-1 flex-column overflow-hidden gap-2"),
+                        controls: classNames("flex flex-row gap-2 p-0"),
+                        container: classNames("mx-2 overflow-y-scroll"),
                         list: {
                             style: { maxHeight: "none", minHeight: "none" },
-                            className: "border-0 p-0 bg-green-100 overflow-y-scroll h-full",
+                            className: "border-0 p-0   ",
                         },
-
                         item: classNames("p-0"),
                     }}
                     dataKey="id"
@@ -83,6 +82,24 @@ export default function Categories() {
                     dragdrop
                 />
             ) : (
+                // <div className="border-2   bg-red-100 overflow-scroll">
+                //     <br />
+                //     <p>d \n \n \n \n\n\n\n\n\n\n\n\n\n\n\n\ /n /n nwa daw daw d er er er v5 rv4 e5m4m5 b 5r65 65 yu5 y5 5 6h 56 5 h</p>
+                //     <br />
+                //     <p>d \n \n \n \n\n\n\n\n\n\n\n\n\n\n\n\ /n /n nwa daw daw d er er er v5 rv4 e5m4m5 b 5r65 65 yu5 y5 5 6h 56 5 h</p>
+                //     <br />
+                //     <p>d \n \n \n \n\n\n\n\n\n\n\n\n\n\n\n\ /n /n nwa daw daw d er er er v5 rv4 e5m4m5 b 5r65 65 yu5 y5 5 6h 56 5 h</p>
+                //     <br />
+                //     <p>d \n \n \n \n\n\n\n\n\n\n\n\n\n\n\n\ /n /n nwa daw daw d er er er v5 rv4 e5m4m5 b 5r65 65 yu5 y5 5 6h 56 5 h</p>
+                //     <br />
+                //     <p>d \n \n \n \n\n\n\n\n\n\n\n\n\n\n\n\ /n /n nwa daw daw d er er er v5 rv4 e5m4m5 b 5r65 65 yu5 y5 5 6h 56 5 h</p>
+                //     <br />
+                //     <p>d \n \n \n \n\n\n\n\n\n\n\n\n\n\n\n\ /n /n nwa daw daw d er er er v5 rv4 e5m4m5 b 5r65 65 yu5 y5 5 6h 56 5 h</p>
+                //     <br />
+                //     <p>d \n \n \n \n\n\n\n\n\n\n\n\n\n\n\n\ /n /n nwa daw daw d er er er v5 rv4 e5m4m5 b 5r65 65 yu5 y5 5 6h 56 5 h</p>
+                //     <br />
+                //     <p>d \n \n \n \n\n\n\n\n\n\n\n\n\n\n\n\ /n /n nwa daw daw d er er er v5 rv4 e5m4m5 b 5r65 65 yu5 y5 5 6h 56 5 h</p>
+                // </div>
                 <NoContent error={"No Categories Found"} />
             )}
 
