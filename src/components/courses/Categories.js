@@ -66,9 +66,9 @@ export default function Categories() {
             ) : categories?.length ? (
                 <OrderList
                     pt={{
-                        root: classNames(" h-full bg-blue-300 mb-6 overflow-hidden"),
+                        root: classNames(" h-full border-1  overflow-hidden"),
                         controls: classNames("flex flex-row gap-2 p-0 "),
-                        container: classNames("mx-2  p-2 overflow-scroll"),
+                        container: classNames("mx-2 border-1 p-2 overflow-scroll"),
                         list: {
                             style: { maxHeight: "none", minHeight: "none" },
                             className: "border-0 p-0 bg-green-100 overflow-y-scroll h-full",
