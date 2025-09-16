@@ -1,5 +1,5 @@
-import Preview from "./ImageInput/Preview";
-import PlaceHolder from "./ImageInput/PlaceHolder";
+import Preview from "./FileInput/Preview";
+import PlaceHolder from "./FileInput/PlaceHolder";
 
 export default function FileInput({ className, label, type, cdn_url, setCDNUrl, disabled }) {
     return (
