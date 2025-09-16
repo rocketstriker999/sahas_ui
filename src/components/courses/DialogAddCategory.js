@@ -6,16 +6,18 @@ import { useAppContext } from "../../providers/ProviderAppContainer";
 import TabHeader from "../common/TabHeader";
 import { InputText } from "primereact/inputtext";
 import FileInput from "../common/FileInput";
+import { useOutletContext } from "react-router-dom";
 
-export default function DialogAddCategory({ visible, closeDialog, setCategories }) {
+export default function DialogAddCategory({ visible, closeDialog }) {
     const { requestAPI, showToast } = useAppContext();
+    const { setCategories } = useOutletContext();
 
     const [category, setCategory] = useState();
     const [loading, setLoading] = useState();
 
     const addProductCategory = useCallback(() => {
         requestAPI({
-            requestPath: `product-categories`,
+            requestPath: `course-categories`,
             requestMethod: "POST",
             requestPostBody: category,
             setLoading: setLoading,

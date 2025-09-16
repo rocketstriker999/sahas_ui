@@ -12,14 +12,14 @@ export default function Operations({ className }) {
                 title: "Student's Corner",
                 operations: [
                     {
-                        title: "Enroll",
-                        icon: "pi-video",
+                        title: "Courses",
+                        icon: "pi-sitemap",
                         required_authority: "USE_PAGE_COURSES",
-                        path: "/product-categories",
+                        path: "/course-categories",
                     },
                     {
                         title: "My Courses",
-                        icon: "pi-video",
+                        icon: "pi-pen-to-square",
                         required_authority: "USE_PAGE_COURSES",
                         path: "/my-courses",
                     },

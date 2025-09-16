@@ -16,7 +16,9 @@ import Roles from "../components/manage_users/user/Roles";
 import Wallet from "../components/manage_users/user/Wallet";
 import ManageRoles from "../pages/ManageRoles";
 import ManageAuthorities from "../pages/ManageAuthorities";
-import Categories from "../components/courses/Categories";
+import Categories from "../components/catelogue/Categories";
+import Enroll from "../pages/Catelogue";
+import Courses from "../components/catelogue/Courses";
 import Catelogue from "../pages/Catelogue";
 
 export default function App() {
@@ -74,7 +76,7 @@ export default function App() {
                             </Route>
                         </Route>
                         <Route
-                            path="/product-categories"
+                            path="/course-categories"
                             element={
                                 <HasRequiredAuthority showForBidden={true} requiredAuthority="USE_PAGE_COURSES">
                                     <Catelogue />
@@ -82,7 +84,7 @@ export default function App() {
                             }
                         >
                             <Route index element={<Categories />} />
-                            <Route path=":categoryId/products" element={<p>Product Detail</p>} />
+                            <Route path=":categoryId/courses" element={<Courses />} />
                         </Route>
 
                         <Route
