@@ -6,7 +6,7 @@ export default function Course({ title, description, price, image }) {
     //check if course is already subscribed
 
     return (
-        <div className="border-1 border-gray-300 border-round  flex flex-column gap-2 overflow-hidden pb-2 ">
+        <div className="border-1 border-gray-300 border-round  flex flex-column gap-2 overflow-hidden pb-2">
             <div className="relative">
                 <img className=" w-full" src={image} alt={title} />
                 <div className="absolute top-0 right-0 m-3 flex gap-2">

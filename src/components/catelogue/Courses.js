@@ -39,7 +39,6 @@ export default function Courses() {
             setLoading: setLoading,
             onRequestStart: setError,
             onRequestFailure: setError,
-
             onResponseReceieved: (courses, responseCode) => {
                 if (courses && responseCode === 200) {
                     setCourses(courses);
