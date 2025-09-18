@@ -75,9 +75,9 @@ export default function Enrollments() {
                                     content: { className: "p-0" },
                                 }}
                                 key={enrollment?.id}
-                                header={() => <EnrollmentHead {...enrollment} index={enrollments.length - index} />}
+                                header={() => <EnrollmentHead setEnrollments={setEnrollments} {...enrollment} index={enrollments.length - index} />}
                             >
-                                <Enrollment setEnrollments={setEnrollments} key={index} index={index} {...enrollment} />
+                                <Enrollment key={index} index={index} {...enrollment} />
                             </AccordionTab>
                         ))}
                     </Accordion>

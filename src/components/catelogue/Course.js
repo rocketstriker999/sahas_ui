@@ -20,7 +20,7 @@ export default function Course({ title, description, price, image }) {
                     <i className="pi text-xs pi-info-circle"></i> {title}
                 </span>
 
-                <Tag icon="pi pi-arrow-circle-right" className="text-sm" severity="info" value={`Enroll At ${price} ${RUPEE}`}></Tag>
+                <Tag icon="pi pi-arrow-circle-right" className="text-sm" severity="info" value={`Enroll Atttt ${price} ${RUPEE}`}></Tag>
             </div>
             <span className="text-xs px-2">{description}</span>
         </div>

@@ -9,6 +9,8 @@ import { InputNumber } from "primereact/inputnumber";
 import { getWriteableDate } from "../../../../utils";
 import { useOutletContext } from "react-router-dom";
 import { MultiSelect } from "primereact/multiselect";
+import { Checkbox } from "primereact/checkbox";
+import AccessController from "./AccessController";
 
 export default function DialogAddEnrollment({ visible, closeDialog, setEnrollments }) {
     const { requestAPI, showToast } = useAppContext();
@@ -95,6 +97,8 @@ export default function DialogAddEnrollment({ visible, closeDialog, setEnrollmen
                 <InputNumber value={enrollment?.fees} id="fees" className="w-full" onChange={(e) => setEnrollment((prev) => ({ ...prev, fees: e.value }))} />
                 <label htmlFor="fees">Total Fees</label>
             </FloatLabel>
+
+            <AccessController enrollment={enrollment} setEnrollment={setEnrollment} />
 
             <Button className="mt-3" label="Add Enrollment" severity="warning" loading={loading} onClick={addTransaction} />
         </Dialog>

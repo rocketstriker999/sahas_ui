@@ -3,7 +3,7 @@ import { useAppContext } from "../../providers/ProviderAppContainer";
 
 import TabHeader from "../common/TabHeader";
 import { Button } from "primereact/button";
-import DialogAddCategory from "../courses/DialogAddCategory";
+import DialogAddCategory from "./DialogAddCategory";
 import Category from "./Category";
 import { Divider } from "primereact/divider";
 import OrderManager from "../common/OrderManager";

@@ -7,8 +7,8 @@ import NoContent from "../common/NoContent";
 import { useCallback, useEffect, useState } from "react";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import OrderManager from "../common/OrderManager";
-import Category from "./Category";
 import Course from "./Course";
+import DialogAddCourse from "./DialogAddCourse";
 
 export default function Courses() {
     const { categories } = useOutletContext();
@@ -80,7 +80,7 @@ export default function Courses() {
                 highlights={[`Explore Below ${category?.courses_count} Courses`]}
                 actionItems={[
                     <Button
-                        onClick={() => setDialogAddCourse((prev) => ({ ...prev, visible: true, closeDialog: closeDialogAddCourse }))}
+                        onClick={() => setDialogAddCourse((prev) => ({ ...prev, visible: true, closeDialog: closeDialogAddCourse, categoryId }))}
                         icon="pi pi-plus"
                         severity="warning"
                     />,
@@ -122,6 +122,7 @@ export default function Courses() {
             ) : (
                 <NoContent error={"No Courses Found"} />
             )}
+            <DialogAddCourse {...dialogAddCourse} />
         </div>
     );
 }
