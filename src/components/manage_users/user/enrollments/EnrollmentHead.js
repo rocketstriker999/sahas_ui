@@ -38,10 +38,6 @@ export default function EnrollmentHead({ setEnrollments, index, created_on, crea
                     {index}. By {created_by_full_name}
                 </span>
             </div>
-            <div className="flex flex-column gap-2">
-                {on_site_access && <Tag severity={"info"} value={"On-Site"} />}
-                {digital_access && <Tag severity={"success"} value={"Digital"} />}
-            </div>
         </div>
     );
 }
