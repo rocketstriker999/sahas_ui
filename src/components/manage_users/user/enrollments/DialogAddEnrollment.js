@@ -10,7 +10,6 @@ import { getWriteableDate } from "../../../../utils";
 import { useOutletContext } from "react-router-dom";
 import { MultiSelect } from "primereact/multiselect";
 import { Checkbox } from "primereact/checkbox";
-import AccessController from "./AccessController";
 
 export default function DialogAddEnrollment({ visible, closeDialog, setEnrollments }) {
     const { requestAPI, showToast } = useAppContext();
@@ -98,7 +97,25 @@ export default function DialogAddEnrollment({ visible, closeDialog, setEnrollmen
                 <label htmlFor="fees">Total Fees</label>
             </FloatLabel>
 
-            <AccessController enrollment={enrollment} setEnrollment={setEnrollment} />
+            <div className="border-1 border-round border-gray-300 p-3 flex justify-content-between align-items-center mt-3">
+                <div className="flex align-items-center gap-2">
+                    <label htmlFor="on_site_access">On Site Access</label>
+                    <Checkbox
+                        inputId="on_site_access"
+                        onChange={({ checked }) => setEnrollment((prev) => ({ ...prev, on_site_access: checked }))}
+                        checked={enrollment?.on_site_access}
+                    />
+                </div>
+
+                <div className="flex align-items-center gap-2">
+                    <label htmlFor="digital_access">Digital Access</label>
+                    <Checkbox
+                        inputId="digital_access"
+                        onChange={({ checked }) => setEnrollment((prev) => ({ ...prev, digital_access: checked }))}
+                        checked={enrollment?.digital_access}
+                    />
+                </div>
+            </div>
 
             <Button className="mt-3" label="Add Enrollment" severity="warning" loading={loading} onClick={addTransaction} />
         </Dialog>
