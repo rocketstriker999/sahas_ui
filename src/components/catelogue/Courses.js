@@ -26,6 +26,7 @@ export default function Courses() {
 
     const [dialogAddCourse, setDialogAddCourse] = useState({
         visible: false,
+        categoryId,
     });
 
     const closeDialogAddCourse = useCallback(() => {
