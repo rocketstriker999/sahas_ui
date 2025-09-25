@@ -54,7 +54,7 @@ export default function Courses() {
         requestAPI({
             requestPath: `courses/view_indexes`,
             requestMethod: "PATCH",
-            requestPostBody: categories.map(({ id }, view_index) => ({ id, view_index })),
+            requestPostBody: courses.map(({ id }, view_index) => ({ id, view_index })),
             setUpdating: setUpdating,
             parseResponseBody: false,
             onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Update View Indexes !", life: 2000 }),
@@ -71,7 +71,7 @@ export default function Courses() {
                 }
             },
         });
-    }, [categories, requestAPI, showToast]);
+    }, [courses, requestAPI, showToast]);
 
     return (
         <div className="flex-1 overflow-hidden flex flex-column">
@@ -81,7 +81,7 @@ export default function Courses() {
                 highlights={[`Explore Below ${category?.courses_count} Courses`]}
                 actionItems={[
                     <Button
-                        onClick={() => setDialogAddCourse((prev) => ({ ...prev, visible: true, closeDialog: closeDialogAddCourse, categoryId }))}
+                        onClick={() => setDialogAddCourse((prev) => ({ ...prev, visible: true, setCourses, closeDialog: closeDialogAddCourse, categoryId }))}
                         icon="pi pi-plus"
                         severity="warning"
                     />,
@@ -118,7 +118,7 @@ export default function Courses() {
                     updatingViewIndex={updatingViewIndex}
                     items={courses}
                     setItems={setCourses}
-                    itemTemplate={(item) => <Course {...item} updatingViewIndex={updatingViewIndex} />}
+                    itemTemplate={(item) => <Course setCourses={setCourses} {...item} updatingViewIndex={updatingViewIndex} />}
                 />
             ) : (
                 <NoContent error={"No Courses Found"} />

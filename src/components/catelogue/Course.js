@@ -4,13 +4,22 @@ import { Button } from "primereact/button";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import { useCallback, useState } from "react";
 import ProgressiveControl from "../common/ProgressiveControl";
+import DialogEditCourse from "./DialogEditCourse";
 
-export default function Course({ id, title, description, price, image, setCourses }) {
+export default function Course({ id, title, description, fees, image, whatsapp_group, setCourses }) {
     //check if course is already subscribed
 
     const { requestAPI, showToast } = useAppContext();
 
     const [deleting, setDeleting] = useState();
+
+    const [dialogEditCourse, setDialogEditCourse] = useState({
+        visible: false,
+    });
+
+    const closeDialogEditCourse = useCallback(() => {
+        setDialogEditCourse((prev) => ({ ...prev, visible: false }));
+    }, []);
 
     const deleteCourse = useCallback(() => {
         requestAPI({
@@ -18,7 +27,7 @@ export default function Course({ id, title, description, price, image, setCourse
             requestMethod: "DELETE",
             setUpdating: setDeleting,
             parseResponseBody: false,
-            onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Delete Course !", life: 2000 }),
+
             onResponseReceieved: (_, responseCode) => {
                 if (responseCode === 204) {
                     showToast({
@@ -41,7 +50,26 @@ export default function Course({ id, title, description, price, image, setCourse
                 <img className=" w-full" src={image} alt={title} />
                 <div className="absolute top-0 right-0 m-3 flex gap-2">
                     <ProgressiveControl loading={deleting} control={<Button onClick={deleteCourse} icon="pi pi-trash" rounded outlined severity="danger" />} />
-                    <Button icon="pi pi-pencil" rounded outlined severity="warning" />
+                    <Button
+                        icon="pi pi-pencil"
+                        rounded
+                        outlined
+                        severity="warning"
+                        onClick={() =>
+                            setDialogEditCourse((prev) => ({
+                                ...prev,
+                                visible: true,
+                                setCourses,
+                                closeDialog: closeDialogEditCourse,
+                                id,
+                                title,
+                                description,
+                                fees,
+                                image,
+                                whatsapp_group,
+                            }))
+                        }
+                    />
                 </div>
             </div>
 
@@ -50,9 +78,12 @@ export default function Course({ id, title, description, price, image, setCourse
                     <i className="pi text-xs pi-info-circle"></i> {title}
                 </span>
 
-                <Tag icon="pi pi-arrow-circle-right" className="text-sm" severity="info" value={`Enroll Atttt ${price} ${RUPEE}`}></Tag>
+                <Tag icon="pi pi-arrow-circle-right" className="text-sm" severity="info" value={`Enroll At ${fees} ${RUPEE}`}></Tag>
             </div>
             <span className="text-xs px-2">{description}</span>
+
+            {console.log(fees)}
+            {dialogEditCourse?.visible && <DialogEditCourse {...dialogEditCourse} />}
         </div>
     );
 }

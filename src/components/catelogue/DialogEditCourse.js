@@ -1,43 +1,41 @@
-import { Button } from "primereact/button";
-import { Dialog } from "primereact/dialog";
-import { FloatLabel } from "primereact/floatlabel";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useAppContext } from "../../providers/ProviderAppContainer";
+import { Dialog } from "primereact/dialog";
 import TabHeader from "../common/TabHeader";
+import { FloatLabel } from "primereact/floatlabel";
 import { InputText } from "primereact/inputtext";
-import FileInput from "../common/FileInput";
+import { Button } from "primereact/button";
 import { InputTextarea } from "primereact/inputtextarea";
 import { InputNumber } from "primereact/inputnumber";
+import FileInput from "../common/FileInput";
 
-export default function DialogAddCourse({ visible, closeDialog, setCourses, categoryId }) {
+export default function DialogEditCourse({ visible, closeDialog, setCourses, ...props }) {
     const { requestAPI, showToast } = useAppContext();
 
-    const [course, setCourse] = useState({ category_id: categoryId });
+    const [course, setCourse] = useState(props);
     const [loading, setLoading] = useState();
 
-    const addCourse = useCallback(() => {
+    const editCourse = useCallback(() => {
         requestAPI({
             requestPath: `courses`,
-            requestMethod: "POST",
+            requestMethod: "PATCH",
             requestPostBody: course,
             setLoading: setLoading,
-            onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Course !", life: 2000 }),
-            onResponseReceieved: (course, responseCode) => {
-                if (course && responseCode === 201) {
-                    showToast({ severity: "success", summary: "Added", detail: "Course Added", life: 1000 });
-
-                    setCourses((prev) => [course, ...prev]);
+            onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Update Course !", life: 2000 }),
+            onResponseReceieved: (updatedCourse, responseCode) => {
+                if (updatedCourse && responseCode === 200) {
+                    showToast({ severity: "success", summary: "Updated", detail: "Course Updated", life: 1000 });
+                    setCourses((prev) => prev?.map((course) => (course?.id === props?.id ? updatedCourse : course)));
                     setCourse(); //reset form
                     closeDialog(); //close the dialog
-                } else showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Course !", life: 2000 });
+                } else showToast({ severity: "error", summary: "Failed", detail: "Failed To Update Course !", life: 2000 });
             },
         });
-    }, [course, closeDialog, requestAPI, setCourses, showToast]);
+    }, [requestAPI, course, showToast, setCourses, closeDialog, props?.id]);
 
     return (
-        <Dialog header={`Add New Course`} visible={visible} className="w-11" onHide={closeDialog}>
-            <TabHeader className="pt-3" title="Add New Course" highlights={["New Course Will Be Added", "Subjects Of Courses Can Be Managed"]} />
-
+        <Dialog header={`Edit Course`} visible={visible} className="w-11" onHide={closeDialog}>
+            <TabHeader className="pt-3" title={props?.title} />
             <FloatLabel className="mt-5">
                 <InputText
                     value={course?.title || ""}
@@ -87,7 +85,7 @@ export default function DialogAddCourse({ visible, closeDialog, setCourses, cate
                 <label htmlFor="title">Whatsapp Group</label>
             </FloatLabel>
 
-            <Button className="mt-3" label="Add Course" severity="warning" loading={loading} onClick={addCourse} />
+            <Button className="mt-3" label="Edit Course" severity="warning" loading={loading} onClick={editCourse} />
         </Dialog>
     );
 }
