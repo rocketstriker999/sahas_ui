@@ -24,6 +24,7 @@ export default function DialogAddEnrollment({ visible, closeDialog, setEnrollmen
             requestPath: `enrollments`,
             requestMethod: "POST",
             requestPostBody: {
+                on_site_access: false,
                 ...enrollment,
                 user_id: userId,
                 start_date: getWriteableDate({ date: enrollment?.start_date, removeTime: true }),

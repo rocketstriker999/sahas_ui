@@ -19,7 +19,7 @@ export default function EnrollmentHead({ index, created_on, created_by_full_name
                     severity={!!on_site_access ? "success" : "danger"}
                     value={!!on_site_access ? "On-Site Access" : "No On-Site Access"}
                 />
-                <Tag icon="pi pi-globe" severity={!!digital_access ? "success" : "danger"} value={!!digital_access ? "On-Site Access" : "No On-Site Access"} />
+                <Tag icon="pi pi-globe" severity={!!digital_access ? "success" : "danger"} value={!!digital_access ? "Digital Access" : "No Digital Access"} />
             </div>
         </div>
     );

@@ -17,9 +17,10 @@ import Wallet from "../components/manage_users/user/Wallet";
 import ManageRoles from "../pages/ManageRoles";
 import ManageAuthorities from "../pages/ManageAuthorities";
 import Categories from "../components/catelogue/Categories";
-import Enroll from "../pages/Catelogue";
 import Courses from "../components/catelogue/Courses";
 import Catelogue from "../pages/Catelogue";
+import Course from "../pages/Course";
+import Subjects from "../components/course/Subjects";
 
 export default function App() {
     return (
@@ -85,6 +86,10 @@ export default function App() {
                         >
                             <Route index element={<Categories />} />
                             <Route path=":categoryId/courses" element={<Courses />} />
+                        </Route>
+
+                        <Route path="/courses/:id" element={<Course />}>
+                            <Route path="subjects" element={<Subjects />} />
                         </Route>
 
                         <Route

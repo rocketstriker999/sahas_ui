@@ -5,9 +5,10 @@ import { useAppContext } from "../../providers/ProviderAppContainer";
 import { useCallback, useState } from "react";
 import ProgressiveControl from "../common/ProgressiveControl";
 import DialogEditCourse from "./DialogEditCourse";
+import { useNavigate } from "react-router-dom";
 
 export default function Course({ id, title, description, fees, image, whatsapp_group, setCourses }) {
-    //check if course is already subscribed
+    const navigate = useNavigate();
 
     const { requestAPI, showToast } = useAppContext();
 
@@ -45,7 +46,7 @@ export default function Course({ id, title, description, fees, image, whatsapp_g
     }, [id, requestAPI, setCourses, showToast]);
 
     return (
-        <div className="border-1 border-gray-300 border-round  flex flex-column gap-2 overflow-hidden pb-2">
+        <div className="border-1 border-gray-300 border-round  flex flex-column gap-2 overflow-hidden pb-2" onClick={() => navigate(`/courses/${id}/subjects`)}>
             <div className="relative">
                 <img className=" w-full" src={image} alt={title} />
                 <div className="absolute top-0 right-0 m-3 flex gap-2">
@@ -77,12 +78,9 @@ export default function Course({ id, title, description, fees, image, whatsapp_g
                 <span className="text-sm font-semibold text-indigo-800">
                     <i className="pi text-xs pi-info-circle"></i> {title}
                 </span>
-
-                <Tag icon="pi pi-arrow-circle-right" className="text-sm" severity="info" value={`Enroll At ${fees} ${RUPEE}`}></Tag>
             </div>
             <span className="text-xs px-2">{description}</span>
 
-            {console.log(fees)}
             {dialogEditCourse?.visible && <DialogEditCourse {...dialogEditCourse} />}
         </div>
     );
