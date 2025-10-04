@@ -24,7 +24,7 @@ export default function Course({ id, title, description, fees, image, whatsapp_g
         requestAPI({
             requestPath: `courses/${id}`,
             requestMethod: "DELETE",
-            setUpdating: setDeleting,
+            setLoading: setDeleting,
             parseResponseBody: false,
 
             onResponseReceieved: (_, responseCode) => {

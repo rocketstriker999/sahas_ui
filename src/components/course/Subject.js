@@ -1,11 +1,11 @@
-import { Button } from "primereact/button";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import { useCallback, useState } from "react";
 import ProgressiveControl from "../common/ProgressiveControl";
 import { useNavigate } from "react-router-dom";
 import DialogEditCourse from "../catelogue/DialogEditCourse";
+import { getReadableDate } from "../../utils";
 
-export default function Subject({ id, title, setSubjects, updatingViewIndex }) {
+export default function Subject({ id, title, subject_id, setSubjects, updatingViewIndex, updated_at }) {
     const navigate = useNavigate();
 
     const { requestAPI, showToast } = useAppContext();
@@ -22,11 +22,10 @@ export default function Subject({ id, title, setSubjects, updatingViewIndex }) {
 
     const deleteSubject = useCallback(() => {
         requestAPI({
-            requestPath: `subjects/${id}`,
+            requestPath: `course-subjects/${id}`,
             requestMethod: "DELETE",
-            setUpdating: setDeleting,
+            setLoading: setDeleting,
             parseResponseBody: false,
-
             onResponseReceieved: (_, responseCode) => {
                 if (responseCode === 204) {
                     showToast({
@@ -44,22 +43,24 @@ export default function Subject({ id, title, setSubjects, updatingViewIndex }) {
     }, [id, requestAPI, setSubjects, showToast]);
 
     return (
-        <div className="flex gap-2 align-items-center border-1 border-gray-300 border-round ">
+        <div className="flex gap-3 align-items-center border-1 border-gray-300 border-round py-2 px-3 overflow-hidden">
             <div
-                className="flex flex-column flex-1 gap-1"
+                className="flex flex-column flex-1 gap-2"
                 onClick={() => {
-                    if (!updatingViewIndex) navigate(``);
+                    if (!updatingViewIndex) navigate(`${id}/chapters`);
                 }}
             >
-                <span className="text-sm font-semibold">{title}</span>
+                <span className="text-sm font-semibold">
+                    {subject_id}. {title}
+                </span>
                 <div className="flex align-items-center gap-1 text-orange-800">
                     <i className="pi pi-book text-sm"></i>
-                    <span className="m-0 p-0 text-xs">{`${courses_count} Courses`}</span>
+                    <span className="m-0 p-0 text-xs">{`Last Updated At ${getReadableDate({ date: updated_at })}`}</span>
                 </div>
             </div>
-            {!!updatingViewIndex && <i className="pi pi-equals mr-3"></i>}
-            {!updatingViewIndex && <i className="pi pi-trash mr-3" onClick={deleteSubject}></i>}
-            {!updatingViewIndex && <i className="pi pi-arrow-circle-right mr-3"></i>}
+            {!!updatingViewIndex && <i className="pi pi-equals "></i>}
+            {!updatingViewIndex && <ProgressiveControl loading={deleting} control={<i className="pi pi-trash" onClick={deleteSubject}></i>} />}
+            {!updatingViewIndex && <i className="pi pi-arrow-circle-right "></i>}
             {dialogEditCourse?.visible && <DialogEditCourse {...dialogEditCourse} />}
         </div>
     );

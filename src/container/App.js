@@ -21,6 +21,7 @@ import Courses from "../components/catelogue/Courses";
 import Catelogue from "../pages/Catelogue";
 import Course from "../pages/Course";
 import Subjects from "../components/course/Subjects";
+import { Chapters } from "../components/course/Chapters";
 
 export default function App() {
     return (
@@ -88,8 +89,9 @@ export default function App() {
                             <Route path=":categoryId/courses" element={<Courses />} />
                         </Route>
 
-                        <Route path="/courses/:id" element={<Course />}>
+                        <Route path="/courses/:courseId" element={<Course />}>
                             <Route path="subjects" element={<Subjects />} />
+                            <Route path="subjects/:subjectId/chapters" element={<Chapters />} />
                         </Route>
 
                         <Route

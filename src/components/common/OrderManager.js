@@ -1,7 +1,11 @@
 import { OrderList } from "primereact/orderlist";
 import { classNames } from "primereact/utils";
+import NoContent from "./NoContent";
 
-export default function OrderManager({ items, setItems, itemTemplate, updatingViewIndex }) {
+export default function OrderManager({ items, emptyItemsError, setItems, itemTemplate, updatingViewIndex }) {
+    if (!items?.length) {
+        return <NoContent error={emptyItemsError} />;
+    }
     return (
         <OrderList
             pt={{

@@ -14,10 +14,6 @@ import Subject from "./Subject";
 export default function Subjects() {
     const { id, image, enrollment, ...props } = useOutletContext();
 
-    const items = [{ label: "Components" }, { label: "Form" }];
-
-    const home = { icon: "pi pi-home", url: "https://primereact.org" };
-
     const [subjects, setSubjects] = useState(props?.subjects);
 
     const [updating, setUpdating] = useState();
@@ -39,10 +35,10 @@ export default function Subjects() {
 
     const updateViewIndexs = useCallback(() => {
         requestAPI({
-            requestPath: `subjects/view_indexes`,
+            requestPath: `course-subjects/view_indexes`,
             requestMethod: "PATCH",
             requestPostBody: subjects.map(({ id }, view_index) => ({ id, view_index })),
-            setUpdating: setUpdating,
+            setLoading: setUpdating,
             parseResponseBody: false,
             onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Update View Indexes !", life: 2000 }),
             onResponseReceieved: (_, responseCode) => {
@@ -63,7 +59,7 @@ export default function Subjects() {
     return (
         <div>
             <TabHeader
-                className={"px-3 pt-2"}
+                className={"px-3"}
                 title="Subjects"
                 highlights={[`Total ${subjects?.length} Subjects`]}
                 actionItems={[
@@ -94,16 +90,13 @@ export default function Subjects() {
             />
             <Divider />
 
-            {subjects?.length ? (
-                <OrderManager
-                    updatingViewIndex={updatingViewIndex}
-                    items={subjects}
-                    setItems={setSubjects}
-                    itemTemplate={(item) => <Subject setSubjects={setSubjects} {...item} updatingViewIndex={updatingViewIndex} />}
-                />
-            ) : (
-                <NoContent error={"No Subjects Found"} />
-            )}
+            <OrderManager
+                updatingViewIndex={updatingViewIndex}
+                items={subjects}
+                setItems={setSubjects}
+                emptyItemsError="No Subjects Found"
+                itemTemplate={(item, index) => <Subject setSubjects={setSubjects} {...item} updatingViewIndex={updatingViewIndex} />}
+            />
         </div>
     );
 }

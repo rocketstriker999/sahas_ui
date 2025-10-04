@@ -31,7 +31,7 @@ export default function Categories() {
             requestPath: `course-categories/view_indexes`,
             requestMethod: "PATCH",
             requestPostBody: categories.map(({ id }, view_index) => ({ id, view_index })),
-            setUpdating: setUpdating,
+            setLoading: setUpdating,
             parseResponseBody: false,
             onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Update View Indexes !", life: 2000 }),
             onResponseReceieved: (_, responseCode) => {
@@ -86,16 +86,13 @@ export default function Categories() {
 
             <Divider />
 
-            {categories?.length ? (
-                <OrderManager
-                    updatingViewIndex={updatingViewIndex}
-                    items={categories}
-                    setItems={setCategories}
-                    itemTemplate={(item) => <Category {...item} updatingViewIndex={updatingViewIndex} />}
-                />
-            ) : (
-                <NoContent error="No Course Categories Found" />
-            )}
+            <OrderManager
+                updatingViewIndex={updatingViewIndex}
+                items={categories}
+                setItems={setCategories}
+                emptyItemsError="No Course Categories Found"
+                itemTemplate={(item) => <Category {...item} updatingViewIndex={updatingViewIndex} />}
+            />
 
             <DialogAddCategory {...dialogAddCategory} />
         </div>

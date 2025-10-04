@@ -16,12 +16,12 @@ export default function Subjects() {
     const [error, setError] = useState();
     const { requestAPI } = useAppContext();
 
-    const { id } = useParams();
+    const { courseId } = useParams();
 
     useEffect(() => {
-        if (id)
+        if (courseId)
             requestAPI({
-                requestPath: `courses/${id}`,
+                requestPath: `courses/${courseId}`,
                 requestMethod: "GET",
                 setLoading: setLoading,
                 onRequestStart: setError,
@@ -34,7 +34,7 @@ export default function Subjects() {
                     }
                 },
             });
-    }, [id, requestAPI]);
+    }, [courseId, requestAPI]);
 
     return (
         <div className="flex flex-column h-full ">

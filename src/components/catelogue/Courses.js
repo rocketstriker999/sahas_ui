@@ -55,7 +55,7 @@ export default function Courses() {
             requestPath: `courses/view_indexes`,
             requestMethod: "PATCH",
             requestPostBody: courses.map(({ id }, view_index) => ({ id, view_index })),
-            setUpdating: setUpdating,
+            setLoading: setUpdating,
             parseResponseBody: false,
             onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Update View Indexes !", life: 2000 }),
             onResponseReceieved: (_, responseCode) => {
@@ -113,15 +113,14 @@ export default function Courses() {
                 <Loading />
             ) : error ? (
                 <NoContent error={error} />
-            ) : courses?.length ? (
+            ) : (
                 <OrderManager
                     updatingViewIndex={updatingViewIndex}
                     items={courses}
                     setItems={setCourses}
+                    emptyItemsError="No Courses Found"
                     itemTemplate={(item) => <Course setCourses={setCourses} {...item} updatingViewIndex={updatingViewIndex} />}
                 />
-            ) : (
-                <NoContent error={"No Courses Found"} />
             )}
             <DialogAddCourse {...dialogAddCourse} />
         </div>
