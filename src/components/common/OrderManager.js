@@ -18,7 +18,6 @@ export default function OrderManager({ items, setItems, itemTemplate, updatingVi
             value={items}
             onChange={(e) => {
                 if (!!updatingViewIndex) setItems(e.value);
-                console.log(e.value);
             }}
             itemTemplate={itemTemplate}
             dragdrop={true}

@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 import { useAppContext } from "../providers/ProviderAppContainer";
 import Loading from "../components/common/Loading";
 import NoContent from "../components/common/NoContent";
-import { Tag } from "primereact/tag";
 import { Button } from "primereact/button";
 import { getReadableDate } from "../utils";
-import { classNames } from "primereact/utils";
 import { RUPEE } from "../constants";
+import { Divider } from "primereact/divider";
+import TabHeader from "../components/common/TabHeader";
 
 export default function Subjects() {
     const [course, setCourse] = useState();
@@ -18,14 +18,6 @@ export default function Subjects() {
 
     const { id } = useParams();
 
-    //fetch course detail - if it subscribe or not
-    //validity
-    //give a button redirect to invoices if subscribed a course
-    //fetch subjects
-    //need to show subjects count
-    //show course->subjects->chapters->videos,pdfs,audios
-    //Buy Button
-
     useEffect(() => {
         if (id)
             requestAPI({
@@ -34,7 +26,6 @@ export default function Subjects() {
                 setLoading: setLoading,
                 onRequestStart: setError,
                 onRequestFailure: setError,
-
                 onResponseReceieved: (course, responseCode) => {
                     if (course && responseCode === 200) {
                         setCourse(course);
@@ -50,51 +41,41 @@ export default function Subjects() {
             <PageTitle title={`Course - ${course?.title}`} action={course?.enrollment && <span className="pi pi-info-circle"></span>} />
             <img className="w-full" src={course?.image} alt={course?.image} />
 
-            {!course?.enrollment ? (
-                <div className="border-1 border-gray-300 border-round p-3 m-2 flex flex-column gap-3">
-                    <span className="text-color-secondary font-semibold text-sm">Enrollment Details</span>
+            <div className="px-3 pt-3">
+                {course?.enrollment ? (
+                    <TabHeader
+                        title="Enrollment Details"
+                        highlights={[
+                            `Validity - ${getReadableDate({ date: course?.enrollment?.start_date, removeTime: true })} to ${getReadableDate({
+                                date: course?.enrollment?.end_date,
+                                removeTime: true,
+                            })}`,
+                            !!course?.enrollment?.on_site_access ? "On-Site Access" : "No On-Site Access",
+                            !!course?.enrollment?.digital_access ? "Digital Access" : "No Digital Access",
+                        ]}
+                        actionItems={[
+                            <Button
+                                onClick={() => window.open(course?.whatsapp_group)}
+                                icon="pi pi-whatsapp"
+                                rounded
+                                severity="success"
+                                aria-label="Join Whatsapp Group"
+                            />,
+                            <Button icon="pi pi-receipt" rounded severity="info" aria-label="Join Whatsapp Group" />,
+                        ]}
+                    />
+                ) : (
+                    <Button
+                        icon="pi pi-angle-double-right"
+                        iconPos="right"
+                        className=" w-full"
+                        severity="warning"
+                        label={`Enroll For Digital Access ${course?.fees} ${RUPEE}`}
+                    />
+                )}
+            </div>
 
-                    <div className=" flex gap-2 align-items-center justify-content-between">
-                        <div className="flex flex-column gap-2">
-                            <Tag
-                                pt={{ root: classNames("border-1 border-primary text-primary bg-transparent") }}
-                                icon="pi pi-calendar"
-                                value={`${getReadableDate({ date: course?.enrollment?.start_date, removeTime: true })} - ${getReadableDate({
-                                    date: course?.enrollment?.end_date,
-                                    removeTime: true,
-                                })}`}
-                            />
-                            <Tag
-                                pt={{ root: classNames("border-1 border-primary text-primary bg-transparent") }}
-                                icon="pi pi-indian-rupee"
-                                value={"Invoices"}
-                            />
-                        </div>
-
-                        <div className="flex flex-column gap-2">
-                            <Tag
-                                icon="pi pi-building-columns"
-                                severity={!!course?.enrollment?.on_site_access ? "success" : "danger"}
-                                value={!!course?.enrollment?.on_site_access ? "On-Site Access" : "No On-Site Access"}
-                            />
-                            <Tag
-                                icon="pi pi-globe"
-                                severity={!!course?.enrollment?.digital_access ? "success" : "danger"}
-                                value={!!course?.enrollment?.digital_access ? "Digital Access" : "No Digital Access"}
-                            />
-                        </div>
-                        <Button icon="pi pi-whatsapp" rounded severity="success" aria-label="Join Whatsapp Group" />
-                    </div>
-                </div>
-            ) : (
-                <Button
-                    icon="pi pi-angle-double-right"
-                    iconPos="right"
-                    className="m-2"
-                    severity="warning"
-                    label={`Enroll For Digital Access ${course?.fees} ${RUPEE}`}
-                />
-            )}
+            <Divider />
 
             {loading ? (
                 <Loading message="Loading Course" />

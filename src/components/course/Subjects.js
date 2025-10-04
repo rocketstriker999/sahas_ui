@@ -7,24 +7,25 @@ import { Divider } from "primereact/divider";
 import { Button } from "primereact/button";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import { useCallback, useState } from "react";
+import OrderManager from "../common/OrderManager";
+import NoContent from "../common/NoContent";
+import Subject from "./Subject";
 
 export default function Subjects() {
-    const { id, image, enrollment, subjects } = useOutletContext();
+    const { id, image, enrollment, ...props } = useOutletContext();
 
     const items = [{ label: "Components" }, { label: "Form" }];
 
     const home = { icon: "pi pi-home", url: "https://primereact.org" };
 
+    const [subjects, setSubjects] = useState(props?.subjects);
+
     const [updating, setUpdating] = useState();
     const [updatingViewIndex, setUpdatingViewIndex] = useState();
 
-    //fetch course detail - if it subscribe or not
-    //validity
     //give a button redirect to invoices if subscribed a course
-    //fetch subjects
-    //need to show subjects count
+
     //show course->subjects->chapters->videos,pdfs,audios
-    //Buy Button
 
     const { requestAPI, showToast } = useAppContext();
 
@@ -92,6 +93,17 @@ export default function Subjects() {
                 ]}
             />
             <Divider />
+
+            {subjects?.length ? (
+                <OrderManager
+                    updatingViewIndex={updatingViewIndex}
+                    items={subjects}
+                    setItems={setSubjects}
+                    itemTemplate={(item) => <Subject setSubjects={setSubjects} {...item} updatingViewIndex={updatingViewIndex} />}
+                />
+            ) : (
+                <NoContent error={"No Subjects Found"} />
+            )}
         </div>
     );
 }
