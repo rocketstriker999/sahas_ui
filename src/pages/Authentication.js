@@ -5,6 +5,7 @@ import { useState } from "react";
 import CardInputEmail from "../components/authentication/CardInputEmail";
 import DialogInputOTP from "../components/authentication/DialogInputOTP";
 import { useAppContext } from "../providers/ProviderAppContainer";
+import { TEXT_SIZE_SMALL } from "../style";
 
 export default function Authentication() {
     const { requestAPI, showToast } = useAppContext();
@@ -38,12 +39,12 @@ export default function Authentication() {
     };
 
     return (
-        <div className="h-screen bg-blue-500 text-white">
+        <div className=" flex flex-column min-h-screen bg-blue-500 text-white">
             <CardInputEmail email={email} setEmail={setEmail} requestOTP={requestOTP} />
             {authenticationToken && (
                 <DialogInputOTP authenticationToken={authenticationToken} setAuthenticationToken={setAuthenticationToken} requestOTP={requestOTP} />
             )}
-            <p className="text-sm absolute bottom-0 w-full text-center ">{`Copyright © 2019-2025 ${APP_NAME}`} </p>
+            <p className={`${TEXT_SIZE_SMALL} pt-4 mb-2 w-full text-center w-full`}>{`Copyright © 2019-2025 ${APP_NAME}`} </p>
         </div>
     );
 }

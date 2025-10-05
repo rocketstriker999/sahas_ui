@@ -1,6 +1,7 @@
 import { Button } from "primereact/button";
 import { useInterval } from "primereact/hooks";
 import { useState } from "react";
+import { TEXT_SIZE_NORMAL } from "../../style";
 
 export default function ButtonResendOTP({ resendInterval = 60, requestOTP, setError }) {
     const [waitSeconds, setWaitSeconds] = useState(resendInterval);
@@ -19,6 +20,10 @@ export default function ButtonResendOTP({ resendInterval = 60, requestOTP, setEr
             label={waitSeconds ? `Resend OTP in ${waitSeconds} Seconds` : "Resend OTP"}
             disabled={loading || waitSeconds > 0}
             loading={loading}
+            pt={{
+                label: { className: TEXT_SIZE_NORMAL },
+                icon: { className: TEXT_SIZE_NORMAL }
+            }}
         />
     );
 }

@@ -9,6 +9,7 @@ import Error from "../common/Error";
 import { KEY_AUTHENTICATION_TOKEN } from "../../constants";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "../../redux/sliceUser";
+import { TEXT_SIZE_NORMAL } from "../../style";
 
 export default function DialogInputOTP({ authenticationToken, setAuthenticationToken, requestOTP }) {
     const { requestAPI } = useAppContext();
@@ -48,7 +49,7 @@ export default function DialogInputOTP({ authenticationToken, setAuthenticationT
             <div className="flex flex-column justify-content-center align-items-center">
                 <div className="flex gap-2 text-gray-800 align-items-center justify-content-center">
                     <i className="pi pi-exclamation-circle"></i>
-                    <p className="text-sm">Enter The OTP That We have Sent You !</p>
+                    <p className={`${TEXT_SIZE_NORMAL}`}>Enter The OTP That We have Sent You !</p>
                 </div>
 
                 <InputOtp length={4} disabled={loading} invalid={error} value={otp} integerOnly mask onChange={(e) => setOTP(e.value)} />

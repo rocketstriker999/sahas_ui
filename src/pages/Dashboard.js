@@ -7,6 +7,8 @@ import ProfileCard from "../components/dashboard/ProfileCard";
 import { removeCurrentUser } from "../redux/sliceUser";
 import { KEY_AUTHENTICATION_TOKEN } from "../constants";
 import CarouselImages from "../components/dashboard/CarouselImages";
+import { classNames } from "primereact/utils";
+import { TEXT_SIZE_SMALL, TITLE_TEXT } from "../style";
 
 export default function Dashboard() {
     const { isDevelopmentBuild, deviceFingerPrint } = useAppContext();
@@ -21,9 +23,9 @@ export default function Dashboard() {
         <div className="flex flex-column h-full overflow-hidden">
             <div className="bg-blue-800 shadow-3 text-white flex align-items-center justify-content-between p-2">
                 <div className="w-8">
-                    <p className="m-0 font-semibold">Sahas Smart Studies</p>
+                    <p className={`${TITLE_TEXT} m-0 font-semibold`}>Sahas Smart Studies</p>
                     {isDevelopmentBuild && (
-                        <div className="mt-1 text-xs bg-blue-800 text-white white-space-nowrap text-overflow-ellipsis overflow-hidden">
+                        <div className={`${TEXT_SIZE_SMALL} mt-1 bg-blue-800 text-white white-space-nowrap text-overflow-ellipsis overflow-hidden`}>
                             Device ID - {deviceFingerPrint}
                         </div>
                     )}

@@ -5,6 +5,7 @@ import DialogAddCarouselItem from "./DialogAddCarouselItems";
 import Image from "./Carousel/Image";
 import { Carousel } from "primereact/carousel";
 import { classNames } from "primereact/utils";
+import { TEXT_SIZE_NORMAL, TEXT_SIZE_SMALL } from "../../style";
 
 export default function CarouselImages({ className, images }) {
     const [dialogAddCarouselItem, setDialogAddCarouselItem] = useState({
@@ -36,6 +37,9 @@ export default function CarouselImages({ className, images }) {
                 severity="warning"
                 aria-label="Favorite"
                 onClick={() => setDialogAddCarouselItem((prev) => ({ ...prev, visible: true, closeDialog: closeDialogAddCarouselItem }))}
+                pt={{
+                    icon: { className: TEXT_SIZE_NORMAL },
+                }}
             />
 
             <DialogAddCarouselItem {...dialogAddCarouselItem} />
