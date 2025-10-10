@@ -1,15 +1,13 @@
 import { useOutletContext } from "react-router-dom";
-import { BreadCrumb } from "primereact/breadcrumb";
-import { classNames } from "primereact/utils";
-import { Tag } from "primereact/tag";
+
 import TabHeader from "../common/TabHeader";
 import { Divider } from "primereact/divider";
 import { Button } from "primereact/button";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import { useCallback, useState } from "react";
 import OrderManager from "../common/OrderManager";
-import NoContent from "../common/NoContent";
 import Subject from "./Subject";
+import DialogAddSubject from "./DialogAddSubject";
 
 export default function Subjects() {
     const { id, image, enrollment, ...props } = useOutletContext();
@@ -26,6 +24,7 @@ export default function Subjects() {
     const { requestAPI, showToast } = useAppContext();
 
     const [dialogAddSubject, setDialogAddSubject] = useState({
+        courseId: id,
         visible: false,
     });
 
@@ -64,7 +63,7 @@ export default function Subjects() {
                 highlights={[`Total ${subjects?.length} Subjects`]}
                 actionItems={[
                     <Button
-                        onClick={() => setDialogAddSubject((prev) => ({ ...prev, visible: true, closeDialog: closeDialogAddSubject }))}
+                        onClick={() => setDialogAddSubject((prev) => ({ ...prev, visible: true, setSubjects, closeDialog: closeDialogAddSubject }))}
                         icon="pi pi-plus"
                         severity="warning"
                     />,
@@ -95,8 +94,10 @@ export default function Subjects() {
                 items={subjects}
                 setItems={setSubjects}
                 emptyItemsError="No Subjects Found"
-                itemTemplate={(item, index) => <Subject setSubjects={setSubjects} {...item} updatingViewIndex={updatingViewIndex} />}
+                itemTemplate={(item) => <Subject setSubjects={setSubjects} {...item} updatingViewIndex={updatingViewIndex} />}
             />
+
+            <DialogAddSubject {...dialogAddSubject} />
         </div>
     );
 }
