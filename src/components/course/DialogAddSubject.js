@@ -23,9 +23,8 @@ export default function DialogAddSubject({ visible, closeDialog, setSubjects, co
             onResponseReceieved: (subject, responseCode) => {
                 if (subject && responseCode === 201) {
                     showToast({ severity: "success", summary: "Added", detail: "Subject Added", life: 1000 });
-
                     setSubjects((prev) => [subject, ...prev]);
-                    setSubject(); //reset form
+                    setSubject(({ course_id }) => ({ course_id })); //reset form
                     closeDialog(); //close the dialog
                 } else showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Subject !", life: 2000 });
             },
