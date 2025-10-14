@@ -8,6 +8,7 @@ import { useCallback, useState } from "react";
 import OrderManager from "../common/OrderManager";
 import Subject from "./Subject";
 import DialogAddSubject from "./DialogAddSubject";
+import DialogAssignSubjects from "./DialogAssignSubjects";
 
 export default function Subjects() {
     const { id, image, enrollment, ...props } = useOutletContext();
@@ -17,10 +18,6 @@ export default function Subjects() {
     const [updating, setUpdating] = useState();
     const [updatingViewIndex, setUpdatingViewIndex] = useState();
 
-    //give a button redirect to invoices if subscribed a course
-
-    //show course->subjects->chapters->videos,pdfs,audios
-
     const { requestAPI, showToast } = useAppContext();
 
     const [dialogAddSubject, setDialogAddSubject] = useState({
@@ -28,8 +25,17 @@ export default function Subjects() {
         visible: false,
     });
 
+    const [dialogAssignSubjects, setDialogAssignSubjects] = useState({
+        courseId: id,
+        visible: false,
+    });
+
     const closeDialogAddSubject = useCallback(() => {
         setDialogAddSubject((prev) => ({ ...prev, visible: false }));
+    }, []);
+
+    const closeDialogAssignSubjects = useCallback(() => {
+        setDialogAssignSubjects((prev) => ({ ...prev, visible: false }));
     }, []);
 
     const updateViewIndexs = useCallback(() => {
@@ -56,7 +62,7 @@ export default function Subjects() {
     }, [subjects, requestAPI, showToast]);
 
     return (
-        <div>
+        <div className="flex-1 overflow-hidden flex flex-column">
             <TabHeader
                 className={"px-3"}
                 title="Subjects"
@@ -68,7 +74,15 @@ export default function Subjects() {
                         severity="warning"
                     />,
                     <Button
-                        onClick={() => setDialogAddSubject((prev) => ({ ...prev, visible: true, setSubjects, closeDialog: closeDialogAddSubject }))}
+                        onClick={() =>
+                            setDialogAssignSubjects((prev) => ({
+                                ...prev,
+                                visible: true,
+                                courseSubjects: subjects,
+                                setCourseSubjects: setSubjects,
+                                closeDialog: closeDialogAssignSubjects,
+                            }))
+                        }
                         icon="pi pi-list-check"
                         severity="info"
                     />,
@@ -103,6 +117,8 @@ export default function Subjects() {
             />
 
             <DialogAddSubject {...dialogAddSubject} />
+
+            {dialogAssignSubjects?.visible && <DialogAssignSubjects {...dialogAssignSubjects} />}
         </div>
     );
 }
