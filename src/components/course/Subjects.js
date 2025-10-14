@@ -68,6 +68,11 @@ export default function Subjects() {
                         severity="warning"
                     />,
                     <Button
+                        onClick={() => setDialogAddSubject((prev) => ({ ...prev, visible: true, setSubjects, closeDialog: closeDialogAddSubject }))}
+                        icon="pi pi-list-check"
+                        severity="info"
+                    />,
+                    <Button
                         loading={updating}
                         disabled={!subjects?.length}
                         onClick={() => {
@@ -83,7 +88,7 @@ export default function Subjects() {
                             }
                             setUpdatingViewIndex((prev) => !prev);
                         }}
-                        icon="pi pi-list"
+                        icon="pi pi-arrows-v"
                     />,
                 ]}
             />

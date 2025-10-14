@@ -79,7 +79,7 @@ export default function Categories() {
 
                             setUpdatingViewIndex((prev) => !prev);
                         }}
-                        icon="pi pi-list"
+                        icon="pi pi-arrows-v"
                     />,
                 ]}
             />

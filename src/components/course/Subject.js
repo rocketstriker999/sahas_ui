@@ -65,7 +65,17 @@ export default function Subject({ id, title, subject_id, setSubjects, background
             {!updatingViewIndex && (
                 <i
                     className={`pi pi-pencil ${background_color && "text-white"}`}
-                    onClick={() => setDialogEditSubject((prev) => ({ ...prev, visible: true, closeDialog: closeDialogEditSubject }))}
+                    onClick={() =>
+                        setDialogEditSubject((prev) => ({
+                            ...prev,
+                            visible: true,
+                            setSubjects,
+                            id: subject_id,
+                            title,
+                            background_color,
+                            closeDialog: closeDialogEditSubject,
+                        }))
+                    }
                 ></i>
             )}
             {!updatingViewIndex && (

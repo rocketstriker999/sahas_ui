@@ -103,7 +103,7 @@ export default function Courses() {
 
                             setUpdatingViewIndex((prev) => !prev);
                         }}
-                        icon="pi pi-list"
+                        icon="pi pi-arrows-v"
                     />,
                 ]}
             />

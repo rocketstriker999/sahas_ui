@@ -15,7 +15,7 @@ export default function DialogAddSubject({ visible, closeDialog, setSubjects, co
 
     const addSubject = useCallback(() => {
         requestAPI({
-            requestPath: `course-subjects`,
+            requestPath: `subjects`,
             requestMethod: "POST",
             requestPostBody: subject,
             setLoading: setLoading,

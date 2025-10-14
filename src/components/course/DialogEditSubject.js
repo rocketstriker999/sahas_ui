@@ -14,17 +14,17 @@ export default function DialogEditSubject({ visible, closeDialog, setSubjects, .
     const [subject, setSubject] = useState(props);
     const [loading, setLoading] = useState();
 
-    const addSubject = useCallback(() => {
+    const editSubject = useCallback(() => {
         requestAPI({
-            requestPath: `course-subjects`,
+            requestPath: `subjects`,
             requestMethod: "PATCH",
             requestPostBody: subject,
             setLoading: setLoading,
             onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Update Subject !", life: 2000 }),
             onResponseReceieved: (updatedSubject, responseCode) => {
                 if (updatedSubject && responseCode === 200) {
-                    showToast({ severity: "success", summary: "Updated", detail: "Course Updated", life: 1000 });
-                    setSubjects((prev) => prev?.map((course) => (course?.id === props?.id ? updatedSubject : course)));
+                    showToast({ severity: "success", summary: "Updated", detail: "Subject Updated", life: 1000 });
+                    setSubjects((prev) => prev?.map((subject) => (subject?.subject_id === props?.id ? { ...subject, ...updatedSubject } : subject)));
                     setSubject(({ course_id }) => ({ course_id })); //reset form
                     closeDialog(); //close the dialog
                 } else showToast({ severity: "error", summary: "Failed", detail: "Failed To Update Subject !", life: 2000 });
@@ -33,12 +33,8 @@ export default function DialogEditSubject({ visible, closeDialog, setSubjects, .
     }, [requestAPI, subject, showToast, setSubjects, closeDialog, props?.id]);
 
     return (
-        <Dialog header={`Add New Subject`} visible={visible} className="w-11" onHide={closeDialog}>
-            <TabHeader
-                className="pt-3"
-                title="Add New Subject"
-                highlights={["New Subject Will Be Added", "For Special Subject Background Color Is Required"]}
-            />
+        <Dialog header={`Edit Subject`} visible={visible} className="w-11" onHide={closeDialog}>
+            <TabHeader className="pt-3" title="Edit Subject" />
 
             <FloatLabel className="mt-5">
                 <InputText
@@ -57,7 +53,7 @@ export default function DialogEditSubject({ visible, closeDialog, setSubjects, .
                 setColor={(color) => setSubject((prev) => ({ ...prev, background_color: color }))}
             />
 
-            <Button className="mt-3" label="Add Subject" severity="warning" loading={loading} onClick={addSubject} />
+            <Button className="mt-3" label="Edit Subject" severity="warning" loading={loading} onClick={editSubject} />
         </Dialog>
     );
 }
