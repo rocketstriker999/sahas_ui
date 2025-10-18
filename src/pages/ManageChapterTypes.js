@@ -1,35 +1,43 @@
-import { useCallback, useState } from "react";
-import { useAppContext } from "../../providers/ProviderAppContainer";
-
-import TabHeader from "../common/TabHeader";
 import { Button } from "primereact/button";
-import DialogAddCategory from "./DialogAddCategory";
-import Category from "./Category";
+import PageTitle from "../components/common/PageTitle";
+import TabHeader from "../components/common/TabHeader";
+import { useDispatch, useSelector } from "react-redux";
 import { Divider } from "primereact/divider";
-import OrderManager from "../common/OrderManager";
-import { useOutletContext } from "react-router-dom";
+import ChapterType from "../components/manage_chapterization/ChapterType";
+import OrderManager from "../components/common/OrderManager";
+import { useCallback, useState } from "react";
+import { useAppContext } from "../providers/ProviderAppContainer";
+import { updateChapterTypes } from "../redux/sliceTemplateConfig";
+import DialogAddChapterType from "../components/manage_chapterization/DialogAddChapterType";
 
-export default function Categories() {
-    const [updating, setUpdating] = useState();
+export default function ManageChapterTypes() {
+    const { chapter_types = [] } = useSelector((state) => state.stateTemplateConfig?.global);
     const [updatingViewIndex, setUpdatingViewIndex] = useState();
+    const [updating, setUpdating] = useState();
 
+    const dispatch = useDispatch();
     const { requestAPI, showToast } = useAppContext();
 
-    const { categories, setCategories } = useOutletContext();
+    const setChapterTypes = useCallback(
+        (callBack) => {
+            dispatch(updateChapterTypes(callBack(chapter_types)));
+        },
+        [chapter_types, dispatch]
+    );
 
-    const [dialogAddCategory, setDialogAddCategory] = useState({
+    const [dialogAddChapterType, setDialogAddChapterType] = useState({
         visible: false,
     });
 
-    const closeDialogAddCategory = useCallback(() => {
-        setDialogAddCategory((prev) => ({ ...prev, visible: false }));
+    const closeDialogAddChapterType = useCallback(() => {
+        setDialogAddChapterType((prev) => ({ ...prev, visible: false }));
     }, []);
 
     const updateViewIndexs = useCallback(() => {
         requestAPI({
-            requestPath: `course-categories/view_indexes`,
+            requestPath: `chapter-types/view_indexes`,
             requestMethod: "PATCH",
-            requestPostBody: categories.map(({ id }, view_index) => ({ id, view_index })),
+            requestPostBody: chapter_types.map(({ id }, view_index) => ({ id, view_index })),
             setLoading: setUpdating,
             parseResponseBody: false,
             onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Update View Indexes !", life: 2000 }),
@@ -46,23 +54,24 @@ export default function Categories() {
                 }
             },
         });
-    }, [categories, requestAPI, showToast]);
+    }, [chapter_types, requestAPI, showToast]);
 
     return (
-        <div className="flex-1 overflow-hidden flex flex-column">
+        <div className="flex flex-column h-full ">
+            <PageTitle title={`Chapterization`} />
             <TabHeader
                 className={"px-3 pt-3"}
-                title="Course Categories"
-                highlights={["New Enrollments Can be Happen Here", "Enrolled Courses Can Be Explored"]}
+                title="Roles"
+                highlights={[`Total - ${chapter_types?.length} Roles`]}
                 actionItems={[
                     <Button
-                        onClick={() => setDialogAddCategory((prev) => ({ ...prev, visible: true, closeDialog: closeDialogAddCategory }))}
                         icon="pi pi-plus"
                         severity="warning"
+                        onClick={() => setDialogAddChapterType((prev) => ({ ...prev, setChapterTypes, visible: true, closeDialog: closeDialogAddChapterType }))}
                     />,
                     <Button
                         loading={updating}
-                        disabled={!categories?.length}
+                        disabled={!chapter_types?.length}
                         onClick={() => {
                             showToast({
                                 severity: "info",
@@ -70,30 +79,26 @@ export default function Categories() {
                                 detail: `Repositioning Mode ${!updatingViewIndex ? "Enabled" : "Disabled"}`,
                                 life: 1000,
                             });
-
                             //give signal to update view indexs
                             if (!!updatingViewIndex) {
                                 updateViewIndexs();
                             }
-
                             setUpdatingViewIndex((prev) => !prev);
                         }}
                         icon="pi pi-arrows-v"
                     />,
                 ]}
             />
-
             <Divider />
-
             <OrderManager
                 updatingViewIndex={updatingViewIndex}
-                items={categories}
-                setItems={setCategories}
-                emptyItemsError="No Course Categories Found"
-                itemTemplate={(item) => <Category {...item} updatingViewIndex={updatingViewIndex} />}
+                items={chapter_types}
+                setItems={setChapterTypes}
+                emptyItemsError="No Chapter Types Found"
+                itemTemplate={(item) => <ChapterType setChapterTypes={setChapterTypes} {...item} updatingViewIndex={updatingViewIndex} />}
             />
 
-            <DialogAddCategory {...dialogAddCategory} />
+            {dialogAddChapterType.visible && <DialogAddChapterType {...dialogAddChapterType} />}
         </div>
     );
 }

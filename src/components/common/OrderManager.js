@@ -21,7 +21,7 @@ export default function OrderManager({ items, emptyItemsError, setItems, itemTem
             dataKey="id"
             value={items}
             onChange={(e) => {
-                if (!!updatingViewIndex) setItems(e.value);
+                if (!!updatingViewIndex) setItems(() => e.value);
             }}
             itemTemplate={itemTemplate}
             dragdrop={true}

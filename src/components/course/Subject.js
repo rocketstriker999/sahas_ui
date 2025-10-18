@@ -50,7 +50,7 @@ export default function Subject({ id, title, subject_id, setSubjects, background
             <div
                 className="flex flex-column flex-1 gap-2"
                 onClick={() => {
-                    if (!updatingViewIndex) navigate(`${id}/chapters`);
+                    if (!updatingViewIndex) navigate(`${subject_id}/chapters`);
                 }}
             >
                 <span className={`text-sm font-semibold ${background_color && "text-white"}`}>
