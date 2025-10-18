@@ -61,8 +61,8 @@ export default function ManageChapterTypes() {
             <PageTitle title={`Chapterization`} />
             <TabHeader
                 className={"px-3 pt-3"}
-                title="Roles"
-                highlights={[`Total - ${chapter_types?.length} Roles`]}
+                title="Manage Chapter Types"
+                highlights={[`Total - ${chapter_types?.length} Chapter Types`]}
                 actionItems={[
                     <Button
                         icon="pi pi-plus"
