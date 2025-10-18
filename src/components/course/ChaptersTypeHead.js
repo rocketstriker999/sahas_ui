@@ -1,6 +1,6 @@
 import { Badge } from "primereact/badge";
 
-export function ChaptersHead({ onClick, selected, chapters, title }) {
+export function ChaptersTypeHead({ onClick, selected, chapters, title }) {
     return (
         <div
             className={`flex justify-content-center align-items-center gap-2 p-3 ${selected && "border-bottom-2 bg-gray-100 border-round-top"} `}

@@ -3,12 +3,12 @@ import PageTitle from "../components/common/PageTitle";
 import TabHeader from "../components/common/TabHeader";
 import { useDispatch, useSelector } from "react-redux";
 import { Divider } from "primereact/divider";
-import ChapterType from "../components/manage_chapterization/ChapterType";
 import OrderManager from "../components/common/OrderManager";
 import { useCallback, useState } from "react";
 import { useAppContext } from "../providers/ProviderAppContainer";
 import { updateChapterTypes } from "../redux/sliceTemplateConfig";
-import DialogAddChapterType from "../components/manage_chapterization/DialogAddChapterType";
+import DialogAddChapterType from "../components/manage_chapter_types/DialogAddChapterType";
+import ChapterType from "../components/manage_chapter_types/ChapterType";
 
 export default function ManageChapterTypes() {
     const { chapter_types = [] } = useSelector((state) => state.stateTemplateConfig?.global);
