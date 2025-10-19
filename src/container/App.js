@@ -23,6 +23,10 @@ import Course from "../pages/Course";
 import Subjects from "../components/course/Subjects";
 import { Chapters } from "../components/course/Chapters";
 import ManageChapterTypes from "../pages/ManageChapterTypes";
+import ManageCouponCodes from "../pages/ManageCouponCodes";
+import CouponCodes from "../components/manage_coupon_codes/CouponCodes";
+import CouponCode from "../components/manage_coupon_codes/CouponCodeCourses";
+import CouponCodeCourses from "../components/manage_coupon_codes/CouponCodeCourses";
 
 export default function App() {
     return (
@@ -96,6 +100,11 @@ export default function App() {
                         </Route>
 
                         <Route path="/manage-chapter-types" element={<ManageChapterTypes />} />
+
+                        <Route path="/manage-coupon-codes" element={<ManageCouponCodes />}>
+                            <Route index element={<CouponCodes />}></Route>
+                            <Route path=":couponCodeId/courses" element={<CouponCodeCourses />} />
+                        </Route>
 
                         <Route
                             path="/manage-roles"
