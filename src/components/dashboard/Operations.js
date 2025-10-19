@@ -140,6 +140,12 @@ export default function Operations({ className }) {
                         path: "/manage-tasks",
                     },
                     {
+                        title: "Chapterization",
+                        icon: "pi-clone",
+                        required_authority: "USE_PAGE_MANAGE_TASKS",
+                        path: "/manage-chapter-types",
+                    },
+                    {
                         title: "Reminders",
                         icon: "pi-calendar-clock",
                         required_authority: "USE_PAGE_MANAGE_REMINDERS",

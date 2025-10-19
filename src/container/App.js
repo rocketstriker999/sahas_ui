@@ -22,6 +22,7 @@ import Catelogue from "../pages/Catelogue";
 import Course from "../pages/Course";
 import Subjects from "../components/course/Subjects";
 import { Chapters } from "../components/course/Chapters";
+import ManageChapterTypes from "../pages/ManageChapterTypes";
 
 export default function App() {
     return (
@@ -90,9 +91,11 @@ export default function App() {
                         </Route>
 
                         <Route path="/courses/:courseId" element={<Course />}>
-                            <Route path="subjects" element={<Subjects />} />
+                            <Route path="subjects" element={<Subjects />}></Route>
                             <Route path="subjects/:subjectId/chapters" element={<Chapters />} />
                         </Route>
+
+                        <Route path="/manage-chapter-types" element={<ManageChapterTypes />} />
 
                         <Route
                             path="/manage-roles"

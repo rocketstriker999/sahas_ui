@@ -1,35 +1,40 @@
 import { useCallback, useState } from "react";
-import { useAppContext } from "../../providers/ProviderAppContainer";
-
+import OrderManager from "../common/OrderManager";
+import Chapter from "./Chapter";
+import { Divider } from "primereact/divider";
 import TabHeader from "../common/TabHeader";
 import { Button } from "primereact/button";
-import DialogAddCategory from "./DialogAddCategory";
-import Category from "./Category";
-import { Divider } from "primereact/divider";
-import OrderManager from "../common/OrderManager";
-import { useOutletContext } from "react-router-dom";
+import { useAppContext } from "../../providers/ProviderAppContainer";
+import { useParams } from "react-router-dom";
+import DialogAddChapter from "./DialogAddChapter";
 
-export default function Categories() {
+export default function ChaptersTypeBody({ id, chapters, setChapterTabs }) {
     const [updating, setUpdating] = useState();
     const [updatingViewIndex, setUpdatingViewIndex] = useState();
-
     const { requestAPI, showToast } = useAppContext();
 
-    const { categories, setCategories } = useOutletContext();
+    const { subjectId } = useParams();
 
-    const [dialogAddCategory, setDialogAddCategory] = useState({
+    const [dialogAddChapter, setDialogAddChapter] = useState({
+        subjectId,
         visible: false,
     });
 
-    const closeDialogAddCategory = useCallback(() => {
-        setDialogAddCategory((prev) => ({ ...prev, visible: false }));
+    const closeDialogAddChapter = useCallback(() => {
+        setDialogAddChapter((prev) => ({ ...prev, visible: false }));
     }, []);
+
+    const setChapters = useCallback(
+        (callBack) =>
+            setChapterTabs((prev) => prev?.map((chapterTab) => (chapterTab?.id === id ? { ...chapterTab, chapters: callBack(chapters) } : chapterTab))),
+        [chapters, id, setChapterTabs]
+    );
 
     const updateViewIndexs = useCallback(() => {
         requestAPI({
-            requestPath: `course-categories/view_indexes`,
+            requestPath: `chapters/view_indexes`,
             requestMethod: "PATCH",
-            requestPostBody: categories.map(({ id }, view_index) => ({ id, view_index })),
+            requestPostBody: chapters.map(({ id }, view_index) => ({ id, view_index })),
             setLoading: setUpdating,
             parseResponseBody: false,
             onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Update View Indexes !", life: 2000 }),
@@ -46,23 +51,24 @@ export default function Categories() {
                 }
             },
         });
-    }, [categories, requestAPI, showToast]);
+    }, [chapters, requestAPI, showToast]);
 
     return (
         <div className="flex-1 overflow-hidden flex flex-column">
             <TabHeader
-                className={"px-3 pt-3"}
-                title="Course Categories"
-                highlights={["New Enrollments Can be Happen Here", "Enrolled Courses Can Be Explored"]}
+                className={"px-3 mt-2"}
+                title="Chapters"
+                highlights={[`Demo Chapters Requires No Enrollment`, `Chapteers Are Categorized Into Sections`]}
                 actionItems={[
                     <Button
-                        onClick={() => setDialogAddCategory((prev) => ({ ...prev, visible: true, closeDialog: closeDialogAddCategory }))}
+                        onClick={() => setDialogAddChapter((prev) => ({ ...prev, visible: true, setChapters, closeDialog: closeDialogAddChapter }))}
                         icon="pi pi-plus"
                         severity="warning"
                     />,
+
                     <Button
                         loading={updating}
-                        disabled={!categories?.length}
+                        disabled={!chapters?.length}
                         onClick={() => {
                             showToast({
                                 severity: "info",
@@ -70,30 +76,26 @@ export default function Categories() {
                                 detail: `Repositioning Mode ${!updatingViewIndex ? "Enabled" : "Disabled"}`,
                                 life: 1000,
                             });
-
                             //give signal to update view indexs
                             if (!!updatingViewIndex) {
                                 updateViewIndexs();
                             }
-
                             setUpdatingViewIndex((prev) => !prev);
                         }}
                         icon="pi pi-arrows-v"
                     />,
                 ]}
             />
-
             <Divider />
-
             <OrderManager
                 updatingViewIndex={updatingViewIndex}
-                items={categories}
-                setItems={setCategories}
-                emptyItemsError="No Course Categories Found"
-                itemTemplate={(item) => <Category {...item} updatingViewIndex={updatingViewIndex} />}
+                items={chapters}
+                setItems={setChapters}
+                emptyItemsError="No Chapters Found"
+                itemTemplate={(item) => <Chapter setChapters={setChapters} {...item} updatingViewIndex={updatingViewIndex} />}
             />
 
-            <DialogAddCategory {...dialogAddCategory} />
+            {dialogAddChapter?.visible && <DialogAddChapter {...dialogAddChapter} />}
         </div>
     );
 }

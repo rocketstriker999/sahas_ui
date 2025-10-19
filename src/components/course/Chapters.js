@@ -1,22 +1,66 @@
 import { TabView, TabPanel } from "primereact/tabview";
-import { ChaptersHead } from "./ChaptersHead";
+import { ChaptersTypeHead } from "./ChaptersTypeHead";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useAppContext } from "../../providers/ProviderAppContainer";
+import NoContent from "../common/NoContent";
+
+import Loading from "../common/Loading";
+
+import ChaptersBody from "./ChaptersTypeBody";
+import { classNames } from "primereact/utils";
 
 export function Chapters() {
     const { subjectId } = useParams();
+    const { requestAPI } = useAppContext();
+    const [loading, setLoading] = useState();
+    const [error, setError] = useState();
 
-    console.log(subjectId);
+    const { chapter_types = [] } = useSelector((state) => state.stateTemplateConfig?.global);
+
+    const [chapterTabs, setChapterTabs] = useState();
+
+    useEffect(() => {
+        requestAPI({
+            requestPath: `subjects/${subjectId}/chapters`,
+            requestMethod: "GET",
+            setLoading: setLoading,
+            onRequestStart: setError,
+            onRequestFailure: setError,
+            onResponseReceieved: (chapters, responseCode) => {
+                if (chapters && responseCode === 200) {
+                    setChapterTabs(() =>
+                        chapter_types.map((chapterType) => ({ ...chapterType, chapters: chapters?.filter(({ type }) => type === chapterType.id) }))
+                    );
+                } else {
+                    setError("Couldn't load Courses");
+                }
+            },
+        });
+    }, [chapter_types, requestAPI, subjectId]);
 
     return (
-        <TabView>
-            <TabPanel header="Header I" key="tab1" headerTemplate={(option) => <ChaptersHead {...option} />}>
-                <p className="m-0">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-                    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                    deserunt mollit anim id est laborum.
-                </p>
-            </TabPanel>
-        </TabView>
+        <div className="flex-1 overflow-hidden flex flex-column">
+            {loading ? (
+                <Loading />
+            ) : error ? (
+                <NoContent error={error} />
+            ) : chapterTabs?.length ? (
+                <TabView
+                    pt={{
+                        panelcontainer: classNames("p-0"),
+                    }}
+                >
+                    {chapterTabs.map((chaptersTab) => (
+                        <TabPanel key={chaptersTab?.id} headerTemplate={(option) => <ChaptersTypeHead {...option} {...chaptersTab} />}>
+                            <ChaptersBody {...chaptersTab} setChapterTabs={setChapterTabs} />
+                        </TabPanel>
+                    ))}
+                </TabView>
+            ) : (
+                <NoContent />
+            )}
+        </div>
     );
 }

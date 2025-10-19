@@ -41,7 +41,7 @@ export default function Subjects() {
             <PageTitle title={`Course - ${course?.title}`} action={course?.enrollment && <span className="pi pi-info-circle"></span>} />
             <img className="w-full" src={course?.image} alt={course?.image} />
 
-            <div className="px-3 pt-3">
+            <div className="px-3 py-3 bg-blue-900 text-white">
                 {course?.enrollment ? (
                     <TabHeader
                         title="Enrollment Details"
@@ -74,8 +74,6 @@ export default function Subjects() {
                     />
                 )}
             </div>
-
-            <Divider />
 
             {loading ? (
                 <Loading message="Loading Course" />

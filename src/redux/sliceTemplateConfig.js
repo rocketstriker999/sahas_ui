@@ -26,10 +26,16 @@ export const sliceTemplateConfig = createSlice({
         removeCarouselImage: (state, action) => {
             state.dash_board.carousel_images = state?.dash_board?.carousel_images?.filter(({ id }) => id !== action?.payload);
         },
+        addChapterType: (state, action) => {
+            state.global.chapter_types.push(action?.payload);
+        },
+        updateChapterTypes: (state, action) => {
+            state.global.chapter_types = action?.payload;
+        },
     },
 });
 
-export const { setTemplateConfig, removeAuthority, removeRole, addAuthority, addRole, replaceRole, addCarouselImage, removeCarouselImage } =
+export const { setTemplateConfig, removeAuthority, removeRole, addAuthority, addRole, replaceRole, addCarouselImage, removeCarouselImage, updateChapterTypes } =
     sliceTemplateConfig.actions;
 
 export default sliceTemplateConfig.reducer;
