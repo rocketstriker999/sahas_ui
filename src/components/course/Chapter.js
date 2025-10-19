@@ -2,8 +2,9 @@ import { useAppContext } from "../../providers/ProviderAppContainer";
 import { useCallback, useState } from "react";
 import ProgressiveControl from "../common/ProgressiveControl";
 import { getReadableDate } from "../../utils";
+import DialogEditChapter from "./DialogEditChapter";
 
-export default function Chapter({ id, title, setChapterTypes, requires_enrollment, updatingViewIndex, updated_at }) {
+export default function Chapter({ id, title, setChapters, type, updatingViewIndex, updated_at }) {
     const { requestAPI, showToast } = useAppContext();
 
     const [deleting, setDeleting] = useState();
@@ -30,13 +31,13 @@ export default function Chapter({ id, title, setChapterTypes, requires_enrollmen
                         detail: `Chapter Type Deleted`,
                         life: 1000,
                     });
-                    setChapterTypes((prev) => prev?.filter((chapterType) => chapterType?.id !== id));
+                    setChapters((prev) => prev?.filter((chapter) => chapter?.id !== id));
                 } else {
-                    showToast({ severity: "error", summary: "Failed", detail: "Failed To Delete Chapter Type !", life: 2000 });
+                    showToast({ severity: "error", summary: "Failed", detail: "Failed To Delete Chapter !", life: 2000 });
                 }
             },
         });
-    }, [id, requestAPI, setChapterTypes, showToast]);
+    }, [id, requestAPI, setChapters, showToast]);
 
     return (
         <div className={`flex gap-3 align-items-center border-1 border-gray-300 border-round py-2 px-3 overflow-hidden `}>
@@ -57,17 +58,17 @@ export default function Chapter({ id, title, setChapterTypes, requires_enrollmen
                         setDialogEditChapterType((prev) => ({
                             ...prev,
                             visible: true,
-                            setChapterTypes,
+                            setChapters,
                             id,
                             title,
-                            requires_enrollment,
+                            type,
                             closeDialog: closeDialogEditChapterType,
                         }))
                     }
                 ></i>
             )}
             {!updatingViewIndex && <ProgressiveControl loading={deleting} control={<i className={`pi pi-trash `} onClick={deleteChapter}></i>} />}
-            {/* {dialogEditChapterType?.visible && <DialogEditChapterType {...dialogEditChapterType} />} */}
+            {dialogEditChapterType?.visible && <DialogEditChapter {...dialogEditChapterType} />}
         </div>
     );
 }

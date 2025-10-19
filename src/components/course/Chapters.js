@@ -13,7 +13,7 @@ import { classNames } from "primereact/utils";
 
 export function Chapters() {
     const { subjectId } = useParams();
-    const { requestAPI, showToast } = useAppContext();
+    const { requestAPI } = useAppContext();
     const [loading, setLoading] = useState();
     const [error, setError] = useState();
 
@@ -54,7 +54,7 @@ export function Chapters() {
                 >
                     {chapterTabs.map((chaptersTab) => (
                         <TabPanel key={chaptersTab?.id} headerTemplate={(option) => <ChaptersTypeHead {...option} {...chaptersTab} />}>
-                            <ChaptersBody chapters={chaptersTab?.chapters} />
+                            <ChaptersBody {...chaptersTab} setChapterTabs={setChapterTabs} />
                         </TabPanel>
                     ))}
                 </TabView>

@@ -5,16 +5,34 @@ import { Divider } from "primereact/divider";
 import TabHeader from "../common/TabHeader";
 import { Button } from "primereact/button";
 import { useAppContext } from "../../providers/ProviderAppContainer";
+import { useParams } from "react-router-dom";
+import DialogAddChapter from "./DialogAddChapter";
 
-export default function ChaptersTypeBody({ ...props }) {
-    const [chapters, setChapters] = useState(props?.chapters);
+export default function ChaptersTypeBody({ id, chapters, setChapterTabs }) {
     const [updating, setUpdating] = useState();
     const [updatingViewIndex, setUpdatingViewIndex] = useState();
     const { requestAPI, showToast } = useAppContext();
 
+    const { subjectId } = useParams();
+
+    const [dialogAddChapter, setDialogAddChapter] = useState({
+        subjectId,
+        visible: false,
+    });
+
+    const closeDialogAddChapter = useCallback(() => {
+        setDialogAddChapter((prev) => ({ ...prev, visible: false }));
+    }, []);
+
+    const setChapters = useCallback(
+        (callBack) =>
+            setChapterTabs((prev) => prev?.map((chapterTab) => (chapterTab?.id === id ? { ...chapterTab, chapters: callBack(chapters) } : chapterTab))),
+        [chapters, id, setChapterTabs]
+    );
+
     const updateViewIndexs = useCallback(() => {
         requestAPI({
-            requestPath: `course-subjects/view_indexes`,
+            requestPath: `chapters/view_indexes`,
             requestMethod: "PATCH",
             requestPostBody: chapters.map(({ id }, view_index) => ({ id, view_index })),
             setLoading: setUpdating,
@@ -38,19 +56,19 @@ export default function ChaptersTypeBody({ ...props }) {
     return (
         <div className="flex-1 overflow-hidden flex flex-column">
             <TabHeader
-                className={"px-3 mt-3"}
-                title="Subjects"
+                className={"px-3 mt-2"}
+                title="Chapters"
                 highlights={[`Demo Chapters Requires No Enrollment`, `Chapteers Are Categorized Into Sections`]}
                 actionItems={[
                     <Button
-                        // onClick={() => setDialogAddSubject((prev) => ({ ...prev, visible: true, setSubjects, closeDialog: closeDialogAddSubject }))}
+                        onClick={() => setDialogAddChapter((prev) => ({ ...prev, visible: true, setChapters, closeDialog: closeDialogAddChapter }))}
                         icon="pi pi-plus"
                         severity="warning"
                     />,
 
                     <Button
                         loading={updating}
-                        disabled={!props?.chapters?.length}
+                        disabled={!chapters?.length}
                         onClick={() => {
                             showToast({
                                 severity: "info",
@@ -76,6 +94,8 @@ export default function ChaptersTypeBody({ ...props }) {
                 emptyItemsError="No Chapters Found"
                 itemTemplate={(item) => <Chapter setChapters={setChapters} {...item} updatingViewIndex={updatingViewIndex} />}
             />
+
+            {dialogAddChapter?.visible && <DialogAddChapter {...dialogAddChapter} />}
         </div>
     );
 }

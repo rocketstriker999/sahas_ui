@@ -64,7 +64,7 @@ export default function Subjects() {
     return (
         <div className="flex-1 overflow-hidden flex flex-column">
             <TabHeader
-                className={"px-3"}
+                className={"p-3 bg-gray-900 text-white"}
                 title="Subjects"
                 highlights={[`Total ${subjects?.length} Subjects`]}
                 actionItems={[
@@ -106,7 +106,6 @@ export default function Subjects() {
                     />,
                 ]}
             />
-            <Divider />
 
             <OrderManager
                 updatingViewIndex={updatingViewIndex}
