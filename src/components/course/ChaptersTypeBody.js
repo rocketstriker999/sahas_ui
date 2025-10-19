@@ -8,7 +8,7 @@ import { useAppContext } from "../../providers/ProviderAppContainer";
 import { useParams } from "react-router-dom";
 import DialogAddChapter from "./DialogAddChapter";
 
-export default function ChaptersTypeBody({ id, chapters, setChapterTabs }) {
+export default function ChaptersTypeBody({ chapters, setChapters }) {
     const [updating, setUpdating] = useState();
     const [updatingViewIndex, setUpdatingViewIndex] = useState();
     const { requestAPI, showToast } = useAppContext();
@@ -23,12 +23,6 @@ export default function ChaptersTypeBody({ id, chapters, setChapterTabs }) {
     const closeDialogAddChapter = useCallback(() => {
         setDialogAddChapter((prev) => ({ ...prev, visible: false }));
     }, []);
-
-    const setChapters = useCallback(
-        (callBack) =>
-            setChapterTabs((prev) => prev?.map((chapterTab) => (chapterTab?.id === id ? { ...chapterTab, chapters: callBack(chapters) } : chapterTab))),
-        [chapters, id, setChapterTabs]
-    );
 
     const updateViewIndexs = useCallback(() => {
         requestAPI({

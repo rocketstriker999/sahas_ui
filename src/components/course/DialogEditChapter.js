@@ -5,12 +5,16 @@ import TabHeader from "../common/TabHeader";
 import { FloatLabel } from "primereact/floatlabel";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
+import { Dropdown } from "primereact/dropdown";
+import { useSelector } from "react-redux";
 
 export default function DialogEditChapter({ visible, closeDialog, setChapters, ...props }) {
     const { requestAPI, showToast } = useAppContext();
 
     const [chapter, setChapter] = useState(props);
     const [loading, setLoading] = useState();
+
+    const { chapter_types = [] } = useSelector((state) => state.stateTemplateConfig?.global);
 
     const editChapter = useCallback(() => {
         requestAPI({
@@ -43,6 +47,18 @@ export default function DialogEditChapter({ visible, closeDialog, setChapters, .
                     disabled={loading}
                 />
                 <label htmlFor="title">Title</label>
+            </FloatLabel>
+
+            <FloatLabel className="flex-1 mt-5">
+                <Dropdown
+                    className="w-full"
+                    value={chapter_types?.find(({ id }) => id === chapter?.type)}
+                    inputId="branch"
+                    options={chapter_types}
+                    optionLabel="title"
+                    onChange={(e) => setChapter((prev) => ({ ...prev, type: e.value?.id }))}
+                />
+                <label htmlFor="branch">Type</label>
             </FloatLabel>
 
             <Button className="mt-3" label="Edit Subject" severity="warning" loading={loading} onClick={editChapter} />
