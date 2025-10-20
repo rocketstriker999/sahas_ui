@@ -2,7 +2,7 @@ import { TabView, TabPanel } from "primereact/tabview";
 import { ChaptersTypeHead } from "./ChaptersTypeHead";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import NoContent from "../common/NoContent";
 
@@ -19,7 +19,12 @@ export function Chapters() {
 
     const { chapter_types = [] } = useSelector((state) => state.stateTemplateConfig?.global);
 
-    const [chapterTabs, setChapterTabs] = useState();
+    const [chapters, setChapters] = useState();
+
+    const chapterTabs = useMemo(
+        () => chapter_types.map((chapterType) => ({ ...chapterType, chapters: chapters?.filter(({ type }) => type === chapterType.id) })),
+        [chapter_types, chapters]
+    );
 
     useEffect(() => {
         requestAPI({
@@ -30,11 +35,9 @@ export function Chapters() {
             onRequestFailure: setError,
             onResponseReceieved: (chapters, responseCode) => {
                 if (chapters && responseCode === 200) {
-                    setChapterTabs(() =>
-                        chapter_types.map((chapterType) => ({ ...chapterType, chapters: chapters?.filter(({ type }) => type === chapterType.id) }))
-                    );
+                    setChapters(chapters);
                 } else {
-                    setError("Couldn't load Courses");
+                    setError("Couldn't load Chapter Tabs");
                 }
             },
         });
@@ -54,7 +57,7 @@ export function Chapters() {
                 >
                     {chapterTabs.map((chaptersTab) => (
                         <TabPanel key={chaptersTab?.id} headerTemplate={(option) => <ChaptersTypeHead {...option} {...chaptersTab} />}>
-                            <ChaptersBody {...chaptersTab} setChapterTabs={setChapterTabs} />
+                            <ChaptersBody chapters={chaptersTab?.chapters} setChapters={setChapters} />
                         </TabPanel>
                     ))}
                 </TabView>
