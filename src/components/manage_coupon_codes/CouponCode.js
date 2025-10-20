@@ -2,18 +2,22 @@ import { useCallback, useState } from "react";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import { getReadableDate } from "../../utils";
 import ProgressiveControl from "../common/ProgressiveControl";
+import DialogEditCouponCode from "./DialogEditCouponCode";
+import { useNavigate } from "react-router-dom";
 
-export default function CouponCode({ id, code, updated_at, setCouponCodes }) {
+export default function CouponCode({ id, code, active, updated_at, setCouponCodes }) {
     const { requestAPI, showToast } = useAppContext();
+
+    const navigate = useNavigate();
 
     const [deleting, setDeleting] = useState();
 
-    const [dialogEditChapterType, setDialogEditChapterType] = useState({
+    const [dialogEditCouponCode, setDialogEditCouponCode] = useState({
         visible: false,
     });
 
-    const closeDialogEditChapterType = useCallback(() => {
-        setDialogEditChapterType((prev) => ({ ...prev, visible: false }));
+    const closeDialogEditCouponCode = useCallback(() => {
+        setDialogEditCouponCode((prev) => ({ ...prev, visible: false }));
     }, []);
 
     const deleteCouponCode = useCallback(() => {
@@ -39,8 +43,12 @@ export default function CouponCode({ id, code, updated_at, setCouponCodes }) {
     }, [id, requestAPI, setCouponCodes, showToast]);
 
     return (
-        <div className={`flex gap-3 align-items-center border-1 border-gray-300 border-round py-2 px-3 overflow-hidden `}>
-            <div className="flex flex-column flex-1 gap-2">
+        <div
+            className={`flex gap-3 align-items-center border-1 border-gray-300 border-round py-2 px-3 overflow-hidden text-white ${
+                active ? "bg-green-500 " : "bg-red-500"
+            }`}
+        >
+            <div className="flex flex-column flex-1 gap-2" onClick={() => navigate(`${id}/courses`)}>
                 <span className={`text-sm font-semibold `}>
                     {id}. {code}
                 </span>
@@ -53,18 +61,19 @@ export default function CouponCode({ id, code, updated_at, setCouponCodes }) {
             <i
                 className={`pi pi-pencil `}
                 onClick={() =>
-                    setDialogEditChapterType((prev) => ({
+                    setDialogEditCouponCode((prev) => ({
                         ...prev,
                         visible: true,
                         setCouponCodes,
                         id,
                         code,
-                        closeDialog: closeDialogEditChapterType,
+                        active,
+                        closeDialog: closeDialogEditCouponCode,
                     }))
                 }
             ></i>
             {<ProgressiveControl loading={deleting} control={<i className={`pi pi-trash `} onClick={deleteCouponCode}></i>} />}
-            {/* {dialogEditChapterType?.visible && <DialogEditChapterType {...dialogEditChapterType} />} */}
+            {dialogEditCouponCode?.visible && <DialogEditCouponCode {...dialogEditCouponCode} />}
         </div>
     );
 }
