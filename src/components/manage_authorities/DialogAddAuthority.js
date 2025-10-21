@@ -8,6 +8,7 @@ import { InputText } from "primereact/inputtext";
 import { useDispatch } from "react-redux";
 import { InputTextarea } from "primereact/inputtextarea";
 import { addAuthority } from "../../redux/sliceTemplateConfig";
+import { TEXT_SIZE_SMALL, TITLE_TEXT } from "../../style";
 
 export default function DialogAddAuthority({ visible, closeDialog }) {
     const { requestAPI, showToast } = useAppContext();
@@ -37,7 +38,10 @@ export default function DialogAddAuthority({ visible, closeDialog }) {
     }, [authority, closeDialog, dispatch, requestAPI, showToast]);
 
     return (
-        <Dialog header={`Add New Authority`} visible={visible} className="w-11" onHide={closeDialog}>
+        <Dialog header={`Add New Authority`} visible={visible} className="w-11" onHide={closeDialog}
+            pt={{
+                headertitle: { className: TITLE_TEXT },
+            }}>
             <TabHeader className="pt-3" title="Add New Authority" highlights={["Authority Will be Added Immidiatly", "Authority Can Be Mapped To Role"]} />
 
             <FloatLabel className="mt-5">
@@ -47,8 +51,11 @@ export default function DialogAddAuthority({ visible, closeDialog }) {
                     className="w-full"
                     onChange={(e) => setAuthority((prev) => ({ ...prev, title: e.target.value.toUpperCase() }))}
                     disabled={loading}
+                    pt={{
+                        root: { className: TEXT_SIZE_SMALL },
+                    }}
                 />
-                <label htmlFor="title">Title</label>
+                <label htmlFor="title" className={`${TEXT_SIZE_SMALL}`}>Title</label>
             </FloatLabel>
 
             <FloatLabel className="mt-4">
@@ -60,11 +67,17 @@ export default function DialogAddAuthority({ visible, closeDialog }) {
                     className="w-full"
                     onChange={(e) => setAuthority((prev) => ({ ...prev, description: e.target.value }))}
                     disabled={loading}
+                    pt={{
+                        root: { className: TEXT_SIZE_SMALL },
+                    }}
                 />
-                <label htmlFor="description">Description</label>
+                <label htmlFor="description" className={`${TEXT_SIZE_SMALL}`}>Description</label>
             </FloatLabel>
 
-            <Button className="mt-3" label="Add Authority" severity="warning" loading={loading} onClick={addNewAuthority} />
+            <Button className="mt-3" label="Add Authority" severity="warning" loading={loading} onClick={addNewAuthority}
+                pt={{
+                    label: { className: TEXT_SIZE_SMALL },
+                }} />
         </Dialog>
     );
 }

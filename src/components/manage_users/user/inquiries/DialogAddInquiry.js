@@ -7,6 +7,7 @@ import { useCallback, useState } from "react";
 import TabHeader from "../../../common/TabHeader";
 import { useAppContext } from "../../../../providers/ProviderAppContainer";
 import { useOutletContext } from "react-router-dom";
+import { TEXT_SIZE_NORMAL, TITLE_TEXT } from "../../../../style";
 
 export default function DialogAddInquiry({ visible, setVisible, setInquiries }) {
     const { userId, courses, branches } = useOutletContext();
@@ -37,7 +38,10 @@ export default function DialogAddInquiry({ visible, setVisible, setInquiries }) 
     }, [inquiry, requestAPI, setInquiries, setVisible, showToast, userId]);
 
     return (
-        <Dialog header={`Add New Inquiry`} visible={visible} className="w-11" onHide={() => setVisible(false)}>
+        <Dialog header={`Add New Inquiry`} visible={visible} className="w-11" onHide={() => setVisible(false)}
+            pt={{
+                headertitle: { className: TITLE_TEXT },
+            }}>
             <TabHeader
                 className="pt-3"
                 title="Requred Information - New Inquiry"
@@ -53,6 +57,10 @@ export default function DialogAddInquiry({ visible, setVisible, setInquiries }) 
                     className="w-full"
                     onChange={(e) => setInquiry((prev) => ({ ...prev, branch_id: e.value?.id }))}
                     disabled={loading}
+                    pt={{
+                        input: { className: TEXT_SIZE_NORMAL },
+                        item: { className: TEXT_SIZE_NORMAL },
+                    }}
                 />
                 <label htmlFor="branch">Branch</label>
             </FloatLabel>
@@ -66,6 +74,10 @@ export default function DialogAddInquiry({ visible, setVisible, setInquiries }) 
                     className="w-full"
                     onChange={(e) => setInquiry((prev) => ({ ...prev, course_id: e.value?.id }))}
                     disabled={loading}
+                    pt={{
+                        input: { className: TEXT_SIZE_NORMAL },
+                        item: { className: TEXT_SIZE_NORMAL },
+                    }}
                 />
                 <label htmlFor="course">Course</label>
             </FloatLabel>
@@ -79,10 +91,17 @@ export default function DialogAddInquiry({ visible, setVisible, setInquiries }) 
                     className="w-full"
                     onChange={(e) => setInquiry((prev) => ({ ...prev, note: e.target.value }))}
                     disabled={loading}
+                    pt={{
+                        root: { className: TEXT_SIZE_NORMAL },
+                    }}
                 />
                 <label htmlFor="note">Note</label>
             </FloatLabel>
-            <Button className="mt-3" label="Add Inquiry" severity="warning" loading={loading} onClick={addInquiry} />
+            <Button className="mt-3" label="Add Inquiry" severity="warning" loading={loading} onClick={addInquiry}
+                pt={{
+                    label: { className: TEXT_SIZE_NORMAL },
+                    icon: { className: TEXT_SIZE_NORMAL }
+                }} />
         </Dialog>
     );
 }

@@ -10,6 +10,7 @@ import { InputNumber } from "primereact/inputnumber";
 import { RUPEE } from "../../../../constants";
 import { InputTextarea } from "primereact/inputtextarea";
 import { useOutletContext } from "react-router-dom";
+import { TEXT_SIZE_SMALL, TITLE_TEXT, TEXT_SIZE_NORMAL } from "../../../../style";
 
 export default function DialogAddTransaction({ setWalletTransActions, currentBalance, visible, closeDialog }) {
     const { requestAPI, showToast } = useAppContext();
@@ -47,7 +48,10 @@ export default function DialogAddTransaction({ setWalletTransActions, currentBal
     }, [transaction?.amount, transaction?.operation, currentBalance]);
 
     return (
-        <Dialog header={"Add New Transaction"} visible={visible} className="w-11" onHide={closeDialog}>
+        <Dialog header={"Add New Transaction"} visible={visible} className="w-11" onHide={closeDialog}
+            pt={{
+                headertitle: { className: TITLE_TEXT },
+            }}>
             <TabHeader
                 className="pt-3"
                 title="Requred Information - New Transaction"
@@ -60,6 +64,9 @@ export default function DialogAddTransaction({ setWalletTransActions, currentBal
                     value={transaction?.operation}
                     onChange={(e) => setTransaction((prev) => ({ ...prev, operation: e.value }))}
                     options={["Credit", "Withdraw"]}
+                    pt={{
+                        label: { className: TEXT_SIZE_SMALL },
+                    }}
                 />
             </div>
 
@@ -75,6 +82,9 @@ export default function DialogAddTransaction({ setWalletTransActions, currentBal
                                 amount: e.value,
                             }))
                         }
+                        pt={{
+                            root: { className: TEXT_SIZE_SMALL },
+                        }}
                     />
                     <span className="p-inputgroup-addon">{RUPEE}</span>
                 </div>
@@ -90,11 +100,17 @@ export default function DialogAddTransaction({ setWalletTransActions, currentBal
                     cols={30}
                     className="w-full"
                     onChange={(e) => setTransaction((prev) => ({ ...prev, note: e.target.value }))}
+                    pt={{
+                        root: { className: TEXT_SIZE_NORMAL },
+                    }}
                 />
-                <label htmlFor="note">Note</label>
+                <label htmlFor="note" className={`${TEXT_SIZE_SMALL}`}>Note</label>
             </FloatLabel>
 
-            <Button className="mt-3" label={"Apply"} severity="warning" loading={loading} onClick={addTransaction} />
+            <Button className="mt-3" label={"Apply"} severity="warning" loading={loading} onClick={addTransaction}
+                pt={{
+                    label: { className: TEXT_SIZE_SMALL },
+                }} />
         </Dialog>
     );
 }

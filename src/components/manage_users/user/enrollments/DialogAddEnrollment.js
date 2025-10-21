@@ -10,6 +10,7 @@ import { getWriteableDate } from "../../../../utils";
 import { useOutletContext } from "react-router-dom";
 import { MultiSelect } from "primereact/multiselect";
 import { Checkbox } from "primereact/checkbox";
+import { TITLE_TEXT, TEXT_SIZE_SMALL } from "../../../../style";
 
 export default function DialogAddEnrollment({ visible, closeDialog, setEnrollments }) {
     const { requestAPI, showToast } = useAppContext();
@@ -45,7 +46,10 @@ export default function DialogAddEnrollment({ visible, closeDialog, setEnrollmen
     }, [closeDialog, enrollment, requestAPI, setEnrollments, showToast, userId]);
 
     return (
-        <Dialog header={`Add New Enrollment`} visible={visible} className="w-11" onHide={closeDialog}>
+        <Dialog header={`Add New Enrollment`} visible={visible} className="w-11" onHide={closeDialog}
+            pt={{
+                headertitle: { className: TITLE_TEXT },
+            }}>
             <TabHeader
                 className="pt-3"
                 title="Add New Course Enrollment"
@@ -61,8 +65,12 @@ export default function DialogAddEnrollment({ visible, closeDialog, setEnrollmen
                     className="w-full"
                     onChange={(e) => setEnrollment((prev) => ({ ...prev, courses: e.value }))}
                     disabled={loading}
+                    pt={{
+                        label: { className: TEXT_SIZE_SMALL },
+                        item: { className: TEXT_SIZE_SMALL },
+                    }}
                 />
-                <label htmlFor="courses">Courses</label>
+                <label htmlFor="courses" className={`${TEXT_SIZE_SMALL}`}>Courses</label>
             </FloatLabel>
 
             <FloatLabel className="mt-5">
@@ -76,7 +84,7 @@ export default function DialogAddEnrollment({ visible, closeDialog, setEnrollmen
                     showTime={false}
                     showIcon
                 />
-                <label htmlFor="start_date">Start Date</label>
+                <label htmlFor="start_date" className={`${TEXT_SIZE_SMALL}`}>Start Date</label>
             </FloatLabel>
 
             <FloatLabel className="mt-5">
@@ -90,17 +98,20 @@ export default function DialogAddEnrollment({ visible, closeDialog, setEnrollmen
                     showTime={false}
                     showIcon
                 />
-                <label htmlFor="end_date">End Date</label>
+                <label htmlFor="end_date" className={`${TEXT_SIZE_SMALL}`}>End Date</label>
             </FloatLabel>
 
             <FloatLabel className="mt-5">
-                <InputNumber value={enrollment?.fees} id="fees" className="w-full" onChange={(e) => setEnrollment((prev) => ({ ...prev, fees: e.value }))} />
-                <label htmlFor="fees">Total Fees</label>
+                <InputNumber value={enrollment?.fees} id="fees" className="w-full" onChange={(e) => setEnrollment((prev) => ({ ...prev, fees: e.value }))}
+                    pt={{
+                        root: { className: TEXT_SIZE_SMALL },
+                    }} />
+                <label htmlFor="fees" className={`${TEXT_SIZE_SMALL}`}>Total Fees</label>
             </FloatLabel>
 
-            <div className="border-1 border-round border-gray-300 p-3 flex justify-content-between align-items-center mt-3">
+            <div className="border-1 border-round border-gray-300 p-3 flex justify-content-between align-items-center mt-3 gap-3">
                 <div className="flex align-items-center gap-2">
-                    <label htmlFor="on_site_access">On Site Access</label>
+                    <label htmlFor="on_site_access" className={`${TEXT_SIZE_SMALL}`}>On Site Access</label>
                     <Checkbox
                         inputId="on_site_access"
                         onChange={({ checked }) => setEnrollment((prev) => ({ ...prev, on_site_access: checked }))}
@@ -109,7 +120,7 @@ export default function DialogAddEnrollment({ visible, closeDialog, setEnrollmen
                 </div>
 
                 <div className="flex align-items-center gap-2">
-                    <label htmlFor="digital_access">Digital Access</label>
+                    <label htmlFor="digital_access" className={`${TEXT_SIZE_SMALL}`}>Digital Access</label>
                     <Checkbox
                         inputId="digital_access"
                         onChange={({ checked }) => setEnrollment((prev) => ({ ...prev, digital_access: checked }))}
@@ -118,7 +129,10 @@ export default function DialogAddEnrollment({ visible, closeDialog, setEnrollmen
                 </div>
             </div>
 
-            <Button className="mt-3" label="Add Enrollment" severity="warning" loading={loading} onClick={addTransaction} />
+            <Button className="mt-3" label="Add Enrollment" severity="warning" loading={loading} onClick={addTransaction}
+                pt={{
+                    label: { className: TEXT_SIZE_SMALL },
+                }} />
         </Dialog>
     );
 }

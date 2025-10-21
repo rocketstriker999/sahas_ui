@@ -2,6 +2,7 @@ import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { useCallback, useState } from "react";
 import { useAppContext } from "../../../../providers/ProviderAppContainer";
+import { TEXT_SIZE_NORMAL } from "../../../../style";
 
 export default function CardInputNote({ inquiry_id, setNotes }) {
     const [note, setNote] = useState("");
@@ -28,8 +29,14 @@ export default function CardInputNote({ inquiry_id, setNotes }) {
 
     return (
         <div className="p-inputgroup ">
-            <InputText disabled={loading} placeholder="Add Note" value={note} onChange={(e) => setNote(e.target.value)} />
-            <Button loading={loading} icon="pi pi-plus" className="p-button-warning" onClick={addInquiryNote} disabled={!note?.length} />
+            <InputText disabled={loading} placeholder="Add Note" value={note} onChange={(e) => setNote(e.target.value)}
+                pt={{
+                    root: { className: TEXT_SIZE_NORMAL },
+                }} />
+            <Button loading={loading} icon="pi pi-plus" className="p-button-warning" onClick={addInquiryNote} disabled={!note?.length}
+                pt={{
+                    icon: { className: TEXT_SIZE_NORMAL }
+                }} />
         </div>
     );
 }

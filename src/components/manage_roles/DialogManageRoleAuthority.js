@@ -7,6 +7,7 @@ import Loading from "../common/Loading";
 import NoContent from "../common/NoContent";
 import Authority from "./Authority";
 import SearchBar from "../manage_authorities/SearchBar";
+import { TITLE_TEXT } from "../../style";
 
 export default function DialogManageRoleAuthorities({ visible, roleId, closeDialog }) {
     const { requestAPI } = useAppContext();
@@ -40,7 +41,10 @@ export default function DialogManageRoleAuthorities({ visible, roleId, closeDial
     }, [requestAPI, roleId]);
 
     return (
-        <Dialog header={`Manage Role Authorities`} visible={visible} className="w-11" onHide={closeDialog}>
+        <Dialog header={`Manage Role Authorities`} visible={visible} className="w-11" onHide={closeDialog}
+            pt={{
+                headertitle: { className: TITLE_TEXT },
+            }}>
             <TabHeader
                 className="pt-3 "
                 title={`Manage Authorities - ${roles?.find((role) => role?.id === roleId)?.title}`}
