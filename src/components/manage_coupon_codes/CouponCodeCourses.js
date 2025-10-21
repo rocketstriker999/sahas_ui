@@ -4,6 +4,9 @@ import TabHeader from "../common/TabHeader";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import { Button } from "primereact/button";
 import DialogAssignCourse from "./DialogAssignCourse";
+import Loading from "../common/Loading";
+import NoContent from "../common/NoContent";
+import CouponCodeCourse from "./CouponCodeCourse";
 
 export default function CouponCodeCourses() {
     const { couponCodeId } = useParams();
@@ -59,6 +62,7 @@ export default function CouponCodeCourses() {
                                 couponCodeId: couponCode?.id,
                                 setCouponCodeCourses,
                                 closeDialog: closeDialogAddCourse,
+                                couponCodeCourses,
                             }))
                         }
                         icon="pi pi-list-check"
@@ -66,6 +70,20 @@ export default function CouponCodeCourses() {
                     />,
                 ]}
             />
+
+            <div className="p-2 flex flex-column gap-2">
+                {loading ? (
+                    <Loading />
+                ) : error ? (
+                    <NoContent error={error} />
+                ) : couponCodeCourses?.length ? (
+                    couponCodeCourses.map((couponCodeCourse, index) => (
+                        <CouponCodeCourse setCouponCodeCourses={setCouponCodeCourses} key={couponCodeCourse?.id} {...couponCodeCourse} index={index} />
+                    ))
+                ) : (
+                    <NoContent />
+                )}
+            </div>
 
             {dialogAssignCourse?.visible && <DialogAssignCourse {...dialogAssignCourse} />}
         </div>

@@ -9,14 +9,22 @@ import { FloatLabel } from "primereact/floatlabel";
 import { InputText } from "primereact/inputtext";
 import { SelectButton } from "primereact/selectbutton";
 import { InputNumber } from "primereact/inputnumber";
-import { classNames } from "primereact/utils";
 
-export default function DialogAssignCourse({ visible, couponCodeId, setCouponCodeCourses, closeDialog }) {
+export default function DialogAssignCourse({ visible, couponCodeId, couponCodeCourses, setCouponCodeCourses, closeDialog }) {
     const { requestAPI, showToast } = useAppContext();
 
     const { courses = [] } = useSelector((state) => state.stateTemplateConfig?.global);
 
-    const [assignCouponCodeCourses, setAssignCouponCodeCourses] = useState({ coupon_code_id: couponCodeId });
+    const [assignCouponCodeCourses, setAssignCouponCodeCourses] = useState({
+        coupon_code_id: couponCodeId,
+        discount: 0,
+        discount_type: "₹",
+        commision: 0,
+        commision_type: "₹",
+        validity: 0,
+        validity_type: "EXTEND",
+        distributor_email: null,
+    });
     const [loading, setLoading] = useState();
 
     const addCouponCodeCourse = useCallback(() => {
@@ -37,6 +45,8 @@ export default function DialogAssignCourse({ visible, couponCodeId, setCouponCod
         });
     }, [closeDialog, assignCouponCodeCourses, requestAPI, setCouponCodeCourses, showToast]);
 
+    console.log(couponCodeCourses);
+
     return (
         <Dialog header={`Assign Course`} visible={visible} className="w-11" onHide={closeDialog}>
             <TabHeader className="pt-3" title="Assign New Course" highlights={["New Course Can Be Mapped Here", "Course Can Be Unmapped From List"]} />
@@ -46,31 +56,28 @@ export default function DialogAssignCourse({ visible, couponCodeId, setCouponCod
                 multiple
                 onChange={(e) => setAssignCouponCodeCourses((prev) => ({ ...prev, course_ids: e.value }))}
                 value={assignCouponCodeCourses?.course_ids}
-                options={courses}
+                options={courses?.filter(({ id }) => !couponCodeCourses?.find(({ course_id }) => course_id === id))}
                 className="mt-4 "
-                listStyle={{ maxHeight: "98px" }}
+                listStyle={{ maxHeight: "128px" }}
                 itemTemplate={(option) => (
                     <span className="font-semibold">
-                        {option?.id}. {option?.title}
+                        {option?.title} ({option?.fees} ₹.)
                     </span>
                 )}
             />
 
-            <FloatLabel className="mt-5">
-                <InputNumber
-                    value={assignCouponCodeCourses?.discount}
-                    id="discount"
-                    className="w-full"
-                    onChange={(e) => setAssignCouponCodeCourses((prev) => ({ ...prev, discount: e.value }))}
-                    disabled={loading}
-                />
-                <label htmlFor="discount">Discount</label>
-            </FloatLabel>
-
-            <div className="flex gap-2 align-items-center border-1 border-gray-300 border-round mt-3 ">
-                <label className="flex-1 text-color-secondary	pl-2">Discount Type</label>
+            <div className="flex align-items-center mt-5 gap-1">
+                <FloatLabel className="flex-1">
+                    <InputNumber
+                        value={assignCouponCodeCourses?.discount}
+                        id="discount"
+                        onChange={(e) => setAssignCouponCodeCourses((prev) => ({ ...prev, discount: e.value }))}
+                        disabled={loading}
+                        inputClassName="w-full"
+                    />
+                    <label htmlFor="discount">Discount</label>
+                </FloatLabel>
                 <SelectButton
-                    pt={{ button: classNames("border-none border-noround-left	") }}
                     value={assignCouponCodeCourses?.discount_type}
                     onChange={(e) => setAssignCouponCodeCourses((prev) => ({ ...prev, discount_type: e.target.value }))}
                     options={["₹", "%"]}
@@ -88,24 +95,39 @@ export default function DialogAssignCourse({ visible, couponCodeId, setCouponCod
                 <label htmlFor="distributor_email">Distributor Email</label>
             </FloatLabel>
 
-            <FloatLabel className="mt-5">
-                <InputNumber
-                    value={assignCouponCodeCourses?.commision}
-                    id="commision"
-                    className="w-full"
-                    onChange={(e) => setAssignCouponCodeCourses((prev) => ({ ...prev, commision: e.value }))}
-                    disabled={loading}
-                />
-                <label htmlFor="commision">Distributor Commision</label>
-            </FloatLabel>
-
-            <div className="flex gap-2 align-items-center border-1 border-gray-300 border-round mt-3 ">
-                <label className="flex-1 text-color-secondary pl-2">Distributor Commision Type</label>
+            <div className="flex align-items-center  mt-5 gap-1">
+                <FloatLabel className="flex-1">
+                    <InputNumber
+                        value={assignCouponCodeCourses?.commision}
+                        id="commision"
+                        onChange={(e) => setAssignCouponCodeCourses((prev) => ({ ...prev, commision: e.value }))}
+                        disabled={loading}
+                        inputClassName="w-full"
+                    />
+                    <label htmlFor="commision">Commision</label>
+                </FloatLabel>
                 <SelectButton
-                    pt={{ button: classNames("border-none border-noround-left	") }}
                     value={assignCouponCodeCourses?.commision_type}
                     onChange={(e) => setAssignCouponCodeCourses((prev) => ({ ...prev, commision_type: e.target.value }))}
                     options={["₹", "%"]}
+                />
+            </div>
+
+            <div className="flex align-items-center  mt-5 gap-1">
+                <FloatLabel className="flex-1">
+                    <InputNumber
+                        value={assignCouponCodeCourses?.validity}
+                        id="validity"
+                        onChange={(e) => setAssignCouponCodeCourses((prev) => ({ ...prev, validity: e.value }))}
+                        disabled={loading}
+                        inputClassName="w-full"
+                    />
+                    <label htmlFor="validity">Validity Days</label>
+                </FloatLabel>
+                <SelectButton
+                    value={assignCouponCodeCourses?.validity_type}
+                    onChange={(e) => setAssignCouponCodeCourses((prev) => ({ ...prev, validity_type: e.target.value }))}
+                    options={["EXTEND", "FIX"]}
                 />
             </div>
 
