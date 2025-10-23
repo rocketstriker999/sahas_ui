@@ -1,4 +1,4 @@
-import { Outlet, useParams } from "react-router-dom";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import PageTitle from "../components/common/PageTitle";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../providers/ProviderAppContainer";
@@ -7,7 +7,6 @@ import NoContent from "../components/common/NoContent";
 import { Button } from "primereact/button";
 import { getReadableDate } from "../utils";
 import { RUPEE } from "../constants";
-import { Divider } from "primereact/divider";
 import TabHeader from "../components/common/TabHeader";
 
 export default function Subjects() {
@@ -17,6 +16,8 @@ export default function Subjects() {
     const { requestAPI } = useAppContext();
 
     const { courseId } = useParams();
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (courseId)
@@ -71,6 +72,7 @@ export default function Subjects() {
                         className=" w-full"
                         severity="warning"
                         label={`Enroll For Digital Access ${course?.fees} ${RUPEE}`}
+                        onClick={() => navigate(`/enroll/${course?.id}`)}
                     />
                 )}
             </div>

@@ -27,6 +27,7 @@ import ManageCouponCodes from "../pages/ManageCouponCodes";
 import CouponCodes from "../components/manage_coupon_codes/CouponCodes";
 import CouponCode from "../components/manage_coupon_codes/CouponCodeCourses";
 import CouponCodeCourses from "../components/manage_coupon_codes/CouponCodeCourses";
+import Enroll from "../pages/Enroll";
 
 export default function App() {
     return (
@@ -123,6 +124,8 @@ export default function App() {
                                 </HasRequiredAuthority>
                             }
                         />
+
+                        <Route path="/enroll/:courseId" element={<Enroll />} />
 
                         <Route path="/logout" element={<Logout />} />
                         <Route path="*" element={<NotFound />} />
