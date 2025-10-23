@@ -5,13 +5,16 @@ import { useAppContext } from "../providers/ProviderAppContainer";
 import Loading from "../components/common/Loading";
 import NoContent from "../components/common/NoContent";
 import ButtonPay from "../components/enroll/ButtonPay";
+import { RUPEE } from "../constants";
+import { Checkbox } from "primereact/checkbox";
 
 export default function Enroll() {
-    const [course, setCourse] = useState();
+    const [paymentGateWayPayLoad, setPaymentGateWayPayLoad] = useState();
     const { courseId } = useParams();
     const { requestAPI } = useAppContext();
     const [loading, setLoading] = useState();
     const [error, setError] = useState();
+    const [termsAccepted, setTermsAccepted] = useState(false);
 
     useEffect(() => {
         if (courseId)
@@ -21,9 +24,9 @@ export default function Enroll() {
                 setLoading: setLoading,
                 onRequestStart: setError,
                 onRequestFailure: setError,
-                onResponseReceieved: (course, responseCode) => {
-                    if (course && responseCode === 200) {
-                        setCourse(course);
+                onResponseReceieved: (payload, responseCode) => {
+                    if (payload && responseCode === 200) {
+                        setPaymentGateWayPayLoad(payload);
                     } else {
                         setError("Couldn't load Course");
                     }
@@ -35,12 +38,21 @@ export default function Enroll() {
         <Loading message="Loading Course" />
     ) : error ? (
         <NoContent error={error} />
-    ) : course ? (
+    ) : paymentGateWayPayLoad ? (
         <div className="flex flex-column h-full ">
-            <PageTitle title={`Enroll - ${course?.title}`} />
-            <img className="w-full" src={course?.image} alt={course?.image} />
+            <PageTitle title={`Enroll - ${paymentGateWayPayLoad?.course?.title}`} />
+            <img className="w-full" src={paymentGateWayPayLoad?.course?.image} alt={paymentGateWayPayLoad?.course?.image} />
 
-            <ButtonPay />
+            <div className="flex align-items-center gap-2 mb-3 ">
+                <Checkbox id="terms" checked={termsAccepted} invalid={!termsAccepted} onChange={(e) => setTermsAccepted(e.checked)} />
+                <label htmlFor="terms" className="text-sm">
+                    I agree to the{" "}
+                    <a href="/path-to-your-pdf.pdf" target="_blank" rel="noopener noreferrer" className="text-primary underline">
+                        Terms and Conditions
+                    </a>
+                </label>
+            </div>
+            <ButtonPay disabled={!termsAccepted} icon="pi pi-wallet" label={`Enroll For Digital Access ${paymentGateWayPayLoad?.course?.fees} ${RUPEE}`} />
         </div>
     ) : (
         <NoContent error={"Unable To Enroll This Course"} />
