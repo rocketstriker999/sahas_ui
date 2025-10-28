@@ -7,6 +7,12 @@ import NoContent from "../components/common/NoContent";
 import ButtonPay from "../components/enroll/ButtonPay";
 import { RUPEE } from "../constants";
 import { Checkbox } from "primereact/checkbox";
+import { Divider } from "primereact/divider";
+import { Inplace, InplaceDisplay, InplaceContent } from "primereact/inplace";
+import { InputText } from "primereact/inputtext";
+import { Chip } from "primereact/chip";
+import { classNames } from "primereact/utils";
+import { Button } from "primereact/button";
 
 export default function Enroll() {
     const [paymentGateWayPayLoad, setPaymentGateWayPayLoad] = useState();
@@ -15,27 +21,29 @@ export default function Enroll() {
     const [loading, setLoading] = useState();
     const [error, setError] = useState();
     const [termsAccepted, setTermsAccepted] = useState(false);
+    const [couponCode, setCouponCode] = useState();
+
+    const [payInputs, setPayInputs] = useState({ courseId });
 
     useEffect(() => {
         if (courseId)
             requestAPI({
-                requestPath: `courses/${courseId}/payment-gateway-payload`,
-                requestMethod: "GET",
+                requestPath: `payment-gateway-payloads`,
+                requestMethod: "POST",
+                requestPostBody: payInputs,
                 setLoading: setLoading,
                 onRequestStart: setError,
                 onRequestFailure: setError,
-                onResponseReceieved: (payload, responseCode) => {
-                    if (payload && responseCode === 200) {
-                        setPaymentGateWayPayLoad(payload);
-                    } else {
-                        setError("Couldn't load Course");
+                onResponseReceieved: (paymentGateWayPayLoad, responseCode) => {
+                    if (paymentGateWayPayLoad && responseCode === 201) {
+                        setPaymentGateWayPayLoad(paymentGateWayPayLoad);
                     }
                 },
             });
-    }, [courseId, requestAPI]);
+    }, [courseId, payInputs, requestAPI]);
 
     return loading ? (
-        <Loading message="Loading Course" />
+        <Loading message="Preparing For Payment Gateway" />
     ) : error ? (
         <NoContent error={error} />
     ) : paymentGateWayPayLoad ? (
@@ -43,16 +51,122 @@ export default function Enroll() {
             <PageTitle title={`Enroll - ${paymentGateWayPayLoad?.course?.title}`} />
             <img className="w-full" src={paymentGateWayPayLoad?.course?.image} alt={paymentGateWayPayLoad?.course?.image} />
 
-            <div className="flex align-items-center gap-2 mb-3 ">
-                <Checkbox id="terms" checked={termsAccepted} invalid={!termsAccepted} onChange={(e) => setTermsAccepted(e.checked)} />
-                <label htmlFor="terms" className="text-sm">
-                    I agree to the{" "}
-                    <a href="/path-to-your-pdf.pdf" target="_blank" rel="noopener noreferrer" className="text-primary underline">
-                        Terms and Conditions
-                    </a>
-                </label>
+            <div className="flex flex-column gap-2 p-4 border-1 border-gray-300 m-2 border-round">
+                <div className="flex align-items-center justify-content-between text-lg font-bold">
+                    <span>Fees</span>
+                    <span>
+                        {paymentGateWayPayLoad?.course?.fees} {RUPEE}
+                    </span>
+                </div>
+                {paymentGateWayPayLoad?.transaction?.usedWalletBalance && (
+                    <div className="flex align-items-center justify-content-between text-sm">
+                        <span>Wallet Balance</span>
+                        <span className="text-red-500 font-bold">
+                            {paymentGateWayPayLoad?.transaction?.usedWalletBalance} {RUPEE}
+                        </span>
+                    </div>
+                )}
+                {paymentGateWayPayLoad?.transaction?.discount && (
+                    <div className="flex align-items-center justify-content-between text-sm">
+                        <Chip
+                            onRemove={() => {
+                                setPayInputs((prev) => ({ ...prev, couponCode: false }));
+                            }}
+                            pt={{ label: classNames("text-sm text-green-800 font-bold") }}
+                            label="SAHAS20"
+                            removable
+                        />
+
+                        <span className="text-red-500 font-bold">
+                            {paymentGateWayPayLoad?.transaction?.discount} {RUPEE}
+                        </span>
+                    </div>
+                )}
+                <Divider className="m-0 pt-2" />
+
+                <div className="flex align-items-center justify-content-between  font-semibold">
+                    <span>Pre Tax</span>
+                    <span>
+                        {paymentGateWayPayLoad?.transaction?.preTaxAmount} {RUPEE}
+                    </span>
+                </div>
+
+                <div className="flex align-items-center justify-content-between text-sm mt-4">
+                    <span>CGST</span>
+                    <span>
+                        {paymentGateWayPayLoad?.transaction?.cgst} {RUPEE}
+                    </span>
+                </div>
+                <div className="flex align-items-center justify-content-between text-sm">
+                    <span>SGST</span>
+                    <span>
+                        {paymentGateWayPayLoad?.transaction?.sgst} {RUPEE}
+                    </span>
+                </div>
+
+                <div className="flex align-items-center justify-content-between font-bold">
+                    <span>Pay</span>
+                    <span>
+                        {paymentGateWayPayLoad?.transaction?.amount} {RUPEE}
+                    </span>
+                </div>
             </div>
-            <ButtonPay disabled={!termsAccepted} icon="pi pi-wallet" label={`Enroll For Digital Access ${paymentGateWayPayLoad?.course?.fees} ${RUPEE}`} />
+
+            {paymentGateWayPayLoad?.user?.wallet > 0 && (
+                <div className="flex align-items-center gap-2  p-3 border-1 border-gray-300 m-2 border-round">
+                    <i className="pi pi-wallet"></i>
+                    <span className="flex-1">
+                        Use Wallet Balance (
+                        <strong>
+                            {paymentGateWayPayLoad?.user?.wallet} {RUPEE}
+                        </strong>
+                        )
+                    </span>
+                    <Checkbox checked={payInputs?.useWalletBalance} onChange={(e) => setPayInputs((prev) => ({ ...prev, useWalletBalance: e.checked }))} />
+                </div>
+            )}
+
+            {!paymentGateWayPayLoad?.transaction?.couponCode && (
+                <div className="flex align-items-center gap-2 p-3 border-1 border-gray-300 m-2 border-round">
+                    <i className="pi pi-ticket"></i>
+                    <span className="flex-1">Coupon Code</span>
+                    <Inplace
+                        pt={{
+                            content: classNames("flex"),
+                        }}
+                    >
+                        <InplaceDisplay>
+                            <span className="font-bold text-green-800">Apply</span>
+                        </InplaceDisplay>
+                        <InplaceContent>
+                            <div className="p-inputgroup">
+                                <InputText
+                                    value={couponCode}
+                                    className="w-8rem"
+                                    placeholder="Code"
+                                    onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                                    autoFocus
+                                />
+                                <Button icon="pi pi-check" severity="success" onClick={() => setPayInputs((prev) => ({ ...prev, couponCode }))} />
+                            </div>
+                        </InplaceContent>
+                    </Inplace>
+                </div>
+            )}
+
+            <div className="flex flex-column align-items-center mt-2">
+                <div className="flex align-items-center gap-2 mb-3 ">
+                    <Checkbox id="terms" checked={termsAccepted} invalid={!termsAccepted} onChange={(e) => setTermsAccepted(e.checked)} />
+                    <label htmlFor="terms" className="text-sm">
+                        I agree to the{" "}
+                        <a href="/path-to-your-pdf.pdf" target="_blank" rel="noopener noreferrer" className="text-primary underline">
+                            Terms and Conditions
+                        </a>
+                    </label>
+                </div>
+
+                <ButtonPay {...paymentGateWayPayLoad} disabled={!termsAccepted} icon="pi pi-wallet" label={`Continue To Pay`} />
+            </div>
         </div>
     ) : (
         <NoContent error={"Unable To Enroll This Course"} />
