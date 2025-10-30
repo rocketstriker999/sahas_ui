@@ -25,10 +25,9 @@ import { Chapters } from "../components/course/Chapters";
 import ManageChapterTypes from "../pages/ManageChapterTypes";
 import ManageCouponCodes from "../pages/ManageCouponCodes";
 import CouponCodes from "../components/manage_coupon_codes/CouponCodes";
-import CouponCode from "../components/manage_coupon_codes/CouponCodeCourses";
 import CouponCodeCourses from "../components/manage_coupon_codes/CouponCodeCourses";
 import Enroll from "../pages/Enroll";
-import PaymentGateWayPayLoad from "../pages/PaymentGatewayPayLoad";
+import PaymentResult from "../pages/PaymentResult";
 
 export default function App() {
     return (
@@ -128,7 +127,7 @@ export default function App() {
 
                         <Route path="/enroll/:courseId" element={<Enroll />} />
 
-                        <Route path="/payment-gateway-payload-results/:paymentGatewayPayloadId" element={<PaymentGateWayPayLoad />} />
+                        <Route path="/payment-results/:paymentGatewayPayloadId" element={<PaymentResult />} />
 
                         <Route path="/logout" element={<Logout />} />
                         <Route path="*" element={<NotFound />} />

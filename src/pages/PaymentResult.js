@@ -9,7 +9,7 @@ import { getReadableDate } from "../utils";
 import { RUPEE } from "../constants";
 import TabHeader from "../components/common/TabHeader";
 
-export default function PaymentGateWayPayLoad() {
+export default function PaymentResult() {
     const [course, setCourse] = useState();
     const [loading, setLoading] = useState();
     const [error, setError] = useState();
