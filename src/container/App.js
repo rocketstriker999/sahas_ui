@@ -128,7 +128,7 @@ export default function App() {
 
                         <Route path="/enroll/:courseId" element={<Enroll />} />
 
-                        <Route path="/payment-gateway-payloads/:paymentGatewayPayloadId" element={<PaymentGateWayPayLoad />} />
+                        <Route path="/payment-gateway-payload-results/:paymentGatewayPayloadId" element={<PaymentGateWayPayLoad />} />
 
                         <Route path="/logout" element={<Logout />} />
                         <Route path="*" element={<NotFound />} />
