@@ -1,5 +1,4 @@
 import { useNavigate, useParams } from "react-router-dom";
-import PageTitle from "../components/common/PageTitle";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../providers/ProviderAppContainer";
 import Loading from "../components/common/Loading";
@@ -7,7 +6,7 @@ import NoContent from "../components/common/NoContent";
 import { Button } from "primereact/button";
 
 export default function PaymentGatewayPayLoad() {
-    const [paymentGatewayPayloadResult, setPaymentGateWayPayLoadResult] = useState();
+    const [paymentGatewayPayLoad, setPaymentGateWayPayLoad] = useState();
     const [loading, setLoading] = useState();
     const [error, setError] = useState();
     const { requestAPI } = useAppContext();
@@ -24,9 +23,9 @@ export default function PaymentGatewayPayLoad() {
                 setLoading: setLoading,
                 onRequestStart: setError,
                 onRequestFailure: setError,
-                onResponseReceieved: (paymentGatewayPayloadResult, responseCode) => {
-                    if (paymentGatewayPayloadResult && responseCode === 200) {
-                        setPaymentGateWayPayLoadResult(paymentGatewayPayloadResult);
+                onResponseReceieved: (paymentGatewayPayLoad, responseCode) => {
+                    if (paymentGatewayPayLoad && responseCode === 200) {
+                        setPaymentGateWayPayLoad(paymentGatewayPayLoad);
                     } else {
                         setError("Couldn't load Payment Result");
                     }
@@ -40,8 +39,8 @@ export default function PaymentGatewayPayLoad() {
                 <Loading message="Loading Payment Status" />
             ) : error ? (
                 <NoContent error={error} />
-            ) : paymentGatewayPayloadResult?.status ? (
-                <Button severity="warning" label="Go To Course" onClick={() => navigate(`/courses/${paymentGatewayPayloadResult?.course?.id}/subjects`)} />
+            ) : paymentGatewayPayLoad?.transaction?.paid ? (
+                <Button severity="warning" label="Go To Course" onClick={() => navigate(`/courses/${paymentGatewayPayLoad?.course?.id}/subjects`)} />
             ) : (
                 <NoContent error={"Payment Was Unsuccesful"} />
             )}
