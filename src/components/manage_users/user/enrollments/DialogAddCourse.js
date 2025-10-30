@@ -7,7 +7,7 @@ import TabHeader from "../../../common/TabHeader";
 import { useAppContext } from "../../../../providers/ProviderAppContainer";
 import { useOutletContext } from "react-router-dom";
 
-export default function DialogAddCourse({ visible, enrollment_id, setCourses, closeDialog }) {
+export default function DialogAddCourse({ visible, enrollment_id, enrolledCourses, setCourses, closeDialog }) {
     const { requestAPI, showToast } = useAppContext();
     const { courses } = useOutletContext();
 
@@ -45,7 +45,7 @@ export default function DialogAddCourse({ visible, enrollment_id, setCourses, cl
                 <Dropdown
                     value={courses?.find((course) => courseId === course?.id)}
                     inputId="courses"
-                    options={courses}
+                    options={courses?.filter(({ id }) => !enrolledCourses?.find(({ course_id }) => course_id == id))}
                     optionLabel="title"
                     className="w-full"
                     onChange={(e) => setCourseId(e.value?.id)}

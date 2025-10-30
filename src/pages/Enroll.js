@@ -84,14 +84,16 @@ export default function Enroll() {
                 )}
                 <Divider className="m-0 pt-2" />
 
-                <div className="flex align-items-center justify-content-between  font-semibold">
-                    <span>Pre Tax</span>
-                    <span>
-                        {paymentGateWayPayLoad?.transaction?.preTaxAmount} {RUPEE}
-                    </span>
-                </div>
+                {paymentGateWayPayLoad?.transaction?.preTaxAmount !== paymentGateWayPayLoad?.course?.fees && (
+                    <div className="flex align-items-center justify-content-between  font-semibold">
+                        <span>Pre Tax</span>
+                        <span>
+                            {paymentGateWayPayLoad?.transaction?.preTaxAmount} {RUPEE}
+                        </span>
+                    </div>
+                )}
 
-                <div className="flex align-items-center justify-content-between text-sm mt-4">
+                <div className="flex align-items-center justify-content-between text-sm mt-2">
                     <span>CGST</span>
                     <span>
                         {paymentGateWayPayLoad?.transaction?.cgst} {RUPEE}

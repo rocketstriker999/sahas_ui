@@ -28,6 +28,7 @@ import CouponCodes from "../components/manage_coupon_codes/CouponCodes";
 import CouponCode from "../components/manage_coupon_codes/CouponCodeCourses";
 import CouponCodeCourses from "../components/manage_coupon_codes/CouponCodeCourses";
 import Enroll from "../pages/Enroll";
+import PaymentGateWayPayLoad from "../pages/PaymentGatewayPayLoad";
 
 export default function App() {
     return (
@@ -126,6 +127,8 @@ export default function App() {
                         />
 
                         <Route path="/enroll/:courseId" element={<Enroll />} />
+
+                        <Route path="/payment-gateway-payloads/:paymentGatewayPayloadId" element={<PaymentGateWayPayLoad />} />
 
                         <Route path="/logout" element={<Logout />} />
                         <Route path="*" element={<NotFound />} />

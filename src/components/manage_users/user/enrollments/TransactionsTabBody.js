@@ -8,7 +8,7 @@ import { useAppContext } from "../../../../providers/ProviderAppContainer";
 import Loading from "../../../common/Loading";
 import DialogAddTransaction from "./DialogAddTransaction";
 
-export default function TransactionsTabBody({ fees, id, setTotalTransactions }) {
+export default function TransactionsTabBody({ amount, id, setTotalTransactions }) {
     const [transactions, setTransactions] = useState();
     const { requestAPI } = useAppContext();
     const [loading, setLoading] = useState();
@@ -44,9 +44,9 @@ export default function TransactionsTabBody({ fees, id, setTotalTransactions }) 
 
     const [paid, due] = useMemo(() => {
         const paid = transactions?.reduce((sum, transaction) => sum + parseFloat(transaction?.amount), 0);
-        const due = parseFloat(fees) - paid;
+        const due = parseFloat(amount) - paid;
         return [paid, due];
-    }, [fees, transactions]);
+    }, [amount, transactions]);
 
     return (
         <div className="flex flex-column gap-3">
@@ -69,7 +69,7 @@ export default function TransactionsTabBody({ fees, id, setTotalTransactions }) 
                 ]}
             />
 
-            <TransactionsSummary paid={paid} due={due} fees={fees} />
+            <TransactionsSummary paid={paid} due={due} amount={amount} />
 
             {loading ? (
                 <Loading />

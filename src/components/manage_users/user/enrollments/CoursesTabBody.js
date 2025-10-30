@@ -71,7 +71,7 @@ export default function CoursesTabBody({ id, setTotalCourses }) {
                 <NoContent error="No Courses Assigned" />
             )}
 
-            <DialogAddCourse setCourses={setCourses} {...dialogAddCourse} />
+            <DialogAddCourse enrolledCourses={courses} setCourses={setCourses} {...dialogAddCourse} />
         </div>
     );
 }

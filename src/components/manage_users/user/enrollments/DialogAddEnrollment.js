@@ -94,8 +94,13 @@ export default function DialogAddEnrollment({ visible, closeDialog, setEnrollmen
             </FloatLabel>
 
             <FloatLabel className="mt-5">
-                <InputNumber value={enrollment?.fees} id="fees" className="w-full" onChange={(e) => setEnrollment((prev) => ({ ...prev, fees: e.value }))} />
-                <label htmlFor="fees">Total Fees</label>
+                <InputNumber
+                    value={enrollment?.amount}
+                    id="amount"
+                    className="w-full"
+                    onChange={(e) => setEnrollment((prev) => ({ ...prev, amount: e.value }))}
+                />
+                <label htmlFor="amount">Total Amount</label>
             </FloatLabel>
 
             <div className="border-1 border-round border-gray-300 p-3 flex justify-content-between align-items-center mt-3">
