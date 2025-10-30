@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useAppContext } from "../providers/ProviderAppContainer";
 import Loading from "../components/common/Loading";
 import NoContent from "../components/common/NoContent";
+import { Button } from "primereact/button";
 
 export default function PaymentGatewayPayLoad() {
     const [paymentGatewayPayloadResult, setPaymentGateWayPayLoadResult] = useState();
@@ -33,5 +34,17 @@ export default function PaymentGatewayPayLoad() {
             });
     }, [paymentGatewayPayloadId, requestAPI]);
 
-    return <div className="flex flex-column h-full ">{loading ? <Loading /> : <NoContent error={error} />}</div>;
+    return (
+        <div className="flex flex-column h-full ">
+            {loading ? (
+                <Loading message="Loading Payment Status" />
+            ) : error ? (
+                <NoContent error={error} />
+            ) : paymentGatewayPayloadResult?.status ? (
+                <Button severity="warning" label="Go To Course" onClick={() => navigate(`/courses/${paymentGatewayPayloadResult?.course?.id}/subjects`)} />
+            ) : (
+                <NoContent error={"Payment Was Unsuccesful"} />
+            )}
+        </div>
+    );
 }
