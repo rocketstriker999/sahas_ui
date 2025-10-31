@@ -121,7 +121,7 @@ export default function Enroll() {
             <div className="flex align-items-center gap-2  p-3 border-1 border-gray-300 m-2 border-round">
                 <i className="pi pi-calendar"></i>
                 <span className="flex-1">Validity</span>
-                <span className="font-bold">{paymentGateWayPayLoad?.course?.validity}</span>
+                <span className="font-bold">{getReadableDate({ date: paymentGateWayPayLoad?.course?.validity, removeTime: true })}</span>
             </div>
 
             {paymentGateWayPayLoad?.user?.wallet > 0 && (
