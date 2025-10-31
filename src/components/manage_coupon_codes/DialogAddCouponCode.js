@@ -39,7 +39,7 @@ export default function DialogAddCouponCode({ visible, setCouponCodes, closeDial
                     value={couponCode?.code || ""}
                     id="code"
                     className="w-full"
-                    onChange={(e) => setCouponCode((prev) => ({ ...prev, code: e.target.value }))}
+                    onChange={(e) => setCouponCode((prev) => ({ ...prev, code: e.target.value.toUpperCase() }))}
                     disabled={loading}
                 />
                 <label htmlFor="code">Code</label>

@@ -13,6 +13,7 @@ import { InputText } from "primereact/inputtext";
 import { Chip } from "primereact/chip";
 import { classNames } from "primereact/utils";
 import { Button } from "primereact/button";
+import { getReadableDate } from "../utils";
 
 export default function Enroll() {
     const [paymentGateWayPayLoad, setPaymentGateWayPayLoad] = useState();
@@ -58,30 +59,33 @@ export default function Enroll() {
                         {paymentGateWayPayLoad?.course?.fees} {RUPEE}
                     </span>
                 </div>
-                {paymentGateWayPayLoad?.transaction?.usedWalletBalance && (
-                    <div className="flex align-items-center justify-content-between text-sm">
-                        <span>Wallet Balance</span>
-                        <span className="text-red-500 font-bold">
-                            {paymentGateWayPayLoad?.transaction?.usedWalletBalance} {RUPEE}
-                        </span>
-                    </div>
-                )}
-                {paymentGateWayPayLoad?.transaction?.discount && (
+                {paymentGateWayPayLoad?.transaction?.couponCode && (
                     <div className="flex align-items-center justify-content-between text-sm">
                         <Chip
                             onRemove={() => {
                                 setPayInputs((prev) => ({ ...prev, couponCode: false }));
                             }}
-                            pt={{ label: classNames("text-sm text-green-800 font-bold") }}
-                            label="SAHAS20"
+                            pt={{
+                                label: classNames(`text-sm  font-bold ${paymentGateWayPayLoad?.transaction?.discount > 0 ? `text-green-800` : `text-red-800`}`),
+                            }}
+                            label={`${paymentGateWayPayLoad?.transaction?.couponCode} Discount`}
                             removable
                         />
 
                         <span className="text-red-500 font-bold">
-                            {paymentGateWayPayLoad?.transaction?.discount} {RUPEE}
+                            -{paymentGateWayPayLoad?.transaction?.discount} {RUPEE}
                         </span>
                     </div>
                 )}
+                {paymentGateWayPayLoad?.transaction?.usedWalletBalance && (
+                    <div className="flex align-items-center justify-content-between text-sm">
+                        <span>Wallet Balance</span>
+                        <span className="text-red-500 font-bold">
+                            -{paymentGateWayPayLoad?.transaction?.usedWalletBalance} {RUPEE}
+                        </span>
+                    </div>
+                )}
+
                 <Divider className="m-0 pt-2" />
 
                 {paymentGateWayPayLoad?.transaction?.preTaxAmount !== paymentGateWayPayLoad?.course?.fees && (
@@ -114,6 +118,12 @@ export default function Enroll() {
                 </div>
             </div>
 
+            <div className="flex align-items-center gap-2  p-3 border-1 border-gray-300 m-2 border-round">
+                <i className="pi pi-calendar"></i>
+                <span className="flex-1">Validity</span>
+                <span className="font-bold">{paymentGateWayPayLoad?.course?.validity}</span>
+            </div>
+
             {paymentGateWayPayLoad?.user?.wallet > 0 && (
                 <div className="flex align-items-center gap-2  p-3 border-1 border-gray-300 m-2 border-round">
                     <i className="pi pi-wallet"></i>
@@ -138,7 +148,7 @@ export default function Enroll() {
                         }}
                     >
                         <InplaceDisplay>
-                            <span className="font-bold text-green-800">Apply</span>
+                            <span className="font-bold text-orange-500">Apply</span>
                         </InplaceDisplay>
                         <InplaceContent>
                             <div className="p-inputgroup">
