@@ -24,7 +24,7 @@ export default function DialogAddTransaction({ setWalletTransActions, currentBal
         requestAPI({
             requestPath: `wallet-transactions`,
             requestMethod: "POST",
-            requestPostBody: { ...transaction, user_id: userId },
+            requestPostBody: { ...transaction, user_id: userId, amount: transaction?.operation === "Credit" ? transaction?.amount : -transaction?.amount },
             setLoading: setLoading,
             onResponseReceieved: (walletTransaction, responseCode) => {
                 if (walletTransaction && responseCode === 201) {
