@@ -1,9 +1,9 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../providers/ProviderAppContainer";
 import Loading from "../components/common/Loading";
 import NoContent from "../components/common/NoContent";
-import { Button } from "primereact/button";
+import TransactionStatus from "../components/payment_gateway_payloads/TransactionStatus";
 
 export default function PaymentGatewayPayLoad() {
     const [paymentGatewayPayLoad, setPaymentGateWayPayLoad] = useState();
@@ -12,8 +12,6 @@ export default function PaymentGatewayPayLoad() {
     const { requestAPI } = useAppContext();
 
     const { paymentGatewayPayloadId } = useParams();
-
-    const navigate = useNavigate();
 
     useEffect(() => {
         if (paymentGatewayPayloadId)
@@ -34,21 +32,13 @@ export default function PaymentGatewayPayLoad() {
     }, [paymentGatewayPayloadId, requestAPI]);
 
     return (
-        <div className="flex flex-column h-full justify-content-center">
+        <div className="flex flex-column h-full justify-content-center p-4 bg-blue-500">
             {loading ? (
                 <Loading message="Loading Payment Status" />
             ) : error ? (
                 <NoContent error={error} />
-            ) : !paymentGatewayPayLoad?.transaction?.paid ? (
-                <div className="flex justify-content-center m-3 border-1 border-round border-gray-300">
-                    <p className="font-lg">Payment Was Succesful</p>
-                    <Button severity="warning" label="Go To Course" onClick={() => navigate(`/courses/${paymentGatewayPayLoad?.course?.id}/subjects`)} />
-                    <Button
-                        severity="success"
-                        label="Check Payment Invoices"
-                        onClick={() => navigate(`/courses/${paymentGatewayPayLoad?.course?.id}/subjects`)}
-                    />
-                </div>
+            ) : paymentGatewayPayLoad?.transaction?.paid ? (
+                <TransactionStatus {...paymentGatewayPayLoad?.transaction?.paid} />
             ) : (
                 <NoContent error={"Payment Was Unsuccesful"} />
             )}
