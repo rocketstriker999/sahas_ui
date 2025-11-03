@@ -34,13 +34,21 @@ export default function PaymentGatewayPayLoad() {
     }, [paymentGatewayPayloadId, requestAPI]);
 
     return (
-        <div className="flex flex-column h-full ">
+        <div className="flex flex-column h-full justify-content-center">
             {loading ? (
                 <Loading message="Loading Payment Status" />
             ) : error ? (
                 <NoContent error={error} />
-            ) : paymentGatewayPayLoad?.transaction?.paid ? (
-                <Button severity="warning" label="Go To Course" onClick={() => navigate(`/courses/${paymentGatewayPayLoad?.course?.id}/subjects`)} />
+            ) : !paymentGatewayPayLoad?.transaction?.paid ? (
+                <div className="flex justify-content-center m-3 border-1 border-round border-gray-300">
+                    <p className="font-lg">Payment Was Succesful</p>
+                    <Button severity="warning" label="Go To Course" onClick={() => navigate(`/courses/${paymentGatewayPayLoad?.course?.id}/subjects`)} />
+                    <Button
+                        severity="success"
+                        label="Check Payment Invoices"
+                        onClick={() => navigate(`/courses/${paymentGatewayPayLoad?.course?.id}/subjects`)}
+                    />
+                </div>
             ) : (
                 <NoContent error={"Payment Was Unsuccesful"} />
             )}
