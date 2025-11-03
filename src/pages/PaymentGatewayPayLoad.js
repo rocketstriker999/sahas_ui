@@ -38,7 +38,7 @@ export default function PaymentGatewayPayLoad() {
             ) : error ? (
                 <NoContent error={error} />
             ) : paymentGatewayPayLoad?.transaction?.paid ? (
-                <TransactionStatus {...paymentGatewayPayLoad?.transaction?.paid} />
+                <TransactionStatus {...paymentGatewayPayLoad} />
             ) : (
                 <NoContent error={"Payment Was Unsuccesful"} />
             )}
