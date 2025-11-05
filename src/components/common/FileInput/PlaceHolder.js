@@ -14,9 +14,9 @@ export default function PlaceHolder({ label, setCDNUrl, disabled }) {
                 const formData = new FormData();
                 formData.append("file", file);
                 requestAPI({
-                    requestPath: `media/image`,
+                    requestPath: `bucketise/images`,
                     requestMethod: "POST",
-                    requestService: process.env.REACT_APP_API_PATH,
+                    requestService: process.env.REACT_APP_MEDIA_PATH,
                     requestPostBody: formData,
                     setLoading: setLoading,
                     onResponseReceieved: ({ cdn_url }, responseCode) => {

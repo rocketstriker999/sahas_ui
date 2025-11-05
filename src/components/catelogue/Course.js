@@ -54,7 +54,7 @@ export default function Course({ id, title, description, fees, image, whatsapp_g
                 alt={title}
             />
 
-            <div className="flex align-items-center  px-2 gap-3">
+            <div className="flex align-items-center mt-1 px-3 gap-3">
                 <span className="text-sm font-semibold text-indigo-800 flex-1">
                     <i className="pi text-xs pi-info-circle"></i> {title}
                 </span>
@@ -82,7 +82,7 @@ export default function Course({ id, title, description, fees, image, whatsapp_g
                 {!!updatingViewIndex && <i className="pi pi-equals mr-3"></i>}
             </div>
 
-            <span className="text-xs px-2">{description}</span>
+            <span className="text-xs px-3">{description}</span>
 
             {dialogEditCourse?.visible && <DialogEditCourse {...dialogEditCourse} />}
         </div>
