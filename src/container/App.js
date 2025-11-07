@@ -27,7 +27,6 @@ import ManageCouponCodes from "../pages/ManageCouponCodes";
 import CouponCodes from "../components/manage_coupon_codes/CouponCodes";
 import CouponCodeCourses from "../components/manage_coupon_codes/CouponCodeCourses";
 import Enroll from "../pages/Enroll";
-import PaymentResult from "../pages/PaymentGatewayPayLoad";
 import PaymentGatewayPayLoad from "../pages/PaymentGatewayPayLoad";
 
 export default function App() {

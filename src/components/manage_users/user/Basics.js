@@ -63,6 +63,9 @@ export default function Basics() {
         });
     }, [basics, requestAPI, showToast]);
 
+    console.log(branches);
+    console.log(basics);
+
     return (
         <div className="flex flex-column h-full ">
             <TabHeader
@@ -116,7 +119,7 @@ export default function Basics() {
                         <FloatLabel className="flex-1">
                             <Dropdown
                                 className="w-full"
-                                value={branches?.find((branch) => branch.id === basics?.branch_id)}
+                                value={branches?.find(({ id }) => id === basics?.branch_id)}
                                 inputId="branch"
                                 options={branches}
                                 optionLabel="title"
@@ -129,7 +132,7 @@ export default function Basics() {
 
                     <FloatLabel className="mt-4">
                         <InputTextarea
-                            value={basics?.address}
+                            value={basics?.address || ""}
                             id="address"
                             rows={5}
                             cols={30}

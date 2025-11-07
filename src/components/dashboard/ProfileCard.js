@@ -2,7 +2,7 @@ import { Avatar } from "primereact/avatar";
 import { Tag } from "primereact/tag";
 import { Divider } from "primereact/divider";
 import { EMPTY_VALUE } from "../../constants";
-import { InputSwitch } from "primereact/inputswitch";
+import { useNavigate } from "react-router-dom";
 
 export default function ProfileCard({
     className,
@@ -14,6 +14,8 @@ export default function ProfileCard({
     showViewMore = true,
     showStatusController,
 }) {
+    const navigate = useNavigate();
+
     return (
         <div className={`pl-2 py-2 border-round border-1 border-gray-300 relative  ${className}`}>
             <div className="flex align-items-center">
@@ -38,6 +40,7 @@ export default function ProfileCard({
 
             {showViewMore && (
                 <p
+                    onClick={() => navigate(`/manage-users/${id}/basics`)}
                     className="absolute top-0 right-0 m-0 p-2 text-xs bg-orange-500 shadow-3 text-white font-semibold "
                     style={{ borderBottomLeftRadius: "6px", borderTopRightRadius: "6px" }}
                 >
