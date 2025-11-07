@@ -63,9 +63,6 @@ export default function Basics() {
         });
     }, [basics, requestAPI, showToast]);
 
-    console.log(branches);
-    console.log(basics);
-
     return (
         <div className="flex flex-column h-full ">
             <TabHeader
