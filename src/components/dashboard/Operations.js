@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 export default function Operations({ className }) {
-    const { authorities = [] } = useSelector((state) => state.stateUser);
+    const { id, authorities = [] } = useSelector((state) => state.stateUser);
     const navigate = useNavigate();
 
     const operationsSections = useMemo(() => {
@@ -33,7 +33,7 @@ export default function Operations({ className }) {
                         title: "Invoices",
                         icon: "pi-receipt",
                         required_authority: "USE_PAGE_INVOICES",
-                        path: "/invoices",
+                        path: `/manage-users/${id}/enrollments`,
                     },
 
                     {
@@ -191,7 +191,7 @@ export default function Operations({ className }) {
 
             return acc;
         }, []);
-    }, [authorities]);
+    }, [authorities, id]);
 
     return (
         <div className={className}>
