@@ -48,6 +48,12 @@ export default function Operations({ className }) {
                         required_authority: "USE_PAGE_EXAMS",
                         path: "/my-exams",
                     },
+                    {
+                        title: "My Tasks",
+                        icon: "pi-check-square",
+                        required_authority: "USE_PAGE_TASKS",
+                        path: "/tasks",
+                    },
                 ],
             },
             {
@@ -74,12 +80,6 @@ export default function Operations({ className }) {
                     },
 
                     {
-                        title: "My Tasks",
-                        icon: "pi-check-square",
-                        required_authority: "USE_PAGE_TASKS",
-                        path: "/tasks",
-                    },
-                    {
                         title: "Analytics",
                         icon: "pi-chart-bar",
                         required_authority: "USE_PAGE_MANAGE_ANALYTICS",
@@ -96,12 +96,6 @@ export default function Operations({ className }) {
             {
                 title: "Admin Corner",
                 operations: [
-                    {
-                        title: "Carousel",
-                        icon: "pi-images",
-                        required_authority: "USE_PAGE_MANAGE_CAROUSEL",
-                        path: "/manage-carousel",
-                    },
                     {
                         title: "Branches",
                         icon: "pi-building-columns",
@@ -132,12 +126,7 @@ export default function Operations({ className }) {
                         required_authority: "USE_PAGE_MANAGE_DEVICES",
                         path: "/manage-devices",
                     },
-                    {
-                        title: "Tasks",
-                        icon: "pi-list-check",
-                        required_authority: "USE_PAGE_MANAGE_TASKS",
-                        path: "/manage-tasks",
-                    },
+
                     {
                         title: "Chapterization",
                         icon: "pi-clone",

@@ -3,11 +3,14 @@ import { useCallback, useState } from "react";
 import ProgressiveControl from "../common/ProgressiveControl";
 import { getReadableDate } from "../../utils";
 import DialogEditChapter from "./DialogEditChapter";
+import { useNavigate } from "react-router-dom";
 
 export default function Chapter({ id, title, setChapters, type, updatingViewIndex, updated_at }) {
     const { requestAPI, showToast } = useAppContext();
 
     const [deleting, setDeleting] = useState();
+
+    const navigate = useNavigate();
 
     const [dialogEditChapterType, setDialogEditChapterType] = useState({
         visible: false,
@@ -41,7 +44,7 @@ export default function Chapter({ id, title, setChapters, type, updatingViewInde
 
     return (
         <div className={`flex gap-3 align-items-center border-1 border-gray-300 border-round py-2 px-3 overflow-hidden `}>
-            <div className="flex flex-column flex-1 gap-2">
+            <div onClick={() => navigate(`/chapters/${id}`)} className="flex flex-column flex-1 gap-2">
                 <span className={`text-sm font-semibold `}>
                     {id}. {title}
                 </span>

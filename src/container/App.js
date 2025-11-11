@@ -28,6 +28,7 @@ import CouponCodes from "../components/manage_coupon_codes/CouponCodes";
 import CouponCodeCourses from "../components/manage_coupon_codes/CouponCodeCourses";
 import Enroll from "../pages/Enroll";
 import PaymentGatewayPayLoad from "../pages/PaymentGatewayPayLoad";
+import Chapter from "../pages/Chapter";
 
 export default function App() {
     return (
@@ -124,6 +125,8 @@ export default function App() {
                                 </HasRequiredAuthority>
                             }
                         />
+
+                        <Route path="/chapters/:chapterId" element={<Chapter />} />
 
                         <Route path="/enroll/:courseId" element={<Enroll />} />
 
