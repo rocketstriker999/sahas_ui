@@ -27,6 +27,8 @@ export function Chapters() {
     const [chapters, setChapters] = useState();
     const { digitallyEnrolledCourses } = useSelector((state) => state.stateUser);
 
+    console.log(digitallyEnrolledCourses);
+
     const [dialogAddChapter, setDialogAddChapter] = useState({
         subjectId,
         visible: false,

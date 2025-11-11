@@ -9,8 +9,6 @@ export default function TransactionStatus({ course }) {
 
     const loggedInUser = useSelector((state) => state.stateUser);
 
-    console.log(loggedInUser);
-
     const dispatch = useNavigate();
 
     //if course is purchased then need to push to redux
