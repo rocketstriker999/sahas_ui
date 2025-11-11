@@ -81,8 +81,6 @@ export function Chapters() {
         });
     }, [chapters, requestAPI, showToast]);
 
-    console.log(digitallyEnrolledCourses);
-
     return (
         <div className="flex-1 overflow-hidden flex flex-column">
             <TabHeader
