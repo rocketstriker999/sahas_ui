@@ -141,8 +141,8 @@ export function Chapters() {
                                     </div>
                                 }
                             >
-                                {console.log(chaptersTab?.title)}
                                 {console.log(
+                                    chaptersTab?.title,
                                     chaptersTab?.requires_digital_enrollment_access ? !digitallyEnrolledCourses?.find(({ id }) => id === courseId) : false
                                 )}
                                 <OrderManager
