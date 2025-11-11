@@ -27,8 +27,6 @@ export function Chapters() {
     const [chapters, setChapters] = useState();
     const { digitallyEnrolledCourses } = useSelector((state) => state.stateUser);
 
-    console.log(digitallyEnrolledCourses);
-
     const [dialogAddChapter, setDialogAddChapter] = useState({
         subjectId,
         visible: false,
@@ -82,6 +80,8 @@ export function Chapters() {
             },
         });
     }, [chapters, requestAPI, showToast]);
+
+    console.log(digitallyEnrolledCourses);
 
     return (
         <div className="flex-1 overflow-hidden flex flex-column">
@@ -141,6 +141,9 @@ export function Chapters() {
                                     </div>
                                 }
                             >
+                                {console.log(
+                                    chaptersTab?.requires_digital_enrollment_access ? !digitallyEnrolledCourses?.find(({ id }) => id === courseId) : false
+                                )}
                                 <OrderManager
                                     updatingViewIndex={updatingViewIndex}
                                     items={chaptersTab?.chapters}

@@ -9,7 +9,6 @@ export default function TransactionStatus({ course }) {
     const dispatch = useDispatch();
 
     const loggedInUser = useSelector((state) => state.stateUser);
-    console.log(loggedInUser);
 
     //if course is purchased then need to push to redux
     //redux will be holding the courses purchased
