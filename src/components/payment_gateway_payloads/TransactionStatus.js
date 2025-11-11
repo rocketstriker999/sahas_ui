@@ -1,12 +1,12 @@
 import { Button } from "primereact/button";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addDigitallyEnrolledCourse } from "../../redux/sliceUser";
 
 export default function TransactionStatus({ course }) {
     const navigate = useNavigate();
-    const dispatch = useNavigate();
+    const dispatch = useDispatch();
 
     const loggedInUser = useSelector((state) => state.stateUser);
     console.log(loggedInUser);
