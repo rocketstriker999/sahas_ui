@@ -133,7 +133,7 @@ export function Chapters() {
                                     root: classNames("mx-2"),
                                     mask: "bg-black-alpha-80 align-items-start p-4",
                                 }}
-                                blocked={chaptersTab?.requires_digital_enrollment_access ? !digitallyEnrolledCourses?.find(({ id }) => id === courseId) : false}
+                                blocked={chaptersTab?.requires_digital_enrollment_access ? !digitallyEnrolledCourses?.find(({ id }) => id == courseId) : false}
                                 template={
                                     <div className="text-white flex flex-column align-items-center">
                                         <i className="pi pi-lock" style={{ fontSize: "3rem" }}></i>
@@ -143,7 +143,7 @@ export function Chapters() {
                             >
                                 {console.log(
                                     chaptersTab?.title,
-                                    chaptersTab?.requires_digital_enrollment_access ? !digitallyEnrolledCourses?.find(({ id }) => id === courseId) : false
+                                    chaptersTab?.requires_digital_enrollment_access ? !digitallyEnrolledCourses?.find(({ id }) => id == courseId) : false
                                 )}
                                 <OrderManager
                                     updatingViewIndex={updatingViewIndex}
