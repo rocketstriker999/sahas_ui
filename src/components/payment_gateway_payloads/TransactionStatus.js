@@ -14,6 +14,7 @@ export default function TransactionStatus({ course }) {
     //if course is purchased then need to push to redux
     //redux will be holding the courses purchased
     useEffect(() => {
+        console.log("CALLED");
         dispatch(addDigitallyEnrolledCourse(course));
     }, [course, dispatch, loggedInUser]);
 
