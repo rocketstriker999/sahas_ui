@@ -81,6 +81,8 @@ export function Chapters() {
         });
     }, [chapters, requestAPI, showToast]);
 
+    console.log(courseId);
+
     return (
         <div className="flex-1 overflow-hidden flex flex-column">
             <TabHeader
