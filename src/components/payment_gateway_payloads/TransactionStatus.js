@@ -2,7 +2,7 @@ import { Button } from "primereact/button";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setCurrentUser } from "../../redux/sliceUser";
+import { addDigitallyEnrolledCourse } from "../../redux/sliceUser";
 
 export default function TransactionStatus({ course }) {
     const navigate = useNavigate();
@@ -14,7 +14,7 @@ export default function TransactionStatus({ course }) {
     //if course is purchased then need to push to redux
     //redux will be holding the courses purchased
     useEffect(() => {
-        if (course) dispatch(setCurrentUser({ ...loggedInUser, digitallyEnrolledCourses: [...loggedInUser?.digitallyEnrolledCourses, course] }));
+        dispatch(addDigitallyEnrolledCourse(course));
     }, [course, dispatch, loggedInUser]);
 
     return (
