@@ -6,10 +6,10 @@ import { setCurrentUser } from "../../redux/sliceUser";
 
 export default function TransactionStatus({ course }) {
     const navigate = useNavigate();
+    const dispatch = useNavigate();
 
     const loggedInUser = useSelector((state) => state.stateUser);
-
-    const dispatch = useNavigate();
+    console.log(loggedInUser);
 
     //if course is purchased then need to push to redux
     //redux will be holding the courses purchased
