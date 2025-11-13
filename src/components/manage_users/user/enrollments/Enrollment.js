@@ -52,14 +52,14 @@ export default function Enrollment({ index, setEnrollments, ...props }) {
                         loading={updating}
                         control={
                             <Checkbox
-                                inputId="on_site_access"
-                                onChange={({ checked }) => updateEnrollment({ on_site_access: checked })}
-                                checked={!!props?.on_site_access}
+                                inputId="class_access"
+                                onChange={({ checked }) => updateEnrollment({ class_access: checked })}
+                                checked={!!props?.class_access}
                             />
                         }
                     />
 
-                    <span className="text-sm font-semibold" htmlFor="on_site_access">
+                    <span className="text-sm font-semibold" htmlFor="class_access">
                         On Site Access
                     </span>
                 </div>
@@ -68,14 +68,14 @@ export default function Enrollment({ index, setEnrollments, ...props }) {
                         loading={updating}
                         control={
                             <Checkbox
-                                inputId="digital_access"
-                                onChange={({ checked }) => updateEnrollment({ digital_access: checked })}
-                                checked={!!props?.digital_access}
+                                inputId="zoom_access"
+                                onChange={({ checked }) => updateEnrollment({ zoom_access: checked })}
+                                checked={!!props?.zoom_access}
                             />
                         }
                     />
 
-                    <span className="text-sm font-semibold" htmlFor="digital_access">
+                    <span className="text-sm font-semibold" htmlFor="zoom_access">
                         Digital Access
                     </span>
                 </div>

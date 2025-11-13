@@ -4,7 +4,17 @@ import ProgressiveControl from "../common/ProgressiveControl";
 import { getReadableDate } from "../../utils";
 import DialogEditChapterType from "./DialogEditChapterType";
 
-export default function ChapterType({ id, title, setChapterTypes, requires_enrollment, updatingViewIndex, updated_at }) {
+export default function ChapterType({
+    id,
+    title,
+    setChapterTypes,
+    requires_class_access,
+    requires_zoom_access,
+    requires_recordings_access,
+    updatingViewIndex,
+    updated_at,
+    active,
+}) {
     const { requestAPI, showToast } = useAppContext();
 
     const [deleting, setDeleting] = useState();
@@ -42,7 +52,7 @@ export default function ChapterType({ id, title, setChapterTypes, requires_enrol
     return (
         <div
             className={`flex gap-3 align-items-center border-1 border-gray-300 border-round py-2 px-3 overflow-hidden ${
-                requires_enrollment ? "bg-red-500" : "bg-green-500"
+                active ? "bg-green-500" : "bg-red-500"
             }`}
         >
             <div className="flex flex-column flex-1 gap-2">
@@ -65,7 +75,10 @@ export default function ChapterType({ id, title, setChapterTypes, requires_enrol
                             setChapterTypes,
                             id,
                             title,
-                            requires_enrollment,
+                            requires_class_access,
+                            requires_zoom_access,
+                            requires_recordings_access,
+                            active,
                             closeDialog: closeDialogEditChapterType,
                         }))
                     }

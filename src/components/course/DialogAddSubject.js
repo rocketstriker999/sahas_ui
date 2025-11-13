@@ -32,7 +32,7 @@ export default function DialogAddSubject({ visible, closeDialog, setSubjects, co
     }, [subject, closeDialog, requestAPI, setSubjects, showToast]);
 
     return (
-        <Dialog header={`Add New Subject`} visible={visible} className="w-11" onHide={closeDialog}>
+        <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Add New Subject`} visible={visible} className="w-11" onHide={closeDialog}>
             <TabHeader
                 className="pt-3"
                 title="Add New Subject"

@@ -33,15 +33,7 @@ export default function Catelogue() {
         <div className="flex flex-column h-full ">
             <PageTitle title={"Enroll"} />
 
-            {loading ? (
-                <Loading message="Loading Categories" />
-            ) : error ? (
-                <NoContent error={error} />
-            ) : categories?.length ? (
-                <Outlet context={{ categories, setCategories }} />
-            ) : (
-                <NoContent error={"No Categories Found"} />
-            )}
+            {loading ? <Loading message="Loading Categories" /> : error ? <NoContent error={error} /> : <Outlet context={{ categories, setCategories }} />}
         </div>
     );
 }

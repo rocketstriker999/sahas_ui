@@ -33,7 +33,7 @@ export default function DialogEditSubject({ visible, closeDialog, setSubjects, .
     }, [requestAPI, subject, showToast, setSubjects, closeDialog, props?.id]);
 
     return (
-        <Dialog header={`Edit Subject`} visible={visible} className="w-11" onHide={closeDialog}>
+        <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Edit Subject`} visible={visible} className="w-11" onHide={closeDialog}>
             <TabHeader className="pt-3" title="Edit Subject" />
 
             <FloatLabel className="mt-5">

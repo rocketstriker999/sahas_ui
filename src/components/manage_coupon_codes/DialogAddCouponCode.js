@@ -31,7 +31,7 @@ export default function DialogAddCouponCode({ visible, setCouponCodes, closeDial
     }, [closeDialog, couponCode, requestAPI, setCouponCodes, showToast]);
 
     return (
-        <Dialog header={`Add New Coupon Code`} visible={visible} className="w-11" onHide={closeDialog}>
+        <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Add New Coupon Code`} visible={visible} className="w-11" onHide={closeDialog}>
             <TabHeader className="pt-3" title="Add New Coupon Code" highlights={["New Coupon Code Can Be Added"]} />
 
             <FloatLabel className="mt-5">

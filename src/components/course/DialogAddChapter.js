@@ -7,6 +7,7 @@ import TabHeader from "../common/TabHeader";
 import { InputText } from "primereact/inputtext";
 import { Dropdown } from "primereact/dropdown";
 import { useSelector } from "react-redux";
+import { classNames } from "primereact/utils";
 
 export default function DialogAddChapter({ visible, closeDialog, setChapters, subjectId }) {
     const { requestAPI, showToast } = useAppContext();
@@ -35,7 +36,7 @@ export default function DialogAddChapter({ visible, closeDialog, setChapters, su
     }, [requestAPI, chapter, showToast, setChapters, closeDialog]);
 
     return (
-        <Dialog header={`Add New Chapter`} visible={visible} className="w-11" onHide={closeDialog}>
+        <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Add New Chapter`} visible={visible} className="w-11" onHide={closeDialog}>
             <TabHeader className="pt-3" title="Add New Chapter" highlights={["New Chapter Will Be Added"]} />
 
             <FloatLabel className="mt-5">

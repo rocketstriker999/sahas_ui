@@ -37,7 +37,13 @@ export default function DialogAddInquiry({ visible, setVisible, setInquiries }) 
     }, [inquiry, requestAPI, setInquiries, setVisible, showToast, userId]);
 
     return (
-        <Dialog header={`Add New Inquiry`} visible={visible} className="w-11" onHide={() => setVisible(false)}>
+        <Dialog
+            pt={{ content: { className: "overflow-visible" } }}
+            header={`Add New Inquiry`}
+            visible={visible}
+            className="w-11"
+            onHide={() => setVisible(false)}
+        >
             <TabHeader
                 className="pt-3"
                 title="Requred Information - New Inquiry"

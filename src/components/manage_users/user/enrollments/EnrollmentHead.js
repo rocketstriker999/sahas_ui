@@ -1,7 +1,7 @@
 import { getReadableDate } from "../../../../utils";
 import { Tag } from "primereact/tag";
 
-export default function EnrollmentHead({ index, created_on, created_by_full_name, digital_access, on_site_access }) {
+export default function EnrollmentHead({ index, created_on, created_by_full_name, zoom_access, class_access }) {
     return (
         <div className="flex align-items-center gap-2">
             <div className="flex-1 flex flex-column gap-2 align-items-start">
@@ -16,10 +16,10 @@ export default function EnrollmentHead({ index, created_on, created_by_full_name
             <div className="flex flex-column gap-2">
                 <Tag
                     icon="pi pi-building-columns"
-                    severity={!!on_site_access ? "success" : "danger"}
-                    value={!!on_site_access ? "On-Site Access" : "No On-Site Access"}
+                    severity={!!class_access ? "success" : "danger"}
+                    value={!!class_access ? "On-Site Access" : "No On-Site Access"}
                 />
-                <Tag icon="pi pi-globe" severity={!!digital_access ? "success" : "danger"} value={!!digital_access ? "Digital Access" : "No Digital Access"} />
+                <Tag icon="pi pi-globe" severity={!!zoom_access ? "success" : "danger"} value={!!zoom_access ? "Digital Access" : "No Digital Access"} />
             </div>
         </div>
     );

@@ -34,7 +34,7 @@ export default function DialogEditCourse({ visible, closeDialog, setCourses, ...
     }, [requestAPI, course, showToast, setCourses, closeDialog, props?.id]);
 
     return (
-        <Dialog header={`Edit Course`} visible={visible} className="w-11" onHide={closeDialog}>
+        <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Edit Course`} visible={visible} className="w-11" onHide={closeDialog}>
             <TabHeader className="pt-3" title={props?.title} />
             <FloatLabel className="mt-5">
                 <InputText

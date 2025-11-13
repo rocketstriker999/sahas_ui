@@ -47,7 +47,7 @@ export default function DialogAssignSubjects({ visible, closeDialog, courseSubje
     }, [closeDialog, courseId, requestAPI, selectedSubjects, setCourseSubjects, showToast]);
 
     return (
-        <Dialog header={`Assign Subjects`} visible={visible} className="w-11" onHide={closeDialog}>
+        <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Assign Subjects`} visible={visible} className="w-11" onHide={closeDialog}>
             <TabHeader className="pt-3" title="Add New Subject" highlights={["New Subject Can Be Mapped Here", "Subjects Can Be Unmapped From List"]} />
 
             <ListBox

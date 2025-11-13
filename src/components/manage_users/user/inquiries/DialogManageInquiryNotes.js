@@ -36,7 +36,13 @@ export default function DialogManageInquiryNotes({ visible, closeDialog, course_
     }, [notes, setNotesCount]);
 
     return (
-        <Dialog header={`Inquiry Notes - ${getCourseTitle(course_id)}`} visible={visible} className="w-11" onHide={closeDialog}>
+        <Dialog
+            pt={{ content: { className: "overflow-visible" } }}
+            header={`Inquiry Notes - ${getCourseTitle(course_id)}`}
+            visible={visible}
+            className="w-11"
+            onHide={closeDialog}
+        >
             <div className="flex flex-column gap-4 pt-3 " style={{ maxHeight: "75vh" }}>
                 <CardInputNote inquiry_id={inquiry_id} setNotes={setNotes} />
                 {loading ? <Loading /> : error ? <NoContent error={error} /> : <Notes notes={notes} setNotes={setNotes} />}

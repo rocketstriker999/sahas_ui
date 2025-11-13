@@ -40,7 +40,7 @@ export default function DialogManageRoleAuthorities({ visible, roleId, closeDial
     }, [requestAPI, roleId]);
 
     return (
-        <Dialog header={`Manage Role Authorities`} visible={visible} className="w-11" onHide={closeDialog}>
+        <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Manage Role Authorities`} visible={visible} className="w-11" onHide={closeDialog}>
             <TabHeader
                 className="pt-3 "
                 title={`Manage Authorities - ${roles?.find((role) => role?.id === roleId)?.title}`}

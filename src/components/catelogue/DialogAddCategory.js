@@ -34,7 +34,7 @@ export default function DialogAddCategory({ visible, closeDialog }) {
     }, [category, closeDialog, requestAPI, setCategories, showToast]);
 
     return (
-        <Dialog header={`Add New Category`} visible={visible} className="w-11" onHide={closeDialog}>
+        <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Add New Category`} visible={visible} className="w-11" onHide={closeDialog}>
             <TabHeader
                 className="pt-3"
                 title="Add New Category"

@@ -33,7 +33,16 @@ export default function ProfileCard({
                     </div>
                     <div className="flex align-items-center gap-2 text-sm">
                         {phone && <i className="pi pi-phone"></i>}
-                        {phone ? <p className="m-0 p-0">{phone}</p> : <Tag icon="pi pi-exclamation-circle" severity="danger" value="Missing Contact Details" />}
+                        {phone ? (
+                            <p className="m-0 p-0">{phone}</p>
+                        ) : (
+                            <Tag
+                                icon="pi pi-exclamation-circle"
+                                severity="danger"
+                                value="Missing Contact Details"
+                                onClick={() => navigate(`/manage-users/${id}/basics`)}
+                            />
+                        )}
                     </div>
                 </div>
             </div>

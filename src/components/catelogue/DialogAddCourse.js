@@ -35,7 +35,7 @@ export default function DialogAddCourse({ visible, closeDialog, setCourses, cate
     }, [course, closeDialog, requestAPI, setCourses, showToast]);
 
     return (
-        <Dialog header={`Add New Course`} visible={visible} className="w-11" onHide={closeDialog}>
+        <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Add New Course`} visible={visible} className="w-11" onHide={closeDialog}>
             <TabHeader className="pt-3" title="Add New Course" highlights={["New Course Will Be Added", "Subjects Of Courses Can Be Managed"]} />
 
             <FloatLabel className="mt-5">

@@ -38,7 +38,7 @@ export default function DialogEditCouponCodeCourse({ visible, setCouponCodeCours
     }, [closeDialog, couponCodeCourse, props, requestAPI, setCouponCodeCourses, showToast]);
 
     return (
-        <Dialog header={`Edit Coupon Code Course`} visible={visible} className="w-11" onHide={closeDialog}>
+        <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Edit Coupon Code Course`} visible={visible} className="w-11" onHide={closeDialog}>
             <TabHeader className="pt-3" title={props?.title} />
 
             <div className="flex align-items-center mt-5 gap-1">

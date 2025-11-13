@@ -35,7 +35,7 @@ export default function DialogEditChapter({ visible, closeDialog, setChapters, .
     }, [requestAPI, chapter, showToast, setChapters, closeDialog]);
 
     return (
-        <Dialog header={`Edit Chapter`} visible={visible} className="w-11" onHide={closeDialog}>
+        <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Edit Chapter`} visible={visible} className="w-11" onHide={closeDialog}>
             <TabHeader className="pt-3" title="Edit Chapter" />
 
             <FloatLabel className="mt-5">

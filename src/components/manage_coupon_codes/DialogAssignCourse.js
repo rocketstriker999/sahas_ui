@@ -46,7 +46,7 @@ export default function DialogAssignCourse({ visible, couponCodeId, couponCodeCo
     }, [closeDialog, assignCouponCodeCourses, requestAPI, setCouponCodeCourses, showToast]);
 
     return (
-        <Dialog header={`Assign Course`} visible={visible} className="w-11" onHide={closeDialog}>
+        <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Assign Course`} visible={visible} className="w-11" onHide={closeDialog}>
             <TabHeader className="pt-3" title="Assign New Course" highlights={["New Course Can Be Mapped Here", "Course Can Be Unmapped From List"]} />
 
             <ListBox

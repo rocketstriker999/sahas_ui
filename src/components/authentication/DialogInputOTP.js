@@ -9,6 +9,7 @@ import Error from "../common/Error";
 import { KEY_AUTHENTICATION_TOKEN } from "../../constants";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "../../redux/sliceUser";
+import { classNames } from "primereact/utils";
 
 export default function DialogInputOTP({ authenticationToken, setAuthenticationToken, requestOTP }) {
     const { requestAPI } = useAppContext();
@@ -44,7 +45,14 @@ export default function DialogInputOTP({ authenticationToken, setAuthenticationT
     };
 
     return (
-        <Dialog position="bottom" className="w-11" header="Verify OTP" visible={authenticationToken} onHide={() => setAuthenticationToken()}>
+        <Dialog
+            pt={{ content: { className: "overflow-visible" } }}
+            position="bottom"
+            className="w-11"
+            header="Verify OTP"
+            visible={authenticationToken}
+            onHide={() => setAuthenticationToken()}
+        >
             <div className="flex flex-column justify-content-center align-items-center">
                 <div className="flex gap-2 text-gray-800 align-items-center justify-content-center">
                     <i className="pi pi-exclamation-circle"></i>
