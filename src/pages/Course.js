@@ -51,8 +51,8 @@ export default function Subjects() {
                                 date: course?.enrollment?.end_date,
                                 removeTime: true,
                             })}`,
-                            !!course?.enrollment?.class_access ? "On-Site Access" : "No On-Site Access",
-                            !!course?.enrollment?.zoom_access ? "Digital Access" : "No Digital Access",
+                            !!course?.enrollment?.on_site_access ? "On-Site Access" : "No On-Site Access",
+                            !!course?.enrollment?.digital_access ? "Digital Access" : "No Digital Access",
                         ]}
                         actionItems={[
                             <Button

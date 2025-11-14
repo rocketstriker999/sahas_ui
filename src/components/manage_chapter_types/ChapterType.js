@@ -4,17 +4,7 @@ import ProgressiveControl from "../common/ProgressiveControl";
 import { getReadableDate } from "../../utils";
 import DialogEditChapterType from "./DialogEditChapterType";
 
-export default function ChapterType({
-    id,
-    title,
-    setChapterTypes,
-    requires_class_access,
-    requires_zoom_access,
-    requires_recordings_access,
-    updatingViewIndex,
-    updated_at,
-    active,
-}) {
+export default function ChapterType({ id, title, setChapterTypes, requires_enrollment_digital_access, updatingViewIndex, updated_at, active }) {
     const { requestAPI, showToast } = useAppContext();
 
     const [deleting, setDeleting] = useState();
@@ -75,9 +65,7 @@ export default function ChapterType({
                             setChapterTypes,
                             id,
                             title,
-                            requires_class_access,
-                            requires_zoom_access,
-                            requires_recordings_access,
+                            requires_enrollment_digital_access,
                             active,
                             closeDialog: closeDialogEditChapterType,
                         }))

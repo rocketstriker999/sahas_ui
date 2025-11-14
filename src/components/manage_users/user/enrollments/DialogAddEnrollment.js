@@ -24,7 +24,7 @@ export default function DialogAddEnrollment({ visible, closeDialog, setEnrollmen
             requestPath: `enrollments`,
             requestMethod: "POST",
             requestPostBody: {
-                class_access: false,
+                on_site_access: false,
                 ...enrollment,
                 user_id: userId,
                 start_date: getWriteableDate({ date: enrollment?.start_date, removeTime: true }),
@@ -105,20 +105,20 @@ export default function DialogAddEnrollment({ visible, closeDialog, setEnrollmen
 
             <div className="border-1 border-round border-gray-300 p-3 flex justify-content-between align-items-center mt-3">
                 <div className="flex align-items-center gap-2">
-                    <label htmlFor="class_access">On Site Access</label>
+                    <label htmlFor="on_site_access">On Site Access</label>
                     <Checkbox
-                        inputId="class_access"
-                        onChange={({ checked }) => setEnrollment((prev) => ({ ...prev, class_access: checked }))}
-                        checked={enrollment?.class_access}
+                        inputId="on_site_access"
+                        onChange={({ checked }) => setEnrollment((prev) => ({ ...prev, on_site_access: checked }))}
+                        checked={enrollment?.on_site_access}
                     />
                 </div>
 
                 <div className="flex align-items-center gap-2">
-                    <label htmlFor="zoom_access">Digital Access</label>
+                    <label htmlFor="digital_access">Digital Access</label>
                     <Checkbox
-                        inputId="zoom_access"
-                        onChange={({ checked }) => setEnrollment((prev) => ({ ...prev, zoom_access: checked }))}
-                        checked={enrollment?.zoom_access}
+                        inputId="digital_access"
+                        onChange={({ checked }) => setEnrollment((prev) => ({ ...prev, digital_access: checked }))}
+                        checked={enrollment?.digital_access}
                     />
                 </div>
             </div>

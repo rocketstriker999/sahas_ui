@@ -1,6 +1,6 @@
 import { TabView, TabPanel } from "primereact/tabview";
 import { ChaptersTypeHead } from "./ChaptersTypeHead";
-import { useParams } from "react-router-dom";
+import { useOutletContext, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAppContext } from "../../providers/ProviderAppContainer";
@@ -26,6 +26,8 @@ export function Chapters() {
     const { chapter_types = [] } = useSelector((state) => state.stateTemplateConfig?.global);
     const [chapters, setChapters] = useState();
     const { digitallyEnrolledCourses } = useSelector((state) => state.stateUser);
+
+    const { enrollment } = useOutletContext();
 
     const [dialogAddChapter, setDialogAddChapter] = useState({
         subjectId,
@@ -133,7 +135,7 @@ export function Chapters() {
                                     root: classNames("mx-2"),
                                     mask: "bg-black-alpha-80 align-items-start p-4",
                                 }}
-                                blocked={chaptersTab?.requires_digital_enrollment_access ? !digitallyEnrolledCourses?.find(({ id }) => id == courseId) : false}
+                                blocked={chaptersTab?.requires_enrollment_digital_access ? !enrollment?.digital_access : false}
                                 template={
                                     <div className="text-white flex flex-column align-items-center">
                                         <i className="pi pi-lock" style={{ fontSize: "3rem" }}></i>

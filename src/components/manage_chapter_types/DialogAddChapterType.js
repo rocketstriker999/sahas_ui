@@ -11,7 +11,7 @@ import { classNames } from "primereact/utils";
 export default function DialogAddChapterType({ setChapterTypes, visible, closeDialog }) {
     const { requestAPI, showToast } = useAppContext();
 
-    const [chapterType, setChapterType] = useState({ requires_class_access: false, requires_zoom_access: false, requires_recordings_access: false });
+    const [chapterType, setChapterType] = useState();
     const [loading, setLoading] = useState();
 
     const addChapterType = useCallback(() => {
@@ -52,38 +52,14 @@ export default function DialogAddChapterType({ setChapterTypes, visible, closeDi
             </FloatLabel>
 
             <div className="text-color-secondary flex align-items-center gap-2 mt-3 border-1 border-gray-300 py-3 px-2 border-round">
-                <label className="flex-1" htmlFor="requires_class_access">
-                    Requires Class Access
+                <label className="flex-1" htmlFor="requires_enrollment_digital_access">
+                    Requires Digital Enrollment Access
                 </label>
                 <Checkbox
                     className="mr-2"
-                    inputId="requires_class_access"
-                    onChange={({ checked }) => setChapterType((prev) => ({ ...prev, requires_class_access: checked }))}
-                    checked={chapterType?.requires_class_access}
-                />
-            </div>
-
-            <div className="text-color-secondary flex align-items-center gap-2 mt-3 border-1 border-gray-300 py-3 px-2 border-round">
-                <label className="flex-1" htmlFor="requires_zoom_access">
-                    Requires Live Access
-                </label>
-                <Checkbox
-                    className="mr-2"
-                    inputId="requires_zoom_access"
-                    onChange={({ checked }) => setChapterType((prev) => ({ ...prev, requires_zoom_access: checked }))}
-                    checked={chapterType?.requires_zoom_access}
-                />
-            </div>
-
-            <div className="text-color-secondary flex align-items-center gap-2 mt-3 border-1 border-gray-300 py-3 px-2 border-round">
-                <label className="flex-1" htmlFor="requires_recordings_access">
-                    Requires Recordings Access
-                </label>
-                <Checkbox
-                    className="mr-2"
-                    inputId="requires_recordings_access"
-                    onChange={({ checked }) => setChapterType((prev) => ({ ...prev, requires_recordings_access: checked }))}
-                    checked={chapterType?.requires_recordings_access}
+                    inputId="requires_enrollment_digital_access"
+                    onChange={({ checked }) => setChapterType((prev) => ({ ...prev, requires_enrollment_digital_access: checked }))}
+                    checked={!!chapterType?.requires_enrollment_digital_access}
                 />
             </div>
 
