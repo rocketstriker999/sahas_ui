@@ -25,7 +25,6 @@ export function Chapters() {
     const { requestAPI, showToast } = useAppContext();
     const { chapter_types = [] } = useSelector((state) => state.stateTemplateConfig?.global);
     const [chapters, setChapters] = useState();
-    const { digitallyEnrolledCourses } = useSelector((state) => state.stateUser);
 
     const { enrollment } = useOutletContext();
 
@@ -83,7 +82,7 @@ export function Chapters() {
         });
     }, [chapters, requestAPI, showToast]);
 
-    console.log(courseId);
+    console.log(enrollment);
 
     return (
         <div className="flex-1 overflow-hidden flex flex-column">
