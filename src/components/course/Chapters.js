@@ -15,8 +15,6 @@ import TabHeader from "../common/TabHeader";
 import OrderManager from "../common/OrderManager";
 
 export function Chapters() {
-    const { courseId } = useParams();
-
     const { subjectId } = useParams();
     const [loading, setLoading] = useState();
     const [error, setError] = useState();
