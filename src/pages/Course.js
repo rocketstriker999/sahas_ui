@@ -8,6 +8,7 @@ import { Button } from "primereact/button";
 import { getReadableDate } from "../utils";
 import { RUPEE } from "../constants";
 import TabHeader from "../components/common/TabHeader";
+import { useSelector } from "react-redux";
 
 export default function Subjects() {
     const [course, setCourse] = useState();
@@ -16,6 +17,7 @@ export default function Subjects() {
     const { requestAPI } = useAppContext();
 
     const { courseId } = useParams();
+    const loggedInUser = useSelector((state) => state.stateUser);
 
     const navigate = useNavigate();
 
@@ -62,7 +64,13 @@ export default function Subjects() {
                                 severity="success"
                                 aria-label="Join Whatsapp Group"
                             />,
-                            <Button icon="pi pi-receipt" rounded severity="info" aria-label="Join Whatsapp Group" />,
+                            <Button
+                                onClick={() => navigate(`/manage-users/${loggedInUser?.id}/enrollments`)}
+                                icon="pi pi-receipt"
+                                rounded
+                                severity="info"
+                                aria-label="Invoices"
+                            />,
                         ]}
                     />
                 ) : (

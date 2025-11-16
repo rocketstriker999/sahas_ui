@@ -10,11 +10,11 @@ import HasRequiredAuthority from "../../dependencies/HasRequiredAuthority";
 import TabHeader from "../../common/TabHeader";
 import { Divider } from "primereact/divider";
 import { useAppContext } from "../../../providers/ProviderAppContainer";
-import ProfileCard from "../../dashboard/ProfileCard";
 import Loading from "../../common/Loading";
 import NoContent from "../../common/NoContent";
 import { AUTHORITIES } from "../../../constants";
 import { useOutletContext } from "react-router-dom";
+import FileInput from "../../common/FileInput";
 
 export default function Basics() {
     const { userId, branches } = useOutletContext();
@@ -90,7 +90,13 @@ export default function Basics() {
                 <NoContent error={error} />
             ) : basics ? (
                 <div className="flex-1 px-2 flex flex-column gap-2 overflow-y-scroll ">
-                    <ProfileCard {...basics} showViewMore={false} />
+                    <FileInput
+                        label="User Image"
+                        type="image"
+                        cdn_url={basics?.image}
+                        setCDNUrl={(cdn_url) => setBasics((prev) => ({ ...prev, image: cdn_url }))}
+                        disabled={loading || !enableInputs}
+                    />
                     <FloatLabel className="mt-4">
                         <InputText
                             value={basics?.full_name}
@@ -100,6 +106,16 @@ export default function Basics() {
                             disabled={!enableInputs}
                         />
                         <label htmlFor="fullname">Full Name</label>
+                    </FloatLabel>
+                    <FloatLabel className="mt-4">
+                        <InputText
+                            value={basics?.email}
+                            id="email"
+                            className="w-full"
+                            onChange={(e) => setBasics((prev) => ({ ...prev, email: e.target.value }))}
+                            disabled={!enableInputs}
+                        />
+                        <label htmlFor="email">Email</label>
                     </FloatLabel>
                     <div className="flex mt-4 gap-2 items-center">
                         <FloatLabel className="flex-1">

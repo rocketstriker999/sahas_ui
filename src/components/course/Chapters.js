@@ -80,8 +80,6 @@ export function Chapters() {
         });
     }, [chapters, requestAPI, showToast]);
 
-    console.log(enrollment);
-
     return (
         <div className="flex-1 overflow-hidden flex flex-column">
             <TabHeader
@@ -132,7 +130,7 @@ export function Chapters() {
                                     root: classNames("mx-2"),
                                     mask: "bg-black-alpha-80 align-items-start p-4",
                                 }}
-                                blocked={chaptersTab?.requires_enrollment_digital_access ? !enrollment?.digital_access : false}
+                                blocked={!!chaptersTab?.requires_enrollment_digital_access ? !enrollment?.digital_access : false}
                                 template={
                                     <div className="text-white flex flex-column align-items-center">
                                         <i className="pi pi-lock" style={{ fontSize: "3rem" }}></i>

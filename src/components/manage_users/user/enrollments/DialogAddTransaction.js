@@ -9,6 +9,7 @@ import { InputTextarea } from "primereact/inputtextarea";
 import { Button } from "primereact/button";
 import { EMPTY_VALUE } from "../../../../constants";
 import { useOutletContext } from "react-router-dom";
+import FileInput from "../../../common/FileInput";
 
 export default function DialogAddTransaction({ visible, enrollment_id, setTransactions, closeDialog }) {
     const { requestAPI, showToast } = useAppContext();
@@ -40,7 +41,7 @@ export default function DialogAddTransaction({ visible, enrollment_id, setTransa
         <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Add New Transaction`} visible={visible} className="w-11" onHide={closeDialog}>
             <TabHeader
                 className="pt-3"
-                title="Add New Course To Enrollment"
+                title="Add New Transcation To Enrollment"
                 highlights={["Transaction Will be Recorded immidiatly", "Transaction Is Irreversible"]}
             />
 
@@ -65,6 +66,15 @@ export default function DialogAddTransaction({ visible, enrollment_id, setTransa
                 />
                 <label htmlFor="types">Type</label>
             </FloatLabel>
+
+            <FileInput
+                className={"mt-3"}
+                label="Product Category"
+                type="image"
+                cdn_url={transaction?.image}
+                setCDNUrl={(cdn_url) => setTransaction((prev) => ({ ...prev, image: cdn_url }))}
+                disabled={loading}
+            />
 
             <FloatLabel className="mt-5">
                 <InputTextarea
