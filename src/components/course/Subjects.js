@@ -1,7 +1,6 @@
 import { useOutletContext } from "react-router-dom";
 
 import TabHeader from "../common/TabHeader";
-import { Divider } from "primereact/divider";
 import { Button } from "primereact/button";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import { useCallback, useState } from "react";
@@ -11,7 +10,7 @@ import DialogAddSubject from "./DialogAddSubject";
 import DialogAssignSubjects from "./DialogAssignSubjects";
 
 export default function Subjects() {
-    const { id, image, enrollment, ...props } = useOutletContext();
+    const { id, image, enrollment, setCourse, ...props } = useOutletContext();
 
     const [subjects, setSubjects] = useState(props?.subjects);
 
@@ -112,7 +111,7 @@ export default function Subjects() {
                 items={subjects}
                 setItems={setSubjects}
                 emptyItemsError="No Subjects Found"
-                itemTemplate={(item) => <Subject setSubjects={setSubjects} {...item} updatingViewIndex={updatingViewIndex} />}
+                itemTemplate={(item) => <Subject setCourse={setCourse} setSubjects={setSubjects} {...item} updatingViewIndex={updatingViewIndex} />}
             />
 
             <DialogAddSubject {...dialogAddSubject} />

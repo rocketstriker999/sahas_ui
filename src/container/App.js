@@ -99,6 +99,7 @@ export default function App() {
                         <Route path="/courses/:courseId" element={<Course />}>
                             <Route path="subjects" element={<Subjects />}></Route>
                             <Route path="subjects/:subjectId/chapters" element={<Chapters />} />
+                            <Route path="subjects/:subjectId/chapters/:chapterId" element={<Chapter />} />
                         </Route>
 
                         <Route path="/manage-chapter-types" element={<ManageChapterTypes />} />
@@ -125,8 +126,6 @@ export default function App() {
                                 </HasRequiredAuthority>
                             }
                         />
-
-                        <Route path="/chapters/:chapterId" element={<Chapter />} />
 
                         <Route path="/enroll/:courseId" element={<Enroll />} />
 

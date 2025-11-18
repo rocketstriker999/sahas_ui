@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { getReadableDate } from "../../utils";
 import DialogEditSubject from "./DialogEditSubject";
 
-export default function Subject({ id, title, subject_id, setSubjects, background_color, updatingViewIndex, updated_at }) {
+export default function Subject({ id, title, subject_id, setSubjects, background_color, updatingViewIndex, updated_at, setCourse }) {
     const navigate = useNavigate();
 
     const { requestAPI, showToast } = useAppContext();
@@ -50,6 +50,8 @@ export default function Subject({ id, title, subject_id, setSubjects, background
             <div
                 className="flex flex-column flex-1 gap-2"
                 onClick={() => {
+                    //to update the data into router context
+                    setCourse((prev) => ({ ...prev, subject: { id, title } }));
                     if (!updatingViewIndex) navigate(`${subject_id}/chapters`);
                 }}
             >

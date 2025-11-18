@@ -44,8 +44,8 @@ export default function Subjects() {
             <PageTitle title={`Course - ${course?.title}`} action={course?.enrollment && <span className="pi pi-info-circle"></span>} />
             <img className="w-full" src={course?.image} alt={course?.image} />
 
-            <div className="px-3 py-3 bg-blue-900 text-white">
-                {course?.enrollment ? (
+            <div className="px-3 py-2 bg-blue-900 text-white flex gap-2 flex-column">
+                {!!(course?.enrollment?.on_site_access || course?.enrollment?.digital_access) && (
                     <TabHeader
                         title="Enrollment Details"
                         highlights={[
@@ -73,11 +73,13 @@ export default function Subjects() {
                             />,
                         ]}
                     />
-                ) : (
+                )}
+
+                {!course?.enrollment?.digital_access && (
                     <Button
                         icon="pi pi-angle-double-right"
                         iconPos="right"
-                        className=" w-full"
+                        className="w-full "
                         severity="warning"
                         label={`Enroll For Digital Access ${course?.fees} ${RUPEE}`}
                         onClick={() => navigate(`/enroll/${course?.id}`)}
@@ -90,7 +92,7 @@ export default function Subjects() {
             ) : error ? (
                 <NoContent error={error} />
             ) : course ? (
-                <Outlet context={{ ...course }} />
+                <Outlet context={{ ...course, setCourse }} />
             ) : (
                 <NoContent error={"Course Not Found"} />
             )}

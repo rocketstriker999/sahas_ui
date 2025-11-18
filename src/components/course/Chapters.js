@@ -13,6 +13,7 @@ import { classNames } from "primereact/utils";
 import { Button } from "primereact/button";
 import TabHeader from "../common/TabHeader";
 import OrderManager from "../common/OrderManager";
+import { Tag } from "primereact/tag";
 
 export function Chapters() {
     const { subjectId } = useParams();
@@ -24,7 +25,7 @@ export function Chapters() {
     const { chapter_types = [] } = useSelector((state) => state.stateTemplateConfig?.global);
     const [chapters, setChapters] = useState();
 
-    const { enrollment } = useOutletContext();
+    const { enrollment, subject, setCourse } = useOutletContext();
 
     const [dialogAddChapter, setDialogAddChapter] = useState({
         subjectId,
@@ -81,11 +82,11 @@ export function Chapters() {
     }, [chapters, requestAPI, showToast]);
 
     return (
-        <div className="flex-1 overflow-hidden flex flex-column">
+        <div className="flex-1 overflow-hidden flex flex-column gap-2">
             <TabHeader
-                className={"p-3"}
-                title="Chapters"
-                highlights={[`Demo Chapters Requires No Enrollment`, `Chapteers Are Categorized Into Sections`]}
+                className={"p-3 bg-gray-100"}
+                title={`${subject?.title || ""} Chapters`}
+                highlights={[`Demo Chapters Requires No Enrollment`, `Chapters Are Categorized Into Sections`]}
                 actionItems={[
                     <Button
                         onClick={() => setDialogAddChapter((prev) => ({ ...prev, visible: true, setChapters, closeDialog: closeDialogAddChapter }))}
@@ -113,6 +114,13 @@ export function Chapters() {
                     />,
                 ]}
             />
+            {!!enrollment?.digital_access && (
+                <div className="flex align-items-center gap-2  px-2">
+                    <Button severity="warning" onClick={() => {}} icon="pi pi-pencil" />
+                    <Button className="flex-1" label="Launch Quick " iconPos="right" icon="pi pi-question-circle" />
+                    <Button severity="warning" loading={updating} disabled={!chapters?.length} onClick={() => {}} icon="pi pi-history" />
+                </div>
+            )}
             {loading ? (
                 <Loading />
             ) : error ? (
@@ -143,7 +151,9 @@ export function Chapters() {
                                     items={chaptersTab?.chapters}
                                     setItems={setChapters}
                                     emptyItemsError="No Chapters Found"
-                                    itemTemplate={(item) => <Chapter setChapters={setChapters} {...item} updatingViewIndex={updatingViewIndex} />}
+                                    itemTemplate={(item) => (
+                                        <Chapter setCourse={setCourse} setChapters={setChapters} {...item} updatingViewIndex={updatingViewIndex} />
+                                    )}
                                 />
                             </BlockUI>
                         </TabPanel>

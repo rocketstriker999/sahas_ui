@@ -11,11 +11,14 @@ import { useSelector } from "react-redux";
 import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../../constants";
 import { Button } from "primereact/button";
+import { useNavigate } from "react-router-dom";
 
 export default function DialogAddUser({ visible, closeDialog }) {
     const { requestAPI, showToast } = useAppContext();
 
     const { branches = [] } = useSelector((state) => state.stateTemplateConfig?.global);
+
+    const navigate = useNavigate();
 
     const [basics, setBasics] = useState();
     const [loading, setLoading] = useState();
@@ -30,13 +33,15 @@ export default function DialogAddUser({ visible, closeDialog }) {
             onResponseReceieved: (basics, responseCode) => {
                 if (basics && responseCode === 201) {
                     showToast({ severity: "success", summary: "Added", detail: "User Added Succesfully", life: 1000 });
-                    setBasics(basics);
+                    setBasics();
+                    closeDialog();
+                    navigate(`/manage-users/${basics?.id}/basics`);
                 } else {
                     showToast({ severity: "error", summary: "Failed", detail: "Failed To Add User !", life: 2000 });
                 }
             },
         });
-    }, [basics, requestAPI, showToast]);
+    }, [basics, closeDialog, navigate, requestAPI, showToast]);
 
     return (
         <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Add New User`} visible={visible} className="w-11" onHide={closeDialog}>
