@@ -11,31 +11,34 @@ import Loading from "../common/Loading";
 import DialogAddChapter from "./DialogAddChapter";
 import { classNames } from "primereact/utils";
 import { Button } from "primereact/button";
-import TabHeader from "../common/TabHeader";
 import OrderManager from "../common/OrderManager";
-import { Tag } from "primereact/tag";
+import ChaptersHead from "./ChaptersHead";
 
 export function Chapters() {
     const { subjectId } = useParams();
     const [loading, setLoading] = useState();
     const [error, setError] = useState();
-    const [updating, setUpdating] = useState();
-    const [updatingViewIndex, setUpdatingViewIndex] = useState();
-    const { requestAPI, showToast } = useAppContext();
-    const { chapter_types = [] } = useSelector((state) => state.stateTemplateConfig?.global);
-    const [chapters, setChapters] = useState();
-
-    const { enrollment, subject, setCourse } = useOutletContext();
 
     const [dialogAddChapter, setDialogAddChapter] = useState({
         subjectId,
         visible: false,
     });
 
+    const [updatingViewIndex, setUpdatingViewIndex] = useState();
+    const { requestAPI } = useAppContext();
+    const { chapter_types = [] } = useSelector((state) => state.stateTemplateConfig?.global);
+    const [chapters, setChapters] = useState();
+
+    const { enrollment } = useOutletContext();
+
     const chapterTabs = useMemo(
         () => chapter_types.map((chapterType) => ({ ...chapterType, chapters: chapters?.filter(({ type }) => type === chapterType.id) })),
         [chapter_types, chapters]
     );
+
+    const closeDialogAddChapter = useCallback(() => {
+        setDialogAddChapter((prev) => ({ ...prev, visible: false }));
+    }, []);
 
     useEffect(() => {
         requestAPI({
@@ -54,71 +57,16 @@ export function Chapters() {
         });
     }, [chapter_types, requestAPI, subjectId]);
 
-    const closeDialogAddChapter = useCallback(() => {
-        setDialogAddChapter((prev) => ({ ...prev, visible: false }));
-    }, []);
-
-    const updateViewIndexs = useCallback(() => {
-        requestAPI({
-            requestPath: `chapters/view_indexes`,
-            requestMethod: "PATCH",
-            requestPostBody: chapters.map(({ id }, view_index) => ({ id, view_index })),
-            setLoading: setUpdating,
-            parseResponseBody: false,
-            onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Update View Indexes !", life: 2000 }),
-            onResponseReceieved: (_, responseCode) => {
-                if (responseCode === 200) {
-                    showToast({
-                        severity: "success",
-                        summary: "Updated",
-                        detail: `View Indexes Updated`,
-                        life: 1000,
-                    });
-                } else {
-                    showToast({ severity: "error", summary: "Failed", detail: "Failed To Update View Indexes !", life: 2000 });
-                }
-            },
-        });
-    }, [chapters, requestAPI, showToast]);
-
     return (
         <div className="flex-1 overflow-hidden flex flex-column gap-2">
-            <TabHeader
-                className={"p-3 bg-gray-100"}
-                title={`${subject?.title || ""} Chapters`}
-                highlights={[`Demo Chapters Requires No Enrollment`, `Chapters Are Categorized Into Sections`]}
-                actionItems={[
-                    <Button
-                        onClick={() => setDialogAddChapter((prev) => ({ ...prev, visible: true, setChapters, closeDialog: closeDialogAddChapter }))}
-                        icon="pi pi-plus"
-                        severity="warning"
-                    />,
-
-                    <Button
-                        loading={updating}
-                        disabled={!chapters?.length}
-                        onClick={() => {
-                            showToast({
-                                severity: "info",
-                                summary: "Repositioning",
-                                detail: `Repositioning Mode ${!updatingViewIndex ? "Enabled" : "Disabled"}`,
-                                life: 1000,
-                            });
-                            //give signal to update view indexs
-                            if (!!updatingViewIndex) {
-                                updateViewIndexs();
-                            }
-                            setUpdatingViewIndex((prev) => !prev);
-                        }}
-                        icon="pi pi-arrows-v"
-                    />,
-                ]}
+            <ChaptersHead
+                {...{ setLoading, setError, chapters, setChapters, setDialogAddChapter, updatingViewIndex, setUpdatingViewIndex, closeDialogAddChapter }}
             />
             {!!enrollment?.digital_access && (
-                <div className="flex align-items-center gap-2  px-2">
+                <div className="flex align-items-center gap-2 px-2">
                     <Button severity="warning" onClick={() => {}} icon="pi pi-pencil" />
                     <Button className="flex-1" label="Launch Quick " iconPos="right" icon="pi pi-question-circle" />
-                    <Button severity="warning" loading={updating} disabled={!chapters?.length} onClick={() => {}} icon="pi pi-history" />
+                    <Button severity="warning" disabled={!chapters?.length} onClick={() => {}} icon="pi pi-history" />
                 </div>
             )}
             {loading ? (
@@ -151,9 +99,7 @@ export function Chapters() {
                                     items={chaptersTab?.chapters}
                                     setItems={setChapters}
                                     emptyItemsError="No Chapters Found"
-                                    itemTemplate={(item) => (
-                                        <Chapter setCourse={setCourse} setChapters={setChapters} {...item} updatingViewIndex={updatingViewIndex} />
-                                    )}
+                                    itemTemplate={(item) => <Chapter setChapters={setChapters} {...item} updatingViewIndex={updatingViewIndex} />}
                                 />
                             </BlockUI>
                         </TabPanel>

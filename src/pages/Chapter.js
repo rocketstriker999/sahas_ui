@@ -1,25 +1,25 @@
-import { Link, useNavigate, useOutletContext, useParams } from "react-router-dom";
+import { useOutletContext, useParams } from "react-router-dom";
 import { useAppContext } from "../providers/ProviderAppContainer";
 import { useEffect, useMemo, useState } from "react";
 import Loading from "../components/common/Loading";
 import NoContent from "../components/common/NoContent";
-import { BreadCrumb } from "primereact/breadcrumb";
 import { TabPanel, TabView } from "primereact/tabview";
 import { classNames } from "primereact/utils";
 import { useSelector } from "react-redux";
-
 import { MediaTypeHead } from "../components/chapter/MediaTypeHead";
-import { Button } from "primereact/button";
+import { BlockUI } from "primereact/blockui";
+import ChapterHead from "../components/chapter/ChapterHead";
+import OrderManager from "../components/common/OrderManager";
 
 export default function Chapter() {
     const { chapterId } = useParams();
-    const { requestAPI } = useAppContext();
     const [loading, setLoading] = useState();
     const [error, setError] = useState();
     const [media, setMedia] = useState();
-    const navigate = useNavigate();
 
-    const { subject, chapter } = useOutletContext();
+    const { requestAPI } = useAppContext();
+    const [updatingViewIndex, setUpdatingViewIndex] = useState();
+    const { enrollment } = useOutletContext();
 
     const { media_types = [] } = useSelector((state) => state.stateTemplateConfig?.chapter);
 
@@ -27,7 +27,6 @@ export default function Chapter() {
         if (chapterId)
             requestAPI({
                 requestPath: `chapters/${chapterId}/media`,
-
                 setLoading: setLoading,
                 onRequestStart: setError,
                 onRequestFailure: setError,
@@ -40,23 +39,13 @@ export default function Chapter() {
     }, [chapterId, requestAPI]);
 
     const mediaTabs = useMemo(
-        () => media_types.map((mediaType) => ({ title: mediaType, chapters: media?.filter(({ type }) => type.toLowerCase() === mediaType.toLowerCase()) })),
+        () => media_types.map((mediaType) => ({ title: mediaType, media: media?.filter(({ type }) => type.toLowerCase() === mediaType.toLowerCase()) })),
         [media, media_types]
     );
 
-    const items = [
-        {
-            label: subject?.title,
-            command: () => navigate(-2),
-        },
-        { label: chapter?.title, command: () => navigate(-1) },
-    ];
-
     return (
-        <div className="flex flex-column h-full ">
-            {chapter?.title && subject?.title && (
-                <BreadCrumb pt={{ root: classNames("font-bold text-sm border-noround bg-gray-800"), label: classNames("text-white") }} model={items} />
-            )}
+        <div className="flex flex-column h-full">
+            <ChapterHead {...{ updatingViewIndex, setUpdatingViewIndex, setLoading, setError, media, setMedia }} />
 
             {loading ? (
                 <Loading message="Fetching Media" />
@@ -71,12 +60,12 @@ export default function Chapter() {
                     >
                         {mediaTabs.map((mediaTab) => (
                             <TabPanel key={mediaTab?.title} headerTemplate={(option) => <MediaTypeHead {...option} {...mediaTab} />}>
-                                {/* <BlockUI
+                                <BlockUI
                                     pt={{
                                         root: classNames("mx-2"),
                                         mask: "bg-black-alpha-80 align-items-start p-4",
                                     }}
-                                    blocked={!!chaptersTab?.requires_enrollment_digital_access ? !enrollment?.digital_access : false}
+                                    blocked={false ? !enrollment?.digital_access : false}
                                     template={
                                         <div className="text-white flex flex-column align-items-center">
                                             <i className="pi pi-lock" style={{ fontSize: "3rem" }}></i>
@@ -84,14 +73,16 @@ export default function Chapter() {
                                         </div>
                                     }
                                 >
-                                    <OrderManager
-                                        updatingViewIndex={updatingViewIndex}
-                                        items={chaptersTab?.chapters}
-                                        setItems={setChapters}
-                                        emptyItemsError="No Chapters Found"
-                                        itemTemplate={(item) => <Chapter setChapters={setChapters} {...item} updatingViewIndex={updatingViewIndex} />}
-                                    />
-                                </BlockUI> */}
+                                    {
+                                        <OrderManager
+                                            updatingViewIndex={updatingViewIndex}
+                                            items={mediaTab?.media}
+                                            setItems={setMedia}
+                                            emptyItemsError="No Chapters Found"
+                                            itemTemplate={(item) => <p>hello</p>}
+                                        />
+                                    }
+                                </BlockUI>
                             </TabPanel>
                         ))}
                     </TabView>

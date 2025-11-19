@@ -92,7 +92,7 @@ export default function Subjects() {
             ) : error ? (
                 <NoContent error={error} />
             ) : course ? (
-                <Outlet context={{ ...course, setCourse }} />
+                <Outlet context={{ ...course }} />
             ) : (
                 <NoContent error={"Course Not Found"} />
             )}
