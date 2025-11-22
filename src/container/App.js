@@ -28,7 +28,7 @@ import CouponCodes from "../components/manage_coupon_codes/CouponCodes";
 import CouponCodeCourses from "../components/manage_coupon_codes/CouponCodeCourses";
 import Enroll from "../pages/Enroll";
 import PaymentGatewayPayLoad from "../pages/PaymentGatewayPayLoad";
-import Chapter from "../pages/Chapter";
+import MediaCatalogue from "../pages/MediaCatalogue";
 
 export default function App() {
     return (
@@ -99,7 +99,7 @@ export default function App() {
                         <Route path="/courses/:courseId" element={<Course />}>
                             <Route path="subjects" element={<Subjects />}></Route>
                             <Route path="subjects/:subjectId/chapters" element={<Chapters />} />
-                            <Route path="subjects/:subjectId/chapters/:chapterId" element={<Chapter />} />
+                            <Route path="subjects/:subjectId/chapters/:chapterId/media" element={<MediaCatalogue />} />
                         </Route>
 
                         <Route path="/manage-chapter-types" element={<ManageChapterTypes />} />

@@ -5,22 +5,22 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "primereact/button";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 
-export default function ChapterHead({ updatingViewIndex, setUpdatingViewIndex, setLoading, setError, media, setMedia }) {
+export default function ChapterHead({
+    setLoading,
+    setError,
+    mediaCatalogue,
+    setMediaCatalogue,
+    updatingViewIndex,
+    setUpdatingViewIndex,
+    setDialogAddMedia,
+    closeDialogAddMedia,
+}) {
     const { chapterId } = useParams();
     const [updating, setUpdating] = useState();
     const [chapter, setChapter] = useState();
     const { requestAPI, showToast } = useAppContext();
 
     const navigate = useNavigate();
-
-    const [dialogAddMedia, setDialogAddMedia] = useState({
-        chapterId,
-        visible: false,
-    });
-
-    const closeDialogAddMedia = useCallback(() => {
-        setDialogAddMedia((prev) => ({ ...prev, visible: false }));
-    }, []);
 
     const items = [
         {
@@ -48,7 +48,7 @@ export default function ChapterHead({ updatingViewIndex, setUpdatingViewIndex, s
         requestAPI({
             requestPath: `media/view_indexes`,
             requestMethod: "PATCH",
-            requestPostBody: media.map(({ id }, view_index) => ({ id, view_index })),
+            requestPostBody: mediaCatalogue.map(({ id }, view_index) => ({ id, view_index })),
             setLoading: setUpdating,
             parseResponseBody: false,
             onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Update View Indexes !", life: 2000 }),
@@ -65,7 +65,7 @@ export default function ChapterHead({ updatingViewIndex, setUpdatingViewIndex, s
                 }
             },
         });
-    }, [media, requestAPI, showToast]);
+    }, [mediaCatalogue, requestAPI, showToast]);
 
     return (
         <div className="flex align-items-center bg-gray-800 p-2 gap-1 justify-content-end">
@@ -74,14 +74,14 @@ export default function ChapterHead({ updatingViewIndex, setUpdatingViewIndex, s
                 model={items}
             />
             <Button
-                onClick={() => setDialogAddMedia((prev) => ({ ...prev, visible: true, setMedia, closeDialog: closeDialogAddMedia }))}
+                onClick={() => setDialogAddMedia((prev) => ({ ...prev, visible: true, setMediaCatalogue, closeDialog: closeDialogAddMedia }))}
                 icon="pi pi-plus"
                 severity="warning"
             />
             ,
             <Button
                 loading={updating}
-                disabled={!media?.length}
+                disabled={!mediaCatalogue?.length}
                 onClick={() => {
                     showToast({
                         severity: "info",
@@ -97,6 +97,7 @@ export default function ChapterHead({ updatingViewIndex, setUpdatingViewIndex, s
                 }}
                 icon="pi pi-arrows-v"
             />
+            {/* {dialogEditChapter?.visible && <DialogEditChapter {...dialogEditChapter} />} */}
         </div>
     );
 }

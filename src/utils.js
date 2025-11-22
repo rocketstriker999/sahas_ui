@@ -96,6 +96,18 @@ export function getFilterNameFormalized(input) {
     return input.charAt(0).toUpperCase().concat(input.slice(1));
 }
 
+export function getFileAcceptType(type) {
+    if (type === "video") {
+        return "video/*";
+    }
+
+    if (type === "pdf") {
+        return "application/pdf";
+    }
+
+    return "image/*";
+}
+
 //resource getter
 export const getMedia = (resource) => process.env.REACT_APP_BACKEND_SERVER.concat(process.env.REACT_APP_RESOURCES_PATH).concat(resource);
 

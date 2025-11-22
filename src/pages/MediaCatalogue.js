@@ -1,26 +1,26 @@
 import { useOutletContext, useParams } from "react-router-dom";
 import { useAppContext } from "../providers/ProviderAppContainer";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Loading from "../components/common/Loading";
 import NoContent from "../components/common/NoContent";
 import { TabPanel, TabView } from "primereact/tabview";
 import { classNames } from "primereact/utils";
 import { useSelector } from "react-redux";
-import { MediaTypeHead } from "../components/chapter/MediaTypeHead";
+import { MediaType } from "../components/MediaCatalogue.js/MediaType";
 import { BlockUI } from "primereact/blockui";
-import ChapterHead from "../components/chapter/ChapterHead";
+import ChapterHead from "../components/MediaCatalogue.js/ChapterHead";
 import OrderManager from "../components/common/OrderManager";
+import Media from "../components/MediaCatalogue.js/Media";
+import DialogAddMedia from "../components/MediaCatalogue.js/DialogAddMedia";
 
-export default function Chapter() {
+export default function MediaCatalogue() {
     const { chapterId } = useParams();
     const [loading, setLoading] = useState();
     const [error, setError] = useState();
-    const [media, setMedia] = useState();
-
+    const [mediaCatalogue, setMediaCatalogue] = useState();
     const { requestAPI } = useAppContext();
     const [updatingViewIndex, setUpdatingViewIndex] = useState();
     const { enrollment } = useOutletContext();
-
     const { media_types = [] } = useSelector((state) => state.stateTemplateConfig?.chapter);
 
     useEffect(() => {
@@ -30,28 +30,50 @@ export default function Chapter() {
                 setLoading: setLoading,
                 onRequestStart: setError,
                 onRequestFailure: setError,
-                onResponseReceieved: (media, responseCode) => {
-                    if (media && responseCode === 200) {
-                        setMedia(media);
+                onResponseReceieved: (mediaCatalogue, responseCode) => {
+                    if (mediaCatalogue && responseCode === 200) {
+                        setMediaCatalogue(mediaCatalogue);
                     }
                 },
             });
     }, [chapterId, requestAPI]);
 
     const mediaTabs = useMemo(
-        () => media_types.map((mediaType) => ({ title: mediaType, media: media?.filter(({ type }) => type.toLowerCase() === mediaType.toLowerCase()) })),
-        [media, media_types]
+        () =>
+            media_types.map((mediaType) => ({ title: mediaType, media: mediaCatalogue?.filter(({ type }) => type.toLowerCase() === mediaType.toLowerCase()) })),
+        [mediaCatalogue, media_types]
     );
+
+    const [dialogAddMedia, setDialogAddMedia] = useState({
+        chapterId,
+        visible: false,
+    });
+
+    const closeDialogAddMedia = useCallback(() => {
+        setDialogAddMedia((prev) => ({ ...prev, visible: false }));
+    }, []);
 
     return (
         <div className="flex flex-column h-full">
-            <ChapterHead {...{ updatingViewIndex, setUpdatingViewIndex, setLoading, setError, media, setMedia }} />
+            <ChapterHead
+                {...{
+                    chapterId,
+                    setLoading,
+                    setError,
+                    mediaCatalogue,
+                    setMediaCatalogue,
+                    updatingViewIndex,
+                    setUpdatingViewIndex,
+                    setDialogAddMedia,
+                    closeDialogAddMedia,
+                }}
+            />
 
             {loading ? (
                 <Loading message="Fetching Media" />
             ) : error ? (
                 <NoContent error={error} />
-            ) : media ? (
+            ) : (
                 <div className="flex flex-column h-full ">
                     <TabView
                         pt={{
@@ -59,7 +81,7 @@ export default function Chapter() {
                         }}
                     >
                         {mediaTabs.map((mediaTab) => (
-                            <TabPanel key={mediaTab?.title} headerTemplate={(option) => <MediaTypeHead {...option} {...mediaTab} />}>
+                            <TabPanel key={mediaTab?.title} headerTemplate={(option) => <MediaType {...option} {...mediaTab} />}>
                                 <BlockUI
                                     pt={{
                                         root: classNames("mx-2"),
@@ -77,9 +99,11 @@ export default function Chapter() {
                                         <OrderManager
                                             updatingViewIndex={updatingViewIndex}
                                             items={mediaTab?.media}
-                                            setItems={setMedia}
-                                            emptyItemsError="No Chapters Found"
-                                            itemTemplate={(item) => <p>hello</p>}
+                                            setItems={setMediaCatalogue}
+                                            emptyItemsError="No Media Found"
+                                            itemTemplate={(item) => (
+                                                <Media setMediaCatalogue={setMediaCatalogue} {...item} updatingViewIndex={updatingViewIndex} />
+                                            )}
                                         />
                                     }
                                 </BlockUI>
@@ -87,9 +111,8 @@ export default function Chapter() {
                         ))}
                     </TabView>
                 </div>
-            ) : (
-                <NoContent error={"No Media Found"} />
             )}
+            {dialogAddMedia?.visible && <DialogAddMedia {...dialogAddMedia} />}
         </div>
     );
 }

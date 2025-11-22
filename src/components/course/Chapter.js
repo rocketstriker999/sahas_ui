@@ -12,12 +12,12 @@ export default function Chapter({ id, title, setChapters, type, updatingViewInde
 
     const navigate = useNavigate();
 
-    const [dialogEditChapterType, setDialogEditChapterType] = useState({
+    const [dialogEditChapter, setDialogEditChapter] = useState({
         visible: false,
     });
 
-    const closeDialogEditChapterType = useCallback(() => {
-        setDialogEditChapterType((prev) => ({ ...prev, visible: false }));
+    const closeDialogEditChapter = useCallback(() => {
+        setDialogEditChapter((prev) => ({ ...prev, visible: false }));
     }, []);
 
     const deleteChapter = useCallback(() => {
@@ -31,7 +31,7 @@ export default function Chapter({ id, title, setChapters, type, updatingViewInde
                     showToast({
                         severity: "success",
                         summary: "Deleted",
-                        detail: `Chapter Type Deleted`,
+                        detail: `Chapter Deleted`,
                         life: 1000,
                     });
                     setChapters((prev) => prev?.filter((chapter) => chapter?.id !== id));
@@ -44,7 +44,7 @@ export default function Chapter({ id, title, setChapters, type, updatingViewInde
 
     return (
         <div className={`flex gap-3 align-items-center border-1 border-gray-300 border-round py-2 px-3 overflow-hidden `}>
-            <div onClick={() => navigate(`${id}`)} className="flex flex-column flex-1 gap-2">
+            <div onClick={() => navigate(`${id}/media`)} className="flex flex-column flex-1 gap-2">
                 <span className={`text-sm font-semibold `}>
                     {id}. {title}
                 </span>
@@ -58,20 +58,20 @@ export default function Chapter({ id, title, setChapters, type, updatingViewInde
                 <i
                     className={`pi pi-pencil `}
                     onClick={() =>
-                        setDialogEditChapterType((prev) => ({
+                        setDialogEditChapter((prev) => ({
                             ...prev,
                             visible: true,
                             setChapters,
                             id,
                             title,
                             type,
-                            closeDialog: closeDialogEditChapterType,
+                            closeDialog: closeDialogEditChapter,
                         }))
                     }
                 ></i>
             )}
             {!updatingViewIndex && <ProgressiveControl loading={deleting} control={<i className={`pi pi-trash `} onClick={deleteChapter}></i>} />}
-            {dialogEditChapterType?.visible && <DialogEditChapter {...dialogEditChapterType} />}
+            {dialogEditChapter?.visible && <DialogEditChapter {...dialogEditChapter} />}
         </div>
     );
 }
