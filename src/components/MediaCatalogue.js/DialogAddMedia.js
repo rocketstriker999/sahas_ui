@@ -12,7 +12,7 @@ import FileInput from "../common/FileInput";
 export default function DialogAddMedia({ visible, closeDialog, setMediaCatalogue, chapterId }) {
     const { requestAPI, showToast } = useAppContext();
 
-    const [media, setMedia] = useState({ chapter_id: chapterId, cdn_url: null });
+    const [media, setMedia] = useState({ chapter_id: chapterId });
 
     const [loading, setLoading] = useState();
 
@@ -63,14 +63,16 @@ export default function DialogAddMedia({ visible, closeDialog, setMediaCatalogue
                 <label htmlFor="branch">Type</label>
             </FloatLabel>
 
-            <FileInput
-                className={"mt-3"}
-                label={media?.type}
-                type={media?.type?.toLowerCase()}
-                cdn_url={media?.cdn_url}
-                setCDNUrl={(cdn_url) => setMedia((prev) => ({ ...prev, cdn_url }))}
-                disabled={loading}
-            />
+            {media?.type && (
+                <FileInput
+                    className={"mt-3"}
+                    label={media?.type}
+                    type={media?.type?.toLowerCase()}
+                    cdn_url={media?.cdn_url}
+                    setCDNUrl={(cdn_url) => setMedia((prev) => ({ ...prev, cdn_url }))}
+                    disabled={loading}
+                />
+            )}
 
             <FloatLabel className="mt-5">
                 <InputText

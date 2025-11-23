@@ -111,4 +111,46 @@ export function getFileAcceptType(type) {
 //resource getter
 export const getMedia = (resource) => process.env.REACT_APP_BACKEND_SERVER.concat(process.env.REACT_APP_RESOURCES_PATH).concat(resource);
 
+export async function uploadMedia({
+    requestPath = "/",
+    file,
+    onRequestStart = false,
+    onResponseReceieved = false,
+    onRequestFailure = false,
+    onRequestEnd = false,
+    parseResponseBody = true,
+    onProgress,
+} = {}) {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", process.env.REACT_APP_BACKEND_SERVER.concat(process.env.REACT_APP_MEDIA_PATH).concat(requestPath));
+    if (onRequestStart) await onRequestStart();
+
+    xhr.upload.onprogress = (event) => {
+        if (event.lengthComputable && onProgress) {
+            onProgress(Math.round((event.loaded / event.total) * 100));
+        }
+    };
+
+    xhr.onload = () => {
+        try {
+            const jsonResponse = parseResponseBody ? JSON.parse(xhr.responseText) : xhr.responseText;
+            if (onResponseReceieved) onResponseReceieved(jsonResponse, xhr.status);
+        } catch (e) {
+            if (onRequestFailure) onRequestFailure(e?.message);
+        } finally {
+            if (onRequestEnd) onRequestEnd();
+        }
+    };
+
+    xhr.onerror = () => onRequestFailure("Network error");
+    xhr.onabort = () => onRequestFailure("Upload aborted");
+
+    xhr.send(formData);
+
+    return xhr;
+}
+
 export const hasRequiredAuthority = (authorities, requiredAuthority) => authorities.includes(requiredAuthority);

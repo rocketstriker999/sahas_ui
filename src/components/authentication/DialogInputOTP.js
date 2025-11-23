@@ -9,7 +9,6 @@ import Error from "../common/Error";
 import { KEY_AUTHENTICATION_TOKEN } from "../../constants";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "../../redux/sliceUser";
-import { classNames } from "primereact/utils";
 
 export default function DialogInputOTP({ authenticationToken, setAuthenticationToken, requestOTP }) {
     const { requestAPI } = useAppContext();
