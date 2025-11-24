@@ -29,6 +29,7 @@ import CouponCodeCourses from "../components/manage_coupon_codes/CouponCodeCours
 import Enroll from "../pages/Enroll";
 import PaymentGatewayPayLoad from "../pages/PaymentGatewayPayLoad";
 import MediaCatalogue from "../pages/MediaCatalogue";
+import Media from "../pages/Media";
 
 export default function App() {
     return (
@@ -101,6 +102,8 @@ export default function App() {
                             <Route path="subjects/:subjectId/chapters" element={<Chapters />} />
                             <Route path="subjects/:subjectId/chapters/:chapterId/media" element={<MediaCatalogue />} />
                         </Route>
+
+                        <Route path="/media-player/:mediaId" element={<Media />}></Route>
 
                         <Route path="/manage-chapter-types" element={<ManageChapterTypes />} />
 

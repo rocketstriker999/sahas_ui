@@ -6,12 +6,12 @@ import NoContent from "../components/common/NoContent";
 import { TabPanel, TabView } from "primereact/tabview";
 import { classNames } from "primereact/utils";
 import { useSelector } from "react-redux";
-import { MediaType } from "../components/MediaCatalogue.js/MediaType";
+import { MediaType } from "../components/media_catalogue.js/MediaType";
 import { BlockUI } from "primereact/blockui";
-import ChapterHead from "../components/MediaCatalogue.js/ChapterHead";
+import ChapterHead from "../components/media_catalogue.js/ChapterHead";
 import OrderManager from "../components/common/OrderManager";
-import Media from "../components/MediaCatalogue.js/Media";
-import DialogAddMedia from "../components/MediaCatalogue.js/DialogAddMedia";
+import Media from "../components/media_catalogue.js/Media";
+import DialogAddMedia from "../components/media_catalogue.js/DialogAddMedia";
 
 export default function MediaCatalogue() {
     const { chapterId } = useParams();

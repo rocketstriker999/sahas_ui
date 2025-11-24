@@ -3,9 +3,12 @@ import { useAppContext } from "../../providers/ProviderAppContainer";
 import { getReadableDate } from "../../utils";
 import ProgressiveControl from "../common/ProgressiveControl";
 import DialogEditMedia from "./DialogEditMedia";
+import { useNavigate } from "react-router-dom";
 
 export default function Media({ id, title, setMediaCatalogue, type, external_url, cdn_url, updatingViewIndex, updated_at }) {
     const { requestAPI, showToast } = useAppContext();
+
+    const navigate = useNavigate();
 
     const [deleting, setDeleting] = useState();
 
@@ -55,7 +58,7 @@ export default function Media({ id, title, setMediaCatalogue, type, external_url
 
     return (
         <div className={`flex gap-3 align-items-center border-1 border-gray-300 border-round py-2 px-3 overflow-hidden `}>
-            <div className="flex flex-column flex-1 gap-2">
+            <div onClick={() => navigate(`/media-player/${id}`)} className="flex flex-column flex-1 gap-2">
                 <span className={`text-sm font-semibold `}>
                     {id}. {title}
                 </span>
