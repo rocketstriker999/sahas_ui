@@ -3,8 +3,10 @@ import TabHeader from "../common/TabHeader";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import { Button } from "primereact/button";
 import { useParams } from "react-router-dom";
+import DialogEditQuizConfig from "./DialogEditQuizConfig";
 
 export default function ChaptersHead({
+    enrollment,
     setLoading,
     setError,
     chapters,
@@ -17,8 +19,15 @@ export default function ChaptersHead({
     const { requestAPI, showToast } = useAppContext();
     const { subjectId } = useParams();
     const [subject, setSubject] = useState();
-
     const [updating, setUpdating] = useState();
+
+    const [dialogEditQuizConfig, setDialogEditQuizConfig] = useState({
+        visible: false,
+    });
+
+    const closeDialogEditQuizConfig = useCallback(() => {
+        setDialogEditQuizConfig((prev) => ({ ...prev, visible: false }));
+    }, []);
 
     useEffect(() => {
         requestAPI({
@@ -58,36 +67,67 @@ export default function ChaptersHead({
     }, [chapters, requestAPI, setUpdating, showToast]);
 
     return (
-        <TabHeader
-            className={"p-3 bg-gray-100"}
-            title={`${subject?.title} Chapters`}
-            highlights={[`Demo Chapters Requires No Enrollment`, `Chapters Are Categorized Into Sections`]}
-            actionItems={[
-                <Button
-                    onClick={() => setDialogAddChapter((prev) => ({ ...prev, visible: true, setChapters, closeDialog: closeDialogAddChapter }))}
-                    icon="pi pi-plus"
-                    severity="warning"
-                />,
+        <div>
+            <TabHeader
+                className={"p-3 bg-gray-100"}
+                title={`${subject?.title} Chapters`}
+                highlights={[`Demo Chapters Requires No Enrollment`, `Chapters Are Categorized Into Sections`]}
+                actionItems={[
+                    <Button
+                        onClick={() => setDialogAddChapter((prev) => ({ ...prev, visible: true, setChapters, closeDialog: closeDialogAddChapter }))}
+                        icon="pi pi-plus"
+                        severity="warning"
+                    />,
 
-                <Button
-                    loading={updating}
-                    disabled={!chapters?.length}
-                    onClick={() => {
-                        showToast({
-                            severity: "info",
-                            summary: "Repositioning",
-                            detail: `Repositioning Mode ${!updatingViewIndex ? "Enabled" : "Disabled"}`,
-                            life: 1000,
-                        });
-                        //give signal to update view indexs
-                        if (!!updatingViewIndex) {
-                            updateViewIndexs();
-                        }
-                        setUpdatingViewIndex((prev) => !prev);
-                    }}
-                    icon="pi pi-arrows-v"
-                />,
-            ]}
-        />
+                    <Button
+                        loading={updating}
+                        disabled={!chapters?.length}
+                        onClick={() => {
+                            showToast({
+                                severity: "info",
+                                summary: "Repositioning",
+                                detail: `Repositioning Mode ${!updatingViewIndex ? "Enabled" : "Disabled"}`,
+                                life: 1000,
+                            });
+                            //give signal to update view indexs
+                            if (!!updatingViewIndex) {
+                                updateViewIndexs();
+                            }
+                            setUpdatingViewIndex((prev) => !prev);
+                        }}
+                        icon="pi pi-arrows-v"
+                    />,
+                ]}
+            />
+
+            {!!enrollment?.digital_access && (
+                <div className="flex align-items-center gap-2 px-2">
+                    <Button
+                        severity="warning"
+                        onClick={() => {
+                            setDialogEditQuizConfig((prev) => ({
+                                ...prev,
+                                visible: true,
+                                subject,
+                                setSubject,
+                                closeDialog: closeDialogEditQuizConfig,
+                            }));
+                        }}
+                        icon="pi pi-pencil"
+                    />
+                    <Button
+                        disabled={!subject?.quiz_active}
+                        className="flex-1"
+                        onClick={() => {}}
+                        label="Launch Quiz "
+                        iconPos="right"
+                        icon="pi pi-question-circle"
+                    />
+                    <Button severity="warning" disabled={!chapters?.length} onClick={() => {}} icon="pi pi-history" />
+                </div>
+            )}
+
+            {dialogEditQuizConfig?.visible && <DialogEditQuizConfig {...dialogEditQuizConfig} />}
+        </div>
     );
 }

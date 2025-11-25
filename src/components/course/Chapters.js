@@ -60,15 +60,19 @@ export function Chapters() {
     return (
         <div className="flex-1 overflow-hidden flex flex-column gap-2">
             <ChaptersHead
-                {...{ setLoading, setError, chapters, setChapters, setDialogAddChapter, updatingViewIndex, setUpdatingViewIndex, closeDialogAddChapter }}
+                {...{
+                    enrollment,
+                    setLoading,
+                    setError,
+                    chapters,
+                    setChapters,
+                    setDialogAddChapter,
+                    updatingViewIndex,
+                    setUpdatingViewIndex,
+                    closeDialogAddChapter,
+                }}
             />
-            {!!enrollment?.digital_access && (
-                <div className="flex align-items-center gap-2 px-2">
-                    <Button severity="warning" onClick={() => {}} icon="pi pi-pencil" />
-                    <Button className="flex-1" label="Launch Quick " iconPos="right" icon="pi pi-question-circle" />
-                    <Button severity="warning" disabled={!chapters?.length} onClick={() => {}} icon="pi pi-history" />
-                </div>
-            )}
+
             {loading ? (
                 <Loading />
             ) : error ? (
