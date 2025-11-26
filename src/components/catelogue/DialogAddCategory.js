@@ -23,12 +23,12 @@ export default function DialogAddCategory({ visible, closeDialog }) {
             setLoading: setLoading,
             onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Category !", life: 2000 }),
             onResponseReceieved: (productCategory, responseCode) => {
-                if (productCategory && responseCode === 201) {
+                if (responseCode === 201) {
                     showToast({ severity: "success", summary: "Added", detail: "Category Added", life: 1000 });
                     setCategories((prev) => [productCategory, ...prev]);
                     setCategory(); //reset form
                     closeDialog(); //close the dialog
-                } else showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Category !", life: 2000 });
+                } else showToast({ severity: "error", summary: "Failed", detail: productCategory?.error, life: 2000 });
             },
         });
     }, [category, closeDialog, requestAPI, setCategories, showToast]);
