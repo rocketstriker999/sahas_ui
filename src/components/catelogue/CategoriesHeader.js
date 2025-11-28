@@ -3,6 +3,7 @@ import TabHeader from "../common/TabHeader";
 import { Button } from "primereact/button";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import DialogAddCategory from "./DialogAddCategory";
+import { getViewIndex } from "../../utils";
 
 export default function CategoriesHeader({ categories, updatingViewIndex, setUpdatingViewIndex }) {
     const { requestAPI, showToast } = useAppContext();
@@ -51,7 +52,7 @@ export default function CategoriesHeader({ categories, updatingViewIndex, setUpd
                         onClick={() =>
                             setDialogAddCategory((prev) => ({
                                 ...prev,
-                                view_index: categories?.length ? categories[0]?.view_index - 1 : 0,
+                                view_index: getViewIndex(categories),
                                 visible: true,
                                 closeDialog: closeDialogAddCategory,
                             }))

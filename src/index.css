@@ -3,3 +3,8 @@ body{
     margin: 0;
     padding: 0;
 }
+
+.word-break-all{
+    word-break: break-word;
+    overflow-wrap: break-word;
+}

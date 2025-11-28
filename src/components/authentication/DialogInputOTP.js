@@ -2,7 +2,7 @@ import { Dialog } from "primereact/dialog";
 import { InputOtp } from "primereact/inputotp";
 import { useUpdateEffect } from "primereact/hooks";
 import { useAppContext } from "../../providers/ProviderAppContainer";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ButtonResendOTP from "./ButtonResendOTP";
 import Loading from "../common/Loading";
 import Error from "../common/Error";
@@ -15,9 +15,17 @@ export default function DialogInputOTP({ authenticationToken, setAuthenticationT
 
     const dispatch = useDispatch();
 
+    const inputOTP = useRef(null);
+
     const [otp, setOTP] = useState();
     const [loading, setLoading] = useState();
     const [error, setError] = useState();
+
+    useEffect(() => {
+        if (authenticationToken && inputOTP.current) {
+            inputOTP.current.focus(); // auto-focus first input
+        }
+    });
 
     useUpdateEffect(() => {
         if (otp?.length === 4) validateOTP();
@@ -58,7 +66,7 @@ export default function DialogInputOTP({ authenticationToken, setAuthenticationT
                     <p className="text-sm">Enter The OTP That We have Sent You !</p>
                 </div>
 
-                <InputOtp length={4} disabled={loading} invalid={error} value={otp} integerOnly mask onChange={(e) => setOTP(e.value)} />
+                <InputOtp ref={inputOTP} length={4} disabled={loading} invalid={error} value={otp} integerOnly mask onChange={(e) => setOTP(e.value)} />
 
                 {error && <Error className="p-2" error={error} />}
 

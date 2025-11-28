@@ -96,6 +96,10 @@ export function getFilterNameFormalized(input) {
     return input.charAt(0).toUpperCase().concat(input.slice(1));
 }
 
+export function getViewIndex(items) {
+    return items?.length ? items[0]?.view_index - 1 : 0;
+}
+
 export function getFileAcceptType(type) {
     if (type === "video") {
         return "video/*";
