@@ -25,7 +25,7 @@ export default function DialogInputOTP({ authenticationToken, setAuthenticationT
         if (authenticationToken && inputOTP.current) {
             inputOTP.current.focus(); // auto-focus first input
         }
-    });
+    }, [authenticationToken]);
 
     useUpdateEffect(() => {
         if (otp?.length === 4) validateOTP();
