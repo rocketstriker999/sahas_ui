@@ -8,7 +8,7 @@ import { InputText } from "primereact/inputtext";
 import FileInput from "../common/FileInput";
 import { useOutletContext } from "react-router-dom";
 
-export default function DialogAddCategory({ visible, closeDialog }) {
+export default function DialogAddCategory({ visible, view_index, closeDialog }) {
     const { requestAPI, showToast } = useAppContext();
     const { setCategories } = useOutletContext();
 
@@ -19,19 +19,19 @@ export default function DialogAddCategory({ visible, closeDialog }) {
         requestAPI({
             requestPath: `course-categories`,
             requestMethod: "POST",
-            requestPostBody: category,
+            requestPostBody: { ...category, view_index },
             setLoading: setLoading,
             onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Category !", life: 2000 }),
-            onResponseReceieved: (productCategory, responseCode) => {
+            onResponseReceieved: ({ error, ...addedCategory }, responseCode) => {
                 if (responseCode === 201) {
                     showToast({ severity: "success", summary: "Added", detail: "Category Added", life: 1000 });
-                    setCategories((prev) => [productCategory, ...prev]);
+                    setCategories((prev) => [addedCategory, ...prev]);
                     setCategory(); //reset form
                     closeDialog(); //close the dialog
-                } else showToast({ severity: "error", summary: "Failed", detail: productCategory?.error, life: 2000 });
+                } else showToast({ severity: "error", summary: "Failed", detail: error || "Failed To Add Category !", life: 2000 });
             },
         });
-    }, [category, closeDialog, requestAPI, setCategories, showToast]);
+    }, [category, closeDialog, requestAPI, setCategories, showToast, view_index]);
 
     return (
         <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Add New Category`} visible={visible} className="w-11" onHide={closeDialog}>
