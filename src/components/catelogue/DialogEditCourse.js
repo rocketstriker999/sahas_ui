@@ -12,8 +12,6 @@ import FileInput from "../common/FileInput";
 export default function DialogEditCourse({ visible, closeDialog, setCourses, ...props }) {
     const { requestAPI, showToast } = useAppContext();
 
-    console.log(props);
-
     const [course, setCourse] = useState(props);
     const [loading, setLoading] = useState();
 
@@ -36,7 +34,14 @@ export default function DialogEditCourse({ visible, closeDialog, setCourses, ...
     }, [requestAPI, course, showToast, setCourses, closeDialog, props?.id]);
 
     return (
-        <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Edit Course`} visible={visible} className="w-11" onHide={closeDialog}>
+        <Dialog
+            onClick={(e) => e.stopPropagation()}
+            pt={{ content: { className: "overflow-visible" } }}
+            header={`Edit Course`}
+            visible={visible}
+            className="w-11"
+            onHide={closeDialog}
+        >
             <TabHeader className="pt-3" title={props?.title} />
             <FloatLabel className="mt-5">
                 <InputText

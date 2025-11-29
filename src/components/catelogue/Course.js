@@ -90,7 +90,7 @@ export default function Course({ id, title, description, fees, image, whatsapp_g
 
             <span className="text-xs px-3">{description}</span>
 
-            <DialogEditCourse {...dialogEditCourse} />
+            {dialogEditCourse?.visible && <DialogEditCourse {...dialogEditCourse} />}
         </div>
     );
 }
