@@ -35,7 +35,7 @@ export default function DialogEditCourse({ visible, closeDialog, setCourses, ...
 
     return (
         <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Edit ${props?.title}`} visible={visible} className="w-11" onHide={closeDialog}>
-            <FloatLabel className="mt-5">
+            <FloatLabel className="mt-2">
                 <InputText
                     value={course?.title || ""}
                     id="title"
