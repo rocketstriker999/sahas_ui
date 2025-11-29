@@ -35,54 +35,56 @@ export default function DialogEditCourse({ visible, closeDialog, setCourses, ...
 
     return (
         <Dialog header={`Edit ${props?.title}`} visible={visible} className="w-11" onHide={closeDialog}>
-            <FloatLabel className="mt-2">
-                <InputText
-                    value={course?.title || ""}
-                    id="title"
-                    className="w-full"
-                    onChange={(e) => setCourse((prev) => ({ ...prev, title: e.target.value }))}
+            <div className="overflow-scroll">
+                <FloatLabel className="mt-2">
+                    <InputText
+                        value={course?.title || ""}
+                        id="title"
+                        className="w-full"
+                        onChange={(e) => setCourse((prev) => ({ ...prev, title: e.target.value }))}
+                        disabled={loading}
+                    />
+                    <label htmlFor="title">Title</label>
+                </FloatLabel>
+
+                <FloatLabel className="mt-5">
+                    <InputTextarea
+                        value={course?.description || ""}
+                        id="description"
+                        rows={5}
+                        cols={30}
+                        className="w-full"
+                        onChange={(e) => setCourse((prev) => ({ ...prev, description: e.target.value }))}
+                        disabled={loading}
+                    />
+                    <label htmlFor="description">Description</label>
+                </FloatLabel>
+
+                <FloatLabel className="mt-5">
+                    <InputNumber value={course?.fees} id="fees" className="w-full" onChange={(e) => setCourse((prev) => ({ ...prev, fees: e.value }))} />
+                    <label htmlFor="fees">Total Fees</label>
+                </FloatLabel>
+
+                <FileInput
+                    className="mt-3"
+                    label="Course"
+                    type="image"
+                    cdn_url={course?.image}
+                    setCDNUrl={(cdn_url) => setCourse((prev) => ({ ...prev, image: cdn_url }))}
                     disabled={loading}
                 />
-                <label htmlFor="title">Title</label>
-            </FloatLabel>
 
-            <FloatLabel className="mt-5">
-                <InputTextarea
-                    value={course?.description || ""}
-                    id="description"
-                    rows={5}
-                    cols={30}
-                    className="w-full"
-                    onChange={(e) => setCourse((prev) => ({ ...prev, description: e.target.value }))}
-                    disabled={loading}
-                />
-                <label htmlFor="description">Description</label>
-            </FloatLabel>
-
-            <FloatLabel className="mt-5">
-                <InputNumber value={course?.fees} id="fees" className="w-full" onChange={(e) => setCourse((prev) => ({ ...prev, fees: e.value }))} />
-                <label htmlFor="fees">Total Fees</label>
-            </FloatLabel>
-
-            <FileInput
-                className="mt-3"
-                label="Course"
-                type="image"
-                cdn_url={course?.image}
-                setCDNUrl={(cdn_url) => setCourse((prev) => ({ ...prev, image: cdn_url }))}
-                disabled={loading}
-            />
-
-            <FloatLabel className="mt-5">
-                <InputText
-                    value={course?.whatsapp_group || ""}
-                    id="whatsapp"
-                    className="w-full"
-                    onChange={(e) => setCourse((prev) => ({ ...prev, whatsapp_group: e.target.value }))}
-                    disabled={loading}
-                />
-                <label htmlFor="whatsapp">Whatsapp Group</label>
-            </FloatLabel>
+                <FloatLabel className="mt-5">
+                    <InputText
+                        value={course?.whatsapp_group || ""}
+                        id="whatsapp"
+                        className="w-full"
+                        onChange={(e) => setCourse((prev) => ({ ...prev, whatsapp_group: e.target.value }))}
+                        disabled={loading}
+                    />
+                    <label htmlFor="whatsapp">Whatsapp Group</label>
+                </FloatLabel>
+            </div>
 
             <Button className="mt-3" label="Edit Course" severity="warning" loading={loading} onClick={editCourse} />
         </Dialog>
