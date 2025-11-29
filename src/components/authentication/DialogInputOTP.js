@@ -64,7 +64,7 @@ export default function DialogInputOTP({ authenticationToken, setAuthenticationT
 
                 {loading && <Loading className={"mt-2"} />}
 
-                <ButtonResendOTP requestOTP={requestOTP} setError={setError} />
+                <ButtonResendOTP requestOTP={requestOTP} setError={setError} setOTP={setOTP} />
             </div>
         </Dialog>
     );

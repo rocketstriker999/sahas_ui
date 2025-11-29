@@ -43,15 +43,13 @@ export default function Course({ id, title, description, fees, image, whatsapp_g
     }, [id, requestAPI, setCourses, showToast]);
 
     return (
-        <div className="border-1 border-gray-300 border-round  flex flex-column gap-2 overflow-hidden pb-2">
-            <img
-                onClick={() => {
-                    if (!updatingViewIndex) navigate(`/courses/${id}/subjects`);
-                }}
-                className="w-full"
-                src={image}
-                alt={title}
-            />
+        <div
+            onClick={() => {
+                if (!updatingViewIndex) navigate(`/courses/${id}/subjects`);
+            }}
+            className="border-1 border-gray-300 border-round  flex flex-column gap-2 overflow-hidden pb-2"
+        >
+            <img className="w-full h-8rem" src={image} alt={title} />
 
             <div className="flex align-items-center mt-1 px-3 gap-3">
                 <span className="text-sm font-semibold text-indigo-800 flex-1">
@@ -61,7 +59,8 @@ export default function Course({ id, title, description, fees, image, whatsapp_g
                 {!updatingViewIndex && (
                     <i
                         className={`pi pi-pencil`}
-                        onClick={() =>
+                        onClick={(e) => {
+                            e.stopPropagation();
                             setDialogEditCourse((prev) => ({
                                 ...prev,
                                 visible: true,
@@ -73,12 +72,12 @@ export default function Course({ id, title, description, fees, image, whatsapp_g
                                 fees,
                                 image,
                                 whatsapp_group,
-                            }))
-                        }
+                            }));
+                        }}
                     ></i>
                 )}
                 {!updatingViewIndex && <ProgressiveControl loading={deleting} control={<i className={`pi pi-trash `} onClick={deleteCourse}></i>} />}
-                {!!updatingViewIndex && <i className="pi pi-equals mr-3"></i>}
+                {!!updatingViewIndex && <i className="pi pi-equals mr-3 z-1"></i>}
             </div>
 
             <span className="text-xs px-3">{description}</span>
