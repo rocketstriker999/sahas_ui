@@ -12,6 +12,8 @@ import FileInput from "../common/FileInput";
 export default function DialogEditCourse({ visible, closeDialog, setCourses, ...props }) {
     const { requestAPI, showToast } = useAppContext();
 
+    console.log(props);
+
     const [course, setCourse] = useState(props);
     const [loading, setLoading] = useState();
 

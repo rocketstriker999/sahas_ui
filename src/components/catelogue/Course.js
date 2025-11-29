@@ -64,7 +64,7 @@ export default function Course({ id, title, description, fees, image, whatsapp_g
                             <IconButton
                                 icon={"pi-pencil"}
                                 color={"text-orange-500"}
-                                onClick={() => {
+                                onClick={() =>
                                     setDialogEditCourse((prev) => ({
                                         ...prev,
                                         visible: true,
@@ -76,8 +76,8 @@ export default function Course({ id, title, description, fees, image, whatsapp_g
                                         fees,
                                         image,
                                         whatsapp_group,
-                                    }));
-                                }}
+                                    }))
+                                }
                             />
                         }
                     />
@@ -90,7 +90,7 @@ export default function Course({ id, title, description, fees, image, whatsapp_g
 
             <span className="text-xs px-3">{description}</span>
 
-            {dialogEditCourse?.visible && <DialogEditCourse {...dialogEditCourse} />}
+            <DialogEditCourse {...dialogEditCourse} />
         </div>
     );
 }
