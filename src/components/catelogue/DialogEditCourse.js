@@ -8,6 +8,7 @@ import { Button } from "primereact/button";
 import { InputTextarea } from "primereact/inputtextarea";
 import { InputNumber } from "primereact/inputnumber";
 import FileInput from "../common/FileInput";
+import { classNames } from "primereact/utils";
 
 export default function DialogEditCourse({ visible, closeDialog, setCourses, ...props }) {
     const { requestAPI, showToast } = useAppContext();
@@ -34,8 +35,8 @@ export default function DialogEditCourse({ visible, closeDialog, setCourses, ...
     }, [requestAPI, course, showToast, setCourses, closeDialog, props?.id]);
 
     return (
-        <Dialog header={`Edit ${props?.title}`} visible={visible} className="w-11" onHide={closeDialog}>
-            <div className="overflow-scroll">
+        <Dialog pt={{ content: classNames("flex flex-column") }} header={`Edit ${props?.title}`} visible={visible} className="w-11" onHide={closeDialog}>
+            <div className="flex-1 overflow-scroll">
                 <FloatLabel className="mt-2">
                     <InputText
                         value={course?.title || ""}
