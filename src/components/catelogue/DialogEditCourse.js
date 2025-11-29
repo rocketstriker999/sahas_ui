@@ -22,26 +22,19 @@ export default function DialogEditCourse({ visible, closeDialog, setCourses, ...
             requestPostBody: course,
             setLoading: setLoading,
             onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Update Course !", life: 2000 }),
-            onResponseReceieved: (updatedCourse, responseCode) => {
+            onResponseReceieved: ({ error, ...updatedCourse }, responseCode) => {
                 if (updatedCourse && responseCode === 200) {
                     showToast({ severity: "success", summary: "Updated", detail: "Course Updated", life: 1000 });
                     setCourses((prev) => prev?.map((course) => (course?.id === props?.id ? updatedCourse : course)));
                     setCourse(); //reset form
                     closeDialog(); //close the dialog
-                } else showToast({ severity: "error", summary: "Failed", detail: "Failed To Update Course !", life: 2000 });
+                } else showToast({ severity: "error", summary: "Failed", detail: error || "Failed To Edit Course !", life: 2000 });
             },
         });
     }, [requestAPI, course, showToast, setCourses, closeDialog, props?.id]);
 
     return (
-        <Dialog
-            onClick={(e) => e.stopPropagation()}
-            pt={{ content: { className: "overflow-visible" } }}
-            header={`Edit Course`}
-            visible={visible}
-            className="w-11"
-            onHide={closeDialog}
-        >
+        <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Edit Course`} visible={visible} className="w-11" onHide={closeDialog}>
             <TabHeader className="pt-3" title={props?.title} />
             <FloatLabel className="mt-5">
                 <InputText
@@ -84,12 +77,12 @@ export default function DialogEditCourse({ visible, closeDialog, setCourses, ...
             <FloatLabel className="mt-5">
                 <InputText
                     value={course?.whatsapp_group || ""}
-                    id="title"
+                    id="whatsapp"
                     className="w-full"
                     onChange={(e) => setCourse((prev) => ({ ...prev, whatsapp_group: e.target.value }))}
                     disabled={loading}
                 />
-                <label htmlFor="title">Whatsapp Group</label>
+                <label htmlFor="whatsapp">Whatsapp Group</label>
             </FloatLabel>
 
             <Button className="mt-3" label="Edit Course" severity="warning" loading={loading} onClick={editCourse} />

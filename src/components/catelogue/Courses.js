@@ -3,12 +3,13 @@ import { useOutletContext, useParams } from "react-router-dom";
 import { Divider } from "primereact/divider";
 import Loading from "../common/Loading";
 import NoContent from "../common/NoContent";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import OrderManager from "../common/OrderManager";
 import Course from "./Course";
 
 import CoursesHeader from "./CoursesHeader";
+import DialogEditCourse from "./DialogEditCourse";
 
 export default function Courses() {
     const { categoryId } = useParams();
@@ -24,6 +25,14 @@ export default function Courses() {
     const [error, setError] = useState();
 
     const [courses, setCourses] = useState();
+
+    const [dialogEditCourse, setDialogEditCourse] = useState({
+        visible: false,
+    });
+
+    const closeDialogEditCourse = useCallback(() => {
+        setDialogEditCourse((prev) => ({ ...prev, visible: false }));
+    }, []);
 
     useEffect(() => {
         requestAPI({
@@ -61,8 +70,12 @@ export default function Courses() {
                 items={courses}
                 setItems={setCourses}
                 entity={"Courses"}
-                itemTemplate={(item) => <Course setCourses={setCourses} {...item} updatingViewIndex={updatingViewIndex} />}
+                itemTemplate={(item) => (
+                    <Course setDialogEditCourse={setDialogEditCourse} setCourses={setCourses} {...item} updatingViewIndex={updatingViewIndex} />
+                )}
             />
+
+            {dialogEditCourse?.visible && <DialogEditCourse closeDialog={closeDialogEditCourse} setCourses={setCourses} {...dialogEditCourse} />}
         </div>
     );
 }

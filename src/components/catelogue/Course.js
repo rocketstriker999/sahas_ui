@@ -1,24 +1,15 @@
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import { useCallback, useState } from "react";
 import ProgressiveControl from "../common/ProgressiveControl";
-import DialogEditCourse from "./DialogEditCourse";
 import { useNavigate } from "react-router-dom";
 import IconButton from "../common/IconButton";
 
-export default function Course({ id, title, description, fees, image, whatsapp_group, setCourses, updatingViewIndex }) {
+export default function Course({ id, title, description, fees, image, whatsapp_group, setCourses, updatingViewIndex, setDialogEditCourse }) {
     const navigate = useNavigate();
 
     const { requestAPI, showToast } = useAppContext();
 
     const [deleting, setDeleting] = useState();
-
-    const [dialogEditCourse, setDialogEditCourse] = useState({
-        visible: false,
-    });
-
-    const closeDialogEditCourse = useCallback(() => {
-        setDialogEditCourse((prev) => ({ ...prev, visible: false }));
-    }, []);
 
     const deleteCourse = useCallback(() => {
         requestAPI({
@@ -68,8 +59,6 @@ export default function Course({ id, title, description, fees, image, whatsapp_g
                                     setDialogEditCourse((prev) => ({
                                         ...prev,
                                         visible: true,
-                                        setCourses,
-                                        closeDialog: closeDialogEditCourse,
                                         id,
                                         title,
                                         description,
@@ -89,8 +78,6 @@ export default function Course({ id, title, description, fees, image, whatsapp_g
             </div>
 
             <span className="text-xs px-3">{description}</span>
-
-            {dialogEditCourse?.visible && <DialogEditCourse {...dialogEditCourse} />}
         </div>
     );
 }
