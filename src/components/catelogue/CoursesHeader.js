@@ -10,7 +10,7 @@ export default function CoursesHeader({ courses, category, setCourses, updatingV
 
     const [dialogAddCourse, setDialogAddCourse] = useState({
         visible: false,
-        categoryId: category.id,
+        categoryId: category?.id,
     });
 
     const closeDialogAddCourse = useCallback(() => {

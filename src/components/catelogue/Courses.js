@@ -54,19 +54,15 @@ export default function Courses() {
 
             <Divider />
 
-            {loading ? (
-                <Loading />
-            ) : error ? (
-                <NoContent error={error} />
-            ) : (
-                <OrderManager
-                    updatingViewIndex={updatingViewIndex}
-                    items={courses}
-                    setItems={setCourses}
-                    emptyItemsError="No Courses Found"
-                    itemTemplate={(item) => <Course setCourses={setCourses} {...item} updatingViewIndex={updatingViewIndex} />}
-                />
-            )}
+            <OrderManager
+                error={error}
+                lodaing={loading}
+                updatingViewIndex={updatingViewIndex}
+                items={courses}
+                setItems={setCourses}
+                entity={"Courses"}
+                itemTemplate={(item) => <Course setCourses={setCourses} {...item} updatingViewIndex={updatingViewIndex} />}
+            />
         </div>
     );
 }

@@ -1,10 +1,19 @@
 import { OrderList } from "primereact/orderlist";
 import { classNames } from "primereact/utils";
 import NoContent from "./NoContent";
+import Loading from "./Loading";
 
-export default function OrderManager({ items, emptyItemsError, setItems, itemTemplate, updatingViewIndex }) {
+export default function OrderManager({ loading, error, entity, items, emptyItemsError, setItems, itemTemplate, updatingViewIndex }) {
+    if (loading) {
+        return <Loading />;
+    }
+
+    if (error) {
+        return <NoContent error={error} />;
+    }
+
     if (!items?.length) {
-        return <NoContent error={emptyItemsError} />;
+        return <NoContent error={`No ${entity} Found`} />;
     }
     return (
         <OrderList
