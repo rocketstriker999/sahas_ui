@@ -1,20 +1,29 @@
-import { useCallback, useState } from "react";
-import TabHeader from "../common/TabHeader";
 import { Button } from "primereact/button";
+import TabHeader from "../common/TabHeader";
+import DialogAddCourse from "./DialogAddCourse";
+import { useCallback, useState } from "react";
 import { useAppContext } from "../../providers/ProviderAppContainer";
-import DialogAddCategory from "./DialogAddCategory";
 import { getViewIndex } from "../../utils";
 
-export default function CategoriesHeader({ categories, updatingViewIndex, setUpdatingViewIndex }) {
+export default function CoursesHeader({ courses, category, setCourses, updatingViewIndex, setUpdatingViewIndex }) {
     const { requestAPI, showToast } = useAppContext();
+
+    const [dialogAddCourse, setDialogAddCourse] = useState({
+        visible: false,
+        categoryId: category.id,
+    });
+
+    const closeDialogAddCourse = useCallback(() => {
+        setDialogAddCourse((prev) => ({ ...prev, visible: false }));
+    }, []);
 
     const [loading, setLoading] = useState();
 
     const updateViewIndexs = useCallback(() => {
         requestAPI({
-            requestPath: `course-categories/view_indexes`,
+            requestPath: `courses/view_indexes`,
             requestMethod: "PATCH",
-            requestPostBody: categories.map(({ id }, view_index) => ({ id, view_index })),
+            requestPostBody: courses.map(({ id }, view_index) => ({ id, view_index })),
             setLoading: setLoading,
             parseResponseBody: false,
             onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Update View Indexes !", life: 2000 }),
@@ -31,30 +40,23 @@ export default function CategoriesHeader({ categories, updatingViewIndex, setUpd
                 }
             },
         });
-    }, [categories, requestAPI, showToast]);
-
-    const [dialogAddCategory, setDialogAddCategory] = useState({
-        visible: false,
-    });
-
-    const closeDialogAddCategory = useCallback(() => {
-        setDialogAddCategory((prev) => ({ ...prev, visible: false }));
-    }, []);
+    }, [courses, requestAPI, showToast]);
 
     return (
         <div>
             <TabHeader
                 className={"px-3 pt-3"}
-                title="Course Categories"
-                highlights={["New Enrollments Can be Happen Here", "Enrolled Courses Can Be Explored"]}
+                title={category?.title}
+                highlights={[`Explore Below ${category?.courses_count} Courses`]}
                 actionItems={[
                     <Button
                         onClick={() =>
-                            setDialogAddCategory((prev) => ({
+                            setDialogAddCourse((prev) => ({
                                 ...prev,
-                                view_index: getViewIndex(categories),
+                                view_index: getViewIndex(courses),
                                 visible: true,
-                                closeDialog: closeDialogAddCategory,
+                                setCourses,
+                                closeDialog: closeDialogAddCourse,
                             }))
                         }
                         icon="pi pi-plus"
@@ -62,7 +64,7 @@ export default function CategoriesHeader({ categories, updatingViewIndex, setUpd
                     />,
                     <Button
                         loading={loading}
-                        disabled={!categories?.length}
+                        disabled={!courses?.length}
                         onClick={() => {
                             showToast({
                                 severity: "info",
@@ -80,7 +82,8 @@ export default function CategoriesHeader({ categories, updatingViewIndex, setUpd
                     />,
                 ]}
             />
-            <DialogAddCategory {...dialogAddCategory} />
+
+            <DialogAddCourse {...dialogAddCourse} />
         </div>
     );
 }

@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import ProgressiveControl from "../common/ProgressiveControl";
 import { useNavigate, useOutletContext } from "react-router-dom";
+import IconButton from "../common/IconButton";
 
 export default function Category({ id, image, title, courses_count, updatingViewIndex }) {
     const { requestAPI, showToast } = useAppContext();
@@ -11,7 +12,7 @@ export default function Category({ id, image, title, courses_count, updatingView
 
     const navigate = useNavigate();
 
-    const deleteProductCategory = useCallback(() => {
+    const deleteCategory = useCallback(() => {
         requestAPI({
             requestPath: `course-categories/${id}`,
             requestMethod: "DELETE",
@@ -29,14 +30,14 @@ export default function Category({ id, image, title, courses_count, updatingView
     }, [id, requestAPI, setCategories, showToast]);
 
     return (
-        <div className="w-full flex gap-2 align-items-center border-1 border-gray-300 border-round ">
+        <div
+            onClick={() => {
+                if (!updatingViewIndex) navigate(`${id}/courses`);
+            }}
+            className="w-full flex gap-2 align-items-center border-1 border-gray-300 border-round "
+        >
             <img className="border-round-left w-8rem h-4rem" src={image} alt={title} />
-            <div
-                className="flex flex-column flex-1 gap-1"
-                onClick={() => {
-                    if (!updatingViewIndex) navigate(`${id}/courses`);
-                }}
-            >
+            <div className="flex flex-column flex-1 gap-1">
                 <span className="text-sm font-semibold word-break-all">{title}</span>
                 <div className="flex align-items-center gap-1 text-orange-800">
                     <i className="pi pi-book text-sm"></i>
@@ -44,8 +45,10 @@ export default function Category({ id, image, title, courses_count, updatingView
                 </div>
             </div>
             {!!updatingViewIndex && <i className="pi pi-equals mr-3"></i>}
-            {!updatingViewIndex && <ProgressiveControl loading={deleting} control={<i className="pi pi-trash mr-2" onClick={deleteProductCategory}></i>} />}
-            {!updatingViewIndex && <i className="pi pi-arrow-circle-right mr-3"></i>}
+            {!updatingViewIndex && (
+                <ProgressiveControl loading={deleting} control={<IconButton icon={"pi-trash"} color={"text-red-500"} onClick={deleteCategory} />} />
+            )}
+            {!updatingViewIndex && <IconButton icon={"pi-arrow-circle-right"} />}
         </div>
     );
 }

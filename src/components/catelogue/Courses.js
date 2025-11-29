@@ -1,37 +1,29 @@
 import { useOutletContext, useParams } from "react-router-dom";
-import TabHeader from "../common/TabHeader";
-import { Button } from "primereact/button";
+
 import { Divider } from "primereact/divider";
 import Loading from "../common/Loading";
 import NoContent from "../common/NoContent";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import OrderManager from "../common/OrderManager";
 import Course from "./Course";
-import DialogAddCourse from "./DialogAddCourse";
+
+import CoursesHeader from "./CoursesHeader";
 
 export default function Courses() {
-    const { categories } = useOutletContext();
     const { categoryId } = useParams();
-    const { requestAPI, showToast } = useAppContext();
-    const [updating, setUpdating] = useState();
+
+    const { categories } = useOutletContext();
+
+    const category = useMemo(() => categories?.find(({ id }) => id == categoryId), [categories, categoryId]);
+
+    const { requestAPI } = useAppContext();
     const [updatingViewIndex, setUpdatingViewIndex] = useState();
 
     const [loading, setLoading] = useState();
     const [error, setError] = useState();
 
-    const category = categories?.find(({ id }) => id == categoryId);
-
     const [courses, setCourses] = useState();
-
-    const [dialogAddCourse, setDialogAddCourse] = useState({
-        visible: false,
-        categoryId,
-    });
-
-    const closeDialogAddCourse = useCallback(() => {
-        setDialogAddCourse((prev) => ({ ...prev, visible: false }));
-    }, []);
 
     useEffect(() => {
         requestAPI({
@@ -50,63 +42,16 @@ export default function Courses() {
         });
     }, [categories, categoryId, requestAPI]);
 
-    const updateViewIndexs = useCallback(() => {
-        requestAPI({
-            requestPath: `courses/view_indexes`,
-            requestMethod: "PATCH",
-            requestPostBody: courses.map(({ id }, view_index) => ({ id, view_index })),
-            setLoading: setUpdating,
-            parseResponseBody: false,
-            onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Update View Indexes !", life: 2000 }),
-            onResponseReceieved: (_, responseCode) => {
-                if (responseCode === 200) {
-                    showToast({
-                        severity: "success",
-                        summary: "Updated",
-                        detail: `View Indexes Updated`,
-                        life: 1000,
-                    });
-                } else {
-                    showToast({ severity: "error", summary: "Failed", detail: "Failed To Update View Indexes !", life: 2000 });
-                }
-            },
-        });
-    }, [courses, requestAPI, showToast]);
-
     return (
         <div className="flex-1 overflow-hidden flex flex-column">
-            <TabHeader
-                className={"px-3 pt-3"}
-                title={category?.title}
-                highlights={[`Explore Below ${category?.courses_count} Courses`]}
-                actionItems={[
-                    <Button
-                        onClick={() => setDialogAddCourse((prev) => ({ ...prev, visible: true, setCourses, closeDialog: closeDialogAddCourse, categoryId }))}
-                        icon="pi pi-plus"
-                        severity="warning"
-                    />,
-                    <Button
-                        loading={updating}
-                        disabled={!categories?.length}
-                        onClick={() => {
-                            showToast({
-                                severity: "info",
-                                summary: "Repositioning",
-                                detail: `Repositioning Mode ${!updatingViewIndex ? "Enabled" : "Disabled"}`,
-                                life: 1000,
-                            });
-
-                            //give signal to update view indexs
-                            if (!!updatingViewIndex) {
-                                updateViewIndexs();
-                            }
-
-                            setUpdatingViewIndex((prev) => !prev);
-                        }}
-                        icon="pi pi-arrows-v"
-                    />,
-                ]}
+            <CoursesHeader
+                updatingViewIndex={updatingViewIndex}
+                setUpdatingViewIndex={setUpdatingViewIndex}
+                courses={courses}
+                setCourses={setCourses}
+                category={category}
             />
+
             <Divider />
 
             {loading ? (
@@ -122,7 +67,6 @@ export default function Courses() {
                     itemTemplate={(item) => <Course setCourses={setCourses} {...item} updatingViewIndex={updatingViewIndex} />}
                 />
             )}
-            <DialogAddCourse {...dialogAddCourse} />
         </div>
     );
 }

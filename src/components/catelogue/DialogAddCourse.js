@@ -9,30 +9,29 @@ import FileInput from "../common/FileInput";
 import { InputTextarea } from "primereact/inputtextarea";
 import { InputNumber } from "primereact/inputnumber";
 
-export default function DialogAddCourse({ visible, closeDialog, setCourses, categoryId }) {
+export default function DialogAddCourse({ visible, view_index, closeDialog, setCourses, categoryId }) {
     const { requestAPI, showToast } = useAppContext();
 
-    const [course, setCourse] = useState({ category_id: categoryId });
+    const [course, setCourse] = useState();
     const [loading, setLoading] = useState();
 
     const addCourse = useCallback(() => {
         requestAPI({
             requestPath: `courses`,
             requestMethod: "POST",
-            requestPostBody: course,
+            requestPostBody: { ...course, category_id: categoryId, view_index },
             setLoading: setLoading,
             onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Course !", life: 2000 }),
             onResponseReceieved: (course, responseCode) => {
                 if (course && responseCode === 201) {
                     showToast({ severity: "success", summary: "Added", detail: "Course Added", life: 1000 });
-
                     setCourses((prev) => [course, ...prev]);
                     setCourse(); //reset form
                     closeDialog(); //close the dialog
                 } else showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Course !", life: 2000 });
             },
         });
-    }, [course, closeDialog, requestAPI, setCourses, showToast]);
+    }, [requestAPI, course, categoryId, view_index, showToast, setCourses, closeDialog]);
 
     return (
         <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Add New Course`} visible={visible} className="w-11" onHide={closeDialog}>

@@ -3,6 +3,7 @@ import { useCallback, useState } from "react";
 import ProgressiveControl from "../common/ProgressiveControl";
 import DialogEditCourse from "./DialogEditCourse";
 import { useNavigate } from "react-router-dom";
+import IconButton from "../common/IconButton";
 
 export default function Course({ id, title, description, fees, image, whatsapp_group, setCourses, updatingViewIndex }) {
     const navigate = useNavigate();
@@ -57,10 +58,10 @@ export default function Course({ id, title, description, fees, image, whatsapp_g
                 </span>
 
                 {!updatingViewIndex && (
-                    <i
-                        className={`pi pi-pencil`}
-                        onClick={(e) => {
-                            e.stopPropagation();
+                    <IconButton
+                        icon={"pi-pencil"}
+                        color={"text-orange-500"}
+                        onClick={() => {
                             setDialogEditCourse((prev) => ({
                                 ...prev,
                                 visible: true,
@@ -74,10 +75,12 @@ export default function Course({ id, title, description, fees, image, whatsapp_g
                                 whatsapp_group,
                             }));
                         }}
-                    ></i>
+                    />
                 )}
-                {!updatingViewIndex && <ProgressiveControl loading={deleting} control={<i className={`pi pi-trash `} onClick={deleteCourse}></i>} />}
-                {!!updatingViewIndex && <i className="pi pi-equals mr-3 z-1"></i>}
+                {!updatingViewIndex && (
+                    <ProgressiveControl loading={deleting} control={<IconButton icon={"pi-trash"} color={"text-red-500"} onClick={deleteCourse} />} />
+                )}
+                {!!updatingViewIndex && <IconButton icon={"pi-equals"} color={"text-indigo-800"} />}
             </div>
 
             <span className="text-xs px-3">{description}</span>
