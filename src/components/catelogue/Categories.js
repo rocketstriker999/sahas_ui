@@ -21,7 +21,7 @@ export default function Categories() {
                 updatingViewIndex={updatingViewIndex}
                 items={categories}
                 setItems={setCategories}
-                emptyItemsError="No Course Categories Found"
+                entity={"Categories"}
                 itemTemplate={(item) => <Category {...item} updatingViewIndex={updatingViewIndex} />}
             />
         </div>

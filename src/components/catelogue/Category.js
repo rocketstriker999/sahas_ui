@@ -34,7 +34,7 @@ export default function Category({ id, image, title, courses_count, updatingView
             onClick={() => {
                 if (!updatingViewIndex) navigate(`${id}/courses`);
             }}
-            className="w-full flex gap-2 align-items-center border-1 border-gray-300 border-round "
+            className="w-full flex gap-2 align-items-center border-1 border-gray-300 border-round pr-2"
         >
             <img className="border-round-left w-8rem h-4rem" src={image} alt={title} />
             <div className="flex flex-column flex-1 gap-1">
@@ -44,7 +44,7 @@ export default function Category({ id, image, title, courses_count, updatingView
                     <span className="m-0 p-0 text-xs">{`${courses_count} Courses`}</span>
                 </div>
             </div>
-            {!!updatingViewIndex && <i className="pi pi-equals mr-3"></i>}
+            {!!updatingViewIndex && <i className="pi pi-equals"></i>}
             {!updatingViewIndex && (
                 <ProgressiveControl loading={deleting} control={<IconButton icon={"pi-trash"} color={"text-red-500"} onClick={deleteCategory} />} />
             )}

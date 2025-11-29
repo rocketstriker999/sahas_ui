@@ -22,13 +22,13 @@ export default function DialogAddCourse({ visible, view_index, closeDialog, setC
             requestPostBody: { ...course, category_id: categoryId, view_index },
             setLoading: setLoading,
             onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Course !", life: 2000 }),
-            onResponseReceieved: (course, responseCode) => {
-                if (course && responseCode === 201) {
+            onResponseReceieved: ({ error, ...addedCourse }, responseCode) => {
+                if (addedCourse && responseCode === 201) {
                     showToast({ severity: "success", summary: "Added", detail: "Course Added", life: 1000 });
-                    setCourses((prev) => [course, ...prev]);
+                    setCourses((prev) => [addedCourse, ...prev]);
                     setCourse(); //reset form
                     closeDialog(); //close the dialog
-                } else showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Course !", life: 2000 });
+                } else showToast({ severity: "error", summary: "Failed", detail: error || "Failed To Add Course !", life: 2000 });
             },
         });
     }, [requestAPI, course, categoryId, view_index, showToast, setCourses, closeDialog]);
