@@ -111,7 +111,7 @@ export default function SubjectsHead({ courseId, subjects, setSubjects, updating
                 ]}
             />
             {dialogAddSubject?.visible && <DialogAddSubject {...dialogAddSubject} />}
-            <DialogAssignSubjects {...dialogAssignSubjects} />
+            {dialogAddSubject?.visible && <DialogAssignSubjects {...dialogAssignSubjects} />}
         </div>
     );
 }

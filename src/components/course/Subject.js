@@ -5,20 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { getReadableDate } from "../../utils";
 import DialogEditSubject from "./DialogEditSubject";
 
-export default function Subject({ id, title, subject_id, setSubjects, background_color, updatingViewIndex, updated_at }) {
+export default function Subject({ id, title, subject_id, setSubjects, background_color, updatingViewIndex, updated_at, setDialogEditSubject }) {
     const navigate = useNavigate();
 
     const { requestAPI, showToast } = useAppContext();
 
     const [deleting, setDeleting] = useState();
-
-    const [dialogEditSubject, setDialogEditSubject] = useState({
-        visible: false,
-    });
-
-    const closeDialogEditSubject = useCallback(() => {
-        setDialogEditSubject((prev) => ({ ...prev, visible: false }));
-    }, []);
 
     const deleteSubject = useCallback(() => {
         requestAPI({
@@ -73,7 +65,6 @@ export default function Subject({ id, title, subject_id, setSubjects, background
                             id: subject_id,
                             title,
                             background_color,
-                            closeDialog: closeDialogEditSubject,
                         }))
                     }
                 ></i>
@@ -85,7 +76,6 @@ export default function Subject({ id, title, subject_id, setSubjects, background
                 />
             )}
             {!updatingViewIndex && <i className={`pi pi-arrow-circle-right ${background_color && "text-white"}`}></i>}
-            {dialogEditSubject?.visible && <DialogEditSubject {...dialogEditSubject} />}
         </div>
     );
 }
