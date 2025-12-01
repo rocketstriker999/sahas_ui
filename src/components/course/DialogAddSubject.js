@@ -7,37 +7,34 @@ import TabHeader from "../common/TabHeader";
 import { InputText } from "primereact/inputtext";
 import ColorInput from "../common/ColorInput";
 
-export default function DialogAddSubject({ visible, closeDialog, setSubjects, courseId }) {
+export default function DialogAddSubject({ visible, view_index, closeDialog, setSubjects, courseId }) {
+    console.log(view_index);
+
     const { requestAPI, showToast } = useAppContext();
 
-    const [subject, setSubject] = useState({ course_id: courseId, background_color: null });
+    const [subject, setSubject] = useState();
     const [loading, setLoading] = useState();
 
     const addSubject = useCallback(() => {
         requestAPI({
             requestPath: `subjects`,
             requestMethod: "POST",
-            requestPostBody: subject,
+            requestPostBody: { ...subject, course_id: courseId, view_index },
             setLoading: setLoading,
             onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Subject !", life: 2000 }),
-            onResponseReceieved: (subject, responseCode) => {
-                if (subject && responseCode === 201) {
+            onResponseReceieved: ({ error, ...addedSubject }, responseCode) => {
+                if (addedSubject && responseCode === 201) {
                     showToast({ severity: "success", summary: "Added", detail: "Subject Added", life: 1000 });
-                    setSubjects((prev) => [subject, ...prev]);
-                    setSubject(({ course_id }) => ({ course_id })); //reset form
+                    setSubjects((prev) => [addedSubject, ...prev]);
                     closeDialog(); //close the dialog
-                } else showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Subject !", life: 2000 });
+                } else showToast({ severity: "error", summary: "Failed", detail: error || "Failed To Add Subject !", life: 2000 });
             },
         });
-    }, [subject, closeDialog, requestAPI, setSubjects, showToast]);
+    }, [closeDialog, courseId, requestAPI, setSubjects, showToast, subject, view_index]);
 
     return (
-        <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Add New Subject`} visible={visible} className="w-11" onHide={closeDialog}>
-            <TabHeader
-                className="pt-3"
-                title="Add New Subject"
-                highlights={["New Subject Will Be Added", "For Special Subject Background Color Is Required"]}
-            />
+        <Dialog header={`Add New Subject`} visible={visible} className="w-11" onHide={closeDialog}>
+            <TabHeader className="pt-3" title="Add New Subject" highlights={["For Special Subject Background Color Is Required"]} />
 
             <FloatLabel className="mt-5">
                 <InputText

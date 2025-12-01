@@ -42,7 +42,7 @@ export default function Subjects() {
     return (
         <div className="flex flex-column h-full ">
             <PageTitle title={`Course - ${course?.title}`} action={course?.enrollment && <span className="pi pi-info-circle"></span>} />
-            <img className="w-full" src={course?.image} alt={course?.image} />
+            <img className="w-full h-8rem" src={course?.image} alt={course?.image} />
 
             <div className="px-3 py-2 bg-blue-900 text-white flex gap-2 flex-column">
                 {!!(course?.enrollment?.on_site_access || course?.enrollment?.digital_access) && (

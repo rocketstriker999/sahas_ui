@@ -5,7 +5,7 @@ import { useAppContext } from "../../providers/ProviderAppContainer";
 import TabHeader from "../common/TabHeader";
 import { ListBox } from "primereact/listbox";
 
-export default function DialogAssignSubjects({ visible, closeDialog, courseSubjects, setCourseSubjects, courseId }) {
+export default function DialogAssignSubjects({ visible, closeDialog, courseSubjects, setCourseSubjects, courseId, view_index }) {
     const { requestAPI, showToast } = useAppContext();
 
     const [availableSubjects, setAvailableSubject] = useState();
@@ -47,7 +47,7 @@ export default function DialogAssignSubjects({ visible, closeDialog, courseSubje
     }, [closeDialog, courseId, requestAPI, selectedSubjects, setCourseSubjects, showToast]);
 
     return (
-        <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Assign Subjects`} visible={visible} className="w-11" onHide={closeDialog}>
+        <Dialog header={`Assign Subjects`} visible={visible} className="w-11" onHide={closeDialog}>
             <TabHeader className="pt-3" title="Add New Subject" highlights={["New Subject Can Be Mapped Here", "Subjects Can Be Unmapped From List"]} />
 
             <ListBox

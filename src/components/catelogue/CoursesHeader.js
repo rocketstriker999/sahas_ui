@@ -50,6 +50,7 @@ export default function CoursesHeader({ courses, category, setCourses, updatingV
                 highlights={[`Explore Below ${category?.courses_count} Courses`]}
                 actionItems={[
                     <Button
+                        disabled={loading}
                         onClick={() =>
                             setDialogAddCourse((prev) => ({
                                 ...prev,
@@ -64,7 +65,7 @@ export default function CoursesHeader({ courses, category, setCourses, updatingV
                     />,
                     <Button
                         loading={loading}
-                        disabled={!courses?.length}
+                        disabled={!courses?.length || loading}
                         onClick={() => {
                             showToast({
                                 severity: "info",
