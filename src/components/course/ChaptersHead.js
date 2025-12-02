@@ -3,7 +3,8 @@ import TabHeader from "../common/TabHeader";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import { Button } from "primereact/button";
 import { useParams } from "react-router-dom";
-import DialogEditQuizConfig from "./DialogEditQuizConfig";
+import DialogAddChapter from "./DialogAddChapter";
+import { getViewIndex } from "../../utils";
 
 export default function ChaptersHead({
     enrollment,
@@ -11,23 +12,14 @@ export default function ChaptersHead({
     setError,
     chapters,
     setChapters,
-    setDialogAddChapter,
     updatingViewIndex,
     setUpdatingViewIndex,
-    closeDialogAddChapter,
+    setDialogEditQuizConfig,
 }) {
     const { requestAPI, showToast } = useAppContext();
     const { subjectId } = useParams();
     const [subject, setSubject] = useState();
     const [updating, setUpdating] = useState();
-
-    const [dialogEditQuizConfig, setDialogEditQuizConfig] = useState({
-        visible: false,
-    });
-
-    const closeDialogEditQuizConfig = useCallback(() => {
-        setDialogEditQuizConfig((prev) => ({ ...prev, visible: false }));
-    }, []);
 
     useEffect(() => {
         requestAPI({
@@ -66,6 +58,14 @@ export default function ChaptersHead({
         });
     }, [chapters, requestAPI, setUpdating, showToast]);
 
+    const [dialogAddChapter, setDialogAddChapter] = useState({
+        subjectId,
+        visible: false,
+    });
+    const closeDialogAddChapter = useCallback(() => {
+        setDialogAddChapter((prev) => ({ ...prev, visible: false }));
+    }, []);
+
     return (
         <div>
             <TabHeader
@@ -74,29 +74,37 @@ export default function ChaptersHead({
                 highlights={[`Demo Chapters Requires No Enrollment`, `Chapters Are Categorized Into Sections`]}
                 actionItems={[
                     <Button
-                        onClick={() => setDialogAddChapter((prev) => ({ ...prev, visible: true, setChapters, closeDialog: closeDialogAddChapter }))}
+                        onClick={() =>
+                            setDialogAddChapter((prev) => ({
+                                ...prev,
+                                visible: true,
+                                setChapters,
+                                closeDialog: closeDialogAddChapter,
+                                view_index: getViewIndex(chapters),
+                            }))
+                        }
                         icon="pi pi-plus"
                         severity="warning"
                     />,
-
-                    <Button
-                        loading={updating}
-                        disabled={!chapters?.length}
-                        onClick={() => {
-                            showToast({
-                                severity: "info",
-                                summary: "Repositioning",
-                                detail: `Repositioning Mode ${!updatingViewIndex ? "Enabled" : "Disabled"}`,
-                                life: 1000,
-                            });
-                            //give signal to update view indexs
-                            if (!!updatingViewIndex) {
-                                updateViewIndexs();
-                            }
-                            setUpdatingViewIndex((prev) => !prev);
-                        }}
-                        icon="pi pi-arrows-v"
-                    />,
+                    !!chapters?.length && (
+                        <Button
+                            loading={updating}
+                            onClick={() => {
+                                showToast({
+                                    severity: "info",
+                                    summary: "Repositioning",
+                                    detail: `Repositioning Mode ${!updatingViewIndex ? "Enabled" : "Disabled"}`,
+                                    life: 1000,
+                                });
+                                //give signal to update view indexs
+                                if (!!updatingViewIndex) {
+                                    updateViewIndexs();
+                                }
+                                setUpdatingViewIndex((prev) => !prev);
+                            }}
+                            icon="pi pi-arrows-v"
+                        />
+                    ),
                 ]}
             />
 
@@ -110,7 +118,6 @@ export default function ChaptersHead({
                                 visible: true,
                                 subject,
                                 setSubject,
-                                closeDialog: closeDialogEditQuizConfig,
                             }));
                         }}
                         icon="pi pi-pencil"
@@ -127,7 +134,7 @@ export default function ChaptersHead({
                 </div>
             )}
 
-            {dialogEditQuizConfig?.visible && <DialogEditQuizConfig {...dialogEditQuizConfig} />}
+            {dialogAddChapter?.visible && <DialogAddChapter {...dialogAddChapter} />}
         </div>
     );
 }

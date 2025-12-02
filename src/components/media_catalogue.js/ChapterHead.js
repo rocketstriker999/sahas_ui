@@ -78,25 +78,27 @@ export default function ChapterHead({
                 icon="pi pi-plus"
                 severity="warning"
             />
-            ,
-            <Button
-                loading={updating}
-                disabled={!mediaCatalogue?.length}
-                onClick={() => {
-                    showToast({
-                        severity: "info",
-                        summary: "Repositioning",
-                        detail: `Repositioning Mode ${!updatingViewIndex ? "Enabled" : "Disabled"}`,
-                        life: 1000,
-                    });
-                    //give signal to update view indexs
-                    if (!!updatingViewIndex) {
-                        updateViewIndexs();
-                    }
-                    setUpdatingViewIndex((prev) => !prev);
-                }}
-                icon="pi pi-arrows-v"
-            />
+            {!!mediaCatalogue?.length && (
+                <Button
+                    loading={updating}
+                    disabled={!mediaCatalogue?.length}
+                    onClick={() => {
+                        showToast({
+                            severity: "info",
+                            summary: "Repositioning",
+                            detail: `Repositioning Mode ${!updatingViewIndex ? "Enabled" : "Disabled"}`,
+                            life: 1000,
+                        });
+                        //give signal to update view indexs
+                        if (!!updatingViewIndex) {
+                            updateViewIndexs();
+                        }
+                        setUpdatingViewIndex((prev) => !prev);
+                    }}
+                    icon="pi pi-arrows-v"
+                />
+            )}
+
             {/* {dialogEditChapter?.visible && <DialogEditChapter {...dialogEditChapter} />} */}
         </div>
     );

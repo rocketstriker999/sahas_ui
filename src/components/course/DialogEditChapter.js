@@ -27,7 +27,6 @@ export default function DialogEditChapter({ visible, closeDialog, setChapters, .
                 if (updatedChapter && responseCode === 200) {
                     showToast({ severity: "success", summary: "Updated", detail: "Subject Updated", life: 1000 });
                     setChapters((prev) => prev?.map((chapter) => (chapter?.id === updatedChapter.id ? updatedChapter : chapter)));
-                    setChapter(); //reset form
                     closeDialog(); //close the dialog
                 } else showToast({ severity: "error", summary: "Failed", detail: "Failed To Update Subject !", life: 2000 });
             },

@@ -2,23 +2,15 @@ import { useAppContext } from "../../providers/ProviderAppContainer";
 import { useCallback, useState } from "react";
 import ProgressiveControl from "../common/ProgressiveControl";
 import { getReadableDate } from "../../utils";
-import DialogEditChapter from "./DialogEditChapter";
 import { useNavigate } from "react-router-dom";
+import IconButton from "../common/IconButton";
 
-export default function Chapter({ id, title, setChapters, type, updatingViewIndex, updated_at }) {
+export default function Chapter({ id, title, setChapters, type, updatingViewIndex, updated_at, setDialogEditChapter }) {
     const { requestAPI, showToast } = useAppContext();
 
     const [deleting, setDeleting] = useState();
 
     const navigate = useNavigate();
-
-    const [dialogEditChapter, setDialogEditChapter] = useState({
-        visible: false,
-    });
-
-    const closeDialogEditChapter = useCallback(() => {
-        setDialogEditChapter((prev) => ({ ...prev, visible: false }));
-    }, []);
 
     const deleteChapter = useCallback(() => {
         requestAPI({
@@ -43,8 +35,13 @@ export default function Chapter({ id, title, setChapters, type, updatingViewInde
     }, [id, requestAPI, setChapters, showToast]);
 
     return (
-        <div className={`flex gap-3 align-items-center border-1 border-gray-300 border-round py-2 px-3 overflow-hidden `}>
-            <div onClick={() => navigate(`${id}/media`)} className="flex flex-column flex-1 gap-2">
+        <div
+            onClick={() => {
+                if (!updatingViewIndex) navigate(`${id}/media`);
+            }}
+            className={`flex gap-3 align-items-center border-1 border-gray-300 border-round py-2 px-3 overflow-hidden `}
+        >
+            <div className="flex flex-column flex-1 gap-2">
                 <span className={`text-sm font-semibold `}>
                     {id}. {title}
                 </span>
@@ -53,25 +50,33 @@ export default function Chapter({ id, title, setChapters, type, updatingViewInde
                     <span className="m-0 p-0 text-xs">{`Last Updated At ${getReadableDate({ date: updated_at })}`}</span>
                 </div>
             </div>
-            {!!updatingViewIndex && <i className={`pi pi-equals `}></i>}
+            {!!updatingViewIndex && <IconButton icon={"pi-equals"} color={"text-indigo-800"} />}
+
             {!updatingViewIndex && (
-                <i
-                    className={`pi pi-pencil `}
-                    onClick={() =>
-                        setDialogEditChapter((prev) => ({
-                            ...prev,
-                            visible: true,
-                            setChapters,
-                            id,
-                            title,
-                            type,
-                            closeDialog: closeDialogEditChapter,
-                        }))
+                <ProgressiveControl
+                    loading={deleting}
+                    control={
+                        <IconButton
+                            icon={"pi-pencil"}
+                            color={"text-orange-500"}
+                            onClick={() =>
+                                setDialogEditChapter((prev) => ({
+                                    ...prev,
+                                    visible: true,
+                                    setChapters,
+                                    id,
+                                    title,
+                                    type,
+                                }))
+                            }
+                        />
                     }
-                ></i>
+                />
             )}
-            {!updatingViewIndex && <ProgressiveControl loading={deleting} control={<i className={`pi pi-trash `} onClick={deleteChapter}></i>} />}
-            {dialogEditChapter?.visible && <DialogEditChapter {...dialogEditChapter} />}
+
+            {!updatingViewIndex && (
+                <ProgressiveControl loading={deleting} control={<IconButton icon={"pi-trash"} color={"text-red-500"} onClick={deleteChapter} />} />
+            )}
         </div>
     );
 }

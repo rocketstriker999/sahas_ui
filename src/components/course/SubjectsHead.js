@@ -73,45 +73,44 @@ export default function SubjectsHead({ courseId, subjects, setSubjects, updating
                         icon="pi pi-plus"
                         severity="warning"
                     />,
+                    <Button
+                        disabled={loading}
+                        onClick={() =>
+                            setDialogAssignSubjects((prev) => ({
+                                ...prev,
+                                visible: true,
+                                courseSubjects: subjects,
+                                setCourseSubjects: setSubjects,
+                                closeDialog: closeDialogAssignSubjects,
+                                view_index: getViewIndex(subjects),
+                            }))
+                        }
+                        icon="pi pi-list-check"
+                        severity="info"
+                    />,
                     !!subjects?.length && (
                         <Button
-                            disabled={loading}
-                            onClick={() =>
-                                setDialogAssignSubjects((prev) => ({
-                                    ...prev,
-                                    visible: true,
-                                    courseSubjects: subjects,
-                                    setCourseSubjects: setSubjects,
-                                    closeDialog: closeDialogAssignSubjects,
-                                    view_index: getViewIndex(subjects),
-                                }))
-                            }
-                            icon="pi pi-list-check"
-                            severity="info"
+                            loading={loading}
+                            onClick={() => {
+                                showToast({
+                                    severity: "info",
+                                    summary: "Repositioning",
+                                    detail: `Repositioning Mode ${!updatingViewIndex ? "Enabled" : "Disabled"}`,
+                                    life: 1000,
+                                });
+                                //give signal to update view indexs
+                                if (!!updatingViewIndex) {
+                                    updateViewIndexs();
+                                }
+                                setUpdatingViewIndex((prev) => !prev);
+                            }}
+                            icon="pi pi-arrows-v"
                         />
                     ),
-                    <Button
-                        loading={loading}
-                        disabled={!subjects?.length || loading}
-                        onClick={() => {
-                            showToast({
-                                severity: "info",
-                                summary: "Repositioning",
-                                detail: `Repositioning Mode ${!updatingViewIndex ? "Enabled" : "Disabled"}`,
-                                life: 1000,
-                            });
-                            //give signal to update view indexs
-                            if (!!updatingViewIndex) {
-                                updateViewIndexs();
-                            }
-                            setUpdatingViewIndex((prev) => !prev);
-                        }}
-                        icon="pi pi-arrows-v"
-                    />,
                 ]}
             />
             {dialogAddSubject?.visible && <DialogAddSubject {...dialogAddSubject} />}
-            {dialogAddSubject?.visible && <DialogAssignSubjects {...dialogAssignSubjects} />}
+            {dialogAssignSubjects?.visible && <DialogAssignSubjects {...dialogAssignSubjects} />}
         </div>
     );
 }

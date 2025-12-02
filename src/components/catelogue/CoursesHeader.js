@@ -63,24 +63,25 @@ export default function CoursesHeader({ courses, category, setCourses, updatingV
                         icon="pi pi-plus"
                         severity="warning"
                     />,
-                    <Button
-                        loading={loading}
-                        disabled={!courses?.length || loading}
-                        onClick={() => {
-                            showToast({
-                                severity: "info",
-                                summary: "Repositioning",
-                                detail: `Repositioning Mode ${!updatingViewIndex ? "Enabled" : "Disabled"}`,
-                                life: 1000,
-                            });
-                            //give signal to update view indexs
-                            if (!!updatingViewIndex) {
-                                updateViewIndexs();
-                            }
-                            setUpdatingViewIndex((prev) => !prev);
-                        }}
-                        icon="pi pi-arrows-v"
-                    />,
+                    !!courses?.length && (
+                        <Button
+                            loading={loading}
+                            onClick={() => {
+                                showToast({
+                                    severity: "info",
+                                    summary: "Repositioning",
+                                    detail: `Repositioning Mode ${!updatingViewIndex ? "Enabled" : "Disabled"}`,
+                                    life: 1000,
+                                });
+                                //give signal to update view indexs
+                                if (!!updatingViewIndex) {
+                                    updateViewIndexs();
+                                }
+                                setUpdatingViewIndex((prev) => !prev);
+                            }}
+                            icon="pi pi-arrows-v"
+                        />
+                    ),
                 ]}
             />
 

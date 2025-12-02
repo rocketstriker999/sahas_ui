@@ -7,12 +7,11 @@ import TabHeader from "../common/TabHeader";
 import { InputText } from "primereact/inputtext";
 import { Dropdown } from "primereact/dropdown";
 import { useSelector } from "react-redux";
-import { classNames } from "primereact/utils";
 
-export default function DialogAddChapter({ visible, closeDialog, setChapters, subjectId }) {
+export default function DialogAddChapter({ visible, closeDialog, setChapters, subjectId, view_index }) {
     const { requestAPI, showToast } = useAppContext();
 
-    const [chapter, setChapter] = useState({ subject_id: subjectId });
+    const [chapter, setChapter] = useState();
     const [loading, setLoading] = useState();
 
     const { chapter_types = [] } = useSelector((state) => state.stateTemplateConfig?.global);
@@ -21,19 +20,18 @@ export default function DialogAddChapter({ visible, closeDialog, setChapters, su
         requestAPI({
             requestPath: `chapters`,
             requestMethod: "POST",
-            requestPostBody: chapter,
+            requestPostBody: { ...chapter, subject_id: subjectId, view_index },
             setLoading: setLoading,
             onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Chapter !", life: 2000 }),
             onResponseReceieved: (chapter, responseCode) => {
                 if (chapter && responseCode === 201) {
                     showToast({ severity: "success", summary: "Added", detail: "Chapter Added", life: 1000 });
                     setChapters((prev) => [chapter, ...prev]);
-                    setChapter(({ subject_id }) => ({ subject_id })); //reset form
                     closeDialog(); //close the dialog
                 } else showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Chapter !", life: 2000 });
             },
         });
-    }, [requestAPI, chapter, showToast, setChapters, closeDialog]);
+    }, [chapter, closeDialog, requestAPI, setChapters, showToast, subjectId, view_index]);
 
     return (
         <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Add New Chapter`} visible={visible} className="w-11" onHide={closeDialog}>

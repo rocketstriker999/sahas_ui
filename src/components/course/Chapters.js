@@ -7,22 +7,32 @@ import { useAppContext } from "../../providers/ProviderAppContainer";
 import NoContent from "../common/NoContent";
 import { BlockUI } from "primereact/blockui";
 import Chapter from "./Chapter";
-import Loading from "../common/Loading";
-import DialogAddChapter from "./DialogAddChapter";
 import { classNames } from "primereact/utils";
-import { Button } from "primereact/button";
 import OrderManager from "../common/OrderManager";
 import ChaptersHead from "./ChaptersHead";
+import DialogEditQuizConfig from "./DialogEditQuizConfig";
+import DialogEditChapter from "./DialogEditChapter";
 
 export function Chapters() {
     const { subjectId } = useParams();
     const [loading, setLoading] = useState();
     const [error, setError] = useState();
 
-    const [dialogAddChapter, setDialogAddChapter] = useState({
-        subjectId,
+    const [dialogEditQuizConfig, setDialogEditQuizConfig] = useState({
         visible: false,
     });
+
+    const closeDialogEditQuizConfig = useCallback(() => {
+        setDialogEditQuizConfig((prev) => ({ ...prev, visible: false }));
+    }, []);
+
+    const [dialogEditChapter, setDialogEditChapter] = useState({
+        visible: false,
+    });
+
+    const closeDialogEditChapter = useCallback(() => {
+        setDialogEditChapter((prev) => ({ ...prev, visible: false }));
+    }, []);
 
     const [updatingViewIndex, setUpdatingViewIndex] = useState();
     const { requestAPI } = useAppContext();
@@ -35,10 +45,6 @@ export function Chapters() {
         () => chapter_types.map((chapterType) => ({ ...chapterType, chapters: chapters?.filter(({ type }) => type === chapterType.id) })),
         [chapter_types, chapters]
     );
-
-    const closeDialogAddChapter = useCallback(() => {
-        setDialogAddChapter((prev) => ({ ...prev, visible: false }));
-    }, []);
 
     useEffect(() => {
         requestAPI({
@@ -66,18 +72,13 @@ export function Chapters() {
                     setError,
                     chapters,
                     setChapters,
-                    setDialogAddChapter,
                     updatingViewIndex,
                     setUpdatingViewIndex,
-                    closeDialogAddChapter,
+                    setDialogEditQuizConfig,
                 }}
             />
 
-            {loading ? (
-                <Loading />
-            ) : error ? (
-                <NoContent error={error} />
-            ) : chapterTabs?.length ? (
+            {chapterTabs?.length ? (
                 <TabView
                     pt={{
                         panelcontainer: classNames("p-0"),
@@ -99,11 +100,20 @@ export function Chapters() {
                                 }
                             >
                                 <OrderManager
+                                    error={error}
+                                    lodaing={loading}
                                     updatingViewIndex={updatingViewIndex}
                                     items={chaptersTab?.chapters}
                                     setItems={setChapters}
-                                    emptyItemsError="No Chapters Found"
-                                    itemTemplate={(item) => <Chapter setChapters={setChapters} {...item} updatingViewIndex={updatingViewIndex} />}
+                                    entity={"Chapters"}
+                                    itemTemplate={(item) => (
+                                        <Chapter
+                                            setChapters={setChapters}
+                                            {...item}
+                                            updatingViewIndex={updatingViewIndex}
+                                            setDialogEditChapter={setDialogEditChapter}
+                                        />
+                                    )}
                                 />
                             </BlockUI>
                         </TabPanel>
@@ -112,7 +122,8 @@ export function Chapters() {
             ) : (
                 <NoContent />
             )}
-            {dialogAddChapter?.visible && <DialogAddChapter {...dialogAddChapter} />}
+            {dialogEditQuizConfig?.visible && <DialogEditQuizConfig {...dialogEditQuizConfig} closeDialog={closeDialogEditQuizConfig} />}
+            {dialogEditChapter?.visible && <DialogEditChapter {...dialogEditChapter} closeDialog={closeDialogEditChapter} />}
         </div>
     );
 }

@@ -100,7 +100,7 @@ export default function MediaCatalogue() {
                                             updatingViewIndex={updatingViewIndex}
                                             items={mediaTab?.media}
                                             setItems={setMediaCatalogue}
-                                            emptyItemsError="No Media Found"
+                                            entity="Media"
                                             itemTemplate={(item) => (
                                                 <Media setMediaCatalogue={setMediaCatalogue} {...item} updatingViewIndex={updatingViewIndex} />
                                             )}
