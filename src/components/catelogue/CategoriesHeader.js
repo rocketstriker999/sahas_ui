@@ -81,7 +81,7 @@ export default function CategoriesHeader({ categories, updatingViewIndex, setUpd
                     ),
                 ]}
             />
-            <DialogAddCategory {...dialogAddCategory} />
+            {dialogAddCategory?.visible && <DialogAddCategory {...dialogAddCategory} />}
         </div>
     );
 }

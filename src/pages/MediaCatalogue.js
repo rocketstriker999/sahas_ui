@@ -57,47 +57,39 @@ export default function MediaCatalogue() {
                 }}
             />
 
-            {loading ? (
-                <Loading message="Fetching Media" />
-            ) : error ? (
-                <NoContent error={error} />
-            ) : (
-                <div className="flex flex-column h-full ">
-                    <TabView
-                        pt={{
-                            panelcontainer: classNames("p-0"),
-                        }}
-                    >
-                        {mediaTabs.map((mediaTab) => (
-                            <TabPanel key={mediaTab?.title} headerTemplate={(option) => <MediaType {...option} {...mediaTab} />}>
-                                <BlockUI
-                                    pt={{
-                                        root: classNames("mx-2"),
-                                        mask: "bg-black-alpha-80 align-items-start p-4",
-                                    }}
-                                    blocked={false ? !enrollment?.digital_access : false}
-                                    template={
-                                        <div className="text-white flex flex-column align-items-center">
-                                            <i className="pi pi-lock" style={{ fontSize: "3rem" }}></i>
-                                            <p>You Don't Have Access To This Content</p>
-                                        </div>
-                                    }
-                                >
-                                    <OrderManager
-                                        error={error}
-                                        loading={loading}
-                                        updatingViewIndex={updatingViewIndex}
-                                        items={mediaTab?.media}
-                                        setItems={setMediaCatalogue}
-                                        entity="Media"
-                                        itemTemplate={(item) => <Media setMediaCatalogue={setMediaCatalogue} {...item} updatingViewIndex={updatingViewIndex} />}
-                                    />
-                                </BlockUI>
-                            </TabPanel>
-                        ))}
-                    </TabView>
-                </div>
-            )}
+            <TabView
+                pt={{
+                    panelcontainer: classNames("p-0"),
+                }}
+            >
+                {mediaTabs.map((mediaTab) => (
+                    <TabPanel key={mediaTab?.title} headerTemplate={(option) => <MediaType {...option} {...mediaTab} />}>
+                        <BlockUI
+                            pt={{
+                                root: classNames("mx-2"),
+                                mask: "bg-black-alpha-80 align-items-start p-4",
+                            }}
+                            blocked={false ? !enrollment?.digital_access : false}
+                            template={
+                                <div className="text-white flex flex-column align-items-center">
+                                    <i className="pi pi-lock" style={{ fontSize: "3rem" }}></i>
+                                    <p>You Don't Have Access To This Content</p>
+                                </div>
+                            }
+                        >
+                            <OrderManager
+                                error={error}
+                                loading={loading}
+                                updatingViewIndex={updatingViewIndex}
+                                items={mediaTab?.media}
+                                setItems={setMediaCatalogue}
+                                entity="Media"
+                                itemTemplate={(item) => <Media setMediaCatalogue={setMediaCatalogue} {...item} updatingViewIndex={updatingViewIndex} />}
+                            />
+                        </BlockUI>
+                    </TabPanel>
+                ))}
+            </TabView>
         </div>
     );
 }

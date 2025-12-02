@@ -62,7 +62,9 @@ export default function SubjectsHead({ courseId, subjects, setSubjects, updating
                     <Button
                         disabled={loading}
                         onClick={() => {
-                            console.log(subjects);
+                            console.log("subjects at open add:", subjects);
+                            const viewIndex = getViewIndex(Array.isArray(subjects) ? subjects : []);
+                            console.log("computed viewIndex:", viewIndex, typeof viewIndex);
                             setDialogAddSubject((prev) => ({
                                 ...prev,
                                 visible: true,
