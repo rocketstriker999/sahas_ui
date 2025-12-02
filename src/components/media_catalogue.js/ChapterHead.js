@@ -4,21 +4,23 @@ import { classNames } from "primereact/utils";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "primereact/button";
 import { useAppContext } from "../../providers/ProviderAppContainer";
+import DialogAddMedia from "./DialogAddMedia";
+import { getViewIndex } from "../../utils";
 
-export default function ChapterHead({
-    setLoading,
-    setError,
-    mediaCatalogue,
-    setMediaCatalogue,
-    updatingViewIndex,
-    setUpdatingViewIndex,
-    setDialogAddMedia,
-    closeDialogAddMedia,
-}) {
+export default function ChapterHead({ setLoading, setError, mediaCatalogue, setMediaCatalogue, updatingViewIndex, setUpdatingViewIndex }) {
     const { chapterId } = useParams();
     const [updating, setUpdating] = useState();
     const [chapter, setChapter] = useState();
     const { requestAPI, showToast } = useAppContext();
+
+    const [dialogAddMedia, setDialogAddMedia] = useState({
+        chapterId,
+        visible: false,
+    });
+
+    const closeDialogAddMedia = useCallback(() => {
+        setDialogAddMedia((prev) => ({ ...prev, visible: false }));
+    }, []);
 
     const navigate = useNavigate();
 
@@ -68,13 +70,21 @@ export default function ChapterHead({
     }, [mediaCatalogue, requestAPI, showToast]);
 
     return (
-        <div className="flex align-items-center bg-gray-800 p-2 gap-1 justify-content-end">
+        <div className="flex align-items-center bg-gray-800 p-2 gap-2 justify-content-end">
             <BreadCrumb
                 pt={{ root: classNames("font-bold text-sm border-noround bg-transparent border-none flex-1"), label: classNames("text-white") }}
                 model={items}
             />
             <Button
-                onClick={() => setDialogAddMedia((prev) => ({ ...prev, visible: true, setMediaCatalogue, closeDialog: closeDialogAddMedia }))}
+                onClick={() =>
+                    setDialogAddMedia((prev) => ({
+                        ...prev,
+                        visible: true,
+                        setMediaCatalogue,
+                        closeDialog: closeDialogAddMedia,
+                        view_index: getViewIndex(mediaCatalogue),
+                    }))
+                }
                 icon="pi pi-plus"
                 severity="warning"
             />
@@ -98,6 +108,7 @@ export default function ChapterHead({
                     icon="pi pi-arrows-v"
                 />
             )}
+            {dialogAddMedia?.visible && <DialogAddMedia {...dialogAddMedia} />}
 
             {/* {dialogEditChapter?.visible && <DialogEditChapter {...dialogEditChapter} />} */}
         </div>

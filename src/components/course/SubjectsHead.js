@@ -7,6 +7,10 @@ import DialogAssignSubjects from "./DialogAssignSubjects";
 import DialogAddSubject from "./DialogAddSubject";
 
 export default function SubjectsHead({ courseId, subjects, setSubjects, updatingViewIndex, setUpdatingViewIndex }) {
+    const { showToast, requestAPI } = useAppContext();
+
+    const [loading, setLoading] = useState();
+
     const [dialogAddSubject, setDialogAddSubject] = useState({
         courseId,
         visible: false,
@@ -17,8 +21,6 @@ export default function SubjectsHead({ courseId, subjects, setSubjects, updating
         visible: false,
     });
 
-    const [loading, setLoading] = useState();
-
     const closeDialogAddSubject = useCallback(() => {
         setDialogAddSubject((prev) => ({ ...prev, visible: false }));
     }, []);
@@ -26,8 +28,6 @@ export default function SubjectsHead({ courseId, subjects, setSubjects, updating
     const closeDialogAssignSubjects = useCallback(() => {
         setDialogAssignSubjects((prev) => ({ ...prev, visible: false }));
     }, []);
-
-    const { showToast, requestAPI } = useAppContext();
 
     const updateViewIndexs = useCallback(() => {
         requestAPI({
@@ -61,15 +61,16 @@ export default function SubjectsHead({ courseId, subjects, setSubjects, updating
                 actionItems={[
                     <Button
                         disabled={loading}
-                        onClick={() =>
+                        onClick={() => {
+                            console.log(subjects);
                             setDialogAddSubject((prev) => ({
                                 ...prev,
                                 visible: true,
                                 setSubjects,
-                                closeDialog: closeDialogAddSubject,
                                 view_index: getViewIndex(subjects),
-                            }))
-                        }
+                                closeDialog: closeDialogAddSubject,
+                            }));
+                        }}
                         icon="pi pi-plus"
                         severity="warning"
                     />,

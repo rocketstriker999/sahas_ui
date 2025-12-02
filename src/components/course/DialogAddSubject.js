@@ -8,8 +8,6 @@ import { InputText } from "primereact/inputtext";
 import ColorInput from "../common/ColorInput";
 
 export default function DialogAddSubject({ visible, view_index, closeDialog, setSubjects, courseId }) {
-    console.log(view_index);
-
     const { requestAPI, showToast } = useAppContext();
 
     const [subject, setSubject] = useState();

@@ -33,12 +33,12 @@ export default function DialogAssignSubjects({ visible, closeDialog, courseSubje
         requestAPI({
             requestPath: `course-subjects`,
             requestMethod: "POST",
-            requestPostBody: { course_id: courseId, subjects: selectedSubjects },
+            requestPostBody: { course_id: courseId, subjects: selectedSubjects, view_index },
             setLoading: setLoading,
             onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Assign Subjects !", life: 2000 }),
             onResponseReceieved: (subjects, responseCode) => {
                 if (subjects && responseCode === 201) {
-                    showToast({ severity: "success", summary: "Added", detail: "Subjects Assigned", life: 1000 });
+                    showToast({ severity: "success", summary: "Assigned", detail: "Subjects Assigned", life: 1000 });
                     setCourseSubjects(() => subjects);
                     closeDialog(); //close the dialog
                 } else showToast({ severity: "error", summary: "Failed", detail: "Failed To Assign Subjects !", life: 2000 });
@@ -48,7 +48,7 @@ export default function DialogAssignSubjects({ visible, closeDialog, courseSubje
 
     return (
         <Dialog header={`Assign Subjects`} visible={visible} className="w-11" onHide={closeDialog}>
-            <TabHeader className="pt-3" title="Add New Subject" highlights={["New Subject Can Be Mapped Here", "Subjects Can Be Unmapped From List"]} />
+            <TabHeader className="pt-3" title="Assign Existing Subject" highlights={["New Subject Can Be Mapped Here", "Subjects Can Be Unmapped From List"]} />
 
             <ListBox
                 filter

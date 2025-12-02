@@ -5,6 +5,7 @@ import { Button } from "primereact/button";
 import { useParams } from "react-router-dom";
 import DialogAddChapter from "./DialogAddChapter";
 import { getViewIndex } from "../../utils";
+import NoContent from "../common/NoContent";
 
 export default function ChaptersHead({
     enrollment,
@@ -27,13 +28,13 @@ export default function ChaptersHead({
             requestMethod: "GET",
             setLoading: setLoading,
             onRequestStart: setError,
-            onRequestFailure: setError,
+            onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Load Subject !", life: 2000 }),
             onResponseReceieved: (subject, responseCode) => {
                 if (subject && responseCode === 200) setSubject(subject);
                 else setError("Couldn't load Chapter Tabs");
             },
         });
-    }, [requestAPI, setChapters, setError, setLoading, subjectId]);
+    }, [requestAPI, setError, setLoading, showToast, subjectId]);
 
     const updateViewIndexs = useCallback(() => {
         requestAPI({

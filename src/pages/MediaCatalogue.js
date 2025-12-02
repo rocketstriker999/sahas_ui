@@ -1,6 +1,6 @@
 import { useOutletContext, useParams } from "react-router-dom";
 import { useAppContext } from "../providers/ProviderAppContainer";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Loading from "../components/common/Loading";
 import NoContent from "../components/common/NoContent";
 import { TabPanel, TabView } from "primereact/tabview";
@@ -11,7 +11,6 @@ import { BlockUI } from "primereact/blockui";
 import ChapterHead from "../components/media_catalogue.js/ChapterHead";
 import OrderManager from "../components/common/OrderManager";
 import Media from "../components/media_catalogue.js/Media";
-import DialogAddMedia from "../components/media_catalogue.js/DialogAddMedia";
 
 export default function MediaCatalogue() {
     const { chapterId } = useParams();
@@ -44,15 +43,6 @@ export default function MediaCatalogue() {
         [mediaCatalogue, media_types]
     );
 
-    const [dialogAddMedia, setDialogAddMedia] = useState({
-        chapterId,
-        visible: false,
-    });
-
-    const closeDialogAddMedia = useCallback(() => {
-        setDialogAddMedia((prev) => ({ ...prev, visible: false }));
-    }, []);
-
     return (
         <div className="flex flex-column h-full">
             <ChapterHead
@@ -64,8 +54,6 @@ export default function MediaCatalogue() {
                     setMediaCatalogue,
                     updatingViewIndex,
                     setUpdatingViewIndex,
-                    setDialogAddMedia,
-                    closeDialogAddMedia,
                 }}
             />
 
@@ -95,24 +83,21 @@ export default function MediaCatalogue() {
                                         </div>
                                     }
                                 >
-                                    {
-                                        <OrderManager
-                                            updatingViewIndex={updatingViewIndex}
-                                            items={mediaTab?.media}
-                                            setItems={setMediaCatalogue}
-                                            entity="Media"
-                                            itemTemplate={(item) => (
-                                                <Media setMediaCatalogue={setMediaCatalogue} {...item} updatingViewIndex={updatingViewIndex} />
-                                            )}
-                                        />
-                                    }
+                                    <OrderManager
+                                        error={error}
+                                        loading={loading}
+                                        updatingViewIndex={updatingViewIndex}
+                                        items={mediaTab?.media}
+                                        setItems={setMediaCatalogue}
+                                        entity="Media"
+                                        itemTemplate={(item) => <Media setMediaCatalogue={setMediaCatalogue} {...item} updatingViewIndex={updatingViewIndex} />}
+                                    />
                                 </BlockUI>
                             </TabPanel>
                         ))}
                     </TabView>
                 </div>
             )}
-            {dialogAddMedia?.visible && <DialogAddMedia {...dialogAddMedia} />}
         </div>
     );
 }
