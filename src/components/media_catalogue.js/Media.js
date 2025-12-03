@@ -4,6 +4,7 @@ import { getReadableDate } from "../../utils";
 import ProgressiveControl from "../common/ProgressiveControl";
 import DialogEditMedia from "./DialogEditMedia";
 import { useNavigate } from "react-router-dom";
+import IconButton from "../common/IconButton";
 
 export default function Media({ id, title, setMediaCatalogue, type, external_url, cdn_url, updatingViewIndex, updated_at }) {
     const { requestAPI, showToast } = useAppContext();
@@ -72,10 +73,12 @@ export default function Media({ id, title, setMediaCatalogue, type, external_url
                     <i className={`pi pi-link `}></i>
                 </a>
             )}
-            {!!updatingViewIndex && <i className={`pi pi-equals `}></i>}
+            {!!updatingViewIndex && <IconButton icon={"pi-equals"} color={"text-indigo-800"} />}
+
             {!updatingViewIndex && (
-                <i
-                    className={`pi pi-pencil `}
+                <IconButton
+                    icon={` pi-pencil `}
+                    color={"text-orange-500"}
                     onClick={() =>
                         setDialogEditMedia((prev) => ({
                             ...prev,
@@ -89,9 +92,11 @@ export default function Media({ id, title, setMediaCatalogue, type, external_url
                             closeDialog: closeDialogEditMedia,
                         }))
                     }
-                ></i>
+                />
             )}
-            {!updatingViewIndex && <ProgressiveControl loading={deleting} control={<i className={`pi pi-trash`} onClick={deleteMedia}></i>} />}
+            {!updatingViewIndex && (
+                <ProgressiveControl loading={deleting} control={<IconButton icon={`pi-trash`} color={"text-red-500"} onClick={deleteMedia} />} />
+            )}
             {dialogEditMedia?.visible && <DialogEditMedia {...dialogEditMedia} />}
         </div>
     );

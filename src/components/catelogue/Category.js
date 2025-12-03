@@ -44,7 +44,7 @@ export default function Category({ id, image, title, courses_count, updatingView
                     <span className="m-0 p-0 text-xs">{`${courses_count} Courses`}</span>
                 </div>
             </div>
-            {!!updatingViewIndex && <i className="pi pi-equals"></i>}
+            {!!updatingViewIndex && <IconButton icon={"pi-equals"} color={"text-indigo-800"} />}
             {!updatingViewIndex && (
                 <ProgressiveControl loading={deleting} control={<IconButton icon={"pi-trash"} color={"text-red-500"} onClick={deleteCategory} />} />
             )}
