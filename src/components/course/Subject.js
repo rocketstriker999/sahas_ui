@@ -52,11 +52,11 @@ export default function Subject({ id, title, subject_id, setSubjects, background
                     <span className="m-0 p-0 text-xs">{`Last Updated At ${getReadableDate({ date: updated_at })}`}</span>
                 </div>
             </div>
-            {!!updatingViewIndex && <IconButton icon={"pi-equals"} color={background_color ? `text-indigo-800` : "text-white"} />}
+            {!!updatingViewIndex && <IconButton icon={"pi-equals"} color={background_color ? "text-white" : `text-indigo-800`} />}
             {!updatingViewIndex && (
                 <IconButton
                     icon={`pi pi-pencil `}
-                    color={background_color ? `text-orange-500` : "text-white"}
+                    color={background_color ? "text-white" : `text-orange-500`}
                     onClick={() =>
                         setDialogEditSubject((prev) => ({
                             ...prev,
@@ -73,11 +73,11 @@ export default function Subject({ id, title, subject_id, setSubjects, background
             {!updatingViewIndex && (
                 <ProgressiveControl
                     loading={deleting}
-                    control={<IconButton icon={`pi-trash`} color={background_color ? "text-red-500" : "text-white"} onClick={deleteSubject} />}
+                    control={<IconButton icon={`pi-trash`} color={background_color ? "text-white" : "text-red-500"} onClick={deleteSubject} />}
                 />
             )}
 
-            {!!updatingViewIndex && <IconButton icon={"pi-arrow-circle-right"} color={background_color ? "text-indigo-800" : "text-white"} />}
+            {!!updatingViewIndex && <IconButton icon={"pi-arrow-circle-right"} color={background_color ? "text-white" : "text-indigo-800"} />}
         </div>
     );
 }
