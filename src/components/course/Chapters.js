@@ -87,37 +87,35 @@ export function Chapters() {
                 >
                     {chapterTabs.map((chaptersTab) => (
                         <TabPanel key={chaptersTab?.id} headerTemplate={(option) => <ChaptersTypeHead {...option} {...chaptersTab} />}>
-                            {/* <BlockUI
+                            <BlockUI
                                 pt={{
-                                    root: classNames("mx-2"),
                                     mask: "bg-black-alpha-80 align-items-start p-4",
                                 }}
-                                // blocked={!!chaptersTab?.requires_enrollment_digital_access ? !enrollment?.digital_access : false}
-                                blocked={false}
+                                blocked={!!chaptersTab?.requires_enrollment_digital_access ? !enrollment?.digital_access : false}
                                 template={
                                     <div className="text-white flex flex-column align-items-center">
                                         <i className="pi pi-lock" style={{ fontSize: "3rem" }}></i>
                                         <p>You Don't Have Access To This Content</p>
                                     </div>
                                 }
-                            ></BlockUI> */}
-
-                            <OrderManager
-                                error={error}
-                                lodaing={loading}
-                                updatingViewIndex={updatingViewIndex}
-                                items={chaptersTab?.chapters}
-                                setItems={setChapters}
-                                entity={"Chapters"}
-                                itemTemplate={(item) => (
-                                    <Chapter
-                                        setChapters={setChapters}
-                                        {...item}
-                                        updatingViewIndex={updatingViewIndex}
-                                        setDialogEditChapter={setDialogEditChapter}
-                                    />
-                                )}
-                            />
+                            >
+                                <OrderManager
+                                    error={error}
+                                    lodaing={loading}
+                                    updatingViewIndex={updatingViewIndex}
+                                    items={chaptersTab?.chapters}
+                                    setItems={setChapters}
+                                    entity={"Chapters"}
+                                    itemTemplate={(item) => (
+                                        <Chapter
+                                            setChapters={setChapters}
+                                            {...item}
+                                            updatingViewIndex={updatingViewIndex}
+                                            setDialogEditChapter={setDialogEditChapter}
+                                        />
+                                    )}
+                                />
+                            </BlockUI>
                         </TabPanel>
                     ))}
                 </TabView>

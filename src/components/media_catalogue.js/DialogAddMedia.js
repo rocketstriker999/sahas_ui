@@ -9,10 +9,10 @@ import { Dropdown } from "primereact/dropdown";
 import { useSelector } from "react-redux";
 import FileInput from "../common/FileInput";
 
-export default function DialogAddMedia({ visible, closeDialog, setMediaCatalogue, chapterId }) {
+export default function DialogAddMedia({ visible, closeDialog, setMediaCatalogue, chapterId, view_index }) {
     const { requestAPI, showToast } = useAppContext();
 
-    const [media, setMedia] = useState({ chapter_id: chapterId });
+    const [media, setMedia] = useState();
 
     const [loading, setLoading] = useState();
 
@@ -22,19 +22,18 @@ export default function DialogAddMedia({ visible, closeDialog, setMediaCatalogue
         requestAPI({
             requestPath: `media`,
             requestMethod: "POST",
-            requestPostBody: media,
+            requestPostBody: { ...media, chapter_id: chapterId, view_index },
             setLoading: setLoading,
             onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Media !", life: 2000 }),
-            onResponseReceieved: (media, responseCode) => {
+            onResponseReceieved: ({ error, ...media }, responseCode) => {
                 if (media && responseCode === 201) {
                     showToast({ severity: "success", summary: "Added", detail: "Media Added", life: 1000 });
                     setMediaCatalogue((prev) => [media, ...prev]);
-                    setMedia(({ chapter_id }) => ({ chapter_id })); //reset form
                     closeDialog(); //close the dialog
-                } else showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Chapter !", life: 2000 });
+                } else showToast({ severity: "error", summary: "Failed", detail: error || "Failed To Add Media !", life: 2000 });
             },
         });
-    }, [closeDialog, media, requestAPI, setMediaCatalogue, showToast]);
+    }, [chapterId, closeDialog, media, requestAPI, setMediaCatalogue, showToast, view_index]);
 
     return (
         <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Add New Media`} visible={visible} className="w-11" onHide={closeDialog}>
