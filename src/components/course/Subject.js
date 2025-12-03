@@ -4,6 +4,7 @@ import ProgressiveControl from "../common/ProgressiveControl";
 import { useNavigate } from "react-router-dom";
 import { getReadableDate } from "../../utils";
 import DialogEditSubject from "./DialogEditSubject";
+import IconButton from "../common/IconButton";
 
 export default function Subject({ id, title, subject_id, setSubjects, background_color, updatingViewIndex, updated_at, setDialogEditSubject }) {
     const navigate = useNavigate();
@@ -36,15 +37,13 @@ export default function Subject({ id, title, subject_id, setSubjects, background
 
     return (
         <div
+            onClick={() => {
+                if (!updatingViewIndex) navigate(`${subject_id}/chapters`);
+            }}
             style={{ backgroundColor: background_color }}
             className="flex gap-3 align-items-center border-1 border-gray-300 border-round py-2 px-3 overflow-hidden"
         >
-            <div
-                className="flex flex-column flex-1 gap-2"
-                onClick={() => {
-                    if (!updatingViewIndex) navigate(`${subject_id}/chapters`);
-                }}
-            >
+            <div className="flex flex-column flex-1 gap-2">
                 <span className={`text-sm font-semibold ${background_color && "text-white"}`}>
                     {subject_id}. {title}
                 </span>
@@ -53,10 +52,11 @@ export default function Subject({ id, title, subject_id, setSubjects, background
                     <span className="m-0 p-0 text-xs">{`Last Updated At ${getReadableDate({ date: updated_at })}`}</span>
                 </div>
             </div>
-            {!!updatingViewIndex && <i className={`pi pi-equals ${background_color && "text-white"}`}></i>}
+            {!!updatingViewIndex && <IconButton icon={"pi-equals"} color={background_color ? `text-indigo-800` : "text-white"} />}
             {!updatingViewIndex && (
-                <i
-                    className={`pi pi-pencil ${background_color && "text-white"}`}
+                <IconButton
+                    icon={`pi pi-pencil `}
+                    color={background_color ? `text-orange-500` : "text-white"}
                     onClick={() =>
                         setDialogEditSubject((prev) => ({
                             ...prev,
@@ -67,15 +67,17 @@ export default function Subject({ id, title, subject_id, setSubjects, background
                             background_color,
                         }))
                     }
-                ></i>
+                />
             )}
+
             {!updatingViewIndex && (
                 <ProgressiveControl
                     loading={deleting}
-                    control={<i className={`pi pi-trash ${background_color && "text-white"}`} onClick={deleteSubject}></i>}
+                    control={<IconButton icon={`pi-trash`} color={background_color ? "text-red-500" : "text-white"} onClick={deleteSubject} />}
                 />
             )}
-            {!updatingViewIndex && <i className={`pi pi-arrow-circle-right ${background_color && "text-white"}`}></i>}
+
+            {!!updatingViewIndex && <IconButton icon={"pi-arrow-circle-right"} color={background_color ? "text-indigo-800" : "text-white"} />}
         </div>
     );
 }
