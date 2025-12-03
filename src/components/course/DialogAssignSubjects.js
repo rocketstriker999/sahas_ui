@@ -44,7 +44,7 @@ export default function DialogAssignSubjects({ visible, closeDialog, courseSubje
                 } else showToast({ severity: "error", summary: "Failed", detail: "Failed To Assign Subjects !", life: 2000 });
             },
         });
-    }, [closeDialog, courseId, requestAPI, selectedSubjects, setCourseSubjects, showToast]);
+    }, [closeDialog, courseId, requestAPI, selectedSubjects, setCourseSubjects, showToast, view_index]);
 
     return (
         <Dialog header={`Assign Subjects`} visible={visible} className="w-11" onHide={closeDialog}>
