@@ -38,14 +38,8 @@ export default function App() {
             <RequiresTemplateConfiguration>
                 <Routes>
                     <Route path="/" element={<Dashboard />} />
-                    <Route
-                        path="/manage-users"
-                        element={
-                            <HasRequiredAuthority showForBidden={true} requiredAuthority={AUTHORITIES.USE_CONTAINER_MANAGE_USERS}>
-                                <ManageUsers />
-                            </HasRequiredAuthority>
-                        }
-                    >
+
+                    <Route path="/manage-users" element={<ManageUsers />}>
                         <Route
                             index
                             element={
@@ -54,22 +48,8 @@ export default function App() {
                                 </HasRequiredAuthority>
                             }
                         />
-                        <Route
-                            path=":userId"
-                            element={
-                                <HasRequiredAuthority showForBidden={true} requiredAuthority={AUTHORITIES.USE_CONTAINER_USER}>
-                                    <User />
-                                </HasRequiredAuthority>
-                            }
-                        >
-                            <Route
-                                path="basics"
-                                element={
-                                    <HasRequiredAuthority showForBidden={true} requiredAuthority={AUTHORITIES.READ_USER_BASICS}>
-                                        <Basics />
-                                    </HasRequiredAuthority>
-                                }
-                            />
+                        <Route path=":userId" element={<User />}>
+                            <Route path="basics" element={<Basics />} />
                             <Route
                                 path="inquiries"
                                 element={
@@ -78,38 +58,10 @@ export default function App() {
                                     </HasRequiredAuthority>
                                 }
                             />
-                            <Route
-                                path="enrollments"
-                                element={
-                                    <HasRequiredAuthority showForBidden={true} requiredAuthority={AUTHORITIES.READ_USER_ENROLLMENTS}>
-                                        <Enrollments />
-                                    </HasRequiredAuthority>
-                                }
-                            />
-                            <Route
-                                path="devices"
-                                element={
-                                    <HasRequiredAuthority showForBidden={true} requiredAuthority={AUTHORITIES.READ_USER_STREAMING_DEVICES}>
-                                        <NoContent error={"Coming soon !"} />
-                                    </HasRequiredAuthority>
-                                }
-                            />
-                            <Route
-                                path="wallet"
-                                element={
-                                    <HasRequiredAuthority showForBidden={true} requiredAuthority={AUTHORITIES.READ_USER_WALLET}>
-                                        <Wallet />
-                                    </HasRequiredAuthority>
-                                }
-                            />
-                            <Route
-                                path="notes"
-                                element={
-                                    <HasRequiredAuthority showForBidden={true} requiredAuthority={AUTHORITIES.READ_USER_GLOBAL_NOTES}>
-                                        <NoContent error={"Coming soon !"} />
-                                    </HasRequiredAuthority>
-                                }
-                            />
+                            <Route path="enrollments" element={<Enrollments />} />
+                            <Route path="devices" element={<NoContent error={"Coming soon !"} />} />
+                            <Route path="wallet" element={<Wallet />} />
+                            <Route path="notes" element={<NoContent error={"Coming soon !"} />} />
                             <Route
                                 path="roles"
                                 element={

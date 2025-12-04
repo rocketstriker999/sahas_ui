@@ -57,7 +57,7 @@ export default function Operations({ className }) {
                     {
                         title: "Users",
                         icon: "pi-users",
-                        required_authority: AUTHORITIES.USE_CONTAINER_MANAGE_USERS,
+                        required_authority: AUTHORITIES.USE_PAGE_USERS,
                         path: "/manage-users",
                     },
                     {

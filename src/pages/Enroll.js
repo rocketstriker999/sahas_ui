@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import PageTitle from "../components/common/PageTitle";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAppContext } from "../providers/ProviderAppContainer";
 import Loading from "../components/common/Loading";
 import NoContent from "../components/common/NoContent";
@@ -14,6 +14,8 @@ import { Chip } from "primereact/chip";
 import { classNames } from "primereact/utils";
 import { Button } from "primereact/button";
 import { getReadableDate } from "../utils";
+import { Tag } from "primereact/tag";
+import { useSelector } from "react-redux";
 
 export default function Enroll() {
     const [paymentGateWayPayLoad, setPaymentGateWayPayLoad] = useState();
@@ -25,6 +27,10 @@ export default function Enroll() {
     const [couponCode, setCouponCode] = useState();
 
     const [payInputs, setPayInputs] = useState({ courseId });
+
+    const { id, phone, full_name } = useSelector((state) => state.stateUser);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (courseId)
@@ -166,7 +172,7 @@ export default function Enroll() {
                 </div>
             )}
 
-            <div className="flex flex-column align-items-center mt-2">
+            <div className="flex flex-column align-items-center mt-2 gap-3">
                 <div className="flex align-items-center gap-2 mb-3 ">
                     <Checkbox id="terms" checked={termsAccepted} invalid={!termsAccepted} onChange={(e) => setTermsAccepted(e.checked)} />
                     <label htmlFor="terms" className="text-sm">
@@ -177,7 +183,17 @@ export default function Enroll() {
                     </label>
                 </div>
 
-                <ButtonPay {...paymentGateWayPayLoad} disabled={!termsAccepted} icon="pi pi-wallet" label={`Continue To Pay`} />
+                {(!phone || !full_name) && (
+                    <Tag
+                        onClick={() => navigate(`/manage-users/${id}/basics`)}
+                        className="fadein animation-duration-1000 animation-iteration-infinite"
+                        icon="pi pi-exclamation-circle"
+                        severity="danger"
+                        value="Missing Contact Details"
+                    />
+                )}
+
+                <ButtonPay {...paymentGateWayPayLoad} disabled={!termsAccepted || !phone || !full_name} icon="pi pi-wallet" label={`Continue To Pay`} />
             </div>
         </div>
     ) : (

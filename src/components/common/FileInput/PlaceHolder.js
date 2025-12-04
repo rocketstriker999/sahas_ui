@@ -41,7 +41,14 @@ export default function PlaceHolder({ label, type, setCDNUrl, setPreview, disabl
     return uploadProgress ? (
         <Loading message={`Uploading ${uploadProgress}%`} />
     ) : (
-        <div className="flex flex-column align-items-center justify-content-center gap-3" onClick={() => fileInputRef.current.click()}>
+        <div
+            className="flex flex-column align-items-center justify-content-center gap-3"
+            onClick={() => {
+                if (!disabled) {
+                    fileInputRef.current.click();
+                }
+            }}
+        >
             <i className="pi pi-cloud-upload border-circle bg-gray-200 text-gray-500 p-4 text-3xl"></i>
             <span className="text-sm text-gray-500">Select {label}</span>
             {!disabled && <input type="file" ref={fileInputRef} onChange={onFileSelected} accept={getFileAcceptType(type)} style={{ display: "none" }} />}

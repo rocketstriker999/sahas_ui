@@ -77,9 +77,7 @@ export default function Basics() {
                             disabled={!enableInputs}
                         />
                     </HasRequiredAuthority>,
-                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.WRITE_USERS_BASICS}>
-                        <Button icon="pi pi-pencil" severity="warning" onClick={setEnableInputs} />
-                    </HasRequiredAuthority>,
+                    <Button icon="pi pi-pencil" severity="warning" onClick={setEnableInputs} />,
                 ]}
             />
             <Divider />
@@ -99,7 +97,7 @@ export default function Basics() {
                     />
                     <FloatLabel className="mt-4">
                         <InputText
-                            value={basics?.full_name}
+                            value={basics?.full_name || ""}
                             id="fullname"
                             className="w-full"
                             onChange={(e) => setBasics((prev) => ({ ...prev, full_name: e.target.value }))}
@@ -109,7 +107,7 @@ export default function Basics() {
                     </FloatLabel>
                     <FloatLabel className="mt-4">
                         <InputText
-                            value={basics?.email}
+                            value={basics?.email || ""}
                             id="email"
                             className="w-full"
                             onChange={(e) => setBasics((prev) => ({ ...prev, email: e.target.value }))}
@@ -121,7 +119,7 @@ export default function Basics() {
                         <FloatLabel className="flex-1">
                             <InputText
                                 className="w-full"
-                                value={basics?.phone}
+                                value={basics?.phone || ""}
                                 id="phone"
                                 onChange={(e) => setBasics((prev) => ({ ...prev, phone: e.target.value }))}
                                 disabled={!enableInputs}
@@ -160,9 +158,7 @@ export default function Basics() {
                 <NoContent error={"No Inquiries Found"} />
             )}
 
-            <HasRequiredAuthority requiredAuthority={AUTHORITIES.WRITE_USERS_BASICS}>
-                <Button className="mx-3 my-2" label="Update" severity="warning" onClick={updateUserBasics} loading={updating} disabled={!basics} />
-            </HasRequiredAuthority>
+            <Button className="mx-3 my-2" label="Update" severity="warning" onClick={updateUserBasics} loading={updating} disabled={!basics} />
         </div>
     );
 }
