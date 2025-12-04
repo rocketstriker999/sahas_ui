@@ -53,7 +53,7 @@ export default function App() {
                             <Route
                                 path="inquiries"
                                 element={
-                                    <HasRequiredAuthority showForBidden={true} requiredAuthority={AUTHORITIES.READ_USER_INQUIRIES}>
+                                    <HasRequiredAuthority showForBidden={true} requiredAuthority={AUTHORITIES.MANAGE_OTHER_USERS}>
                                         <Inquiries />
                                     </HasRequiredAuthority>
                                 }
