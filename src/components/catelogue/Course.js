@@ -3,6 +3,8 @@ import { useCallback, useState } from "react";
 import ProgressiveControl from "../common/ProgressiveControl";
 import { useNavigate } from "react-router-dom";
 import IconButton from "../common/IconButton";
+import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../constants";
 
 export default function Course({ id, title, description, fees, image, whatsapp_group, setCourses, updatingViewIndex, setDialogEditCourse }) {
     const navigate = useNavigate();
@@ -48,32 +50,36 @@ export default function Course({ id, title, description, fees, image, whatsapp_g
                     <i className="pi text-xs pi-circle-fill"></i> {title}
                 </span>
 
-                {!updatingViewIndex && (
-                    <ProgressiveControl
-                        loading={deleting}
-                        control={
-                            <IconButton
-                                icon={"pi-pencil"}
-                                color={"text-orange-500"}
-                                onClick={() =>
-                                    setDialogEditCourse((prev) => ({
-                                        ...prev,
-                                        visible: true,
-                                        id,
-                                        title,
-                                        description,
-                                        fees,
-                                        image,
-                                        whatsapp_group,
-                                    }))
-                                }
-                            />
-                        }
-                    />
-                )}
-                {!updatingViewIndex && (
-                    <ProgressiveControl loading={deleting} control={<IconButton icon={"pi-trash"} color={"text-red-500"} onClick={deleteCourse} />} />
-                )}
+                <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+                    {!updatingViewIndex && (
+                        <ProgressiveControl
+                            loading={deleting}
+                            control={
+                                <IconButton
+                                    icon={"pi-pencil"}
+                                    color={"text-orange-500"}
+                                    onClick={() =>
+                                        setDialogEditCourse((prev) => ({
+                                            ...prev,
+                                            visible: true,
+                                            id,
+                                            title,
+                                            description,
+                                            fees,
+                                            image,
+                                            whatsapp_group,
+                                        }))
+                                    }
+                                />
+                            }
+                        />
+                    )}
+                </HasRequiredAuthority>
+                <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+                    {!updatingViewIndex && (
+                        <ProgressiveControl loading={deleting} control={<IconButton icon={"pi-trash"} color={"text-red-500"} onClick={deleteCourse} />} />
+                    )}
+                </HasRequiredAuthority>
                 {!!updatingViewIndex && <IconButton icon={"pi-equals"} color={"text-indigo-800"} />}
             </div>
 

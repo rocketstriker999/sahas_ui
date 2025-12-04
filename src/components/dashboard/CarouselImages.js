@@ -19,9 +19,9 @@ export default function CarouselImages({ className, images }) {
 
     return (
         <div className={`flex flex-column align-items-center  justify-content-center ${className}`}>
-            {images?.length ? (
+            {!!images?.length && (
                 <Carousel
-                    pt={{ indicators: classNames(" py-1") }}
+                    pt={{ indicators: classNames("py-1") }}
                     circular
                     autoplayInterval={3000}
                     showNavigators={false}
@@ -30,11 +30,10 @@ export default function CarouselImages({ className, images }) {
                     numScroll={1}
                     itemTemplate={Image}
                 />
-            ) : (
-                <NoContent />
             )}
             <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_FEATURE_CAROUSEL}>
                 <Button
+                    className="mt-1"
                     icon="pi pi-plus"
                     severity="warning"
                     aria-label="Favorite"

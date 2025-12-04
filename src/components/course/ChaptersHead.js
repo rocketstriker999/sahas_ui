@@ -5,7 +5,8 @@ import { Button } from "primereact/button";
 import { useParams } from "react-router-dom";
 import DialogAddChapter from "./DialogAddChapter";
 import { getViewIndex } from "../../utils";
-import NoContent from "../common/NoContent";
+import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../constants";
 
 export default function ChaptersHead({
     enrollment,
@@ -74,38 +75,42 @@ export default function ChaptersHead({
                 title={`${subject?.title} Chapters`}
                 highlights={[`Demo Chapters Requires No Enrollment`, `Chapters Are Categorized Into Sections`]}
                 actionItems={[
-                    <Button
-                        onClick={() =>
-                            setDialogAddChapter((prev) => ({
-                                ...prev,
-                                visible: true,
-                                setChapters,
-                                closeDialog: closeDialogAddChapter,
-                                view_index: getViewIndex(chapters),
-                            }))
-                        }
-                        icon="pi pi-plus"
-                        severity="warning"
-                    />,
-                    !!chapters?.length && (
+                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
                         <Button
-                            loading={updating}
-                            onClick={() => {
-                                showToast({
-                                    severity: "info",
-                                    summary: "Repositioning",
-                                    detail: `Repositioning Mode ${!updatingViewIndex ? "Enabled" : "Disabled"}`,
-                                    life: 1000,
-                                });
-                                //give signal to update view indexs
-                                if (!!updatingViewIndex) {
-                                    updateViewIndexs();
-                                }
-                                setUpdatingViewIndex((prev) => !prev);
-                            }}
-                            icon="pi pi-arrows-v"
+                            onClick={() =>
+                                setDialogAddChapter((prev) => ({
+                                    ...prev,
+                                    visible: true,
+                                    setChapters,
+                                    closeDialog: closeDialogAddChapter,
+                                    view_index: getViewIndex(chapters),
+                                }))
+                            }
+                            icon="pi pi-plus"
+                            severity="warning"
                         />
-                    ),
+                    </HasRequiredAuthority>,
+                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+                        {!!chapters?.length && (
+                            <Button
+                                loading={updating}
+                                onClick={() => {
+                                    showToast({
+                                        severity: "info",
+                                        summary: "Repositioning",
+                                        detail: `Repositioning Mode ${!updatingViewIndex ? "Enabled" : "Disabled"}`,
+                                        life: 1000,
+                                    });
+                                    //give signal to update view indexs
+                                    if (!!updatingViewIndex) {
+                                        updateViewIndexs();
+                                    }
+                                    setUpdatingViewIndex((prev) => !prev);
+                                }}
+                                icon="pi pi-arrows-v"
+                            />
+                        )}
+                    </HasRequiredAuthority>,
                 ]}
             />
 

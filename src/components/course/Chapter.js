@@ -4,6 +4,8 @@ import ProgressiveControl from "../common/ProgressiveControl";
 import { getReadableDate } from "../../utils";
 import { useNavigate } from "react-router-dom";
 import IconButton from "../common/IconButton";
+import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../constants";
 
 export default function Chapter({ id, title, setChapters, type, updatingViewIndex, updated_at, setDialogEditChapter }) {
     const { requestAPI, showToast } = useAppContext();
@@ -52,31 +54,35 @@ export default function Chapter({ id, title, setChapters, type, updatingViewInde
             </div>
             {!!updatingViewIndex && <IconButton icon={"pi-equals"} color={"text-indigo-800"} />}
 
-            {!updatingViewIndex && (
-                <ProgressiveControl
-                    loading={deleting}
-                    control={
-                        <IconButton
-                            icon={"pi-pencil"}
-                            color={"text-orange-500"}
-                            onClick={() =>
-                                setDialogEditChapter((prev) => ({
-                                    ...prev,
-                                    visible: true,
-                                    setChapters,
-                                    id,
-                                    title,
-                                    type,
-                                }))
-                            }
-                        />
-                    }
-                />
-            )}
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+                {!updatingViewIndex && (
+                    <ProgressiveControl
+                        loading={deleting}
+                        control={
+                            <IconButton
+                                icon={"pi-pencil"}
+                                color={"text-orange-500"}
+                                onClick={() =>
+                                    setDialogEditChapter((prev) => ({
+                                        ...prev,
+                                        visible: true,
+                                        setChapters,
+                                        id,
+                                        title,
+                                        type,
+                                    }))
+                                }
+                            />
+                        }
+                    />
+                )}
+            </HasRequiredAuthority>
 
-            {!updatingViewIndex && (
-                <ProgressiveControl loading={deleting} control={<IconButton icon={"pi-trash"} color={"text-red-500"} onClick={deleteChapter} />} />
-            )}
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+                {!updatingViewIndex && (
+                    <ProgressiveControl loading={deleting} control={<IconButton icon={"pi-trash"} color={"text-red-500"} onClick={deleteChapter} />} />
+                )}
+            </HasRequiredAuthority>
         </div>
     );
 }

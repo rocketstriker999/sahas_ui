@@ -8,6 +8,8 @@ import TabHeader from "../components/common/TabHeader";
 import { Button } from "primereact/button";
 import MediaPlayer from "../components/media/MediaPlayer";
 import Queries from "../components/media/Queries";
+import HasRequiredAuthority from "../components/dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../constants";
 
 export default function Media() {
     const { mediaId } = useParams();
@@ -39,7 +41,12 @@ export default function Media() {
                 className={"p-3"}
                 title={media?.title}
                 highlights={[`Question/Query Can be Raise Here`, "Allowed Media Will Have Download Button"]}
-                actionItems={[<Button icon="pi pi-download" severity="warning" />, <Button icon="pi pi-question-circle" severity="warning" />]}
+                actionItems={[
+                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+                        <Button icon="pi pi-download" severity="warning" />
+                    </HasRequiredAuthority>,
+                    <Button icon="pi pi-question-circle" severity="warning" />,
+                ]}
             />
 
             {loading ? <Loading /> : media ? <MediaPlayer {...media} /> : <NoContent />}

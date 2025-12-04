@@ -17,7 +17,7 @@ export default function ProfileCard({
     const navigate = useNavigate();
 
     return (
-        <div className={`pl-2 py-2 border-round border-1 border-gray-300 relative  ${className}`}>
+        <div onClick={() => navigate(`/manage-users/${id}/basics`)} className={`pl-2 py-2 border-round border-1 border-gray-300 relative  ${className}`}>
             <div className="flex align-items-center">
                 <div className="flex flex-column align-items-center">
                     <Avatar {...(image ? { image } : { icon: "pi pi-user" })} size="xlarge" shape="circle" />
@@ -37,10 +37,10 @@ export default function ProfileCard({
                             <p className="m-0 p-0">{phone}</p>
                         ) : (
                             <Tag
+                                className="fadein animation-duration-1000 animation-iteration-infinite"
                                 icon="pi pi-exclamation-circle"
                                 severity="danger"
                                 value="Missing Contact Details"
-                                onClick={() => navigate(`/manage-users/${id}/basics`)}
                             />
                         )}
                     </div>
@@ -49,7 +49,6 @@ export default function ProfileCard({
 
             {showViewMore && (
                 <p
-                    onClick={() => navigate(`/manage-users/${id}/basics`)}
                     className="absolute top-0 right-0 m-0 p-2 text-xs bg-orange-500 shadow-3 text-white font-semibold "
                     style={{ borderBottomLeftRadius: "6px", borderTopRightRadius: "6px" }}
                 >

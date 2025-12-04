@@ -5,6 +5,8 @@ import ProgressiveControl from "../common/ProgressiveControl";
 import DialogEditMedia from "./DialogEditMedia";
 import { useNavigate } from "react-router-dom";
 import IconButton from "../common/IconButton";
+import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../constants";
 
 export default function Media({ id, title, setMediaCatalogue, type, external_url, cdn_url, updatingViewIndex, updated_at }) {
     const { requestAPI, showToast } = useAppContext();
@@ -75,35 +77,43 @@ export default function Media({ id, title, setMediaCatalogue, type, external_url
             )}
             {!!updatingViewIndex && <IconButton icon={"pi-equals"} color={"text-indigo-800"} />}
 
-            {!updatingViewIndex && (
-                <ProgressiveControl
-                    loading={loading}
-                    control={
-                        <IconButton
-                            loading={loading}
-                            icon={` pi-pencil `}
-                            color={"text-orange-500"}
-                            onClick={() =>
-                                setDialogEditMedia((prev) => ({
-                                    ...prev,
-                                    visible: true,
-                                    setMediaCatalogue,
-                                    id,
-                                    title,
-                                    type,
-                                    external_url,
-                                    cdn_url,
-                                    closeDialog: closeDialogEditMedia,
-                                }))
-                            }
-                        />
-                    }
-                />
-            )}
-            {!updatingViewIndex && (
-                <ProgressiveControl loading={loading} control={<IconButton icon={`pi-trash`} color={"text-red-500"} onClick={deleteMedia} />} />
-            )}
-            {dialogEditMedia?.visible && <DialogEditMedia {...dialogEditMedia} />}
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+                {!updatingViewIndex && (
+                    <ProgressiveControl
+                        loading={loading}
+                        control={
+                            <IconButton
+                                loading={loading}
+                                icon={` pi-pencil `}
+                                color={"text-orange-500"}
+                                onClick={() =>
+                                    setDialogEditMedia((prev) => ({
+                                        ...prev,
+                                        visible: true,
+                                        setMediaCatalogue,
+                                        id,
+                                        title,
+                                        type,
+                                        external_url,
+                                        cdn_url,
+                                        closeDialog: closeDialogEditMedia,
+                                    }))
+                                }
+                            />
+                        }
+                    />
+                )}
+            </HasRequiredAuthority>
+
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+                {!updatingViewIndex && (
+                    <ProgressiveControl loading={loading} control={<IconButton icon={`pi-trash`} color={"text-red-500"} onClick={deleteMedia} />} />
+                )}
+            </HasRequiredAuthority>
+
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+                {dialogEditMedia?.visible && <DialogEditMedia {...dialogEditMedia} />}
+            </HasRequiredAuthority>
         </div>
     );
 }

@@ -3,6 +3,8 @@ import { useAppContext } from "../../providers/ProviderAppContainer";
 import ProgressiveControl from "../common/ProgressiveControl";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import IconButton from "../common/IconButton";
+import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../constants";
 
 export default function Category({ id, image, title, courses_count, updatingViewIndex }) {
     const { requestAPI, showToast } = useAppContext();
@@ -46,7 +48,14 @@ export default function Category({ id, image, title, courses_count, updatingView
             </div>
             {!!updatingViewIndex && <IconButton icon={"pi-equals"} color={"text-indigo-800"} />}
             {!updatingViewIndex && (
-                <ProgressiveControl loading={deleting} control={<IconButton icon={"pi-trash"} color={"text-red-500"} onClick={deleteCategory} />} />
+                <ProgressiveControl
+                    loading={deleting}
+                    control={
+                        <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+                            <IconButton icon={"pi-trash"} color={"text-red-500"} onClick={deleteCategory} />
+                        </HasRequiredAuthority>
+                    }
+                />
             )}
             {!updatingViewIndex && <IconButton icon={"pi-arrow-circle-right"} />}
         </div>

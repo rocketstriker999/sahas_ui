@@ -1,7 +1,5 @@
 import { useOutletContext, useParams } from "react-router-dom";
-
 import { Divider } from "primereact/divider";
-
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import OrderManager from "../common/OrderManager";
@@ -15,6 +13,7 @@ export default function Courses() {
 
     const { categories } = useOutletContext();
 
+    // eslint-disable-next-line eqeqeq
     const category = useMemo(() => categories?.find(({ id }) => id == categoryId), [categories, categoryId]);
 
     const { requestAPI } = useAppContext();

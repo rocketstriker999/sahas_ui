@@ -3,8 +3,9 @@ import { useCallback, useState } from "react";
 import ProgressiveControl from "../common/ProgressiveControl";
 import { useNavigate } from "react-router-dom";
 import { getReadableDate } from "../../utils";
-import DialogEditSubject from "./DialogEditSubject";
 import IconButton from "../common/IconButton";
+import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../constants";
 
 export default function Subject({ id, title, subject_id, setSubjects, background_color, updatingViewIndex, updated_at, setDialogEditSubject }) {
     const navigate = useNavigate();
@@ -53,29 +54,34 @@ export default function Subject({ id, title, subject_id, setSubjects, background
                 </div>
             </div>
             {!!updatingViewIndex && <IconButton icon={"pi-equals"} color={background_color ? "text-white" : `text-indigo-800`} />}
-            {!updatingViewIndex && (
-                <IconButton
-                    icon={`pi pi-pencil `}
-                    color={background_color ? "text-white" : `text-orange-500`}
-                    onClick={() =>
-                        setDialogEditSubject((prev) => ({
-                            ...prev,
-                            visible: true,
-                            setSubjects,
-                            id: subject_id,
-                            title,
-                            background_color,
-                        }))
-                    }
-                />
-            )}
 
-            {!updatingViewIndex && (
-                <ProgressiveControl
-                    loading={deleting}
-                    control={<IconButton icon={`pi-trash`} color={background_color ? "text-white" : "text-red-500"} onClick={deleteSubject} />}
-                />
-            )}
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+                {!updatingViewIndex && (
+                    <IconButton
+                        icon={`pi pi-pencil `}
+                        color={background_color ? "text-white" : `text-orange-500`}
+                        onClick={() =>
+                            setDialogEditSubject((prev) => ({
+                                ...prev,
+                                visible: true,
+                                setSubjects,
+                                id: subject_id,
+                                title,
+                                background_color,
+                            }))
+                        }
+                    />
+                )}
+            </HasRequiredAuthority>
+
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+                {!updatingViewIndex && (
+                    <ProgressiveControl
+                        loading={deleting}
+                        control={<IconButton icon={`pi-trash`} color={background_color ? "text-white" : "text-red-500"} onClick={deleteSubject} />}
+                    />
+                )}
+            </HasRequiredAuthority>
 
             {!!updatingViewIndex && <IconButton icon={"pi-arrow-circle-right"} color={background_color ? "text-white" : "text-indigo-800"} />}
         </div>

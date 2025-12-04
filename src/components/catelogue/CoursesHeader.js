@@ -4,6 +4,8 @@ import DialogAddCourse from "./DialogAddCourse";
 import { useCallback, useState } from "react";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import { getViewIndex } from "../../utils";
+import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../constants";
 
 export default function CoursesHeader({ courses, category, setCourses, updatingViewIndex, setUpdatingViewIndex }) {
     const { requestAPI, showToast } = useAppContext();
@@ -49,43 +51,47 @@ export default function CoursesHeader({ courses, category, setCourses, updatingV
                 title={category?.title}
                 highlights={[`Explore Below ${category?.courses_count} Courses`]}
                 actionItems={[
-                    <Button
-                        disabled={loading}
-                        onClick={() =>
-                            setDialogAddCourse((prev) => ({
-                                ...prev,
-                                view_index: getViewIndex(courses),
-                                visible: true,
-                                setCourses,
-                                closeDialog: closeDialogAddCourse,
-                            }))
-                        }
-                        icon="pi pi-plus"
-                        severity="warning"
-                    />,
-                    !!courses?.length && (
+                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
                         <Button
-                            loading={loading}
-                            onClick={() => {
-                                showToast({
-                                    severity: "info",
-                                    summary: "Repositioning",
-                                    detail: `Repositioning Mode ${!updatingViewIndex ? "Enabled" : "Disabled"}`,
-                                    life: 1000,
-                                });
-                                //give signal to update view indexs
-                                if (!!updatingViewIndex) {
-                                    updateViewIndexs();
-                                }
-                                setUpdatingViewIndex((prev) => !prev);
-                            }}
-                            icon="pi pi-arrows-v"
+                            disabled={loading}
+                            onClick={() =>
+                                setDialogAddCourse((prev) => ({
+                                    ...prev,
+                                    view_index: getViewIndex(courses),
+                                    visible: true,
+                                    setCourses,
+                                    closeDialog: closeDialogAddCourse,
+                                }))
+                            }
+                            icon="pi pi-plus"
+                            severity="warning"
                         />
+                    </HasRequiredAuthority>,
+                    !!courses?.length && (
+                        <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+                            <Button
+                                loading={loading}
+                                onClick={() => {
+                                    showToast({
+                                        severity: "info",
+                                        summary: "Repositioning",
+                                        detail: `Repositioning Mode ${!updatingViewIndex ? "Enabled" : "Disabled"}`,
+                                        life: 1000,
+                                    });
+                                    //give signal to update view indexs
+                                    if (!!updatingViewIndex) {
+                                        updateViewIndexs();
+                                    }
+                                    setUpdatingViewIndex((prev) => !prev);
+                                }}
+                                icon="pi pi-arrows-v"
+                            />
+                        </HasRequiredAuthority>
                     ),
                 ]}
             />
 
-            <DialogAddCourse {...dialogAddCourse} />
+            {dialogAddCourse?.visible && <DialogAddCourse {...dialogAddCourse} />}
         </div>
     );
 }
