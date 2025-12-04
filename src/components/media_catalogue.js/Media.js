@@ -11,7 +11,7 @@ export default function Media({ id, title, setMediaCatalogue, type, external_url
 
     const navigate = useNavigate();
 
-    const [deleting, setDeleting] = useState();
+    const [loading, setLoading] = useState();
 
     const [dialogEditMedia, setDialogEditMedia] = useState({
         visible: false,
@@ -25,7 +25,7 @@ export default function Media({ id, title, setMediaCatalogue, type, external_url
         requestAPI({
             requestPath: `media/${id}`,
             requestMethod: "DELETE",
-            setLoading: setDeleting,
+            setLoading: setLoading,
             parseResponseBody: false,
             onResponseReceieved: (_, responseCode) => {
                 if (responseCode === 204) {
@@ -76,26 +76,32 @@ export default function Media({ id, title, setMediaCatalogue, type, external_url
             {!!updatingViewIndex && <IconButton icon={"pi-equals"} color={"text-indigo-800"} />}
 
             {!updatingViewIndex && (
-                <IconButton
-                    icon={` pi-pencil `}
-                    color={"text-orange-500"}
-                    onClick={() =>
-                        setDialogEditMedia((prev) => ({
-                            ...prev,
-                            visible: true,
-                            setMediaCatalogue,
-                            id,
-                            title,
-                            type,
-                            external_url,
-                            cdn_url,
-                            closeDialog: closeDialogEditMedia,
-                        }))
+                <ProgressiveControl
+                    loading={loading}
+                    control={
+                        <IconButton
+                            loading={loading}
+                            icon={` pi-pencil `}
+                            color={"text-orange-500"}
+                            onClick={() =>
+                                setDialogEditMedia((prev) => ({
+                                    ...prev,
+                                    visible: true,
+                                    setMediaCatalogue,
+                                    id,
+                                    title,
+                                    type,
+                                    external_url,
+                                    cdn_url,
+                                    closeDialog: closeDialogEditMedia,
+                                }))
+                            }
+                        />
                     }
                 />
             )}
             {!updatingViewIndex && (
-                <ProgressiveControl loading={deleting} control={<IconButton icon={`pi-trash`} color={"text-red-500"} onClick={deleteMedia} />} />
+                <ProgressiveControl loading={loading} control={<IconButton icon={`pi-trash`} color={"text-red-500"} onClick={deleteMedia} />} />
             )}
             {dialogEditMedia?.visible && <DialogEditMedia {...dialogEditMedia} />}
         </div>

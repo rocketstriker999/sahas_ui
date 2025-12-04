@@ -30,115 +30,142 @@ import Enroll from "../pages/Enroll";
 import PaymentGatewayPayLoad from "../pages/PaymentGatewayPayLoad";
 import MediaCatalogue from "../pages/MediaCatalogue";
 import Media from "../pages/Media";
+import { AUTHORITIES } from "../constants";
 
 export default function App() {
     return (
         <HasAuthentication>
-            <HasRequiredAuthority requiredAuthority="USE_CONTAINER_APP" showForBidden={true}>
-                <RequiresTemplateConfiguration>
-                    <Routes>
+            <RequiresTemplateConfiguration>
+                <Routes>
+                    <Route path="/" element={<Dashboard />} />
+                    <Route
+                        path="/manage-users"
+                        element={
+                            <HasRequiredAuthority showForBidden={true} requiredAuthority={AUTHORITIES.USE_CONTAINER_MANAGE_USERS}>
+                                <ManageUsers />
+                            </HasRequiredAuthority>
+                        }
+                    >
                         <Route
-                            path="/"
+                            index
                             element={
-                                <HasRequiredAuthority showForBidden={true} requiredAuthority="USE_PAGE_DASHBOARD">
-                                    <Dashboard />
+                                <HasRequiredAuthority showForBidden={true} requiredAuthority={AUTHORITIES.USE_PAGE_USERS}>
+                                    <Users />
                                 </HasRequiredAuthority>
                             }
                         />
                         <Route
-                            path="/manage-users"
+                            path=":userId"
                             element={
-                                <HasRequiredAuthority showForBidden={true} requiredAuthority="USE_CONTAINER_MANAGE_USERS">
-                                    <ManageUsers />
+                                <HasRequiredAuthority showForBidden={true} requiredAuthority={AUTHORITIES.USE_CONTAINER_USER}>
+                                    <User />
                                 </HasRequiredAuthority>
                             }
                         >
                             <Route
-                                index
+                                path="basics"
                                 element={
-                                    <HasRequiredAuthority showForBidden={true} requiredAuthority="USE_PAGE_USERS">
-                                        <Users />
+                                    <HasRequiredAuthority showForBidden={true} requiredAuthority={AUTHORITIES.READ_USER_BASICS}>
+                                        <Basics />
                                     </HasRequiredAuthority>
                                 }
                             />
                             <Route
-                                path=":userId"
+                                path="inquiries"
                                 element={
-                                    <HasRequiredAuthority showForBidden={true} requiredAuthority="USE_PAGE_USER">
-                                        <User />
+                                    <HasRequiredAuthority showForBidden={true} requiredAuthority={AUTHORITIES.READ_USER_INQUIRIES}>
+                                        <Inquiries />
                                     </HasRequiredAuthority>
                                 }
-                            >
-                                <Route
-                                    path="basics"
-                                    element={
-                                        <HasRequiredAuthority showForBidden={true} requiredAuthority="READ_USERS_BASICS">
-                                            <Basics />
-                                        </HasRequiredAuthority>
-                                    }
-                                />
-                                <Route path="inquiries" element={<Inquiries />} />
-                                <Route path="enrollments" element={<Enrollments />} />
-                                <Route path="devices" element={<NoContent error={"Coming soon !"} />} />
-                                <Route path="wallet" element={<Wallet />} />
-                                <Route path="notes" element={<NoContent error={"Coming soon !"} />} />
-                                <Route path="roles" element={<Roles />} />
-                            </Route>
+                            />
+                            <Route
+                                path="enrollments"
+                                element={
+                                    <HasRequiredAuthority showForBidden={true} requiredAuthority={AUTHORITIES.READ_USER_ENROLLMENTS}>
+                                        <Enrollments />
+                                    </HasRequiredAuthority>
+                                }
+                            />
+                            <Route
+                                path="devices"
+                                element={
+                                    <HasRequiredAuthority showForBidden={true} requiredAuthority={AUTHORITIES.READ_USER_STREAMING_DEVICES}>
+                                        <NoContent error={"Coming soon !"} />
+                                    </HasRequiredAuthority>
+                                }
+                            />
+                            <Route
+                                path="wallet"
+                                element={
+                                    <HasRequiredAuthority showForBidden={true} requiredAuthority={AUTHORITIES.READ_USER_WALLET}>
+                                        <Wallet />
+                                    </HasRequiredAuthority>
+                                }
+                            />
+                            <Route
+                                path="notes"
+                                element={
+                                    <HasRequiredAuthority showForBidden={true} requiredAuthority={AUTHORITIES.READ_USER_GLOBAL_NOTES}>
+                                        <NoContent error={"Coming soon !"} />
+                                    </HasRequiredAuthority>
+                                }
+                            />
+                            <Route
+                                path="roles"
+                                element={
+                                    <HasRequiredAuthority showForBidden={true} requiredAuthority={AUTHORITIES.READ_USER_ROLES}>
+                                        <Roles />
+                                    </HasRequiredAuthority>
+                                }
+                            />
                         </Route>
-                        <Route
-                            path="/course-categories"
-                            element={
-                                <HasRequiredAuthority showForBidden={true} requiredAuthority="USE_PAGE_COURSES">
-                                    <Catelogue />
-                                </HasRequiredAuthority>
-                            }
-                        >
-                            <Route index element={<Categories />} />
-                            <Route path=":categoryId/courses" element={<Courses />} />
-                        </Route>
+                    </Route>
+                    <Route path="/course-categories" element={<Catelogue />}>
+                        <Route index element={<Categories />} />
+                        <Route path=":categoryId/courses" element={<Courses />} />
+                    </Route>
 
-                        <Route path="/courses/:courseId" element={<Course />}>
-                            <Route path="subjects" element={<Subjects />}></Route>
-                            <Route path="subjects/:subjectId/chapters" element={<Chapters />} />
-                            <Route path="subjects/:subjectId/chapters/:chapterId/media" element={<MediaCatalogue />} />
-                        </Route>
+                    <Route path="/courses/:courseId" element={<Course />}>
+                        <Route path="subjects" element={<Subjects />}></Route>
+                        <Route path="subjects/:subjectId/chapters" element={<Chapters />} />
+                        <Route path="subjects/:subjectId/chapters/:chapterId/media" element={<MediaCatalogue />} />
+                    </Route>
 
-                        <Route path="/media-player/:mediaId" element={<Media />}></Route>
+                    <Route path="/media-player/:mediaId" element={<Media />}></Route>
 
-                        <Route path="/manage-chapter-types" element={<ManageChapterTypes />} />
+                    <Route path="/manage-chapter-types" element={<ManageChapterTypes />} />
 
-                        <Route path="/manage-coupon-codes" element={<ManageCouponCodes />}>
-                            <Route index element={<CouponCodes />}></Route>
-                            <Route path=":couponCodeId/courses" element={<CouponCodeCourses />} />
-                        </Route>
+                    <Route path="/manage-coupon-codes" element={<ManageCouponCodes />}>
+                        <Route index element={<CouponCodes />}></Route>
+                        <Route path=":couponCodeId/courses" element={<CouponCodeCourses />} />
+                    </Route>
 
-                        <Route
-                            path="/manage-roles"
-                            element={
-                                <HasRequiredAuthority showForBidden={true} requiredAuthority="USE_CONTAINER_MANAGE_USERS">
-                                    <ManageRoles />
-                                </HasRequiredAuthority>
-                            }
-                        />
+                    <Route
+                        path="/manage-roles"
+                        element={
+                            <HasRequiredAuthority showForBidden={true} requiredAuthority="USE_CONTAINER_MANAGE_USERS">
+                                <ManageRoles />
+                            </HasRequiredAuthority>
+                        }
+                    />
 
-                        <Route
-                            path="/manage-authorities"
-                            element={
-                                <HasRequiredAuthority showForBidden={true} requiredAuthority="USE_CONTAINER_MANAGE_USERS">
-                                    <ManageAuthorities />
-                                </HasRequiredAuthority>
-                            }
-                        />
+                    <Route
+                        path="/manage-authorities"
+                        element={
+                            <HasRequiredAuthority showForBidden={true} requiredAuthority="USE_CONTAINER_MANAGE_USERS">
+                                <ManageAuthorities />
+                            </HasRequiredAuthority>
+                        }
+                    />
 
-                        <Route path="/enroll/:courseId" element={<Enroll />} />
+                    <Route path="/enroll/:courseId" element={<Enroll />} />
 
-                        <Route path="/payment-gateway-payloads/:paymentGatewayPayloadId" element={<PaymentGatewayPayLoad />} />
+                    <Route path="/payment-gateway-payloads/:paymentGatewayPayloadId" element={<PaymentGatewayPayLoad />} />
 
-                        <Route path="/logout" element={<Logout />} />
-                        <Route path="*" element={<NotFound />} />
-                    </Routes>
-                </RequiresTemplateConfiguration>
-            </HasRequiredAuthority>
+                    <Route path="/logout" element={<Logout />} />
+                    <Route path="*" element={<NotFound />} />
+                </Routes>
+            </RequiresTemplateConfiguration>
         </HasAuthentication>
     );
 }

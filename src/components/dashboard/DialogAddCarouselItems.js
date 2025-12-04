@@ -29,7 +29,6 @@ export default function DialogAddCarouselItem({ visible, closeDialog }) {
                 if (carouselImage && responseCode === 201) {
                     showToast({ severity: "success", summary: "Added", detail: "Carousel Item Added", life: 1000 });
                     dispatch(addCarouselImage(carouselImage));
-                    setCarouselImage(); //reset form
                     closeDialog(); //close the dialog
                 } else showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Carousel Item !", life: 2000 });
             },

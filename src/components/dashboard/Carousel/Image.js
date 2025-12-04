@@ -3,6 +3,8 @@ import { useCallback, useState } from "react";
 import { useAppContext } from "../../../providers/ProviderAppContainer";
 import { useDispatch } from "react-redux";
 import { removeCarouselImage } from "../../../redux/sliceTemplateConfig";
+import HasRequiredAuthority from "../../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../../constants";
 
 export default function Image({ id, click_link, source }) {
     const { requestAPI, showToast } = useAppContext();
@@ -33,20 +35,23 @@ export default function Image({ id, click_link, source }) {
                     if (click_link) window.open(click_link, "_blank");
                 }}
                 width="100%"
-                className="border-round-lg shadow-2 block max-h-8rem "
+                className="border-round-lg shadow-2 block h-8rem "
                 src={source}
                 alt={source}
             />
-            <Button
-                onClick={deleteCarouselImage}
-                className="absolute bottom-0 right-0 m-3"
-                icon="pi pi-trash"
-                rounded
-                outlined
-                severity="danger"
-                aria-label="Cancel"
-                loading={deleting}
-            />
+
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_FEATURE_CAROUSEL}>
+                <Button
+                    onClick={deleteCarouselImage}
+                    className="absolute bottom-0 right-0 m-3"
+                    icon="pi pi-trash"
+                    rounded
+                    outlined
+                    severity="danger"
+                    aria-label="Cancel"
+                    loading={deleting}
+                />
+            </HasRequiredAuthority>
         </div>
     );
 }

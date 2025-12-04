@@ -1,8 +1,7 @@
 import { useOutletContext, useParams } from "react-router-dom";
 
 import { Divider } from "primereact/divider";
-import Loading from "../common/Loading";
-import NoContent from "../common/NoContent";
+
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import OrderManager from "../common/OrderManager";

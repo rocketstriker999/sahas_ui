@@ -5,6 +5,8 @@ import DialogAddCarouselItem from "./DialogAddCarouselItems";
 import Image from "./Carousel/Image";
 import { Carousel } from "primereact/carousel";
 import { classNames } from "primereact/utils";
+import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../constants";
 
 export default function CarouselImages({ className, images }) {
     const [dialogAddCarouselItem, setDialogAddCarouselItem] = useState({
@@ -31,14 +33,20 @@ export default function CarouselImages({ className, images }) {
             ) : (
                 <NoContent />
             )}
-            <Button
-                icon="pi pi-plus"
-                severity="warning"
-                aria-label="Favorite"
-                onClick={() => setDialogAddCarouselItem((prev) => ({ ...prev, visible: true, closeDialog: closeDialogAddCarouselItem }))}
-            />
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_FEATURE_CAROUSEL}>
+                <Button
+                    icon="pi pi-plus"
+                    severity="warning"
+                    aria-label="Favorite"
+                    onClick={() => setDialogAddCarouselItem((prev) => ({ ...prev, visible: true, closeDialog: closeDialogAddCarouselItem }))}
+                />
+            </HasRequiredAuthority>
 
-            <DialogAddCarouselItem {...dialogAddCarouselItem} />
+            {dialogAddCarouselItem?.visible && (
+                <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_FEATURE_CAROUSEL}>
+                    <DialogAddCarouselItem {...dialogAddCarouselItem} />
+                </HasRequiredAuthority>
+            )}
         </div>
     );
 }
