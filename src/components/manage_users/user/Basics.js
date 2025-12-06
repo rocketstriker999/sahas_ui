@@ -15,6 +15,7 @@ import NoContent from "../../common/NoContent";
 import { AUTHORITIES } from "../../../constants";
 import { useOutletContext } from "react-router-dom";
 import FileInput from "../../common/FileInput";
+import { InputNumber } from "primereact/inputnumber";
 
 export default function Basics() {
     const { userId, branches } = useOutletContext();
@@ -117,11 +118,12 @@ export default function Basics() {
                     </FloatLabel>
                     <div className="flex mt-4 gap-2 items-center">
                         <FloatLabel className="flex-1">
-                            <InputText
+                            <InputNumber
+                                useGrouping={false}
                                 className="w-full"
                                 value={basics?.phone || ""}
                                 id="phone"
-                                onChange={(e) => setBasics((prev) => ({ ...prev, phone: e.target.value }))}
+                                onChange={(e) => setBasics((prev) => ({ ...prev, phone: e.value }))}
                                 disabled={!enableInputs}
                             />
                             <label htmlFor="phone">Phone</label>

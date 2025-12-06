@@ -12,6 +12,7 @@ import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../../constants";
 import { Button } from "primereact/button";
 import { useNavigate } from "react-router-dom";
+import { InputNumber } from "primereact/inputnumber";
 
 export default function DialogAddUser({ visible, closeDialog }) {
     const { requestAPI, showToast } = useAppContext();
@@ -70,11 +71,12 @@ export default function DialogAddUser({ visible, closeDialog }) {
             </FloatLabel>
             <div className="flex mt-4 gap-2 items-center">
                 <FloatLabel className="flex-1">
-                    <InputText
+                    <InputNumber
+                        useGrouping={false}
                         className="w-full"
                         value={basics?.phone}
                         id="phone"
-                        onChange={(e) => setBasics((prev) => ({ ...prev, phone: e.target.value }))}
+                        onChange={(e) => setBasics((prev) => ({ ...prev, phone: e.value }))}
                     />
                     <label htmlFor="phone">Phone</label>
                 </FloatLabel>
