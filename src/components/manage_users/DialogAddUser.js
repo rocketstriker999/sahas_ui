@@ -69,30 +69,28 @@ export default function DialogAddUser({ visible, closeDialog }) {
                 <InputText value={basics?.email} id="email" className="w-full" onChange={(e) => setBasics((prev) => ({ ...prev, email: e.target.value }))} />
                 <label htmlFor="email">Email</label>
             </FloatLabel>
-            <div className="flex mt-4 gap-2 items-center">
-                <FloatLabel className="flex-1">
-                    <InputNumber
-                        useGrouping={false}
-                        className="w-full"
-                        value={basics?.phone}
-                        id="phone"
-                        onChange={(e) => setBasics((prev) => ({ ...prev, phone: e.value }))}
-                    />
-                    <label htmlFor="phone">Phone</label>
-                </FloatLabel>
+            <FloatLabel className="mt-4">
+                <InputNumber
+                    useGrouping={false}
+                    className="w-full"
+                    value={basics?.phone}
+                    id="phone"
+                    onChange={(e) => setBasics((prev) => ({ ...prev, phone: e.value }))}
+                />
+                <label htmlFor="phone">Phone</label>
+            </FloatLabel>
 
-                <FloatLabel className="flex-1">
-                    <Dropdown
-                        className="w-full"
-                        value={branches?.find(({ id }) => id === basics?.branch_id)}
-                        inputId="branch"
-                        options={branches}
-                        optionLabel="title"
-                        onChange={(e) => setBasics((prev) => ({ ...prev, branch_id: e.value?.id }))}
-                    />
-                    <label htmlFor="branch">Branch</label>
-                </FloatLabel>
-            </div>
+            <FloatLabel className="mt-4">
+                <Dropdown
+                    className="w-full"
+                    value={branches?.find(({ id }) => id === basics?.branch_id)}
+                    inputId="branch"
+                    options={branches}
+                    optionLabel="title"
+                    onChange={(e) => setBasics((prev) => ({ ...prev, branch_id: e.value?.id }))}
+                />
+                <label htmlFor="branch">Branch</label>
+            </FloatLabel>
 
             <FloatLabel className="mt-4">
                 <InputTextarea
@@ -106,9 +104,7 @@ export default function DialogAddUser({ visible, closeDialog }) {
                 <label htmlFor="address">Address</label>
             </FloatLabel>
 
-            <HasRequiredAuthority requiredAuthority={AUTHORITIES.WRITE_USERS_BASICS}>
-                <Button className="mx-3 my-2" label="Add New User" severity="warning" onClick={addUser} loading={loading} disabled={!basics} />
-            </HasRequiredAuthority>
+            <Button className="mx-3 my-2" label="Add New User" severity="warning" onClick={addUser} loading={loading} disabled={!basics} />
         </Dialog>
     );
 }
