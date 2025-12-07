@@ -38,9 +38,10 @@ export default function DialogAddAuthority({ visible, closeDialog }) {
     }, [authority, closeDialog, dispatch, requestAPI, showToast]);
 
     return (
-        <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Add New Authority`} visible={visible} className="w-11" onHide={closeDialog}
+        <Dialog header={`Add New Authority`} visible={visible} className="w-11" onHide={closeDialog}
             pt={{
                 headertitle: { className: TITLE_TEXT },
+                content: { className: "overflow-visible" }
             }}>
             <TabHeader className="pt-3" title="Add New Authority" highlights={["Authority Will be Added Immidiatly", "Authority Can Be Mapped To Role"]} />
 

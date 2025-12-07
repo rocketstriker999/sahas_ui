@@ -38,13 +38,13 @@ export default function DialogManageInquiryNotes({ visible, closeDialog, course_
 
     return (
         <Dialog
-            pt={{ content: { className: "overflow-visible" } }}
             header={`Inquiry Notes - ${getCourseTitle(course_id)}`}
             visible={visible}
             className="w-11"
             onHide={closeDialog}
             pt={{
                 headertitle: { className: TITLE_TEXT },
+                content: { className: "overflow-visible" }
             }}
         >
             <div className="flex flex-column gap-4 pt-3 " style={{ maxHeight: "75vh" }}>

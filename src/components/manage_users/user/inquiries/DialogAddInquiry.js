@@ -39,13 +39,13 @@ export default function DialogAddInquiry({ visible, setVisible, setInquiries }) 
 
     return (
         <Dialog
-            pt={{ content: { className: "overflow-visible" } }}
             header={`Add New Inquiry`}
             visible={visible}
             className="w-11"
             onHide={() => setVisible(false)}
             pt={{
                 headertitle: { className: TITLE_TEXT },
+                content: { className: "overflow-visible" }
             }}
         >
             <TabHeader

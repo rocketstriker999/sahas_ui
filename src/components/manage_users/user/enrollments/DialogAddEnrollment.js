@@ -45,9 +45,10 @@ export default function DialogAddEnrollment({ visible, closeDialog, setEnrollmen
     }, [closeDialog, enrollment, requestAPI, setEnrollments, showToast, userId]);
 
     return (
-        <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Add New Enrollment`} visible={visible} className="w-11" onHide={closeDialog}
+        <Dialog header={`Add New Enrollment`} visible={visible} className="w-11" onHide={closeDialog}
             pt={{
                 headertitle: { className: TITLE_TEXT },
+                content: { className: "overflow-visible" }
             }}>
             <TabHeader
                 className="pt-3"
@@ -106,7 +107,6 @@ export default function DialogAddEnrollment({ visible, closeDialog, setEnrollmen
                     id="amount"
                     className="w-full"
                     onChange={(e) => setEnrollment((prev) => ({ ...prev, amount: e.value }))}
-               
                     pt={{
                         root: { className: TEXT_SIZE_SMALL },
                     }} />

@@ -48,9 +48,10 @@ export default function DialogAddTransaction({ setWalletTransActions, currentBal
     }, [transaction?.amount, transaction?.operation, currentBalance]);
 
     return (
-        <Dialog pt={{ content: { className: "overflow-visible" } }} header={"Add New Transaction"} visible={visible} className="w-11" onHide={closeDialog}
+        <Dialog header={"Add New Transaction"} visible={visible} className="w-11" onHide={closeDialog}
             pt={{
                 headertitle: { className: TITLE_TEXT },
+                content: { className: "overflow-visible" }
             }}>
             <TabHeader
                 className="pt-3"

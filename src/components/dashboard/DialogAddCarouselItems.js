@@ -37,9 +37,10 @@ export default function DialogAddCarouselItem({ visible, closeDialog }) {
     }, [carouselImage, closeDialog, dispatch, requestAPI, showToast]);
 
     return (
-        <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Add New Carousel Item`} visible={visible} className="w-11" onHide={closeDialog}
+        <Dialog header={`Add New Carousel Item`} visible={visible} className="w-11" onHide={closeDialog}
             pt={{
                 headertitle: { className: TITLE_TEXT },
+                content: { className: "overflow-visible" }
             }}>
             <TabHeader
                 className="pt-3"

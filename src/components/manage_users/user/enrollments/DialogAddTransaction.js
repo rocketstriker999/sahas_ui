@@ -39,9 +39,10 @@ export default function DialogAddTransaction({ visible, enrollment_id, setTransa
     }, [closeDialog, enrollment_id, requestAPI, setTransactions, showToast, transaction]);
 
     return (
-        <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Add New Transaction`} visible={visible} className="w-11" onHide={closeDialog}
+        <Dialog header={`Add New Transaction`} visible={visible} className="w-11" onHide={closeDialog}
             pt={{
                 headertitle: { className: TITLE_TEXT },
+                content: { className: "overflow-visible" }
             }}>
             <TabHeader
                 className="pt-3"
