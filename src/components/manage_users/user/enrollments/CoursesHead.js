@@ -1,4 +1,5 @@
 import { Badge } from "primereact/badge";
+import { TEXT_SIZE_SMALL } from "../../../../style";
 
 export default function CoursesHead({ onClick, selected, totalCourses }) {
     return (
@@ -8,8 +9,8 @@ export default function CoursesHead({ onClick, selected, totalCourses }) {
             onClick={onClick}
         >
             <Badge value={totalCourses} />
-            <span className="font-bold white-space-nowrap">Courses</span>
-            <i className="pi pi-book"></i>
+            <span className={`${TEXT_SIZE_SMALL} font-bold white-space-nowrap`}>Courses</span>
+            <i className={`${TEXT_SIZE_SMALL} pi pi-book`}></i>
         </div>
     );
 }

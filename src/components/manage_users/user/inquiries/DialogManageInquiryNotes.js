@@ -6,6 +6,7 @@ import { useOutletContext } from "react-router-dom";
 import CardInputNote from "./CardInputNote";
 import { useAppContext } from "../../../../providers/ProviderAppContainer";
 import Notes from "./Notes";
+import { TITLE_TEXT } from "../../../../style";
 
 export default function DialogManageInquiryNotes({ visible, closeDialog, course_id, inquiry_id, setNotesCount }) {
     const { getCourseTitle } = useOutletContext();
@@ -37,11 +38,14 @@ export default function DialogManageInquiryNotes({ visible, closeDialog, course_
 
     return (
         <Dialog
-            pt={{ content: { className: "overflow-visible" } }}
             header={`Inquiry Notes - ${getCourseTitle(course_id)}`}
             visible={visible}
             className="w-11"
             onHide={closeDialog}
+            pt={{
+                headertitle: { className: TITLE_TEXT },
+                content: { className: "overflow-visible" }
+            }}
         >
             <div className="flex flex-column gap-4 pt-3 " style={{ maxHeight: "75vh" }}>
                 <CardInputNote inquiry_id={inquiry_id} setNotes={setNotes} />

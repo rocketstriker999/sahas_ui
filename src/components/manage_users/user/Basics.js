@@ -14,6 +14,7 @@ import Loading from "../../common/Loading";
 import NoContent from "../../common/NoContent";
 import { AUTHORITIES } from "../../../constants";
 import { useOutletContext } from "react-router-dom";
+import { TEXT_SIZE_NORMAL } from "../../../style";
 import FileInput from "../../common/FileInput";
 import { InputNumber } from "primereact/inputnumber";
 
@@ -103,6 +104,9 @@ export default function Basics() {
                             className="w-full"
                             onChange={(e) => setBasics((prev) => ({ ...prev, full_name: e.target.value }))}
                             disabled={!enableInputs}
+                            pt={{
+                                root: { className: TEXT_SIZE_NORMAL },
+                            }}
                         />
                         <label htmlFor="fullname">Full Name</label>
                     </FloatLabel>
@@ -125,6 +129,9 @@ export default function Basics() {
                                 id="phone"
                                 onChange={(e) => setBasics((prev) => ({ ...prev, phone: e.value }))}
                                 disabled={!enableInputs}
+                                pt={{
+                                    root: { className: TEXT_SIZE_NORMAL },
+                                }}
                             />
                             <label htmlFor="phone">Phone</label>
                         </FloatLabel>
@@ -138,6 +145,10 @@ export default function Basics() {
                                 optionLabel="title"
                                 onChange={(e) => setBasics((prev) => ({ ...prev, branch_id: e.value?.id }))}
                                 disabled={!enableInputs}
+                                pt={{
+                                    input: { className: TEXT_SIZE_NORMAL },
+                                    item: { className: TEXT_SIZE_NORMAL },
+                                }}
                             />
                             <label htmlFor="branch">Branch</label>
                         </FloatLabel>
@@ -152,6 +163,9 @@ export default function Basics() {
                             className="w-full"
                             onChange={(e) => setBasics((prev) => ({ ...prev, address: e.target.value }))}
                             disabled={!enableInputs}
+                            pt={{
+                                root: { className: TEXT_SIZE_NORMAL },
+                            }}
                         />
                         <label htmlFor="address">Address</label>
                     </FloatLabel>
@@ -160,7 +174,11 @@ export default function Basics() {
                 <NoContent error={"No Inquiries Found"} />
             )}
 
-            <Button className="mx-3 my-2" label="Update" severity="warning" onClick={updateUserBasics} loading={updating} disabled={!basics} />
+            <Button className="mx-3 my-2" label="Update" severity="warning" onClick={updateUserBasics} loading={updating} disabled={!basics}
+                    pt={{
+                        label: { className: TEXT_SIZE_NORMAL },
+                        icon: { className: TEXT_SIZE_NORMAL }
+                    }} />
         </div>
     );
 }

@@ -1,4 +1,5 @@
 import { Badge } from "primereact/badge";
+import { TEXT_SIZE_SMALL } from "../../../../style";
 
 export default function TransactionsHead({ selected, onClick, totalTransactions }) {
     return (
@@ -8,8 +9,8 @@ export default function TransactionsHead({ selected, onClick, totalTransactions 
             onClick={onClick}
         >
             <Badge value={totalTransactions} />
-            <span className="font-bold white-space-nowrap">Transactions</span>
-            <i className="pi pi-indian-rupee"></i>
+            <span className={`${TEXT_SIZE_SMALL} font-bold white-space-nowrap`}>Transactions</span>
+            <i className={`${TEXT_SIZE_SMALL} pi pi-indian-rupee`}></i>
         </div>
     );
 }

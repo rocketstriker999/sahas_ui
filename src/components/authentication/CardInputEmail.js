@@ -5,20 +5,26 @@ import { Card } from "primereact/card";
 import { APP_NAME } from "../../constants";
 import { useState } from "react";
 import Error from "../common/Error";
+import { TEXT_SIZE_NORMAL, TITLE_TEXT } from "../../style";
+import { classNames } from "primereact/utils";
 
 export default function CardInputEmail({ email, setEmail, requestOTP }) {
     const [loading, setLoading] = useState();
     const [error, setError] = useState();
 
     return (
-        <div>
+        <div className="flex flex-column align-items-center w-full">
             <img className="w-full" src="/images/banner.jpg" alt="banner" />
-            <Card title={APP_NAME} className="mx-3 mt-4">
-                <div className="text-center flex flex-column align-items-center justify-content-center">
-                    <Avatar icon="pi pi-user" size="xlarge" shape="circle" />
-                    <p className="p-0 m-0 font-semibold mt-2">Verify Your User Credentials To Continue</p>
+            <Card title={APP_NAME} className="w-10 mx-3 mt-4"
+                pt={{
+                    title: { className: classNames  (TITLE_TEXT, "text-center") }
+                }}
+            >
+                <div className="flex flex-column align-items-center text-center w-full">
+                    <Avatar icon="pi pi-user" size="large" shape="circle" />
+                    <p className={`p-0 m-0 font-semibold mt-2 ${TEXT_SIZE_NORMAL}`}>Verify Your User Credentials To Continue</p>
 
-                    <div className="p-inputgroup mt-3">
+                    <div className="p-inputgroup mt-3 w-full">
                         <span className="p-inputgroup-addon">
                             <i className="pi pi-envelope"></i>
                         </span>
@@ -28,6 +34,9 @@ export default function CardInputEmail({ email, setEmail, requestOTP }) {
                             value={email || ""}
                             onInput={(e) => setEmail(e.target.value)}
                             invalid={error}
+                            pt={{
+                                root: { className: TEXT_SIZE_NORMAL },
+                            }}
                         />
                     </div>
                     {error && <Error className="w-full p-2 justify-content-end" error={error} />}
@@ -40,6 +49,10 @@ export default function CardInputEmail({ email, setEmail, requestOTP }) {
                         label="Continue With Email"
                         disabled={loading}
                         loading={loading}
+                        pt={{
+                            label: { className: TEXT_SIZE_NORMAL },
+                            icon: { className: TEXT_SIZE_NORMAL }
+                        }}
                     />
                 </div>
             </Card>

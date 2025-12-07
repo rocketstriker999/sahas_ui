@@ -5,6 +5,7 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import IconButton from "../common/IconButton";
 import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../../constants";
+import { SUB_TITLE_TEXT, TEXT_SIZE_SMALL, TEXT_SIZE_NORMAL, TITLE_TEXT, ICON_SIZE } from "../../style";
 
 export default function Category({ id, image, title, courses_count, updatingViewIndex }) {
     const { requestAPI, showToast } = useAppContext();
@@ -40,24 +41,24 @@ export default function Category({ id, image, title, courses_count, updatingView
         >
             <img className="border-round-left w-8rem h-4rem" src={image} alt={title} />
             <div className="flex flex-column flex-1 gap-1">
-                <span className="text-sm font-semibold word-break-all">{title}</span>
+                <span className={`${TEXT_SIZE_SMALL} font-semibold word-break-all`}>{title}</span>
                 <div className="flex align-items-center gap-1 text-orange-800">
-                    <i className="pi pi-book text-sm"></i>
-                    <span className="m-0 p-0 text-xs">{`${courses_count} Courses`}</span>
+                    <i className={`pi pi-book ${TEXT_SIZE_SMALL}`}></i>
+                    <span className={`m-0 p-0  ${TEXT_SIZE_SMALL}`}>{`${courses_count} Courses`}</span>
                 </div>
             </div>
-            {!!updatingViewIndex && <IconButton icon={"pi-equals"} color={"text-indigo-800"} />}
+            {!!updatingViewIndex && <IconButton icon={"pi-equals"} color={"text-indigo-800"} className={ICON_SIZE} />}
             {!updatingViewIndex && (
                 <ProgressiveControl
                     loading={deleting}
                     control={
                         <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
-                            <IconButton icon={"pi-trash"} color={"text-red-500"} onClick={deleteCategory} />
+                            <IconButton icon={"pi-trash"} color={"text-red-500"} onClick={deleteCategory} className={ICON_SIZE} />
                         </HasRequiredAuthority>
                     }
                 />
             )}
-            {!updatingViewIndex && <IconButton icon={"pi-arrow-circle-right"} />}
+            {!updatingViewIndex && <IconButton icon={"pi-arrow-circle-right"} className={ICON_SIZE} />}
         </div>
     );
 }

@@ -8,6 +8,7 @@ import { FloatLabel } from "primereact/floatlabel";
 import { InputText } from "primereact/inputtext";
 import { useDispatch } from "react-redux";
 import { addCarouselImage } from "../../redux/sliceTemplateConfig";
+import { SUB_TITLE_TEXT, TEXT_SIZE_SMALL, TEXT_SIZE_NORMAL, TITLE_TEXT } from "../../style";
 
 export default function DialogAddCarouselItem({ visible, closeDialog }) {
     const { requestAPI, showToast } = useAppContext();
@@ -36,7 +37,11 @@ export default function DialogAddCarouselItem({ visible, closeDialog }) {
     }, [carouselImage, closeDialog, dispatch, requestAPI, showToast]);
 
     return (
-        <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Add New Carousel Item`} visible={visible} className="w-11" onHide={closeDialog}>
+        <Dialog header={`Add New Carousel Item`} visible={visible} className="w-11" onHide={closeDialog}
+            pt={{
+                headertitle: { className: TITLE_TEXT },
+                content: { className: "overflow-visible" }
+            }}>
             <TabHeader
                 className="pt-3"
                 title="Add New Carousel Item"
@@ -59,11 +64,17 @@ export default function DialogAddCarouselItem({ visible, closeDialog }) {
                     className="w-full"
                     onChange={(e) => setCarouselImage((prev) => ({ ...prev, click_link: e.target.value }))}
                     disabled={loading}
+                    pt={{
+                        root: { className: TEXT_SIZE_NORMAL },
+                    }}
                 />
-                <label htmlFor="click_link">Action URL</label>
+                <label htmlFor="click_link" className={`${TEXT_SIZE_NORMAL}`}>Action URL</label>
             </FloatLabel>
 
-            <Button className="mt-3" label="Add Carousel Item" severity="warning" loading={loading} onClick={addCarouselItem} />
+            <Button className="mt-3" label="Add Carousel Item" severity="warning" loading={loading} onClick={addCarouselItem}
+                pt={{
+                    label: { className: TEXT_SIZE_NORMAL },
+                }} />
         </Dialog>
     );
 }

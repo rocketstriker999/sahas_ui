@@ -13,6 +13,7 @@ import { Checkbox } from "primereact/checkbox";
 import { Button } from "primereact/button";
 import HasRequiredAuthority from "../../../dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../../../../constants";
+import { TEXT_SIZE_SMALL } from "../../../../style";
 
 export default function Enrollment({ index, setEnrollments, ...props }) {
     const { requestAPI, showToast } = useAppContext();
@@ -65,7 +66,7 @@ export default function Enrollment({ index, setEnrollments, ...props }) {
                             }
                         />
 
-                        <span className="text-sm font-semibold" htmlFor="on_site_access">
+                        <span className={`${TEXT_SIZE_SMALL} font-semibold`} htmlFor="on_site_access">
                             On Site Access
                         </span>
                     </div>
@@ -81,7 +82,7 @@ export default function Enrollment({ index, setEnrollments, ...props }) {
                             }
                         />
 
-                        <span className="text-sm font-semibold" htmlFor="digital_access">
+                        <span className={`${TEXT_SIZE_SMALL} font-semibold`} htmlFor="digital_access">
                             Digital Access
                         </span>
                     </div>

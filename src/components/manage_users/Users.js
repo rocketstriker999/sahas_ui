@@ -8,6 +8,7 @@ import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
 import FiltersDrawer from "./users/FiltersDrawer";
 import { useSelector } from "react-redux";
 import UserCard from "./users/UserCard";
+import { TEXT_SIZE_NORMAL, TEXT_SIZE_SMALL } from "../../style";
 import { AUTHORITIES } from "../../constants";
 
 export default function Users() {
@@ -101,7 +102,7 @@ export default function Users() {
                     template={{
                         layout: "FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink",
                         CurrentPageReport: (options) => (
-                            <span className="text-center text-sm w-8rem">
+                            <span className={`text-center w-8rem ${TEXT_SIZE_SMALL}`}>
                                 {options.first} - {options.last} of {options.totalRecords}
                             </span>
                         ),

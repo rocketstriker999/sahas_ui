@@ -6,6 +6,7 @@ import { useCallback, useState } from "react";
 import TabHeader from "../../../common/TabHeader";
 import { useAppContext } from "../../../../providers/ProviderAppContainer";
 import { useOutletContext } from "react-router-dom";
+import { TEXT_SIZE_SMALL, TEXT_SIZE_NORMAL, TITLE_TEXT } from "../../../../style";
 
 export default function DialogAddCourse({ visible, enrollment_id, enrolledCourses, setCourses, closeDialog }) {
     const { requestAPI, showToast } = useAppContext();
@@ -34,7 +35,11 @@ export default function DialogAddCourse({ visible, enrollment_id, enrolledCourse
     }, [closeDialog, courseId, enrollment_id, requestAPI, setCourses, showToast]);
 
     return (
-        <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Add New Course`} visible={visible} className="w-11" onHide={closeDialog}>
+        <Dialog header={`Add New Course`} visible={visible} className="w-11" onHide={closeDialog}
+            pt={{
+                headertitle: { className: TITLE_TEXT },
+                content: { className: "overflow-visible" }
+            }}>
             <TabHeader
                 className="pt-3"
                 title="Add New Course To Enrollment"
@@ -50,11 +55,19 @@ export default function DialogAddCourse({ visible, enrollment_id, enrolledCourse
                     className="w-full"
                     onChange={(e) => setCourseId(e.value?.id)}
                     disabled={loading}
+                    pt={{
+                        input: { className: TEXT_SIZE_NORMAL },
+                        item: { className: TEXT_SIZE_NORMAL },
+                    }}
                 />
-                <label htmlFor="courses">Courses</label>
+                <label htmlFor="courses" className={`${TEXT_SIZE_SMALL}`}>Courses</label>
             </FloatLabel>
 
-            <Button className="mt-3" label="Add Course" severity="warning" loading={loading} onClick={addInquiry} />
+            <Button className="mt-3" label="Add Course" severity="warning" loading={loading} onClick={addInquiry}
+                pt={{
+                    label: { className: TEXT_SIZE_NORMAL },
+                    icon: { className: TEXT_SIZE_NORMAL }
+                }} />
         </Dialog>
     );
 }

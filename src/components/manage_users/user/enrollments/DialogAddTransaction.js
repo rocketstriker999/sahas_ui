@@ -9,6 +9,7 @@ import { InputTextarea } from "primereact/inputtextarea";
 import { Button } from "primereact/button";
 import { EMPTY_VALUE } from "../../../../constants";
 import { useOutletContext } from "react-router-dom";
+import { TEXT_SIZE_SMALL, TEXT_SIZE_NORMAL, TITLE_TEXT } from "../../../../style";
 import FileInput from "../../../common/FileInput";
 
 export default function DialogAddTransaction({ visible, enrollment_id, setTransactions, closeDialog }) {
@@ -38,7 +39,11 @@ export default function DialogAddTransaction({ visible, enrollment_id, setTransa
     }, [closeDialog, enrollment_id, requestAPI, setTransactions, showToast, transaction]);
 
     return (
-        <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Add New Transaction`} visible={visible} className="w-11" onHide={closeDialog}>
+        <Dialog header={`Add New Transaction`} visible={visible} className="w-11" onHide={closeDialog}
+            pt={{
+                headertitle: { className: TITLE_TEXT },
+                content: { className: "overflow-visible" }
+            }}>
             <TabHeader
                 className="pt-3"
                 title="Add New Transcation To Enrollment"
@@ -52,7 +57,7 @@ export default function DialogAddTransaction({ visible, enrollment_id, setTransa
                     className="w-full"
                     onChange={(e) => setTransaction((prev) => ({ ...prev, amount: e.value }))}
                 />
-                <label htmlFor="amount">Amount</label>
+                <label htmlFor="amount" className={`${TEXT_SIZE_SMALL}`}>Amount</label>
             </FloatLabel>
 
             <FloatLabel className="mt-5">
@@ -63,8 +68,12 @@ export default function DialogAddTransaction({ visible, enrollment_id, setTransa
                     className="w-full"
                     onChange={(e) => setTransaction((prev) => ({ ...prev, type: e.value }))}
                     disabled={loading}
+                    pt={{
+                        input: { className: TEXT_SIZE_NORMAL },
+                        item: { className: TEXT_SIZE_NORMAL },
+                    }}
                 />
-                <label htmlFor="types">Type</label>
+                <label htmlFor="types" className={`${TEXT_SIZE_SMALL}`}>Type</label>
             </FloatLabel>
 
             <FileInput
@@ -85,11 +94,18 @@ export default function DialogAddTransaction({ visible, enrollment_id, setTransa
                     className="w-full"
                     onChange={(e) => setTransaction((prev) => ({ ...prev, note: e.target.value }))}
                     disabled={loading}
+                    pt={{
+                        root: { className: TEXT_SIZE_NORMAL },
+                    }}
                 />
-                <label htmlFor="note">Note</label>
+                <label htmlFor="note" className={`${TEXT_SIZE_SMALL}`}>Note</label>
             </FloatLabel>
 
-            <Button className="mt-3" label="Add Transaction" severity="warning" loading={loading} onClick={addTransaction} />
+            <Button className="mt-3" label="Add Transaction" severity="warning" loading={loading} onClick={addTransaction}
+                pt={{
+                    label: { className: TEXT_SIZE_NORMAL },
+                    icon: { className: TEXT_SIZE_NORMAL }
+                }} />
         </Dialog>
     );
 }
