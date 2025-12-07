@@ -2,7 +2,6 @@ import { useDispatch, useSelector } from "react-redux";
 import Operations from "../components/dashboard/Operations";
 import { useAppContext } from "../providers/ProviderAppContainer";
 import { Badge } from "primereact/badge";
-import HasRequiredAuthority from "../components/dependencies/HasRequiredAuthority";
 import ProfileCard from "../components/dashboard/ProfileCard";
 import { removeCurrentUser } from "../redux/sliceUser";
 import { KEY_AUTHENTICATION_TOKEN } from "../constants";
@@ -45,17 +44,9 @@ export default function Dashboard() {
                     ></i>
                 </div>
             </div>
-            <HasRequiredAuthority requiredAuthority="USE_FEATURE_CAROUSEL">
-                <CarouselImages className={"mb-2"} images={pageConfig?.carousel_images} />
-            </HasRequiredAuthority>
-
-            <HasRequiredAuthority requiredAuthority="USE_FEATURE_PROFILE_CARD">
-                <ProfileCard className={"mx-2"} {...loggedInUser} />
-            </HasRequiredAuthority>
-
-            <HasRequiredAuthority requiredAuthority="USE_FEATURE_OPERATIONS">
-                <Operations className={"mx-2 mt-2 flex-1 min-h-0 overflow-scroll"} />
-            </HasRequiredAuthority>
+            <CarouselImages className={"mb-2"} images={pageConfig?.carousel_images} />
+            <ProfileCard className={"mx-2"} {...loggedInUser} />
+            <Operations className={"mx-2 mt-2 flex-1 min-h-0 overflow-scroll"} />
         </div>
     );
 }

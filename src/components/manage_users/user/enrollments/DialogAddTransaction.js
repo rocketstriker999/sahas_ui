@@ -10,6 +10,7 @@ import { Button } from "primereact/button";
 import { EMPTY_VALUE } from "../../../../constants";
 import { useOutletContext } from "react-router-dom";
 import { TEXT_SIZE_SMALL, TEXT_SIZE_NORMAL, TITLE_TEXT } from "../../../../style";
+import FileInput from "../../../common/FileInput";
 
 export default function DialogAddTransaction({ visible, enrollment_id, setTransactions, closeDialog }) {
     const { requestAPI, showToast } = useAppContext();
@@ -38,13 +39,13 @@ export default function DialogAddTransaction({ visible, enrollment_id, setTransa
     }, [closeDialog, enrollment_id, requestAPI, setTransactions, showToast, transaction]);
 
     return (
-        <Dialog header={`Add New Transaction`} visible={visible} className="w-11" onHide={closeDialog}
+        <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Add New Transaction`} visible={visible} className="w-11" onHide={closeDialog}
             pt={{
                 headertitle: { className: TITLE_TEXT },
             }}>
             <TabHeader
                 className="pt-3"
-                title="Add New Course To Enrollment"
+                title="Add New Transcation To Enrollment"
                 highlights={["Transaction Will be Recorded immidiatly", "Transaction Is Irreversible"]}
             />
 
@@ -73,6 +74,15 @@ export default function DialogAddTransaction({ visible, enrollment_id, setTransa
                 />
                 <label htmlFor="types" className={`${TEXT_SIZE_SMALL}`}>Type</label>
             </FloatLabel>
+
+            <FileInput
+                className={"mt-3"}
+                label="Product Category"
+                type="image"
+                cdn_url={transaction?.image}
+                setCDNUrl={(cdn_url) => setTransaction((prev) => ({ ...prev, image: cdn_url }))}
+                disabled={loading}
+            />
 
             <FloatLabel className="mt-5">
                 <InputTextarea

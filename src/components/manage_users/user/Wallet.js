@@ -1,7 +1,7 @@
 import { Divider } from "primereact/divider";
 import TabHeader from "../../common/TabHeader";
 import { Button } from "primereact/button";
-import { RUPEE } from "../../../constants";
+import { AUTHORITIES, RUPEE } from "../../../constants";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAppContext } from "../../../providers/ProviderAppContainer";
 import { useOutletContext } from "react-router-dom";
@@ -10,6 +10,7 @@ import NoContent from "../../common/NoContent";
 
 import Transactions from "./wallet/Transaction";
 import DialogAddTransaction from "./wallet/DialogAddTransaction";
+import HasRequiredAuthority from "../../dependencies/HasRequiredAuthority";
 
 export default function Wallet() {
     const { userId } = useOutletContext();
@@ -53,18 +54,20 @@ export default function Wallet() {
                 title={`User's Wallet - ${walletBalance} ${RUPEE}`}
                 highlights={[`Total - ${walletTransActions?.length} Transactions`]}
                 actionItems={[
-                    <Button
-                        icon="pi pi-plus"
-                        severity="warning"
-                        onClick={() =>
-                            setDialogAddTransaction((prev) => ({
-                                ...prev,
-                                visible: true,
-                                closeDialog: closeDialogAddTransaction,
-                                currentBalance: walletBalance,
-                            }))
-                        }
-                    />,
+                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_OTHER_USERS}>
+                        <Button
+                            icon="pi pi-plus"
+                            severity="warning"
+                            onClick={() =>
+                                setDialogAddTransaction((prev) => ({
+                                    ...prev,
+                                    visible: true,
+                                    closeDialog: closeDialogAddTransaction,
+                                    currentBalance: walletBalance,
+                                }))
+                            }
+                        />
+                    </HasRequiredAuthority>,
                 ]}
             />
             <Divider />

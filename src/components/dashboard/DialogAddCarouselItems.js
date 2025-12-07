@@ -30,7 +30,6 @@ export default function DialogAddCarouselItem({ visible, closeDialog }) {
                 if (carouselImage && responseCode === 201) {
                     showToast({ severity: "success", summary: "Added", detail: "Carousel Item Added", life: 1000 });
                     dispatch(addCarouselImage(carouselImage));
-                    setCarouselImage(); //reset form
                     closeDialog(); //close the dialog
                 } else showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Carousel Item !", life: 2000 });
             },
@@ -38,7 +37,7 @@ export default function DialogAddCarouselItem({ visible, closeDialog }) {
     }, [carouselImage, closeDialog, dispatch, requestAPI, showToast]);
 
     return (
-        <Dialog header={`Add New Carousel Item`} visible={visible} className="w-11" onHide={closeDialog}
+        <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Add New Carousel Item`} visible={visible} className="w-11" onHide={closeDialog}
             pt={{
                 headertitle: { className: TITLE_TEXT },
             }}>

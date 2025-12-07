@@ -3,7 +3,7 @@ import { useInterval } from "primereact/hooks";
 import { useState } from "react";
 import { TEXT_SIZE_NORMAL } from "../../style";
 
-export default function ButtonResendOTP({ resendInterval = 60, requestOTP, setError }) {
+export default function ButtonResendOTP({ resendInterval = 60, requestOTP, setError, setOTP }) {
     const [waitSeconds, setWaitSeconds] = useState(resendInterval);
     const [loading, setLoading] = useState();
 
@@ -14,6 +14,7 @@ export default function ButtonResendOTP({ resendInterval = 60, requestOTP, setEr
             onClick={() => {
                 requestOTP(setLoading, setError);
                 setWaitSeconds(resendInterval);
+                setOTP();
             }}
             className="w-full mt-3"
             icon="pi pi-clock"

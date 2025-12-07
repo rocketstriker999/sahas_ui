@@ -3,22 +3,16 @@ import { useCallback, useState } from "react";
 import ProgressiveControl from "../common/ProgressiveControl";
 import { useNavigate } from "react-router-dom";
 import { getReadableDate } from "../../utils";
-import DialogEditSubject from "./DialogEditSubject";
+import IconButton from "../common/IconButton";
+import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../constants";
 
-export default function Subject({ id, title, subject_id, setSubjects, background_color, updatingViewIndex, updated_at }) {
+export default function Subject({ id, title, subject_id, setSubjects, background_color, updatingViewIndex, updated_at, setDialogEditSubject }) {
     const navigate = useNavigate();
 
     const { requestAPI, showToast } = useAppContext();
 
     const [deleting, setDeleting] = useState();
-
-    const [dialogEditSubject, setDialogEditSubject] = useState({
-        visible: false,
-    });
-
-    const closeDialogEditSubject = useCallback(() => {
-        setDialogEditSubject((prev) => ({ ...prev, visible: false }));
-    }, []);
 
     const deleteSubject = useCallback(() => {
         requestAPI({
@@ -44,15 +38,13 @@ export default function Subject({ id, title, subject_id, setSubjects, background
 
     return (
         <div
+            onClick={() => {
+                if (!updatingViewIndex) navigate(`${subject_id}/chapters`);
+            }}
             style={{ backgroundColor: background_color }}
             className="flex gap-3 align-items-center border-1 border-gray-300 border-round py-2 px-3 overflow-hidden"
         >
-            <div
-                className="flex flex-column flex-1 gap-2"
-                onClick={() => {
-                    if (!updatingViewIndex) navigate(`${subject_id}/chapters`);
-                }}
-            >
+            <div className="flex flex-column flex-1 gap-2">
                 <span className={`text-sm font-semibold ${background_color && "text-white"}`}>
                     {subject_id}. {title}
                 </span>
@@ -61,31 +53,37 @@ export default function Subject({ id, title, subject_id, setSubjects, background
                     <span className="m-0 p-0 text-xs">{`Last Updated At ${getReadableDate({ date: updated_at })}`}</span>
                 </div>
             </div>
-            {!!updatingViewIndex && <i className={`pi pi-equals ${background_color && "text-white"}`}></i>}
-            {!updatingViewIndex && (
-                <i
-                    className={`pi pi-pencil ${background_color && "text-white"}`}
-                    onClick={() =>
-                        setDialogEditSubject((prev) => ({
-                            ...prev,
-                            visible: true,
-                            setSubjects,
-                            id: subject_id,
-                            title,
-                            background_color,
-                            closeDialog: closeDialogEditSubject,
-                        }))
-                    }
-                ></i>
-            )}
-            {!updatingViewIndex && (
-                <ProgressiveControl
-                    loading={deleting}
-                    control={<i className={`pi pi-trash ${background_color && "text-white"}`} onClick={deleteSubject}></i>}
-                />
-            )}
-            {!updatingViewIndex && <i className={`pi pi-arrow-circle-right ${background_color && "text-white"}`}></i>}
-            {dialogEditSubject?.visible && <DialogEditSubject {...dialogEditSubject} />}
+            {!!updatingViewIndex && <IconButton icon={"pi-equals"} color={background_color ? "text-white" : `text-indigo-800`} />}
+
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+                {!updatingViewIndex && (
+                    <IconButton
+                        icon={`pi pi-pencil `}
+                        color={background_color ? "text-white" : `text-orange-500`}
+                        onClick={() =>
+                            setDialogEditSubject((prev) => ({
+                                ...prev,
+                                visible: true,
+                                setSubjects,
+                                id: subject_id,
+                                title,
+                                background_color,
+                            }))
+                        }
+                    />
+                )}
+            </HasRequiredAuthority>
+
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+                {!updatingViewIndex && (
+                    <ProgressiveControl
+                        loading={deleting}
+                        control={<IconButton icon={`pi-trash`} color={background_color ? "text-white" : "text-red-500"} onClick={deleteSubject} />}
+                    />
+                )}
+            </HasRequiredAuthority>
+
+            {!!updatingViewIndex && <IconButton icon={"pi-arrow-circle-right"} color={background_color ? "text-white" : "text-indigo-800"} />}
         </div>
     );
 }

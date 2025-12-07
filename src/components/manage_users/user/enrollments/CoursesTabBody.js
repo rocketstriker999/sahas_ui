@@ -6,6 +6,8 @@ import { useAppContext } from "../../../../providers/ProviderAppContainer";
 import Course from "./Course";
 import Loading from "../../../common/Loading";
 import DialogAddCourse from "./DialogAddCourse";
+import HasRequiredAuthority from "../../../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../../../constants";
 
 export default function CoursesTabBody({ id, setTotalCourses }) {
     const [courses, setCourses] = useState();
@@ -47,17 +49,19 @@ export default function CoursesTabBody({ id, setTotalCourses }) {
                 title="Enrollment Courses"
                 highlights={[`Total - ${courses?.length} Courses`]}
                 actionItems={[
-                    <Tag
-                        icon="pi pi-plus"
-                        value="Add Course"
-                        onClick={() =>
-                            setDialogAddCourse((prev) => ({
-                                ...prev,
-                                visible: true,
-                                closeDialog: closeDialogAddCourse,
-                            }))
-                        }
-                    ></Tag>,
+                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_OTHER_USERS}>
+                        <Tag
+                            icon="pi pi-plus"
+                            value="Add Course"
+                            onClick={() =>
+                                setDialogAddCourse((prev) => ({
+                                    ...prev,
+                                    visible: true,
+                                    closeDialog: closeDialogAddCourse,
+                                }))
+                            }
+                        ></Tag>
+                    </HasRequiredAuthority>,
                 ]}
             />
 
@@ -71,7 +75,7 @@ export default function CoursesTabBody({ id, setTotalCourses }) {
                 <NoContent error="No Courses Assigned" />
             )}
 
-            <DialogAddCourse setCourses={setCourses} {...dialogAddCourse} />
+            <DialogAddCourse enrolledCourses={courses} setCourses={setCourses} {...dialogAddCourse} />
         </div>
     );
 }

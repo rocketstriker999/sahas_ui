@@ -25,71 +25,56 @@ import { Chapters } from "../components/course/Chapters";
 import ManageChapterTypes from "../pages/ManageChapterTypes";
 import ManageCouponCodes from "../pages/ManageCouponCodes";
 import CouponCodes from "../components/manage_coupon_codes/CouponCodes";
-import CouponCode from "../components/manage_coupon_codes/CouponCodeCourses";
 import CouponCodeCourses from "../components/manage_coupon_codes/CouponCodeCourses";
+import Enroll from "../pages/Enroll";
+import PaymentGatewayPayLoad from "../pages/PaymentGatewayPayLoad";
+import MediaCatalogue from "../pages/MediaCatalogue";
+import Media from "../pages/Media";
+import { AUTHORITIES } from "../constants";
+import HasMandatoryDetails from "../components/dependencies/HasMandatoryDetails";
 
 export default function App() {
     return (
         <HasAuthentication>
-            <HasRequiredAuthority requiredAuthority="USE_CONTAINER_APP" showForBidden={true}>
-                <RequiresTemplateConfiguration>
+            <RequiresTemplateConfiguration>
+                <HasMandatoryDetails>
                     <Routes>
-                        <Route
-                            path="/"
-                            element={
-                                <HasRequiredAuthority showForBidden={true} requiredAuthority="USE_PAGE_DASHBOARD">
-                                    <Dashboard />
-                                </HasRequiredAuthority>
-                            }
-                        />
-                        <Route
-                            path="/manage-users"
-                            element={
-                                <HasRequiredAuthority showForBidden={true} requiredAuthority="USE_CONTAINER_MANAGE_USERS">
-                                    <ManageUsers />
-                                </HasRequiredAuthority>
-                            }
-                        >
+                        <Route path="/" element={<Dashboard />} />
+
+                        <Route path="/manage-users" element={<ManageUsers />}>
                             <Route
                                 index
                                 element={
-                                    <HasRequiredAuthority showForBidden={true} requiredAuthority="USE_PAGE_USERS">
+                                    <HasRequiredAuthority showForBidden={true} requiredAuthority={AUTHORITIES.MANAGE_OTHER_USERS}>
                                         <Users />
                                     </HasRequiredAuthority>
                                 }
                             />
-                            <Route
-                                path=":userId"
-                                element={
-                                    <HasRequiredAuthority showForBidden={true} requiredAuthority="USE_PAGE_USER">
-                                        <User />
-                                    </HasRequiredAuthority>
-                                }
-                            >
+                            <Route path=":userId" element={<User />}>
+                                <Route path="basics" element={<Basics />} />
                                 <Route
-                                    path="basics"
+                                    path="inquiries"
                                     element={
-                                        <HasRequiredAuthority showForBidden={true} requiredAuthority="READ_USERS_BASICS">
-                                            <Basics />
+                                        <HasRequiredAuthority showForBidden={true} requiredAuthority={AUTHORITIES.MANAGE_OTHER_USERS}>
+                                            <Inquiries />
                                         </HasRequiredAuthority>
                                     }
                                 />
-                                <Route path="inquiries" element={<Inquiries />} />
                                 <Route path="enrollments" element={<Enrollments />} />
                                 <Route path="devices" element={<NoContent error={"Coming soon !"} />} />
                                 <Route path="wallet" element={<Wallet />} />
                                 <Route path="notes" element={<NoContent error={"Coming soon !"} />} />
-                                <Route path="roles" element={<Roles />} />
+                                <Route
+                                    path="roles"
+                                    element={
+                                        <HasRequiredAuthority showForBidden={true} requiredAuthority={AUTHORITIES.MANAGE_OTHER_USERS}>
+                                            <Roles />
+                                        </HasRequiredAuthority>
+                                    }
+                                />
                             </Route>
                         </Route>
-                        <Route
-                            path="/course-categories"
-                            element={
-                                <HasRequiredAuthority showForBidden={true} requiredAuthority="USE_PAGE_COURSES">
-                                    <Catelogue />
-                                </HasRequiredAuthority>
-                            }
-                        >
+                        <Route path="/course-categories" element={<Catelogue />}>
                             <Route index element={<Categories />} />
                             <Route path=":categoryId/courses" element={<Courses />} />
                         </Route>
@@ -97,7 +82,10 @@ export default function App() {
                         <Route path="/courses/:courseId" element={<Course />}>
                             <Route path="subjects" element={<Subjects />}></Route>
                             <Route path="subjects/:subjectId/chapters" element={<Chapters />} />
+                            <Route path="subjects/:subjectId/chapters/:chapterId/media" element={<MediaCatalogue />} />
                         </Route>
+
+                        <Route path="/media-player/:mediaId" element={<Media />}></Route>
 
                         <Route path="/manage-chapter-types" element={<ManageChapterTypes />} />
 
@@ -109,7 +97,7 @@ export default function App() {
                         <Route
                             path="/manage-roles"
                             element={
-                                <HasRequiredAuthority showForBidden={true} requiredAuthority="USE_CONTAINER_MANAGE_USERS">
+                                <HasRequiredAuthority showForBidden={true} requiredAuthority={AUTHORITIES.MANAGE_OTHER_USERS}>
                                     <ManageRoles />
                                 </HasRequiredAuthority>
                             }
@@ -118,17 +106,21 @@ export default function App() {
                         <Route
                             path="/manage-authorities"
                             element={
-                                <HasRequiredAuthority showForBidden={true} requiredAuthority="USE_CONTAINER_MANAGE_USERS">
+                                <HasRequiredAuthority showForBidden={true} requiredAuthority={AUTHORITIES.MANAGE_OTHER_USERS}>
                                     <ManageAuthorities />
                                 </HasRequiredAuthority>
                             }
                         />
 
+                        <Route path="/enroll/:courseId" element={<Enroll />} />
+
+                        <Route path="/payment-gateway-payloads/:paymentGatewayPayloadId" element={<PaymentGatewayPayLoad />} />
+
                         <Route path="/logout" element={<Logout />} />
                         <Route path="*" element={<NotFound />} />
                     </Routes>
-                </RequiresTemplateConfiguration>
-            </HasRequiredAuthority>
+                </HasMandatoryDetails>
+            </RequiresTemplateConfiguration>
         </HasAuthentication>
     );
 }

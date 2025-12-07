@@ -10,6 +10,8 @@ import Enrollment from "./enrollments/Enrollment";
 import { Accordion, AccordionTab } from "primereact/accordion";
 import DialogAddEnrollment from "./enrollments/DialogAddEnrollment";
 import EnrollmentHead from "./enrollments/EnrollmentHead";
+import HasRequiredAuthority from "../../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../../constants";
 
 export default function Enrollments() {
     const { userId } = useOutletContext();
@@ -48,17 +50,19 @@ export default function Enrollments() {
                 title="User's Enrollments"
                 highlights={[`Total - ${enrollments?.length} Enrollments`]}
                 actionItems={[
-                    <Button
-                        icon="pi pi-plus"
-                        severity="warning"
-                        onClick={() =>
-                            setDialogAddEnrollment((prev) => ({
-                                ...prev,
-                                visible: true,
-                                closeDialog: closeDialogAddEnrollment,
-                            }))
-                        }
-                    />,
+                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_OTHER_USERS}>
+                        <Button
+                            icon="pi pi-plus"
+                            severity="warning"
+                            onClick={() =>
+                                setDialogAddEnrollment((prev) => ({
+                                    ...prev,
+                                    visible: true,
+                                    closeDialog: closeDialogAddEnrollment,
+                                }))
+                            }
+                        />
+                    </HasRequiredAuthority>,
                 ]}
             />
             <Divider />

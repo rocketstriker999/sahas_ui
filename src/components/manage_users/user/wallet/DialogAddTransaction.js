@@ -25,7 +25,7 @@ export default function DialogAddTransaction({ setWalletTransActions, currentBal
         requestAPI({
             requestPath: `wallet-transactions`,
             requestMethod: "POST",
-            requestPostBody: { ...transaction, user_id: userId },
+            requestPostBody: { ...transaction, user_id: userId, amount: transaction?.operation === "Credit" ? transaction?.amount : -transaction?.amount },
             setLoading: setLoading,
             onResponseReceieved: (walletTransaction, responseCode) => {
                 if (walletTransaction && responseCode === 201) {
@@ -48,7 +48,7 @@ export default function DialogAddTransaction({ setWalletTransActions, currentBal
     }, [transaction?.amount, transaction?.operation, currentBalance]);
 
     return (
-        <Dialog header={"Add New Transaction"} visible={visible} className="w-11" onHide={closeDialog}
+        <Dialog pt={{ content: { className: "overflow-visible" } }} header={"Add New Transaction"} visible={visible} className="w-11" onHide={closeDialog}
             pt={{
                 headertitle: { className: TITLE_TEXT },
             }}>
@@ -107,7 +107,7 @@ export default function DialogAddTransaction({ setWalletTransActions, currentBal
                 <label htmlFor="note" className={`${TEXT_SIZE_SMALL}`}>Note</label>
             </FloatLabel>
 
-            <Button className="mt-3" label={"Apply"} severity="warning" loading={loading} onClick={addTransaction}
+            <Button className="mt-3" label={"Apply"} disabled={!transaction?.operation} severity="warning" loading={loading} onClick={addTransaction}
                 pt={{
                     label: { className: TEXT_SIZE_SMALL },
                 }} />

@@ -69,24 +69,25 @@ export default function ManageChapterTypes() {
                         severity="warning"
                         onClick={() => setDialogAddChapterType((prev) => ({ ...prev, setChapterTypes, visible: true, closeDialog: closeDialogAddChapterType }))}
                     />,
-                    <Button
-                        loading={updating}
-                        disabled={!chapter_types?.length}
-                        onClick={() => {
-                            showToast({
-                                severity: "info",
-                                summary: "Repositioning",
-                                detail: `Repositioning Mode ${!updatingViewIndex ? "Enabled" : "Disabled"}`,
-                                life: 1000,
-                            });
-                            //give signal to update view indexs
-                            if (!!updatingViewIndex) {
-                                updateViewIndexs();
-                            }
-                            setUpdatingViewIndex((prev) => !prev);
-                        }}
-                        icon="pi pi-arrows-v"
-                    />,
+                    !!chapter_types?.length && (
+                        <Button
+                            loading={updating}
+                            onClick={() => {
+                                showToast({
+                                    severity: "info",
+                                    summary: "Repositioning",
+                                    detail: `Repositioning Mode ${!updatingViewIndex ? "Enabled" : "Disabled"}`,
+                                    life: 1000,
+                                });
+                                //give signal to update view indexs
+                                if (!!updatingViewIndex) {
+                                    updateViewIndexs();
+                                }
+                                setUpdatingViewIndex((prev) => !prev);
+                            }}
+                            icon="pi pi-arrows-v"
+                        />
+                    ),
                 ]}
             />
             <Divider />
@@ -94,7 +95,7 @@ export default function ManageChapterTypes() {
                 updatingViewIndex={updatingViewIndex}
                 items={chapter_types}
                 setItems={setChapterTypes}
-                emptyItemsError="No Chapter Types Found"
+                entity={"Chapter"}
                 itemTemplate={(item) => <ChapterType setChapterTypes={setChapterTypes} {...item} updatingViewIndex={updatingViewIndex} />}
             />
 

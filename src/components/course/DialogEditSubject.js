@@ -21,19 +21,18 @@ export default function DialogEditSubject({ visible, closeDialog, setSubjects, .
             requestPostBody: subject,
             setLoading: setLoading,
             onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Update Subject !", life: 2000 }),
-            onResponseReceieved: (updatedSubject, responseCode) => {
+            onResponseReceieved: ({ error, ...updatedSubject }, responseCode) => {
                 if (updatedSubject && responseCode === 200) {
                     showToast({ severity: "success", summary: "Updated", detail: "Subject Updated", life: 1000 });
                     setSubjects((prev) => prev?.map((subject) => (subject?.subject_id === props?.id ? { ...subject, ...updatedSubject } : subject)));
-                    setSubject(({ course_id }) => ({ course_id })); //reset form
                     closeDialog(); //close the dialog
-                } else showToast({ severity: "error", summary: "Failed", detail: "Failed To Update Subject !", life: 2000 });
+                } else showToast({ severity: "error", summary: "Failed", detail: error || "Failed To Update Subject !", life: 2000 });
             },
         });
     }, [requestAPI, subject, showToast, setSubjects, closeDialog, props?.id]);
 
     return (
-        <Dialog header={`Edit Subject`} visible={visible} className="w-11" onHide={closeDialog}>
+        <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Edit Subject`} visible={visible} className="w-11" onHide={closeDialog}>
             <TabHeader className="pt-3" title="Edit Subject" />
 
             <FloatLabel className="mt-5">

@@ -37,7 +37,7 @@ export default function DialogAddRole({ visible, closeDialog }) {
     }, [closeDialog, dispatch, requestAPI, role, showToast]);
 
     return (
-        <Dialog header={`Add New Role`} visible={visible} className="w-11" onHide={closeDialog}
+        <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Add New Role`} visible={visible} className="w-11" onHide={closeDialog}
             pt={{
                 headertitle: { className: TITLE_TEXT },
             }}>

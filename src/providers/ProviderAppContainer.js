@@ -43,10 +43,11 @@ export const ProviderAppContainer = ({ children }) => {
             parseResponseBody = true,
             onRequestFailure = console.log,
             onRequestEnd = false,
+            onUploadProgress = false,
         } = {}) {
             if (onRequestStart) onRequestStart();
             if (setLoading) setLoading(true);
-
+            if (onUploadProgress) onUploadProgress(0);
             //append api backend service path
             requestPath = process.env.REACT_APP_BACKEND_SERVER.concat(requestService).concat(requestPath);
 

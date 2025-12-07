@@ -27,7 +27,6 @@ export default function DialogEditChapter({ visible, closeDialog, setChapters, .
                 if (updatedChapter && responseCode === 200) {
                     showToast({ severity: "success", summary: "Updated", detail: "Subject Updated", life: 1000 });
                     setChapters((prev) => prev?.map((chapter) => (chapter?.id === updatedChapter.id ? updatedChapter : chapter)));
-                    setChapter(); //reset form
                     closeDialog(); //close the dialog
                 } else showToast({ severity: "error", summary: "Failed", detail: "Failed To Update Subject !", life: 2000 });
             },
@@ -35,7 +34,7 @@ export default function DialogEditChapter({ visible, closeDialog, setChapters, .
     }, [requestAPI, chapter, showToast, setChapters, closeDialog]);
 
     return (
-        <Dialog header={`Edit Chapter`} visible={visible} className="w-11" onHide={closeDialog}>
+        <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Edit Chapter`} visible={visible} className="w-11" onHide={closeDialog}>
             <TabHeader className="pt-3" title="Edit Chapter" />
 
             <FloatLabel className="mt-5">

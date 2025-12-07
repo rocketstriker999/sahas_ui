@@ -2,7 +2,7 @@ import { Avatar } from "primereact/avatar";
 import { Tag } from "primereact/tag";
 import { Divider } from "primereact/divider";
 import { EMPTY_VALUE } from "../../constants";
-import { InputSwitch } from "primereact/inputswitch";
+import { useNavigate } from "react-router-dom";
 import { TEXT_SIZE_NORMAL, TEXT_SIZE_SMALL } from "../../style";
 
 export default function ProfileCard({
@@ -15,8 +15,10 @@ export default function ProfileCard({
     showViewMore = true,
     showStatusController,
 }) {
+    const navigate = useNavigate();
+
     return (
-        <div className={`pl-2 py-2 border-round border-1 border-gray-300 relative  ${className}`}>
+        <div onClick={() => navigate(`/manage-users/${id}/basics`)} className={`pl-2 py-2 border-round border-1 border-gray-300 relative  ${className}`}>
             <div className="flex align-items-center">
                 <div className="flex flex-column align-items-center">
                     <Avatar {...(image ? { image } : { icon: "pi pi-user" })} size="large" shape="circle" />
@@ -32,7 +34,16 @@ export default function ProfileCard({
                     </div>
                     <div className={`flex align-items-center gap-2 ${TEXT_SIZE_NORMAL}`}>
                         {phone && <i className="pi pi-phone"></i>}
-                        {phone ? <p className="m-0 p-0">{phone}</p> : <Tag icon="pi pi-exclamation-circle" severity="danger" value="Missing Contact Details" />}
+                        {phone ? (
+                            <p className="m-0 p-0">{phone}</p>
+                        ) : (
+                            <Tag
+                                className="fadein animation-duration-1000 animation-iteration-infinite"
+                                icon="pi pi-exclamation-circle"
+                                severity="danger"
+                                value="Missing Contact Details"
+                            />
+                        )}
                     </div>
                 </div>
             </div>

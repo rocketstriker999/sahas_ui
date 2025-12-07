@@ -7,8 +7,10 @@ import NoContent from "../../../common/NoContent";
 import { useAppContext } from "../../../../providers/ProviderAppContainer";
 import Loading from "../../../common/Loading";
 import DialogAddTransaction from "./DialogAddTransaction";
+import HasRequiredAuthority from "../../../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../../../constants";
 
-export default function TransactionsTabBody({ fees, id, setTotalTransactions }) {
+export default function TransactionsTabBody({ amount, id, setTotalTransactions }) {
     const [transactions, setTransactions] = useState();
     const { requestAPI } = useAppContext();
     const [loading, setLoading] = useState();
@@ -44,9 +46,9 @@ export default function TransactionsTabBody({ fees, id, setTotalTransactions }) 
 
     const [paid, due] = useMemo(() => {
         const paid = transactions?.reduce((sum, transaction) => sum + parseFloat(transaction?.amount), 0);
-        const due = parseFloat(fees) - paid;
+        const due = parseFloat(amount) - paid;
         return [paid, due];
-    }, [fees, transactions]);
+    }, [amount, transactions]);
 
     return (
         <div className="flex flex-column gap-3">
@@ -54,22 +56,24 @@ export default function TransactionsTabBody({ fees, id, setTotalTransactions }) 
                 title="Enrollment Transactions"
                 highlights={[`Total - ${transactions?.length} Transactions`]}
                 actionItems={[
-                    <Tag
-                        key="transactions-tag"
-                        icon="pi pi-indian-rupee"
-                        value="Add Transcations"
-                        onClick={() =>
-                            setDialogAddTransaction((prev) => ({
-                                ...prev,
-                                visible: true,
-                                closeDialog: closeDialogAddTransaction,
-                            }))
-                        }
-                    ></Tag>,
+                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_OTHER_USERS}>
+                        <Tag
+                            key="transactions-tag"
+                            icon="pi pi-indian-rupee"
+                            value="Add Transcation"
+                            onClick={() =>
+                                setDialogAddTransaction((prev) => ({
+                                    ...prev,
+                                    visible: true,
+                                    closeDialog: closeDialogAddTransaction,
+                                }))
+                            }
+                        ></Tag>
+                    </HasRequiredAuthority>,
                 ]}
             />
 
-            <TransactionsSummary paid={paid} due={due} fees={fees} />
+            <TransactionsSummary paid={paid} due={due} amount={amount} />
 
             {loading ? (
                 <Loading />

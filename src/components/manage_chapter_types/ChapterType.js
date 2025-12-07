@@ -3,8 +3,9 @@ import { useCallback, useState } from "react";
 import ProgressiveControl from "../common/ProgressiveControl";
 import { getReadableDate } from "../../utils";
 import DialogEditChapterType from "./DialogEditChapterType";
+import IconButton from "../common/IconButton";
 
-export default function ChapterType({ id, title, setChapterTypes, requires_enrollment, updatingViewIndex, updated_at }) {
+export default function ChapterType({ id, title, setChapterTypes, requires_enrollment_digital_access, updatingViewIndex, updated_at, active }) {
     const { requestAPI, showToast } = useAppContext();
 
     const [deleting, setDeleting] = useState();
@@ -42,7 +43,7 @@ export default function ChapterType({ id, title, setChapterTypes, requires_enrol
     return (
         <div
             className={`flex gap-3 align-items-center border-1 border-gray-300 border-round py-2 px-3 overflow-hidden ${
-                requires_enrollment ? "bg-red-500" : "bg-green-500"
+                active ? "bg-green-500" : "bg-red-500"
             }`}
         >
             <div className="flex flex-column flex-1 gap-2">
@@ -54,10 +55,11 @@ export default function ChapterType({ id, title, setChapterTypes, requires_enrol
                     <span className="m-0 p-0 text-xs">{`Last Updated At ${getReadableDate({ date: updated_at })}`}</span>
                 </div>
             </div>
-            {!!updatingViewIndex && <i className={`pi pi-equals text-white`}></i>}
+            {!!updatingViewIndex && <IconButton icon={"pi-equals"} color={"text-white"} />}
             {!updatingViewIndex && (
-                <i
-                    className={`pi pi-pencil text-white`}
+                <IconButton
+                    icon={`pi-pencil `}
+                    color={"text-white"}
                     onClick={() =>
                         setDialogEditChapterType((prev) => ({
                             ...prev,
@@ -65,13 +67,17 @@ export default function ChapterType({ id, title, setChapterTypes, requires_enrol
                             setChapterTypes,
                             id,
                             title,
-                            requires_enrollment,
+                            requires_enrollment_digital_access,
+                            active,
                             closeDialog: closeDialogEditChapterType,
                         }))
                     }
-                ></i>
+                />
             )}
-            {!updatingViewIndex && <ProgressiveControl loading={deleting} control={<i className={`pi pi-trash text-white`} onClick={deleteChapterType}></i>} />}
+
+            {!updatingViewIndex && (
+                <ProgressiveControl loading={deleting} control={<IconButton icon={`pi-trash`} color={"text-white"} onClick={deleteChapterType} />} />
+            )}
             {dialogEditChapterType?.visible && <DialogEditChapterType {...dialogEditChapterType} />}
         </div>
     );

@@ -25,7 +25,6 @@ export default function DialogAddEnrollment({ visible, closeDialog, setEnrollmen
             requestPath: `enrollments`,
             requestMethod: "POST",
             requestPostBody: {
-                on_site_access: false,
                 ...enrollment,
                 user_id: userId,
                 start_date: getWriteableDate({ date: enrollment?.start_date, removeTime: true }),
@@ -46,7 +45,7 @@ export default function DialogAddEnrollment({ visible, closeDialog, setEnrollmen
     }, [closeDialog, enrollment, requestAPI, setEnrollments, showToast, userId]);
 
     return (
-        <Dialog header={`Add New Enrollment`} visible={visible} className="w-11" onHide={closeDialog}
+        <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Add New Enrollment`} visible={visible} className="w-11" onHide={closeDialog}
             pt={{
                 headertitle: { className: TITLE_TEXT },
             }}>
@@ -102,11 +101,16 @@ export default function DialogAddEnrollment({ visible, closeDialog, setEnrollmen
             </FloatLabel>
 
             <FloatLabel className="mt-5">
-                <InputNumber value={enrollment?.fees} id="fees" className="w-full" onChange={(e) => setEnrollment((prev) => ({ ...prev, fees: e.value }))}
+                <InputNumber
+                    value={enrollment?.amount}
+                    id="amount"
+                    className="w-full"
+                    onChange={(e) => setEnrollment((prev) => ({ ...prev, amount: e.value }))}
+               
                     pt={{
                         root: { className: TEXT_SIZE_SMALL },
                     }} />
-                <label htmlFor="fees" className={`${TEXT_SIZE_SMALL}`}>Total Fees</label>
+                <label htmlFor="amount" className={`${TEXT_SIZE_SMALL}`}>Total Amount</label>
             </FloatLabel>
 
             <div className="border-1 border-round border-gray-300 p-3 flex justify-content-between align-items-center mt-3 gap-3">

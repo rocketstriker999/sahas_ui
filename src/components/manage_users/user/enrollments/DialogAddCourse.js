@@ -8,7 +8,7 @@ import { useAppContext } from "../../../../providers/ProviderAppContainer";
 import { useOutletContext } from "react-router-dom";
 import { TEXT_SIZE_SMALL, TEXT_SIZE_NORMAL, TITLE_TEXT } from "../../../../style";
 
-export default function DialogAddCourse({ visible, enrollment_id, setCourses, closeDialog }) {
+export default function DialogAddCourse({ visible, enrollment_id, enrolledCourses, setCourses, closeDialog }) {
     const { requestAPI, showToast } = useAppContext();
     const { courses } = useOutletContext();
 
@@ -35,7 +35,7 @@ export default function DialogAddCourse({ visible, enrollment_id, setCourses, cl
     }, [closeDialog, courseId, enrollment_id, requestAPI, setCourses, showToast]);
 
     return (
-        <Dialog header={`Add New Course`} visible={visible} className="w-11" onHide={closeDialog}
+        <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Add New Course`} visible={visible} className="w-11" onHide={closeDialog}
             pt={{
                 headertitle: { className: TITLE_TEXT },
             }}>
@@ -49,7 +49,7 @@ export default function DialogAddCourse({ visible, enrollment_id, setCourses, cl
                 <Dropdown
                     value={courses?.find((course) => courseId === course?.id)}
                     inputId="courses"
-                    options={courses}
+                    options={courses?.filter(({ id }) => !enrolledCourses?.find(({ course_id }) => course_id == id))}
                     optionLabel="title"
                     className="w-full"
                     onChange={(e) => setCourseId(e.value?.id)}

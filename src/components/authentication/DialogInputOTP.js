@@ -45,7 +45,14 @@ export default function DialogInputOTP({ authenticationToken, setAuthenticationT
     };
 
     return (
-        <Dialog position="bottom" className="w-11" header="Verify OTP" visible={authenticationToken} onHide={() => setAuthenticationToken()}>
+        <Dialog
+            pt={{ content: { className: "overflow-visible" } }}
+            position="bottom"
+            className="w-11"
+            header="Verify OTP"
+            visible={authenticationToken}
+            onHide={() => setAuthenticationToken()}
+        >
             <div className="flex flex-column justify-content-center align-items-center">
                 <div className="flex gap-2 text-gray-800 align-items-center justify-content-center">
                     <i className="pi pi-exclamation-circle"></i>
@@ -58,7 +65,7 @@ export default function DialogInputOTP({ authenticationToken, setAuthenticationT
 
                 {loading && <Loading className={"mt-2"} />}
 
-                <ButtonResendOTP requestOTP={requestOTP} setError={setError} />
+                <ButtonResendOTP requestOTP={requestOTP} setError={setError} setOTP={setOTP} />
             </div>
         </Dialog>
     );
