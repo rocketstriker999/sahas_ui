@@ -7,6 +7,8 @@ import NoContent from "../../../common/NoContent";
 import { useAppContext } from "../../../../providers/ProviderAppContainer";
 import Loading from "../../../common/Loading";
 import DialogAddTransaction from "./DialogAddTransaction";
+import HasRequiredAuthority from "../../../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../../../constants";
 
 export default function TransactionsTabBody({ amount, id, setTotalTransactions }) {
     const [transactions, setTransactions] = useState();
@@ -54,18 +56,20 @@ export default function TransactionsTabBody({ amount, id, setTotalTransactions }
                 title="Enrollment Transactions"
                 highlights={[`Total - ${transactions?.length} Transactions`]}
                 actionItems={[
-                    <Tag
-                        key="transactions-tag"
-                        icon="pi pi-indian-rupee"
-                        value="Add Transcations"
-                        onClick={() =>
-                            setDialogAddTransaction((prev) => ({
-                                ...prev,
-                                visible: true,
-                                closeDialog: closeDialogAddTransaction,
-                            }))
-                        }
-                    ></Tag>,
+                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_OTHER_USERS}>
+                        <Tag
+                            key="transactions-tag"
+                            icon="pi pi-indian-rupee"
+                            value="Add Transcation"
+                            onClick={() =>
+                                setDialogAddTransaction((prev) => ({
+                                    ...prev,
+                                    visible: true,
+                                    closeDialog: closeDialogAddTransaction,
+                                }))
+                            }
+                        ></Tag>
+                    </HasRequiredAuthority>,
                 ]}
             />
 

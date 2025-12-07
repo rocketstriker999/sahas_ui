@@ -116,18 +116,21 @@ export default function ChaptersHead({
 
             {!!enrollment?.digital_access && (
                 <div className="flex align-items-center gap-2 px-2">
-                    <Button
-                        severity="warning"
-                        onClick={() => {
-                            setDialogEditQuizConfig((prev) => ({
-                                ...prev,
-                                visible: true,
-                                subject,
-                                setSubject,
-                            }));
-                        }}
-                        icon="pi pi-pencil"
-                    />
+                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+                        <Button
+                            severity="warning"
+                            onClick={() => {
+                                setDialogEditQuizConfig((prev) => ({
+                                    ...prev,
+                                    visible: true,
+                                    subject,
+                                    setSubject,
+                                }));
+                            }}
+                            icon="pi pi-pencil"
+                        />
+                    </HasRequiredAuthority>
+
                     <Button
                         disabled={!subject?.quiz_active}
                         className="flex-1"
@@ -136,6 +139,7 @@ export default function ChaptersHead({
                         iconPos="right"
                         icon="pi pi-question-circle"
                     />
+
                     <Button severity="warning" disabled={!chapters?.length} onClick={() => {}} icon="pi pi-history" />
                 </div>
             )}

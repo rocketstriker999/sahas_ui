@@ -5,6 +5,8 @@ import { useOutletContext } from "react-router-dom";
 import { useCallback, useState } from "react";
 import { useAppContext } from "../../../../providers/ProviderAppContainer";
 import ProgressiveControl from "../../../common/ProgressiveControl";
+import HasRequiredAuthority from "../../../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../../../constants";
 
 export default function Course({ id, setCourses, ...course }) {
     const { getCourseTitle } = useOutletContext();
@@ -37,10 +39,12 @@ export default function Course({ id, setCourses, ...course }) {
                 value={getCourseTitle(course?.course_id)}
             />
 
-            <ProgressiveControl
-                loading={deleting}
-                control={<Button className="w-2rem h-2rem" icon="pi pi-trash" rounded severity="danger" onClick={deleteEnrollmentCourse} />}
-            />
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_OTHER_USERS}>
+                <ProgressiveControl
+                    loading={deleting}
+                    control={<Button className="w-2rem h-2rem" icon="pi pi-trash" rounded severity="danger" onClick={deleteEnrollmentCourse} />}
+                />
+            </HasRequiredAuthority>
         </div>
     );
 }

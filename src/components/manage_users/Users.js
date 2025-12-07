@@ -8,6 +8,7 @@ import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
 import FiltersDrawer from "./users/FiltersDrawer";
 import { useSelector } from "react-redux";
 import UserCard from "./users/UserCard";
+import { AUTHORITIES } from "../../constants";
 
 export default function Users() {
     const { requestAPI } = useAppContext();
@@ -70,7 +71,7 @@ export default function Users() {
 
     return (
         <div className="flex flex-column h-full overflow-hidden">
-            <HasRequiredAuthority requiredAuthority="USE_FEATURE_USERS_SEARCH">
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_OTHER_USERS}>
                 <SearchBar
                     countAppliedFilters={countAppliedFilters}
                     disable={loading}

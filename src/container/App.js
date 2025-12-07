@@ -45,7 +45,7 @@ export default function App() {
                             <Route
                                 index
                                 element={
-                                    <HasRequiredAuthority showForBidden={true} requiredAuthority={AUTHORITIES.USE_PAGE_USERS}>
+                                    <HasRequiredAuthority showForBidden={true} requiredAuthority={AUTHORITIES.MANAGE_OTHER_USERS}>
                                         <Users />
                                     </HasRequiredAuthority>
                                 }
@@ -55,7 +55,7 @@ export default function App() {
                                 <Route
                                     path="inquiries"
                                     element={
-                                        <HasRequiredAuthority showForBidden={true} requiredAuthority={AUTHORITIES.MANAGE_USER_INQUIRIES}>
+                                        <HasRequiredAuthority showForBidden={true} requiredAuthority={AUTHORITIES.MANAGE_OTHER_USERS}>
                                             <Inquiries />
                                         </HasRequiredAuthority>
                                     }
@@ -67,7 +67,7 @@ export default function App() {
                                 <Route
                                     path="roles"
                                     element={
-                                        <HasRequiredAuthority showForBidden={true} requiredAuthority={AUTHORITIES.READ_USER_ROLES}>
+                                        <HasRequiredAuthority showForBidden={true} requiredAuthority={AUTHORITIES.MANAGE_OTHER_USERS}>
                                             <Roles />
                                         </HasRequiredAuthority>
                                     }
@@ -97,7 +97,7 @@ export default function App() {
                         <Route
                             path="/manage-roles"
                             element={
-                                <HasRequiredAuthority showForBidden={true} requiredAuthority="USE_CONTAINER_MANAGE_USERS">
+                                <HasRequiredAuthority showForBidden={true} requiredAuthority={AUTHORITIES.MANAGE_OTHER_USERS}>
                                     <ManageRoles />
                                 </HasRequiredAuthority>
                             }
@@ -106,7 +106,7 @@ export default function App() {
                         <Route
                             path="/manage-authorities"
                             element={
-                                <HasRequiredAuthority showForBidden={true} requiredAuthority="USE_CONTAINER_MANAGE_USERS">
+                                <HasRequiredAuthority showForBidden={true} requiredAuthority={AUTHORITIES.MANAGE_OTHER_USERS}>
                                     <ManageAuthorities />
                                 </HasRequiredAuthority>
                             }

@@ -71,7 +71,7 @@ export default function Basics() {
                 title="User's Basic Details & Profile"
                 highlights={[`Created At - ${getReadableDate({ date: basics?.created_on })}`, `Updated At - ${getReadableDate({ date: basics?.updated_at })}`]}
                 actionItems={[
-                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.WRITE_USERS_BASICS}>
+                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_OTHER_USERS}>
                         <InputSwitch
                             checked={Boolean(basics?.active)}
                             onChange={(e) => setBasics((prev) => ({ ...prev, active: e.value }))}
