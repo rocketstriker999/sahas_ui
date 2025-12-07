@@ -2,6 +2,9 @@ import { useCallback, useState } from "react";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import ProgressiveControl from "../common/ProgressiveControl";
 import { useNavigate, useOutletContext } from "react-router-dom";
+import IconButton from "../common/IconButton";
+import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../constants";
 import { SUB_TITLE_TEXT, TEXT_SIZE_SMALL, TEXT_SIZE_NORMAL, TITLE_TEXT, ICON_SIZE } from "../../style";
 
 export default function Category({ id, image, title, courses_count, updatingViewIndex }) {
@@ -12,7 +15,7 @@ export default function Category({ id, image, title, courses_count, updatingView
 
     const navigate = useNavigate();
 
-    const deleteProductCategory = useCallback(() => {
+    const deleteCategory = useCallback(() => {
         requestAPI({
             requestPath: `course-categories/${id}`,
             requestMethod: "DELETE",
@@ -30,28 +33,32 @@ export default function Category({ id, image, title, courses_count, updatingView
     }, [id, requestAPI, setCategories, showToast]);
 
     return (
-        <ProgressiveControl
-            loading={deleting}
-            control={
-                <div className="flex gap-2 align-items-center border-1 border-gray-300 border-round ">
-                    <img className="border-round-left" src={image} alt={title} />
-                    <div
-                        className="flex flex-column flex-1 gap-2"
-                        onClick={() => {
-                            if (!updatingViewIndex) navigate(`${id}/courses`);
-                        }}
-                    >
-                        <span className={`${TEXT_SIZE_SMALL} font-semibold`}>{title}</span>
-                        <div className="flex align-items-center gap-2 text-orange-800">
-                            <i className={`pi pi-book ${TEXT_SIZE_SMALL}`} ></i>
-                            <span className={`m-0 p-0  ${TEXT_SIZE_SMALL}`}>{`${courses_count} Courses`}</span>
-                        </div>
-                    </div>
-                    {!!updatingViewIndex && <i className={`pi pi-equals mr-3 ${ICON_SIZE}`}></i>}
-                    {!updatingViewIndex && <i className={`pi pi-trash mr-3 ${ICON_SIZE}`} onClick={deleteProductCategory}></i>}
-                    {!updatingViewIndex && <i className={`pi pi-arrow-circle-right mr-3 ${ICON_SIZE}`}></i>}
+        <div
+            onClick={() => {
+                if (!updatingViewIndex) navigate(`${id}/courses`);
+            }}
+            className="w-full flex gap-2 align-items-center border-1 border-gray-300 border-round pr-2"
+        >
+            <img className="border-round-left w-8rem h-4rem" src={image} alt={title} />
+            <div className="flex flex-column flex-1 gap-1">
+                <span className={`${TEXT_SIZE_SMALL} font-semibold word-break-all`}>{title}</span>
+                <div className="flex align-items-center gap-1 text-orange-800">
+                    <i className={`pi pi-book ${TEXT_SIZE_SMALL}`}></i>
+                    <span className={`m-0 p-0  ${TEXT_SIZE_SMALL}`}>{`${courses_count} Courses`}</span>
                 </div>
-            }
-        />
+            </div>
+            {!!updatingViewIndex && <IconButton icon={"pi-equals"} color={"text-indigo-800"} className={ICON_SIZE} />}
+            {!updatingViewIndex && (
+                <ProgressiveControl
+                    loading={deleting}
+                    control={
+                        <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+                            <IconButton icon={"pi-trash"} color={"text-red-500"} onClick={deleteCategory} className={ICON_SIZE} />
+                        </HasRequiredAuthority>
+                    }
+                />
+            )}
+            {!updatingViewIndex && <IconButton icon={"pi-arrow-circle-right"} className={ICON_SIZE} />}
+        </div>
     );
 }

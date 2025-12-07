@@ -11,6 +11,8 @@ import CoursesHead from "./CoursesHead";
 import CoursesTabBody from "./CoursesTabBody";
 import { Checkbox } from "primereact/checkbox";
 import { Button } from "primereact/button";
+import HasRequiredAuthority from "../../../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../../../constants";
 import { TEXT_SIZE_SMALL } from "../../../../style";
 
 export default function Enrollment({ index, setEnrollments, ...props }) {
@@ -45,42 +47,47 @@ export default function Enrollment({ index, setEnrollments, ...props }) {
             <div className="flex  align-items-center justify-content-between	px-4 py-3 border-bottom-1 border-300">
                 <Detail icon="pi pi-calendar" title="Start Date" value={getReadableDate({ date: props?.start_date, removeTime: true })} />
                 <Detail icon="pi pi-calendar" title="End Date" value={getReadableDate({ date: props?.end_date, removeTime: true })} />
-                <Button icon="pi pi-trash" className="h-2rem w-2rem" rounded severity="danger" aria-label="Delete" />
+                <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_OTHER_USERS}>
+                    <Button icon="pi pi-trash" className="h-2rem w-2rem" rounded severity="danger" aria-label="Delete" />
+                </HasRequiredAuthority>
             </div>
-            <div className="flex justify-content-center gap-4 px-4 py-3 border-bottom-1 border-300">
-                <div className="flex align-items-center gap-2">
-                    <ProgressiveControl
-                        loading={updating}
-                        control={
-                            <Checkbox
-                                inputId="on_site_access"
-                                onChange={({ checked }) => updateEnrollment({ on_site_access: checked })}
-                                checked={!!props?.on_site_access}
-                            />
-                        }
-                    />
 
-                    <span className={`${TEXT_SIZE_SMALL} font-semibold`} htmlFor="on_site_access">
-                        On Site Access
-                    </span>
-                </div>
-                <div className="flex align-items-center gap-2">
-                    <ProgressiveControl
-                        loading={updating}
-                        control={
-                            <Checkbox
-                                inputId="digital_access"
-                                onChange={({ checked }) => updateEnrollment({ digital_access: checked })}
-                                checked={!!props?.digital_access}
-                            />
-                        }
-                    />
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_OTHER_USERS}>
+                <div className="flex justify-content-center gap-4 px-4 py-3 border-bottom-1 border-300">
+                    <div className="flex align-items-center gap-2">
+                        <ProgressiveControl
+                            loading={updating}
+                            control={
+                                <Checkbox
+                                    inputId="on_site_access"
+                                    onChange={({ checked }) => updateEnrollment({ on_site_access: checked })}
+                                    checked={!!props?.on_site_access}
+                                />
+                            }
+                        />
 
-                    <span className={`${TEXT_SIZE_SMALL} font-semibold`} htmlFor="digital_access">
-                        Digital Access
-                    </span>
+                        <span className={`${TEXT_SIZE_SMALL} font-semibold`} htmlFor="on_site_access">
+                            On Site Access
+                        </span>
+                    </div>
+                    <div className="flex align-items-center gap-2">
+                        <ProgressiveControl
+                            loading={updating}
+                            control={
+                                <Checkbox
+                                    inputId="digital_access"
+                                    onChange={({ checked }) => updateEnrollment({ digital_access: checked })}
+                                    checked={!!props?.digital_access}
+                                />
+                            }
+                        />
+
+                        <span className={`${TEXT_SIZE_SMALL} font-semibold`} htmlFor="digital_access">
+                            Digital Access
+                        </span>
+                    </div>
                 </div>
-            </div>
+            </HasRequiredAuthority>
 
             <TabView>
                 <TabPanel
