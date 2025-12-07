@@ -94,7 +94,7 @@ export default function DialogAddTransaction({ setWalletTransActions, currentBal
                 <label htmlFor="note">Note</label>
             </FloatLabel>
 
-            <Button className="mt-3" label={"Apply"} severity="warning" loading={loading} onClick={addTransaction} />
+            <Button className="mt-3" label={"Apply"} disabled={!transaction?.operation} severity="warning" loading={loading} onClick={addTransaction} />
         </Dialog>
     );
 }
