@@ -44,9 +44,7 @@ export default function Chapter({ id, title, setChapters, type, updatingViewInde
             className={`flex gap-3 align-items-center border-1 border-gray-300 border-round py-2 px-3 overflow-hidden `}
         >
             <div className="flex flex-column flex-1 gap-2">
-                <span className={`text-sm font-semibold `}>
-                    {id}. {title}
-                </span>
+                <span className={`text-sm font-semibold `}>{title}</span>
                 <div className={`flex align-items-center gap-1 `}>
                     <i className="pi pi-book text-sm"></i>
                     <span className="m-0 p-0 text-xs">{`Last Updated At ${getReadableDate({ date: updated_at })}`}</span>

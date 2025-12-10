@@ -5,7 +5,7 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import IconButton from "../common/IconButton";
 import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../../constants";
-import { SUB_TITLE_TEXT, TEXT_SIZE_SMALL, TEXT_SIZE_NORMAL, TITLE_TEXT, ICON_SIZE } from "../../style";
+import { TEXT_SIZE_SMALL, ICON_SIZE } from "../../style";
 
 export default function Category({ id, image, title, courses_count, updatingViewIndex }) {
     const { requestAPI, showToast } = useAppContext();

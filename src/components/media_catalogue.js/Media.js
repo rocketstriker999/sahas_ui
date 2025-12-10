@@ -62,9 +62,7 @@ export default function Media({ id, title, setMediaCatalogue, type, external_url
     return (
         <div className={`flex gap-3 align-items-center border-1 border-gray-300 border-round py-2 px-3 overflow-hidden `}>
             <div onClick={() => navigate(`/media-player/${id}`)} className="flex flex-column flex-1 gap-2">
-                <span className={`text-sm font-semibold `}>
-                    {id}. {title}
-                </span>
+                <span className={`text-sm font-semibold `}>{title}</span>
                 <div className={`flex align-items-center gap-1 `}>
                     <i className={`${mediaTypeIcon} text-sm`}></i>
                     <span className="m-0 p-0 text-xs">{`Last Updated At ${getReadableDate({ date: updated_at })}`}</span>
