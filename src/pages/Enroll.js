@@ -56,7 +56,7 @@ export default function Enroll() {
     ) : paymentGateWayPayLoad ? (
         <div className="flex flex-column h-full ">
             <PageTitle title={`Enroll - ${paymentGateWayPayLoad?.course?.title}`} />
-            <img className="w-full" src={paymentGateWayPayLoad?.course?.image} alt={paymentGateWayPayLoad?.course?.image} />
+            <img className="w-full h-8rem" src={paymentGateWayPayLoad?.course?.image} alt={paymentGateWayPayLoad?.course?.image} />
 
             <div className="flex flex-column gap-2 p-4 border-1 border-gray-300 m-2 border-round">
                 <div className="flex align-items-center justify-content-between text-lg font-bold">
@@ -123,13 +123,11 @@ export default function Enroll() {
                     </span>
                 </div>
             </div>
-
             <div className="flex align-items-center gap-2  p-3 border-1 border-gray-300 m-2 border-round">
                 <i className="pi pi-calendar"></i>
                 <span className="flex-1">Validity</span>
                 <span className="font-bold">{getReadableDate({ date: paymentGateWayPayLoad?.course?.validity, removeTime: true })}</span>
             </div>
-
             {paymentGateWayPayLoad?.user?.wallet > 0 && (
                 <div className="flex align-items-center gap-2  p-3 border-1 border-gray-300 m-2 border-round">
                     <i className="pi pi-wallet"></i>
@@ -143,7 +141,6 @@ export default function Enroll() {
                     <Checkbox checked={payInputs?.useWalletBalance} onChange={(e) => setPayInputs((prev) => ({ ...prev, useWalletBalance: e.checked }))} />
                 </div>
             )}
-
             {!paymentGateWayPayLoad?.transaction?.couponCode && (
                 <div className="flex align-items-center gap-2 p-3 border-1 border-gray-300 m-2 border-round">
                     <i className="pi pi-ticket"></i>
@@ -171,7 +168,6 @@ export default function Enroll() {
                     </Inplace>
                 </div>
             )}
-
             <div className="flex flex-column align-items-center mt-2 gap-3">
                 <div className="flex align-items-center gap-2 mb-3 ">
                     <Checkbox id="terms" checked={termsAccepted} invalid={!termsAccepted} onChange={(e) => setTermsAccepted(e.checked)} />
