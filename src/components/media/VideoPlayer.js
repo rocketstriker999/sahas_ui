@@ -25,7 +25,7 @@ export default function VideoPlayer({ id, cdn_url }) {
                     playBackTimes[id] = videoRef.current.currentTime;
                     setPlayBackTimes(playBackTimes);
                 }}
-                onContextMenu={(e) => e.preventDefault()}
+                oncontextmenu="return false;"
             >
                 <source key={cdn_url} src={cdn_url} type="video/mp4"></source>
             </video>
