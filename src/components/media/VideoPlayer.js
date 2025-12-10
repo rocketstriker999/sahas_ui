@@ -20,6 +20,7 @@ export default function VideoPlayer({ id, cdn_url }) {
                 controls
                 autoPlay
                 controlsList="nodownload"
+                disablePictureInPicture
                 onTimeUpdate={() => {
                     playBackTimes[id] = videoRef.current.currentTime;
                     setPlayBackTimes(playBackTimes);
