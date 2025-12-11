@@ -74,7 +74,7 @@ export default function ChapterHead({ setLoading, setError, mediaCatalogue, setM
     return (
         <div className="flex align-items-center bg-gray-800 p-2 gap-2 justify-content-end">
             <BreadCrumb
-                pt={{ root: classNames("font-bold text-sm border-noround bg-transparent border-none flex-1"), label: classNames("text-white") }}
+                pt={{ root: classNames("font-bold text-xs border-noround bg-transparent border-none flex-1"), label: classNames("text-white") }}
                 model={items}
             />
             <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>

@@ -1,8 +1,6 @@
 import { useOutletContext, useParams } from "react-router-dom";
 import { useAppContext } from "../providers/ProviderAppContainer";
 import { useEffect, useMemo, useState } from "react";
-import Loading from "../components/common/Loading";
-import NoContent from "../components/common/NoContent";
 import { TabPanel, TabView } from "primereact/tabview";
 import { classNames } from "primereact/utils";
 import { useSelector } from "react-redux";
@@ -44,7 +42,7 @@ export default function MediaCatalogue() {
     );
 
     return (
-        <div className="flex flex-column h-full">
+        <div className="flex-1 overflow-hidden flex flex-column">
             <ChapterHead
                 {...{
                     chapterId,
@@ -59,34 +57,21 @@ export default function MediaCatalogue() {
 
             <TabView
                 pt={{
-                    panelcontainer: classNames("p-0"),
+                    root: classNames("overflow-hidden flex flex-column flex-1"),
+                    panelcontainer: classNames("p-0 flex-1 overflow-y-scroll"),
                 }}
             >
                 {mediaTabs.map((mediaTab) => (
                     <TabPanel key={mediaTab?.title} headerTemplate={(option) => <MediaType {...option} {...mediaTab} />}>
-                        <BlockUI
-                            pt={{
-                                root: classNames("mx-2"),
-                                mask: "bg-black-alpha-80 align-items-start p-4",
-                            }}
-                            blocked={false ? !enrollment?.digital_access : false}
-                            template={
-                                <div className="text-white flex flex-column align-items-center">
-                                    <i className="pi pi-lock" style={{ fontSize: "3rem" }}></i>
-                                    <p>You Don't Have Access To This Content</p>
-                                </div>
-                            }
-                        >
-                            <OrderManager
-                                error={error}
-                                loading={loading}
-                                updatingViewIndex={updatingViewIndex}
-                                items={mediaTab?.media}
-                                setItems={setMediaCatalogue}
-                                entity="Media"
-                                itemTemplate={(item) => <Media setMediaCatalogue={setMediaCatalogue} {...item} updatingViewIndex={updatingViewIndex} />}
-                            />
-                        </BlockUI>
+                        <OrderManager
+                            error={error}
+                            loading={loading}
+                            updatingViewIndex={updatingViewIndex}
+                            items={mediaTab?.media}
+                            setItems={setMediaCatalogue}
+                            entity="Media"
+                            itemTemplate={(item) => <Media setMediaCatalogue={setMediaCatalogue} {...item} updatingViewIndex={updatingViewIndex} />}
+                        />
                     </TabPanel>
                 ))}
             </TabView>
