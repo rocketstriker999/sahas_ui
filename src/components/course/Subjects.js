@@ -7,9 +7,9 @@ import SubjectsHead from "./SubjectsHead";
 import DialogEditSubject from "./DialogEditSubject";
 
 export default function Subjects() {
-    const { id, image, enrollment, ...props } = useOutletContext();
+    const { course } = useOutletContext();
 
-    const [subjects, setSubjects] = useState(props?.subjects);
+    const [subjects, setSubjects] = useState(course?.subjects);
 
     const [updatingViewIndex, setUpdatingViewIndex] = useState();
 
@@ -23,7 +23,7 @@ export default function Subjects() {
 
     return (
         <div className="flex-1 overflow-hidden flex flex-column">
-            <SubjectsHead {...{ courseId: id, subjects, setSubjects, updatingViewIndex, setUpdatingViewIndex }} />
+            <SubjectsHead {...{ course, subjects, setSubjects, updatingViewIndex, setUpdatingViewIndex }} />
             <OrderManager
                 updatingViewIndex={updatingViewIndex}
                 items={subjects}

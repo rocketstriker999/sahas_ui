@@ -10,21 +10,13 @@ import Chapter from "./Chapter";
 import { classNames } from "primereact/utils";
 import OrderManager from "../common/OrderManager";
 import ChaptersHead from "./ChaptersHead";
-import DialogEditQuizConfig from "./DialogEditQuizConfig";
 import DialogEditChapter from "./DialogEditChapter";
 
 export function Chapters() {
     const { subjectId } = useParams();
     const [loading, setLoading] = useState();
     const [error, setError] = useState();
-
-    const [dialogEditQuizConfig, setDialogEditQuizConfig] = useState({
-        visible: false,
-    });
-
-    const closeDialogEditQuizConfig = useCallback(() => {
-        setDialogEditQuizConfig((prev) => ({ ...prev, visible: false }));
-    }, []);
+    const { course } = useOutletContext();
 
     const [dialogEditChapter, setDialogEditChapter] = useState({
         visible: false,
@@ -38,8 +30,6 @@ export function Chapters() {
     const { requestAPI } = useAppContext();
     const { chapter_types = [] } = useSelector((state) => state.stateTemplateConfig?.global);
     const [chapters, setChapters] = useState();
-
-    const { enrollment } = useOutletContext();
 
     const chapterTabs = useMemo(
         () => chapter_types.map((chapterType) => ({ ...chapterType, chapters: chapters?.filter(({ type }) => type === chapterType.id) })),
@@ -64,17 +54,16 @@ export function Chapters() {
     }, [chapter_types, requestAPI, subjectId]);
 
     return (
-        <div className="flex-1 overflow-hidden flex flex-column gap-2">
+        <div className="flex-1 overflow-hidden flex flex-column ">
             <ChaptersHead
                 {...{
-                    enrollment,
+                    enrollment: course?.enrollment,
                     setLoading,
                     setError,
                     chapters,
                     setChapters,
                     updatingViewIndex,
                     setUpdatingViewIndex,
-                    setDialogEditQuizConfig,
                 }}
             />
 
@@ -91,7 +80,7 @@ export function Chapters() {
                                 pt={{
                                     mask: "bg-black-alpha-80 align-items-start p-4",
                                 }}
-                                blocked={!!chaptersTab?.requires_enrollment_digital_access ? !enrollment?.digital_access : false}
+                                blocked={!!chaptersTab?.requires_enrollment_digital_access ? !course?.enrollment?.digital_access : false}
                                 template={
                                     <div className="text-white flex flex-column align-items-center">
                                         <i className="pi pi-lock" style={{ fontSize: "3rem" }}></i>
@@ -122,7 +111,7 @@ export function Chapters() {
             ) : (
                 <NoContent />
             )}
-            {dialogEditQuizConfig?.visible && <DialogEditQuizConfig {...dialogEditQuizConfig} closeDialog={closeDialogEditQuizConfig} />}
+
             {dialogEditChapter?.visible && <DialogEditChapter {...dialogEditChapter} closeDialog={closeDialogEditChapter} />}
         </div>
     );

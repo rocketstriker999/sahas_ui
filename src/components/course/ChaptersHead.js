@@ -8,16 +8,7 @@ import { getViewIndex } from "../../utils";
 import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../../constants";
 
-export default function ChaptersHead({
-    enrollment,
-    setLoading,
-    setError,
-    chapters,
-    setChapters,
-    updatingViewIndex,
-    setUpdatingViewIndex,
-    setDialogEditQuizConfig,
-}) {
+export default function ChaptersHead({ setLoading, setError, chapters, setChapters, updatingViewIndex, setUpdatingViewIndex }) {
     const { requestAPI, showToast } = useAppContext();
     const { subjectId } = useParams();
     const [subject, setSubject] = useState();
@@ -113,36 +104,6 @@ export default function ChaptersHead({
                     </HasRequiredAuthority>,
                 ]}
             />
-
-            {!!enrollment?.digital_access && (
-                <div className="flex align-items-center gap-2 px-2">
-                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
-                        <Button
-                            severity="warning"
-                            onClick={() => {
-                                setDialogEditQuizConfig((prev) => ({
-                                    ...prev,
-                                    visible: true,
-                                    subject,
-                                    setSubject,
-                                }));
-                            }}
-                            icon="pi pi-pencil"
-                        />
-                    </HasRequiredAuthority>
-
-                    <Button
-                        disabled={!subject?.quiz_active}
-                        className="flex-1"
-                        onClick={() => {}}
-                        label="Launch Quiz "
-                        iconPos="right"
-                        icon="pi pi-question-circle"
-                    />
-
-                    <Button severity="warning" disabled={!chapters?.length} onClick={() => {}} icon="pi pi-history" />
-                </div>
-            )}
 
             {dialogAddChapter?.visible && <DialogAddChapter {...dialogAddChapter} />}
         </div>

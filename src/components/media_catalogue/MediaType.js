@@ -7,9 +7,8 @@ export function MediaType({ onClick, selected, media, title }) {
             style={{ cursor: "pointer" }}
             onClick={onClick}
         >
-            <Badge value={media?.length} />
+            {!!media && <Badge value={media?.length} />}
             <span className="font-bold white-space-nowrap">{title}</span>
-            <i className="pi pi-book"></i>
         </div>
     );
 }

@@ -1,14 +1,14 @@
-import { useOutletContext, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useAppContext } from "../providers/ProviderAppContainer";
 import { useEffect, useMemo, useState } from "react";
 import { TabPanel, TabView } from "primereact/tabview";
 import { classNames } from "primereact/utils";
 import { useSelector } from "react-redux";
-import { MediaType } from "../components/media_catalogue.js/MediaType";
-import { BlockUI } from "primereact/blockui";
-import ChapterHead from "../components/media_catalogue.js/ChapterHead";
+import { MediaType } from "../components/media_catalogue/MediaType";
+import ChapterHead from "../components/media_catalogue/ChapterHead";
 import OrderManager from "../components/common/OrderManager";
-import Media from "../components/media_catalogue.js/Media";
+import Media from "../components/media_catalogue/Media";
+import QuizHead from "../components/media_catalogue/QuizHead";
 
 export default function MediaCatalogue() {
     const { chapterId } = useParams();
@@ -17,7 +17,6 @@ export default function MediaCatalogue() {
     const [mediaCatalogue, setMediaCatalogue] = useState();
     const { requestAPI } = useAppContext();
     const [updatingViewIndex, setUpdatingViewIndex] = useState();
-    const { enrollment } = useOutletContext();
     const { media_types = [] } = useSelector((state) => state.stateTemplateConfig?.chapter);
 
     useEffect(() => {
@@ -74,6 +73,14 @@ export default function MediaCatalogue() {
                         />
                     </TabPanel>
                 ))}
+
+                <TabPanel key={"Quiz"} headerTemplate={(option) => <MediaType {...option} title="QUIZ" />}>
+                    <QuizHead />
+                    {/*  */}
+                    {/*  */}
+
+                    {/*  */}
+                </TabPanel>
             </TabView>
         </div>
     );

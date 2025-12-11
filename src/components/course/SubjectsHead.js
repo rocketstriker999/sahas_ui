@@ -1,25 +1,31 @@
 import { Button } from "primereact/button";
 import TabHeader from "../common/TabHeader";
-import { getViewIndex } from "../../utils";
+import { getReadableDate, getViewIndex } from "../../utils";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import { useCallback, useState } from "react";
 import DialogAssignSubjects from "./DialogAssignSubjects";
 import DialogAddSubject from "./DialogAddSubject";
 import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
-import { AUTHORITIES } from "../../constants";
+import { AUTHORITIES, RUPEE } from "../../constants";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-export default function SubjectsHead({ courseId, subjects, setSubjects, updatingViewIndex, setUpdatingViewIndex }) {
+export default function SubjectsHead({ course, subjects, setSubjects, updatingViewIndex, setUpdatingViewIndex }) {
     const { showToast, requestAPI } = useAppContext();
 
     const [loading, setLoading] = useState();
 
+    const loggedInUser = useSelector((state) => state.stateUser);
+
+    const navigate = useNavigate();
+
     const [dialogAddSubject, setDialogAddSubject] = useState({
-        courseId,
+        courseId: course?.id,
         visible: false,
     });
 
     const [dialogAssignSubjects, setDialogAssignSubjects] = useState({
-        courseId,
+        courseId: course?.id,
         visible: false,
     });
 
@@ -56,6 +62,7 @@ export default function SubjectsHead({ courseId, subjects, setSubjects, updating
 
     return (
         <div>
+            <img className="w-full h-8rem block" src={course?.image} alt={course?.title} />
             <TabHeader
                 className={"p-3 bg-gray-900 text-white"}
                 title="Subjects"
@@ -120,6 +127,51 @@ export default function SubjectsHead({ courseId, subjects, setSubjects, updating
                     </HasRequiredAuthority>,
                 ]}
             />
+
+            <div className="px-3 py-2 bg-blue-900 text-white flex gap-2 flex-column">
+                {!!(course?.enrollment?.on_site_access || course?.enrollment?.digital_access) && (
+                    <TabHeader
+                        title="Enrollment Details"
+                        highlights={[
+                            `Validity - ${getReadableDate({ date: course?.enrollment?.start_date, removeTime: true })} to ${getReadableDate({
+                                date: course?.enrollment?.end_date,
+                                removeTime: true,
+                            })}`,
+                            [
+                                !!course?.enrollment?.on_site_access ? "On-Site Access" : "No On-Site Access",
+                                !!course?.enrollment?.digital_access ? "Digital Access" : "No Digital Access",
+                            ].join(" & "),
+                        ]}
+                        actionItems={[
+                            <Button
+                                onClick={() => window.open(course?.whatsapp_group)}
+                                icon="pi pi-whatsapp"
+                                rounded
+                                severity="success"
+                                aria-label="Join Whatsapp Group"
+                            />,
+                            <Button
+                                onClick={() => navigate(`/manage-users/${loggedInUser?.id}/enrollments`)}
+                                icon="pi pi-receipt"
+                                rounded
+                                severity="info"
+                                aria-label="Invoices"
+                            />,
+                        ]}
+                    />
+                )}
+
+                {!course?.enrollment?.digital_access && (
+                    <Button
+                        icon="pi pi-angle-double-right"
+                        iconPos="right"
+                        className="w-full "
+                        severity="warning"
+                        label={`Enroll For Digital Access ${course?.fees} ${RUPEE}`}
+                        onClick={() => navigate(`/enroll/${course?.id}`)}
+                    />
+                )}
+            </div>
             {dialogAddSubject?.visible && <DialogAddSubject {...dialogAddSubject} />}
             {dialogAssignSubjects?.visible && <DialogAssignSubjects {...dialogAssignSubjects} />}
         </div>
