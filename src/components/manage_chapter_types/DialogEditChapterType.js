@@ -7,6 +7,7 @@ import TabHeader from "../common/TabHeader";
 import { InputText } from "primereact/inputtext";
 import { Checkbox } from "primereact/checkbox";
 import { InputSwitch } from "primereact/inputswitch";
+import CheckboxInput from "../common/CheckBoxInput";
 
 export default function DialogEditChapterType({ setChapterTypes, visible, closeDialog, ...props }) {
     const { requestAPI, showToast } = useAppContext();
@@ -51,17 +52,12 @@ export default function DialogEditChapterType({ setChapterTypes, visible, closeD
                 </FloatLabel>
             </div>
 
-            <div className="text-color-secondary flex align-items-center gap-2 mt-3 border-1 border-gray-300 py-3 px-2 border-round">
-                <label className="flex-1" htmlFor="requires_enrollment_digital_access">
-                    Requires Digital Enrollment Access
-                </label>
-                <Checkbox
-                    className="mr-2"
-                    inputId="requires_enrollment_digital_access"
-                    onChange={({ checked }) => setChapterType((prev) => ({ ...prev, requires_enrollment_digital_access: checked }))}
-                    checked={!!chapterType?.requires_enrollment_digital_access}
-                />
-            </div>
+            <CheckboxInput
+                className={"mt-3"}
+                label={"Requires Digital Enrollment Access"}
+                checked={!!chapterType?.requires_enrollment_digital_access}
+                onChange={(checked) => setChapterType((prev) => ({ ...prev, requires_enrollment_digital_access: checked }))}
+            />
 
             <Button className="mt-3" label="Edit Chapter Type" severity="warning" loading={loading} onClick={editChapterType} />
         </Dialog>

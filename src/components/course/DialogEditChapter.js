@@ -7,6 +7,7 @@ import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
 import { useSelector } from "react-redux";
+import CheckboxInput from "../common/CheckBoxInput";
 
 export default function DialogEditChapter({ visible, closeDialog, setChapters, ...props }) {
     const { requestAPI, showToast } = useAppContext();
@@ -59,6 +60,13 @@ export default function DialogEditChapter({ visible, closeDialog, setChapters, .
                 />
                 <label htmlFor="branch">Type</label>
             </FloatLabel>
+
+            <CheckboxInput
+                className={"mt-3"}
+                label={"Self Assesment"}
+                checked={!!chapter?.quiz_attainable}
+                onChange={(checked) => setChapter((prev) => ({ ...prev, quiz_attainable: checked }))}
+            />
 
             <Button className="mt-3" label="Edit Subject" severity="warning" loading={loading} onClick={editChapter} />
         </Dialog>

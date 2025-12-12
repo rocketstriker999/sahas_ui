@@ -6,6 +6,7 @@ import { FloatLabel } from "primereact/floatlabel";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { Checkbox } from "primereact/checkbox";
+import CheckboxInput from "../common/CheckBoxInput";
 
 export default function DialogEditCouponCode({ visible, setCouponCodes, closeDialog, ...props }) {
     const { requestAPI, showToast } = useAppContext();
@@ -46,17 +47,12 @@ export default function DialogEditCouponCode({ visible, setCouponCodes, closeDia
                 <label htmlFor="code">Code</label>
             </FloatLabel>
 
-            <div className="text-color-secondary flex align-items-center gap-2 mt-3 border-1 border-gray-300 py-3 px-2 border-round">
-                <label className="flex-1" htmlFor="requires_enrollment">
-                    Active
-                </label>
-                <Checkbox
-                    className="mr-2"
-                    inputId="requires_enrollment"
-                    onChange={({ checked }) => setCouponCode((prev) => ({ ...prev, active: checked }))}
-                    checked={!!couponCode?.active}
-                />
-            </div>
+            <CheckboxInput
+                className={"mt-3"}
+                label={"Active"}
+                checked={!!couponCode?.active}
+                onChange={(checked) => setCouponCode((prev) => ({ ...prev, active: checked }))}
+            />
 
             <Button className="mt-3" label="Edit Coupon Code" severity="warning" loading={loading} onClick={editCouponCode} />
         </Dialog>

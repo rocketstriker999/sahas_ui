@@ -7,6 +7,7 @@ import TabHeader from "../common/TabHeader";
 import { InputText } from "primereact/inputtext";
 import { Dropdown } from "primereact/dropdown";
 import { useSelector } from "react-redux";
+import CheckboxInput from "../common/CheckBoxInput";
 
 export default function DialogAddChapter({ visible, closeDialog, setChapters, subjectId, view_index }) {
     const { requestAPI, showToast } = useAppContext();
@@ -23,12 +24,12 @@ export default function DialogAddChapter({ visible, closeDialog, setChapters, su
             requestPostBody: { ...chapter, subject_id: subjectId, view_index },
             setLoading: setLoading,
             onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Chapter !", life: 2000 }),
-            onResponseReceieved: (chapter, responseCode) => {
-                if (chapter && responseCode === 201) {
+            onResponseReceieved: ({ error, ...addedChapter }, responseCode) => {
+                if (addedChapter && responseCode === 201) {
                     showToast({ severity: "success", summary: "Added", detail: "Chapter Added", life: 1000 });
-                    setChapters((prev) => [chapter, ...prev]);
+                    setChapters((prev) => [addedChapter, ...prev]);
                     closeDialog(); //close the dialog
-                } else showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Chapter !", life: 2000 });
+                } else showToast({ severity: "error", summary: "Failed", detail: error || "Failed To Add Chapter !", life: 2000 });
             },
         });
     }, [chapter, closeDialog, requestAPI, setChapters, showToast, subjectId, view_index]);
@@ -59,6 +60,13 @@ export default function DialogAddChapter({ visible, closeDialog, setChapters, su
                 />
                 <label htmlFor="branch">Type</label>
             </FloatLabel>
+
+            <CheckboxInput
+                className={"mt-3"}
+                label={"Self Assesment"}
+                checked={!!chapter?.quiz_attainable}
+                onChange={(checked) => setChapter((prev) => ({ ...prev, quiz_attainable: checked }))}
+            />
 
             <Button className="mt-3" label="Add Subject" severity="warning" loading={loading} onClick={addSubject} />
         </Dialog>

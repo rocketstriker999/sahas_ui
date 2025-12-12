@@ -73,14 +73,6 @@ export default function MediaCatalogue() {
                         />
                     </TabPanel>
                 ))}
-
-                <TabPanel key={"Quiz"} headerTemplate={(option) => <MediaType {...option} title="QUIZ" />}>
-                    <QuizHead />
-                    {/*  */}
-                    {/*  */}
-
-                    {/*  */}
-                </TabPanel>
             </TabView>
         </div>
     );

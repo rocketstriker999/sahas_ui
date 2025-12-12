@@ -34,8 +34,8 @@ export default function QuizHead() {
                     />
                 </HasRequiredAuthority>
 
-                <Button disabled={true} className="flex-1" onClick={() => {}} label="Launch Quiz" iconPos="right" icon="pi pi-question-circle" />
-                <Button severity="warning" disabled={true} onClick={() => {}} icon="pi pi-history" />
+                <Button className="flex-1" onClick={() => {}} label="Self Assesment" iconPos="right" icon="pi pi-question-circle" />
+                <Button severity="warning" onClick={() => {}} icon="pi pi-history" />
 
                 {dialogEditQuizConfig?.visible && <DialogEditQuizConfig {...dialogEditQuizConfig} closeDialog={closeDialogEditQuizConfig} />}
             </div>
