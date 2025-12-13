@@ -19,7 +19,10 @@ export default function PlaceHolder({ label, type, setCDNUrl, setPreview, disabl
                     requestPath: `bucketise/${type}s`,
                     file,
                     onRequestEnd: false,
-                    onRequestFailure: (error) => showToast({ severity: "error", summary: "Failed", detail: error, life: 2000 }),
+                    onRequestFailure: (error) => {
+                        showToast({ severity: "error", summary: "Failed", detail: error, life: 2000 });
+                        setUploadProgress(false);
+                    },
                     onRequestStart: setUploadProgress,
                     parseResponseBody: true,
                     onProgress: setUploadProgress,
@@ -31,8 +34,6 @@ export default function PlaceHolder({ label, type, setCDNUrl, setPreview, disabl
                         } else showToast({ severity: "error", summary: "Failed", detail: "Failed To Upload File !", life: 2000 });
                     },
                 });
-            } else {
-                showToast({ severity: "error", summary: "Failed", detail: "Failed To Pick File !", life: 2000 });
             }
         },
         [setCDNUrl, setPreview, showToast, type]

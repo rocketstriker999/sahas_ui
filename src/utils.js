@@ -102,14 +102,18 @@ export function getViewIndex(items) {
 
 export function getFileAcceptType(type) {
     if (type === "video") {
-        return "video/*";
+        return ".mp4, .mkv";
     }
 
     if (type === "pdf") {
-        return "application/pdf";
+        return ".pdf"; // PDFs only
     }
 
-    return "image/*";
+    if (type === "sheet") {
+        return ".csv"; // CSVs only
+    }
+
+    return ".png"; // PNG only
 }
 
 //resource getter

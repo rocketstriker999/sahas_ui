@@ -8,6 +8,9 @@ import { InputText } from "primereact/inputtext";
 import { Dropdown } from "primereact/dropdown";
 import { useSelector } from "react-redux";
 import CheckboxInput from "../common/CheckBoxInput";
+import { InputNumber } from "primereact/inputnumber";
+import FileInput from "../common/FileInput";
+import { TEXT_SIZE_NORMAL } from "../../style";
 
 export default function DialogAddChapter({ visible, closeDialog, setChapters, subjectId, view_index }) {
     const { requestAPI, showToast } = useAppContext();
@@ -33,6 +36,8 @@ export default function DialogAddChapter({ visible, closeDialog, setChapters, su
             },
         });
     }, [chapter, closeDialog, requestAPI, setChapters, showToast, subjectId, view_index]);
+
+    console.log(chapter);
 
     return (
         <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Add New Chapter`} visible={visible} className="w-11" onHide={closeDialog}>
@@ -67,6 +72,45 @@ export default function DialogAddChapter({ visible, closeDialog, setChapters, su
                 checked={!!chapter?.quiz_attainable}
                 onChange={(checked) => setChapter((prev) => ({ ...prev, quiz_attainable: checked }))}
             />
+
+            {!!chapter?.quiz_attainable && (
+                <FloatLabel className="mt-5">
+                    <InputNumber
+                        value={chapter?.quiz_time}
+                        id="quiz_time"
+                        className="w-full"
+                        suffix=" minutes"
+                        onChange={(e) => setChapter((prev) => ({ ...prev, quiz_time: e.value }))}
+                    />
+                    <label htmlFor="quiz_time">Quiz Time</label>
+                </FloatLabel>
+            )}
+
+            {!!chapter?.quiz_attainable && (
+                <FloatLabel className="mt-5">
+                    <InputNumber
+                        value={chapter?.quiz_questions}
+                        id="quiz_questions"
+                        className="w-full"
+                        onChange={(e) => setChapter((prev) => ({ ...prev, quiz_questions: e.value }))}
+                    />
+                    <label htmlFor="quiz_questions">Quiz Questions</label>
+                </FloatLabel>
+            )}
+
+            {!!chapter?.quiz_attainable && (
+                <FileInput
+                    className={"mt-3"}
+                    label="Questions Sheet"
+                    type="sheet"
+                    cdn_url={chapter?.quiz_pool}
+                    setCDNUrl={(cdn_url) => setChapter((prev) => ({ ...prev, quiz_pool: cdn_url }))}
+                    disabled={loading}
+                    pt={{
+                        root: { className: TEXT_SIZE_NORMAL },
+                    }}
+                />
+            )}
 
             <Button className="mt-3" label="Add Subject" severity="warning" loading={loading} onClick={addSubject} />
         </Dialog>

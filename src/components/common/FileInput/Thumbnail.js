@@ -1,6 +1,6 @@
 export default function Thumbnail({ type, preview }) {
     if (type === "video") {
-        return <video src={preview} alt="success" className="w-full " autoPlay />;
+        return <video src={preview} alt="success" className="w-full max-h-6rem" autoPlay />;
     }
 
     if (type === "image") {
@@ -8,6 +8,10 @@ export default function Thumbnail({ type, preview }) {
     }
 
     if (type === "pdf") {
-        return <embed src={preview} className="w-full " />;
+        return <embed src={preview} className="w-full max-h-6rem" />;
+    }
+
+    if (type === "sheet") {
+        return <iframe title="preview" src={preview} className="w-full max-h-6rem" />;
     }
 }
