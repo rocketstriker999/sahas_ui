@@ -32,6 +32,7 @@ import MediaCatalogue from "../pages/MediaCatalogue";
 import Media from "../pages/Media";
 import { AUTHORITIES } from "../constants";
 import HasMandatoryDetails from "../components/dependencies/HasMandatoryDetails";
+import MyCourses from "../pages/MyCourses";
 
 export default function App() {
     return (
@@ -84,6 +85,8 @@ export default function App() {
                             <Route path="subjects/:subjectId/chapters" element={<Chapters />} />
                             <Route path="subjects/:subjectId/chapters/:chapterId/media" element={<MediaCatalogue />} />
                         </Route>
+
+                        <Route path="/my-courses" element={<MyCourses />}></Route>
 
                         <Route path="/media-player/:mediaId" element={<Media />}></Route>
 
