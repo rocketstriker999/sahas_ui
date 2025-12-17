@@ -33,6 +33,8 @@ import Media from "../pages/Media";
 import { AUTHORITIES } from "../constants";
 import HasMandatoryDetails from "../components/dependencies/HasMandatoryDetails";
 import MyCourses from "../pages/MyCourses";
+import Financials from "../pages/Revenue";
+import Revenue from "../pages/Revenue";
 
 export default function App() {
     return (
@@ -116,6 +118,8 @@ export default function App() {
                         />
 
                         <Route path="/enroll/:courseId" element={<Enroll />} />
+
+                        <Route path="/revenue" element={<Revenue />} />
 
                         <Route path="/payment-gateway-payloads/:paymentGatewayPayloadId" element={<PaymentGatewayPayLoad />} />
 

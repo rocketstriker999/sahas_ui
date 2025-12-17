@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { SUB_TITLE_TEXT,TEXT_SIZE_SMALL,TEXT_SIZE_NORMAL, TITLE_TEXT, ICON_SIZE } from "../../style";
+import { SUB_TITLE_TEXT, TEXT_SIZE_SMALL, TEXT_SIZE_NORMAL, TITLE_TEXT, ICON_SIZE } from "../../style";
 import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../../constants";
 
@@ -97,6 +97,12 @@ export default function Operations({ className }) {
                         required_authority: "USE_PAGE_FINANCIALS",
                         path: "/financials",
                     },
+                    {
+                        title: "Revenue",
+                        icon: "pi-money-bill",
+                        required_authority: "USE_PAGE_FINANCIALS",
+                        path: "/revenue",
+                    },
 
                     {
                         title: "Analytics",
@@ -170,7 +176,7 @@ export default function Operations({ className }) {
                             >
                                 {/* <i className={`pi ${operation?.icon} border-circle bg-gray-800	p-3 text-white`} style={{ fontSize: "1.25rem" }}></i> */}
                                 <i className={`pi ${operation?.icon} border-circle bg-gray-800 p-3 text-white ${ICON_SIZE}`}></i>
-                                        <p className={`p-0 m-0 text-center ${TEXT_SIZE_SMALL}`}>{operation?.title}</p>
+                                <p className={`p-0 m-0 text-center ${TEXT_SIZE_SMALL}`}>{operation?.title}</p>
                             </div>
                         ))}
                     </div>
