@@ -33,7 +33,6 @@ import Media from "../pages/Media";
 import { AUTHORITIES } from "../constants";
 import HasMandatoryDetails from "../components/dependencies/HasMandatoryDetails";
 import MyCourses from "../pages/MyCourses";
-import Financials from "../pages/Revenue";
 import Revenue from "../pages/Revenue";
 
 export default function App() {

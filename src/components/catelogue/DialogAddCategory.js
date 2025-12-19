@@ -7,7 +7,7 @@ import TabHeader from "../common/TabHeader";
 import { InputText } from "primereact/inputtext";
 import FileInput from "../common/FileInput";
 import { useOutletContext } from "react-router-dom";
-import { SUB_TITLE_TEXT, TEXT_SIZE_SMALL, TEXT_SIZE_NORMAL, TITLE_TEXT } from "../../style";
+import { TEXT_SIZE_NORMAL, TITLE_TEXT } from "../../style";
 
 export default function DialogAddCategory({ visible, view_index, closeDialog }) {
     const { requestAPI, showToast } = useAppContext();
@@ -35,11 +35,16 @@ export default function DialogAddCategory({ visible, view_index, closeDialog }) 
     }, [category, closeDialog, requestAPI, setCategories, showToast, view_index]);
 
     return (
-        <Dialog header={`Add New Category`} visible={visible} className="w-11" onHide={closeDialog}
+        <Dialog
+            header={`Add New Category`}
+            visible={visible}
+            className="w-11"
+            onHide={closeDialog}
             pt={{
                 headertitle: { className: TITLE_TEXT },
-                content: { className: "overflow-visible" }
-            }}>
+                content: { className: "overflow-visible" },
+            }}
+        >
             <TabHeader
                 className="pt-3"
                 title="Add New Category"
@@ -57,7 +62,9 @@ export default function DialogAddCategory({ visible, view_index, closeDialog }) 
                         root: { className: TEXT_SIZE_NORMAL },
                     }}
                 />
-                <label htmlFor="title" className={`${TEXT_SIZE_NORMAL}`}>Title</label>
+                <label htmlFor="title" className={`${TEXT_SIZE_NORMAL}`}>
+                    Title
+                </label>
             </FloatLabel>
 
             <FileInput
@@ -72,10 +79,16 @@ export default function DialogAddCategory({ visible, view_index, closeDialog }) 
                 }}
             />
 
-            <Button className="mt-3" label="Add Category" severity="warning" loading={loading} onClick={addProductCategory}
+            <Button
+                className="mt-3"
+                label="Add Category"
+                severity="warning"
+                loading={loading}
+                onClick={addProductCategory}
                 pt={{
                     label: { className: TEXT_SIZE_NORMAL },
-                }} />
+                }}
+            />
         </Dialog>
     );
 }

@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { RUPEE } from "../../constants";
 import { getReadableDate } from "../../utils";
 
-export default function Transaction({ id, user_id, full_name, amount, product, created_on }) {
+export default function Transaction({ id, user_id, full_name, amount, courses, created_on }) {
     const navigate = useNavigate();
 
     return (
@@ -16,7 +16,9 @@ export default function Transaction({ id, user_id, full_name, amount, product, c
                 <span>
                     {id}. {full_name}
                 </span>
-                <span className="text-xs text-color-secondary">{product}</span>
+                {courses?.map(({ title }) => (
+                    <span className="text-xs text-color-secondary">{title}</span>
+                ))}
             </div>
 
             <div className="flex flex-column gap-2 align-items-end">
