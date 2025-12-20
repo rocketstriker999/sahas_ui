@@ -1,21 +1,23 @@
 import { useNavigate } from "react-router-dom";
 import { RUPEE } from "../../constants";
 import { getReadableDate } from "../../utils";
+import { Tag } from "primereact/tag";
 
-export default function Transaction({ id, user_id, full_name, amount, courses, created_on }) {
+export default function Transaction({ id, user_id, full_name, amount, courses, created_on, handler }) {
     const navigate = useNavigate();
 
     return (
         <div
-            className="border-1 border-gray-300  px-3 py-2 border-round flex align-items-center gap-2"
+            className="border-1 border-gray-300  px-3 py-2 border-round flex align-items-center gap-2  "
             onClick={() => {
                 navigate(`/manage-users/${user_id}/enrollments`);
             }}
         >
-            <div className="flex flex-column gap-1 flex-1">
+            <div className="flex flex-column align-items-start gap-1 flex-1">
                 <span>
                     {id}. {full_name}
                 </span>
+                {handler && <Tag value={handler}></Tag>}
                 {courses?.map(({ title }) => (
                     <span className="text-xs text-color-secondary">{title}</span>
                 ))}

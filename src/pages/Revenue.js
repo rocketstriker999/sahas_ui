@@ -7,7 +7,7 @@ import moment from "moment";
 export default function Revenue() {
     const [dates, setDates] = useState([
         moment().subtract(180, "days").toDate(), // Start date (180 days ago)
-        moment().toDate(), // End date (Today)
+        moment().endOf("day").toDate(), // End date (Today)
     ]);
 
     console.log(dates);
