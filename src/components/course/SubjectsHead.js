@@ -167,7 +167,7 @@ export default function SubjectsHead({ course, subjects, setSubjects, updatingVi
                         iconPos="right"
                         className="w-full "
                         severity="warning"
-                        label={`Enroll For Digital Access ${course?.fees} ${RUPEE}`}
+                        label={`Purchase Course ${course?.fees} ${RUPEE}`}
                         onClick={() => navigate(`/enroll/${course?.id}`)}
                     />
                 )}

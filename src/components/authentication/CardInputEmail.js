@@ -14,10 +14,12 @@ export default function CardInputEmail({ email, setEmail, requestOTP }) {
 
     return (
         <div className="flex flex-column align-items-center w-full">
-            <img className="w-full" src="/images/banner.jpg" alt="banner" />
-            <Card title={APP_NAME} className="w-10 mx-3 mt-4"
+            <img className="w-full lg:max-h-28rem" src="/images/banner.jpg" alt="banner" />
+            <Card
+                title={APP_NAME}
+                className="w-10 mx-3 mt-4"
                 pt={{
-                    title: { className: classNames  (TITLE_TEXT, "text-center") }
+                    title: { className: classNames(TITLE_TEXT, "text-center") },
                 }}
             >
                 <div className="flex flex-column align-items-center text-center w-full">
@@ -51,7 +53,7 @@ export default function CardInputEmail({ email, setEmail, requestOTP }) {
                         loading={loading}
                         pt={{
                             label: { className: TEXT_SIZE_NORMAL },
-                            icon: { className: TEXT_SIZE_NORMAL }
+                            icon: { className: TEXT_SIZE_NORMAL },
                         }}
                     />
                 </div>
