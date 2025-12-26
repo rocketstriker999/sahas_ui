@@ -6,7 +6,6 @@ import ProfileCard from "../components/dashboard/ProfileCard";
 import { removeCurrentUser } from "../redux/sliceUser";
 import { KEY_AUTHENTICATION_TOKEN } from "../constants";
 import CarouselImages from "../components/dashboard/CarouselImages";
-import { classNames } from "primereact/utils";
 import { TEXT_SIZE_SMALL, TITLE_TEXT } from "../style";
 
 export default function Dashboard() {
