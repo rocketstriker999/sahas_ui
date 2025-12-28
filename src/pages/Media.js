@@ -24,11 +24,11 @@ export default function Media() {
                 requestMethod: "GET",
                 setLoading: setLoading,
                 onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Load Media !", life: 2000 }),
-                onResponseReceieved: (media, responseCode) => {
+                onResponseReceieved: ({ error, ...media }, responseCode) => {
                     if (media && responseCode === 200) {
                         setMedia(media);
                     } else {
-                        showToast({ severity: "error", summary: "Failed", detail: "Failed To Load Media !", life: 2000 });
+                        showToast({ severity: "error", summary: "Failed", detail: error || "Failed To Load Media !", life: 2000 });
                     }
                 },
             });
