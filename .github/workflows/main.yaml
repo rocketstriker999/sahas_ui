@@ -5,14 +5,15 @@ on:
         branches:
             - main
 
-env:
-    DEPLOYMENT_DIRECTORY: "/var/www/sites/prod.sahasinstitute.com/"
-    REPO: "sahas_ui"
-    BRANCH: "main"
-
 jobs:
     deploy:
         runs-on: ubuntu-latest
+
+        env:
+            DEPLOYMENT_DIRECTORY: "/var/www/sites/prod.sahasinstitute.com/"
+            REPO: "sahas_ui"
+            BRANCH: "main"
+
         steps:
             - name: Preparing SSH
               run: sudo apt-get install -y sshpass
@@ -30,9 +31,10 @@ jobs:
                         echo "Terminating ${{ env.REPO }} - pid $pid"
                         kill -9 $pid
                       fi
+                      echo "Fetching Changes..."
                       git stash
-                      git checkout "${{env.BRANCH}}"
                       git fetch origin "${{env.BRANCH}}"
+                      git checkout "${{env.BRANCH}}"
                       git pull origin "${{env.BRANCH}}" --rebase
                     else
                       echo "Fetching Source - ${{ env.REPO }}"
@@ -42,9 +44,11 @@ jobs:
 
                     echo "Installing dependencies..."
                     npm install
+                    echo "Removing Previous Build..."
                     rm -rf build
                     npm run build
-                    serve -s build -l 3000 > /dev/null 2>&1 &
+                    echo "Starting app..."
+                    serve -s build -l 4000 > /dev/null 2>&1 &
                     new_pid=$!
                     echo "Starting ${{ env.REPO }} - pid $new_pid"
                     echo $new_pid > process.id
