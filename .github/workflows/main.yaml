@@ -12,7 +12,7 @@ jobs:
         env:
             DEPLOYMENT_DIRECTORY: "/var/www/sites/prod.sahasinstitute.com/"
             REPO: "sahas_ui"
-            BRANCH: "main"
+            BRANCH: ${{ github.ref_name }}
 
         steps:
             - name: Preparing SSH
