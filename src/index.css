@@ -8,3 +8,15 @@ body{
     word-break: break-word;
     overflow-wrap: break-word;
 }
+
+video {
+    /* Disables the popup menu on iOS/Android */
+    -webkit-touch-callout: none;
+
+    /* Prevents text/element selection highlighting */
+    -webkit-user-select: none;
+    user-select: none;
+
+    /* Removes the tap highlight color on mobile */
+    -webkit-tap-highlight-color: transparent;
+}
