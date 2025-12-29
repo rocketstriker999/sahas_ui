@@ -21,7 +21,7 @@ export default function Dashboard() {
         <div className="flex flex-column h-full overflow-hidden">
             <div className="bg-blue-800 shadow-3 text-white flex align-items-center justify-content-between p-2">
                 <div className="w-8">
-                    <p className={`${TITLE_TEXT} m-0 font-semibold`}>Sahas Smart Studies</p>
+                    <p className={`${TITLE_TEXT} m-0 font-semibold`}>Welcome To Sahas Smart Studies</p>
                     {isDevelopmentBuild && (
                         <div className={`${TEXT_SIZE_SMALL} mt-1 bg-blue-800 text-white white-space-nowrap text-overflow-ellipsis overflow-hidden`}>
                             Device ID - {deviceFingerPrint}
