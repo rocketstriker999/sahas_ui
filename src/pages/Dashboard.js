@@ -29,19 +29,9 @@ export default function Dashboard() {
                     )}
                 </div>
 
-                <div className="flex justify-content-end align-items-center gap-4">
-                    <i className="pi pi-bell p-overlay-badge " style={{ fontSize: "1.5rem" }}>
-                        <Badge value="2" severity="warning"></Badge>
-                    </i>
-                    <i
-                        className="pi pi-power-off"
-                        style={{ fontSize: "1.5rem" }}
-                        onClick={() => {
-                            localStorage.removeItem(KEY_AUTHENTICATION_TOKEN);
-                            dispatch(removeCurrentUser());
-                        }}
-                    ></i>
-                </div>
+                <i className="pi pi-bell p-overlay-badge mr-2" style={{ fontSize: "1.5rem" }}>
+                    <Badge value="2" severity="warning"></Badge>
+                </i>
             </div>
             <span className="bg-red-500 text-white text-xs font-semibold p-1 fadein animation-duration-3000 animation-iteration-infinite">
                 Your Course Access Will Be Activated in 24 Hours
