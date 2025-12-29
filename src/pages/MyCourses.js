@@ -37,7 +37,7 @@ export default function MyCourses() {
     }, [loggedInUser?.id, requestAPI]);
 
     return (
-        <div className="flex-1 overflow-hidden flex flex-column">
+        <div className="flex-1 overflow-hidden flex flex-column  h-full">
             <PageTitle title={`My Enrolled Courses`} />
 
             <OrderManager

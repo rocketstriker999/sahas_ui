@@ -5,7 +5,6 @@ import TabHeader from "../../common/TabHeader";
 import { Divider } from "primereact/divider";
 import Loading from "../../common/Loading";
 import NoContent from "../../common/NoContent";
-import { Accordion } from "primereact/accordion";
 
 export default function Devices() {
     const { userId } = useOutletContext();
