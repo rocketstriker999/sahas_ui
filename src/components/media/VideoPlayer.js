@@ -19,13 +19,14 @@ export default function VideoPlayer({ id, cdn_url }) {
                 ref={videoRef}
                 controls
                 autoPlay
+                playsInline
                 controlsList="nodownload"
                 disablePictureInPicture
                 onTimeUpdate={() => {
                     playBackTimes[id] = videoRef.current.currentTime;
                     setPlayBackTimes(playBackTimes);
                 }}
-                oncontextmenu="return false;"
+                onContextMenu={(e) => e.preventDefault()}
             >
                 <source key={cdn_url} src={cdn_url} type="video/mp4"></source>
             </video>
