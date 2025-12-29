@@ -2,11 +2,19 @@ import { useCallback, useState } from "react";
 import PageTitle from "../components/common/PageTitle";
 import { Outlet, useNavigate } from "react-router-dom";
 import DialogAddUser from "../components/manage_users/DialogAddUser";
-import { AUTHORITIES } from "../constants";
+import { AUTHORITIES, KEY_AUTHENTICATION_TOKEN } from "../constants";
 import HasRequiredAuthority from "../components/dependencies/HasRequiredAuthority";
+import { useAppContext } from "../providers/ProviderAppContainer";
+import { useDispatch } from "react-redux";
+import { removeCurrentUser } from "../redux/sliceUser";
 
 export default function ManageUsers() {
+    const disaptch = useDispatch();
+
     const navigate = useNavigate();
+
+    const { setApplicationLoading } = useAppContext();
+
     const [dialogAddUser, setDialogAddUser] = useState({
         visible: false,
     });
@@ -28,7 +36,16 @@ export default function ManageUsers() {
                             ></span>
                         </HasRequiredAuthority>
 
-                        <i className="pi pi-power-off" onClick={() => navigate("/logout")}></i>
+                        <i
+                            className="pi pi-power-off"
+                            onClick={() => {
+                                setApplicationLoading({ message: "Logging out..." });
+                                localStorage.removeItem(KEY_AUTHENTICATION_TOKEN);
+                                disaptch(removeCurrentUser());
+                                navigate("/");
+                                setApplicationLoading(false);
+                            }}
+                        ></i>
                     </div>
                 }
             />

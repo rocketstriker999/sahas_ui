@@ -2,7 +2,6 @@ import { Route, Routes } from "react-router-dom";
 import Dashboard from "../pages/Dashboard";
 import RequiresTemplateConfiguration from "../components/dependencies/RequiresTemplateConfiguration";
 import HasRequiredAuthority from "../components/dependencies/HasRequiredAuthority";
-import Logout from "../pages/Logout";
 import HasAuthentication from "../components/dependencies/HasAuthentication";
 import NotFound from "../pages/NotFound";
 import Users from "../components/manage_users/Users";
@@ -123,7 +122,6 @@ export default function App() {
 
                         <Route path="/payment-gateway-payloads/:paymentGatewayPayloadId" element={<PaymentGatewayPayLoad />} />
 
-                        <Route path="/logout" element={<Logout />} />
                         <Route path="*" element={<NotFound />} />
                     </Routes>
                 </HasMandatoryDetails>
