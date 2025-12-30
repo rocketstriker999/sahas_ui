@@ -59,7 +59,14 @@ export default function AskPhone({ id }) {
                 <span className="p-inputgroup-addon">
                     <i className="pi pi-user"></i>
                 </span>
-                <InputNumber useGrouping={false} value={phone || ""} id="phone" className="w-full" placeholder="Phone" onChange={(e) => setPhone(e.value)} />
+                <InputNumber
+                    useGrouping={false}
+                    value={!!phone ? phone : ""}
+                    id="phone"
+                    className="w-full"
+                    placeholder="Phone"
+                    onChange={(e) => setPhone(e.value)}
+                />
             </div>
 
             <Button loading={loading} className="mt-3" label="Save" icon="pi pi-check" severity="warning" onClick={updatePhone} />
