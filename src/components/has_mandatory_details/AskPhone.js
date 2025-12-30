@@ -55,13 +55,16 @@ export default function AskPhone({ id }) {
 
             <Divider />
 
+            <p>{phone}</p>
+
             <div className="p-inputgroup ">
                 <span className="p-inputgroup-addon">
-                    <i className="pi pi-user"></i>
+                    <i className="pi pi-phone"></i>
                 </span>
                 <InputNumber
+                    autoFocus
                     useGrouping={false}
-                    value={!!phone ? phone : ""}
+                    value={!!phone ? phone : null}
                     id="phone"
                     className="w-full"
                     placeholder="Phone"

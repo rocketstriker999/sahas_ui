@@ -31,6 +31,7 @@ export default function CardInputEmail({ email, setEmail, requestOTP }) {
                             <i className="pi pi-envelope"></i>
                         </span>
                         <InputText
+                            autoFocus
                             placeholder="Enter Your Email"
                             disabled={loading}
                             value={email || ""}
