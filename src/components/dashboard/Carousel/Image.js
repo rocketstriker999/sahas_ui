@@ -35,7 +35,7 @@ export default function Image({ id, click_link, source }) {
                     if (click_link) window.open(click_link, "_blank");
                 }}
                 width="100%"
-                className="border-round-lg shadow-2 block h-12rem "
+                className="border-round-lg shadow-2 block h-14rem "
                 src={source}
                 alt={source}
             />

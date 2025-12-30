@@ -163,7 +163,7 @@ export default function Operations({ className }) {
 
             return acc;
         }, []);
-    }, [authorities]);
+    }, [authorities, id]);
 
     return (
         <div className={className}>
