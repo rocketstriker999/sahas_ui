@@ -25,24 +25,21 @@ export async function generateDeviceFingerprint() {
     const osVersion = device.os?.version || "";
     const browser = device.client?.name || "Unknown Browser";
     const browserVersion = device.client?.version || "";
-    const screenRes = `${global.screen.width}x${global.screen.height}`;
+    const screenRes = `${window.screen.width * window.devicePixelRatio}x${window.screen.height * window.devicePixelRatio}`;
 
     const webglInfo = getWebGLFingerprint();
-    const canvasFingerprint = getCanvasFingerprint();
 
     const hardwareFingerPrint = await sha256(
         [
             navigator.language,
-            global.screen.width,
-            global.screen.height,
+            window.screen.width * window.devicePixelRatio,
+            window.screen.height * window.devicePixelRatio,
             global.screen.colorDepth,
-            window.devicePixelRatio,
             navigator.hardwareConcurrency,
             navigator.deviceMemory || "unknown",
             navigator.platform,
             navigator.maxTouchPoints,
             Intl.DateTimeFormat().resolvedOptions().timeZone,
-            canvasFingerprint,
             webglInfo.vendor,
             webglInfo.renderer,
         ].join("::")
@@ -53,18 +50,6 @@ export async function generateDeviceFingerprint() {
             encodeURIComponent(`${type} - ${brand} ${model} - ${os}(${osVersion}) - ${browser}(${browserVersion}) - ${screenRes} | ${hardwareFingerPrint}`)
         )
     );
-}
-
-function getCanvasFingerprint() {
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-    ctx.textBaseline = "top";
-    ctx.font = "14px Arial";
-    ctx.fillStyle = "#f60";
-    ctx.fillRect(100, 1, 62, 20);
-    ctx.fillStyle = "#069";
-    ctx.fillText("Canvas Fingerprint!", 2, 15);
-    return canvas.toDataURL();
 }
 
 function getWebGLFingerprint() {
