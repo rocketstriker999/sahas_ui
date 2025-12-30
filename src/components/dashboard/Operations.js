@@ -1,12 +1,11 @@
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { SUB_TITLE_TEXT, TEXT_SIZE_SMALL, TEXT_SIZE_NORMAL, TITLE_TEXT, ICON_SIZE } from "../../style";
-import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
+import { SUB_TITLE_TEXT, TEXT_SIZE_SMALL, ICON_SIZE } from "../../style";
 import { AUTHORITIES } from "../../constants";
 
 export default function Operations({ className }) {
-    const { authorities = [] } = useSelector((state) => state.stateUser);
+    const { id, authorities = [] } = useSelector((state) => state.stateUser);
     const navigate = useNavigate();
 
     const operationsSections = useMemo(() => {
@@ -48,6 +47,11 @@ export default function Operations({ className }) {
                         title: "My Tasks",
                         icon: "pi-check-square",
                         path: "/tasks",
+                    },
+                    {
+                        title: "My Profile",
+                        icon: "pi-user",
+                        path: `/manage-users/${id}/basics`,
                     },
                 ],
             },

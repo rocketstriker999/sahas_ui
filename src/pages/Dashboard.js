@@ -1,19 +1,12 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Operations from "../components/dashboard/Operations";
 import { useAppContext } from "../providers/ProviderAppContainer";
 import { Badge } from "primereact/badge";
-import ProfileCard from "../components/dashboard/ProfileCard";
-import { removeCurrentUser } from "../redux/sliceUser";
-import { KEY_AUTHENTICATION_TOKEN } from "../constants";
 import CarouselImages from "../components/dashboard/CarouselImages";
 import { TEXT_SIZE_SMALL, TITLE_TEXT } from "../style";
 
 export default function Dashboard() {
     const { isDevelopmentBuild, deviceFingerPrint } = useAppContext();
-
-    const dispatch = useDispatch();
-
-    const loggedInUser = useSelector((state) => state.stateUser);
 
     const pageConfig = useSelector((state) => state.stateTemplateConfig?.dash_board);
 
@@ -37,7 +30,6 @@ export default function Dashboard() {
                 Your Course Access Will Be Activated in 24 Hours
             </span>
             <CarouselImages className={"mb-2"} images={pageConfig?.carousel_images} />
-            <ProfileCard className={"mx-2"} {...loggedInUser} />
             <Operations className={"mx-2 mt-2 flex-1 min-h-0 overflow-scroll"} />
         </div>
     );
