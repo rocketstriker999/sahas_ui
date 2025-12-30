@@ -13,11 +13,11 @@ export default function CardInputEmail({ email, setEmail, requestOTP }) {
     const [error, setError] = useState();
 
     return (
-        <div className="flex flex-column align-items-center w-full justify-content-center">
-            <img className="w-full lg:w-8 lg:max-h-28rem" src="/images/banner.jpg" alt="banner" />
+        <div className="w-full flex flex-column lg:flex-row align-items-center  lg:justify-content-center lg:p-1 lg:gap-3">
+            <img className="w-full lg:w-6" src="/images/banner.jpg" alt="banner" />
             <Card
                 title={APP_NAME}
-                className="w-10 lg:w-6 mt-4"
+                className="mt-4"
                 pt={{
                     title: { className: classNames(TITLE_TEXT, "text-center") },
                 }}
