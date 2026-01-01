@@ -6,7 +6,7 @@ import { Divider } from "primereact/divider";
 import { classNames } from "primereact/utils";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import { useDispatch } from "react-redux";
-import { setCurrentUser, updateCurrentUser } from "../../redux/sliceUser";
+import { updateCurrentUser } from "../../redux/sliceUser";
 
 export default function AskFullName({ id }) {
     const { requestAPI, showToast } = useAppContext();
@@ -43,7 +43,7 @@ export default function AskFullName({ id }) {
         <Card
             title="Add Your Name"
             subTitle="Critical Information Missing"
-            header={<img alt="Card" src="https://primefaces.org/cdn/primereact/images/usercard.png" />}
+            header={<img alt="Card" className="lg:max-h-28rem" src="https://primefaces.org/cdn/primereact/images/usercard.png" />}
             className="m-2"
             pt={{ content: classNames("text-right") }}
         >
