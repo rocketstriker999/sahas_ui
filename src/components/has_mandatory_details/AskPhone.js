@@ -44,7 +44,7 @@ export default function AskPhone({ id }) {
         <Card
             title="Add Your Contact Details"
             subTitle="Critical Information Missing"
-            header={<img alt="Card" src="https://primefaces.org/cdn/primereact/images/usercard.png" />}
+            header={<img alt="Card" className="lg:max-h-28rem" src="https://primefaces.org/cdn/primereact/images/usercard.png" />}
             className="m-2"
             pt={{ content: classNames("text-right") }}
         >
