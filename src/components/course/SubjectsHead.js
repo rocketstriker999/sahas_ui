@@ -144,7 +144,7 @@ export default function SubjectsHead({ course, subjects, setSubjects, updatingVi
                         ]}
                         actionItems={[
                             <Button
-                                onClick={() => window.open(course?.whatsapp_group)}
+                                onClick={() => window.open(`https://chat.whatsapp.com/${course?.whatsapp_group}`)}
                                 icon="pi pi-whatsapp"
                                 rounded
                                 severity="success"
