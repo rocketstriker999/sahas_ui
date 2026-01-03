@@ -28,7 +28,7 @@ export default function Media() {
                     if (media && responseCode === 200) {
                         setMedia(media);
                     } else {
-                        showToast({ severity: "error", summary: "Failed", detail: error || "Failed To Load Media !", life: 2000 });
+                        showToast({ severity: "error", summary: "Failed", detail: error || "Failed To Load Media !", life: 3000 });
                     }
                 },
             });
