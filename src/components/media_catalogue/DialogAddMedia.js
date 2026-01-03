@@ -37,7 +37,7 @@ export default function DialogAddMedia({ visible, closeDialog, setMediaCatalogue
 
     return (
         <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Add New Media`} visible={visible} className="w-11" onHide={closeDialog}>
-            <TabHeader className="pt-3" title="Add New Media" highlights={["Supported Media Extensions Are .mp4,.pdf,.jpg"]} />
+            <TabHeader className="pt-3" title="Add New Media" highlights={["Supported Media Extensions Are .mkv,.mp4,.pdf,.jpg,.png"]} />
 
             <FloatLabel className="mt-5">
                 <InputText

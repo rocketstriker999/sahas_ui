@@ -5,6 +5,7 @@ import TabHeader from "../../common/TabHeader";
 import { Divider } from "primereact/divider";
 import Loading from "../../common/Loading";
 import NoContent from "../../common/NoContent";
+import Device from "./devices/Device";
 
 export default function Devices() {
     const { userId } = useOutletContext();
@@ -39,7 +40,7 @@ export default function Devices() {
                 ) : error ? (
                     <NoContent error={error} />
                 ) : devices?.length ? (
-                    devices.map((device, index) => <span className="p-1 border-1">{decodeURIComponent(escape(atob(device?.finger_print)))}</span>)
+                    devices.map((device, index) => <Device {...device} index={index} />)
                 ) : (
                     <NoContent error={"No Devices Found"} />
                 )}
