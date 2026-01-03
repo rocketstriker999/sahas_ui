@@ -35,6 +35,8 @@ import MyCourses from "../pages/MyCourses";
 import Revenue from "../pages/Revenue";
 import Devices from "../components/manage_users/user/Devices";
 
+//1
+
 export default function App() {
     return (
         <HasAuthentication>
