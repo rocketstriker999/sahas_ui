@@ -49,7 +49,7 @@ export default function CoursesHeader({ courses, category, setCourses, updatingV
             <TabHeader
                 className={"px-3 pt-3"}
                 title={category?.title}
-                highlights={[`Explore Below ${category?.courses_count} Courses`]}
+                highlights={[`${category?.courses_count} Courses`]}
                 actionItems={[
                     <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
                         <Button
