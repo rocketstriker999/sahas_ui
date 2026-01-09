@@ -45,13 +45,7 @@ export async function generateDeviceFingerprint() {
         ].join("::")
     );
 
-    console.log(hardwareFingerPrint);
-
-    return btoa(
-        unescape(
-            encodeURIComponent(`${type} - ${brand} ${model} - ${os}(${osVersion}) - ${browser}(${browserVersion}) - ${screenRes} | ${hardwareFingerPrint}`)
-        )
-    );
+    return btoa(unescape(encodeURIComponent(`${type} - ${brand} ${model} - ${os}(${osVersion}) - ${browser}(${browserVersion}) | ${hardwareFingerPrint}`)));
 }
 
 function getWebGLFingerprint() {
