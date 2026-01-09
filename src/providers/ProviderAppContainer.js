@@ -17,12 +17,14 @@ export const ProviderAppContainer = ({ children }) => {
 
     //generating Device FingerPrint
     useEffect(() => {
-        setApplicationLoading({ message: "Generating Device Fingerprint..." });
-        generateDeviceFingerprint()
-            .then(setDeviceFingerPrint)
-            .catch(() => setApplicationError("Failed To Generate Device Fingerprint"))
-            .finally(setApplicationLoading);
-    }, []);
+        if (!applicationLoading) {
+            setApplicationLoading({ message: "Generating Device Fingerprint..." });
+            generateDeviceFingerprint()
+                .then(setDeviceFingerPrint)
+                .catch(() => setApplicationError("Failed To Generate Device Fingerprint"))
+                .finally(setApplicationLoading);
+        }
+    }, [applicationLoading]);
 
     const showToast = (config) => {
         toastRef.current.show(config);

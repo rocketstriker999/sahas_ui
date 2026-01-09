@@ -18,22 +18,18 @@ export async function generateDeviceFingerprint() {
     const userAgent = navigator.userAgent;
     const device = deviceDetector.parse(userAgent);
 
+    const type = device.device?.type || "Unknown Type";
     const brand = device.device?.brand || "Unknown Brand";
     const model = device.device?.model || "Unknown Model";
-    const type = device.device?.type || "Unknown Type";
     const os = device.os?.name || "Unknown OS";
     const osVersion = device.os?.version || "";
-    const browser = device.client?.name || "Unknown Browser";
-    const browserVersion = device.client?.version || "";
-    const screenRes = `${Number(window.screen.width * window.devicePixelRatio).toFixed(2)}x${Number(window.screen.height * window.devicePixelRatio).toFixed(
-        2
-    )}`;
+    const screenRes = Number(window.screen.width * window.devicePixelRatio) + Number(window.screen.height * window.devicePixelRatio);
 
     const webglInfo = getWebGLFingerprint();
 
     const hardwareFingerPrint = await sha256(
         [
-            Number(window.screen.width * window.devicePixelRatio) + Number(window.screen.height * window.devicePixelRatio),
+            screenRes,
             global.screen.colorDepth,
             navigator.hardwareConcurrency,
             navigator.deviceMemory || "unknown",
@@ -45,13 +41,7 @@ export async function generateDeviceFingerprint() {
         ].join("::")
     );
 
-    console.log(hardwareFingerPrint);
-
-    return btoa(
-        unescape(
-            encodeURIComponent(`${type} - ${brand} ${model} - ${os}(${osVersion}) - ${browser}(${browserVersion}) - ${screenRes} | ${hardwareFingerPrint}`)
-        )
-    );
+    return btoa(unescape(encodeURIComponent(`${type} - ${brand} ${model} - ${os}(${osVersion}) - ${screenRes} | ${hardwareFingerPrint}`)));
 }
 
 function getWebGLFingerprint() {
