@@ -25,13 +25,14 @@ export async function generateDeviceFingerprint() {
     const osVersion = device.os?.version || "";
     const browser = device.client?.name || "Unknown Browser";
     const browserVersion = device.client?.version || "";
-    const screenRes = `${window.screen.width * window.devicePixelRatio}x${window.screen.height * window.devicePixelRatio}`;
+    const screenRes = `${Number(window.screen.width * window.devicePixelRatio).toFixed(2)}x${Number(window.screen.height * window.devicePixelRatio).toFixed(
+        2
+    )}`;
 
     const webglInfo = getWebGLFingerprint();
 
     const hardwareFingerPrint = await sha256(
         [
-            navigator.language,
             Number(window.screen.width * window.devicePixelRatio) + Number(window.screen.height * window.devicePixelRatio),
             global.screen.colorDepth,
             navigator.hardwareConcurrency,
@@ -43,6 +44,8 @@ export async function generateDeviceFingerprint() {
             webglInfo.renderer,
         ].join("::")
     );
+
+    console.log(hardwareFingerPrint);
 
     return btoa(
         unescape(
