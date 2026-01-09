@@ -40,7 +40,7 @@ export default function Devices() {
                 ) : error ? (
                     <NoContent error={error} />
                 ) : devices?.length ? (
-                    devices.map((device, index) => <Device {...device} index={index} />)
+                    devices.map((device, index) => <Device key={device?.id} {...device} index={index} />)
                 ) : (
                     <NoContent error={"No Devices Found"} />
                 )}
