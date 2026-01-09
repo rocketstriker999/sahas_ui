@@ -48,6 +48,7 @@ export default function CategoriesHeader({ categories, updatingViewIndex, setUpd
             <TabHeader
                 className={"px-3 pt-3"}
                 title="Course Categories"
+                highlights={[`Total ${categories?.length} Categories`]}
                 actionItems={[
                     <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
                         <Button

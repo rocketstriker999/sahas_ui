@@ -32,8 +32,7 @@ export async function generateDeviceFingerprint() {
     const hardwareFingerPrint = await sha256(
         [
             navigator.language,
-            window.screen.width * window.devicePixelRatio,
-            window.screen.height * window.devicePixelRatio,
+            Number(window.screen.width * window.devicePixelRatio) + Number(window.screen.height * window.devicePixelRatio),
             global.screen.colorDepth,
             navigator.hardwareConcurrency,
             navigator.deviceMemory || "unknown",
