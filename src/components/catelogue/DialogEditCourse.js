@@ -1,7 +1,6 @@
 import { useCallback, useState } from "react";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import { Dialog } from "primereact/dialog";
-import TabHeader from "../common/TabHeader";
 import { FloatLabel } from "primereact/floatlabel";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";

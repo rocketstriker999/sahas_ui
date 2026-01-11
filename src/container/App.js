@@ -16,7 +16,6 @@ import Wallet from "../components/manage_users/user/Wallet";
 import ManageRoles from "../pages/ManageRoles";
 import ManageAuthorities from "../pages/ManageAuthorities";
 import Categories from "../components/catelogue/Categories";
-import Courses from "../components/catelogue/Courses";
 import Catelogue from "../pages/Catelogue";
 import Course from "../pages/Course";
 import Subjects from "../components/course/Subjects";
@@ -34,6 +33,7 @@ import HasMandatoryDetails from "../components/dependencies/HasMandatoryDetails"
 import MyCourses from "../pages/MyCourses";
 import Revenue from "../pages/Revenue";
 import Devices from "../components/manage_users/user/Devices";
+import CoursesContainers from "../components/catelogue/CoursesContainers";
 
 //1
 
@@ -80,7 +80,7 @@ export default function App() {
                         </Route>
                         <Route path="/course-categories" element={<Catelogue />}>
                             <Route index element={<Categories />} />
-                            <Route path=":categoryId/courses" element={<Courses />} />
+                            <Route path=":categoryId/courses-containers" element={<CoursesContainers />} />
                         </Route>
 
                         <Route path="/courses/:courseId" element={<Course />}>

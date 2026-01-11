@@ -160,17 +160,6 @@ export default function SubjectsHead({ course, subjects, setSubjects, updatingVi
                         ]}
                     />
                 )}
-
-                {!course?.enrollment?.digital_access && (
-                    <Button
-                        icon="pi pi-angle-double-right"
-                        iconPos="right"
-                        className="w-full "
-                        severity="warning"
-                        label={`Purchase Now @ ${course?.fees} ${RUPEE}`}
-                        onClick={() => navigate(`/enroll/${course?.id}`)}
-                    />
-                )}
             </div>
             {dialogAddSubject?.visible && <DialogAddSubject {...dialogAddSubject} />}
             {dialogAssignSubjects?.visible && <DialogAssignSubjects {...dialogAssignSubjects} />}

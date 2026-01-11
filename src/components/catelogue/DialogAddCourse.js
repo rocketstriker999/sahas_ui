@@ -9,7 +9,7 @@ import FileInput from "../common/FileInput";
 import { InputTextarea } from "primereact/inputtextarea";
 import { InputNumber } from "primereact/inputnumber";
 
-export default function DialogAddCourse({ visible, view_index, closeDialog, setCourses, categoryId }) {
+export default function DialogAddCourse({ visible, view_index, closeDialog, setCoursesContainers, coursesContainerId, coursesContainerTitle }) {
     const { requestAPI, showToast } = useAppContext();
 
     const [course, setCourse] = useState();
@@ -19,23 +19,30 @@ export default function DialogAddCourse({ visible, view_index, closeDialog, setC
         requestAPI({
             requestPath: `courses`,
             requestMethod: "POST",
-            requestPostBody: { ...course, category_id: categoryId, view_index },
+            requestPostBody: { ...course, courses_container_id: coursesContainerId, view_index },
             setLoading: setLoading,
             onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Course !", life: 2000 }),
             onResponseReceieved: ({ error, ...addedCourse }, responseCode) => {
                 if (addedCourse && responseCode === 201) {
                     showToast({ severity: "success", summary: "Added", detail: "Course Added", life: 1000 });
-                    setCourses((prev) => [addedCourse, ...prev]);
+                    setCoursesContainers((prev) =>
+                        prev?.map((coursesContainer) => {
+                            if (coursesContainer?.id === coursesContainerId) {
+                                coursesContainer.courses = [addedCourse, ...coursesContainer.courses];
+                            }
+                            return coursesContainer;
+                        })
+                    );
                     setCourse(); //reset form
                     closeDialog(); //close the dialog
                 } else showToast({ severity: "error", summary: "Failed", detail: error || "Failed To Add Course !", life: 2000 });
             },
         });
-    }, [requestAPI, course, categoryId, view_index, showToast, setCourses, closeDialog]);
+    }, [requestAPI, course, coursesContainerId, view_index, showToast, setCoursesContainers, closeDialog]);
 
     return (
         <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Add New Course`} visible={visible} className="w-11" onHide={closeDialog}>
-            <TabHeader className="pt-3" title="Add New Course" highlights={["New Course Will Be Added", "Subjects Of Courses Can Be Managed"]} />
+            <TabHeader className="pt-3" title={`Add New Course to ${coursesContainerTitle}`} highlights={["New Course Will Be Added"]} />
 
             <FloatLabel className="mt-5">
                 <InputText
@@ -60,20 +67,6 @@ export default function DialogAddCourse({ visible, view_index, closeDialog, setC
                 />
                 <label htmlFor="description">Description</label>
             </FloatLabel>
-
-            <FloatLabel className="mt-5">
-                <InputNumber value={course?.fees} id="fees" className="w-full" onChange={(e) => setCourse((prev) => ({ ...prev, fees: e.value }))} />
-                <label htmlFor="fees">Total Fees</label>
-            </FloatLabel>
-
-            <FileInput
-                className="mt-3"
-                label="Course"
-                type="image"
-                cdn_url={course?.image}
-                setCDNUrl={(cdn_url) => setCourse((prev) => ({ ...prev, image: cdn_url }))}
-                disabled={loading}
-            />
 
             <FloatLabel className="mt-5">
                 <InputText

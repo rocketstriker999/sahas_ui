@@ -5,7 +5,7 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import IconButton from "../common/IconButton";
 import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../../constants";
-import { TEXT_SIZE_SMALL, ICON_SIZE } from "../../style";
+import { TEXT_SIZE_SMALL, ICON_SIZE, TEXT_SIZE_NORMAL } from "../../style";
 
 export default function Category({ id, image, title, courses_count, updatingViewIndex }) {
     const { requestAPI, showToast } = useAppContext();
@@ -35,13 +35,14 @@ export default function Category({ id, image, title, courses_count, updatingView
     return (
         <div
             onClick={() => {
-                if (!updatingViewIndex) navigate(`${id}/courses`);
+                if (!updatingViewIndex) navigate(`${id}/courses-containers`);
             }}
-            className="w-full flex gap-2 align-items-center border-1 border-gray-300 border-round pr-2"
+            className="w-full flex gap-2 align-items-center border-1 border-gray-300 border-round p-2"
         >
-            <img className="border-round-left w-8rem h-4rem" src={image} alt={title} />
+            {/* <img className="border-round-left w-8rem h-4rem" src={image} alt={title} /> */}
+
             <div className="flex flex-column flex-1 gap-1">
-                <span className={`${TEXT_SIZE_SMALL} font-semibold word-break-all`}>{title}</span>
+                <span className={`${TEXT_SIZE_NORMAL} font-semibold word-break-all`}>{title}</span>
                 <div className="flex align-items-center gap-1 text-orange-800">
                     <i className={`pi pi-book ${TEXT_SIZE_SMALL}`}></i>
                     <span className={`m-0 p-0  ${TEXT_SIZE_SMALL}`}>{`${courses_count} Courses`}</span>

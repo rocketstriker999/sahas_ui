@@ -1,31 +1,27 @@
 import { Button } from "primereact/button";
 import TabHeader from "../common/TabHeader";
-import DialogAddCourse from "./DialogAddCourse";
 import { useCallback, useState } from "react";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import { getViewIndex } from "../../utils";
 import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../../constants";
+import DialogAddCoursesContainer from "./DialogAddCoursesContainer";
 
-export default function CoursesHeader({ courses, category, setCourses, updatingViewIndex, setUpdatingViewIndex }) {
+export default function CoursesContainersHeader({ coursesContainers, category, setCoursesContainers, updatingViewIndex, setUpdatingViewIndex }) {
     const { requestAPI, showToast } = useAppContext();
-
-    const [dialogAddCourse, setDialogAddCourse] = useState({
+    const [dialogAddCoursesContainer, setDialogAddCoursesContainer] = useState({
         visible: false,
         categoryId: category?.id,
     });
-
-    const closeDialogAddCourse = useCallback(() => {
-        setDialogAddCourse((prev) => ({ ...prev, visible: false }));
+    const closeDialogAddCoursesContainer = useCallback(() => {
+        setDialogAddCoursesContainer((prev) => ({ ...prev, visible: false }));
     }, []);
-
     const [loading, setLoading] = useState();
-
     const updateViewIndexs = useCallback(() => {
         requestAPI({
-            requestPath: `courses/view_indexes`,
+            requestPath: `courses-containers/view_indexes`,
             requestMethod: "PATCH",
-            requestPostBody: courses.map(({ id }, view_index) => ({ id, view_index })),
+            requestPostBody: coursesContainers.map(({ id }, view_index) => ({ id, view_index })),
             setLoading: setLoading,
             parseResponseBody: false,
             onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Update View Indexes !", life: 2000 }),
@@ -42,32 +38,31 @@ export default function CoursesHeader({ courses, category, setCourses, updatingV
                 }
             },
         });
-    }, [courses, requestAPI, showToast]);
-
+    }, [coursesContainers, requestAPI, showToast]);
     return (
         <div>
             <TabHeader
                 className={"px-3 pt-3"}
                 title={category?.title}
-                highlights={[`${category?.courses_count} Courses`]}
+                highlights={[`${category?.courses_containers_count} Courses`]}
                 actionItems={[
                     <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
                         <Button
                             disabled={loading}
                             onClick={() =>
-                                setDialogAddCourse((prev) => ({
+                                setDialogAddCoursesContainer((prev) => ({
                                     ...prev,
-                                    view_index: getViewIndex(courses),
+                                    view_index: getViewIndex(coursesContainers),
                                     visible: true,
-                                    setCourses,
-                                    closeDialog: closeDialogAddCourse,
+                                    setCoursesContainers,
+                                    closeDialog: closeDialogAddCoursesContainer,
                                 }))
                             }
                             icon="pi pi-plus"
                             severity="warning"
                         />
                     </HasRequiredAuthority>,
-                    !!courses?.length && (
+                    !!coursesContainers?.length && (
                         <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
                             <Button
                                 loading={loading}
@@ -90,8 +85,7 @@ export default function CoursesHeader({ courses, category, setCourses, updatingV
                     ),
                 ]}
             />
-
-            {dialogAddCourse?.visible && <DialogAddCourse {...dialogAddCourse} />}
+            {dialogAddCoursesContainer?.visible && <DialogAddCoursesContainer {...dialogAddCoursesContainer} />}
         </div>
     );
 }
