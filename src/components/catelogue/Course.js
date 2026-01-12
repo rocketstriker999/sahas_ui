@@ -4,9 +4,22 @@ import ProgressiveControl from "../common/ProgressiveControl";
 import { useNavigate } from "react-router-dom";
 import IconButton from "../common/IconButton";
 import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
-import { AUTHORITIES } from "../../constants";
+import { AUTHORITIES, RUPEE } from "../../constants";
+import { Badge } from "primereact/badge";
 
-export default function Course({ id, title, description, fees, image, whatsapp_group, setCourses, updatingViewIndex, setDialogEditCourse }) {
+export default function Course({
+    id,
+    title,
+    description,
+    fees,
+    image,
+    is_bundle,
+    bundledCourses,
+    whatsapp_group,
+    setCourses,
+    updatingViewIndex,
+    setDialogEditCourse,
+}) {
     const navigate = useNavigate();
 
     const { requestAPI, showToast } = useAppContext();
@@ -39,7 +52,9 @@ export default function Course({ id, title, description, fees, image, whatsapp_g
     return (
         <div
             onClick={() => {
-                if (!updatingViewIndex) navigate(`/courses/${id}/subjects`);
+                if (!updatingViewIndex) {
+                    navigate(!is_bundle ? `/courses/${id}/subjects` : `/enroll/${id}`);
+                }
             }}
             className="border-1 border-gray-300 border-round flex flex-column gap-2 overflow-hidden pb-2"
         >
@@ -49,6 +64,8 @@ export default function Course({ id, title, description, fees, image, whatsapp_g
                 <span className="text-sm font-semibold text-indigo-800 flex-1">
                     <i className="pi text-xs pi-circle-fill"></i> {title}
                 </span>
+
+                {!!is_bundle && <Badge className="align-self-start fadeinleft animation-duration-1000 " value={`${fees} ${RUPEE}`} severity="warning"></Badge>}
 
                 <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
                     {!updatingViewIndex && (
@@ -68,6 +85,8 @@ export default function Course({ id, title, description, fees, image, whatsapp_g
                                             fees,
                                             image,
                                             whatsapp_group,
+                                            is_bundle,
+                                            bundledCourses,
                                         }))
                                     }
                                 />
