@@ -1,7 +1,6 @@
 import { useCallback, useState } from "react";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import { Dialog } from "primereact/dialog";
-import TabHeader from "../common/TabHeader";
 import { FloatLabel } from "primereact/floatlabel";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
@@ -9,12 +8,17 @@ import { InputTextarea } from "primereact/inputtextarea";
 import { InputNumber } from "primereact/inputnumber";
 import FileInput from "../common/FileInput";
 import { classNames } from "primereact/utils";
+import CheckboxInput from "../common/CheckBoxInput";
+import { ListBox } from "primereact/listbox";
+import { useSelector } from "react-redux";
 
 export default function DialogEditCourse({ visible, closeDialog, setCourses, ...props }) {
     const { requestAPI, showToast } = useAppContext();
 
     const [course, setCourse] = useState(props);
     const [loading, setLoading] = useState();
+
+    const { courses = [] } = useSelector((state) => state.stateTemplateConfig?.global);
 
     const editCourse = useCallback(() => {
         requestAPI({
@@ -75,16 +79,42 @@ export default function DialogEditCourse({ visible, closeDialog, setCourses, ...
                     disabled={loading}
                 />
 
-                <FloatLabel className="mt-5">
-                    <InputText
-                        value={course?.whatsapp_group || ""}
-                        id="whatsapp"
-                        className="w-full"
-                        onChange={(e) => setCourse((prev) => ({ ...prev, whatsapp_group: e.target.value }))}
-                        disabled={loading}
+                {!course?.is_bundle && (
+                    <FloatLabel className="mt-5">
+                        <InputText
+                            value={course?.whatsapp_group || ""}
+                            id="title"
+                            className="w-full"
+                            onChange={(e) => setCourse((prev) => ({ ...prev, whatsapp_group: e.target.value }))}
+                            disabled={loading}
+                        />
+                        <label htmlFor="title">Whatsapp Group</label>
+                    </FloatLabel>
+                )}
+
+                <CheckboxInput
+                    className={"mt-3"}
+                    label={"Combo Course"}
+                    checked={!!course?.is_bundle}
+                    onChange={(checked) => setCourse((prev) => ({ ...prev, is_bundle: checked }))}
+                />
+
+                {!!course?.is_bundle && (
+                    <ListBox
+                        filter
+                        multiple
+                        onChange={(e) => setCourse((prev) => ({ ...prev, bundledCourses: e.value }))}
+                        value={course?.bundledCourses}
+                        options={courses?.filter(({ id }) => id != course?.id)?.filter(({ is_bundle }) => !is_bundle)}
+                        className="mt-4 "
+                        listStyle={{ maxHeight: "128px" }}
+                        itemTemplate={(option) => (
+                            <span className="font-semibold">
+                                {option?.title} ({option?.fees} ₹.)
+                            </span>
+                        )}
                     />
-                    <label htmlFor="whatsapp">Whatsapp Group</label>
-                </FloatLabel>
+                )}
             </div>
 
             <Button className="mt-3" label="Edit Course" severity="warning" loading={loading} onClick={editCourse} />

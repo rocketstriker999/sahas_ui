@@ -18,8 +18,8 @@ export default function TransactionStatus({ course }) {
                 iconPos="right"
                 className="w-full"
                 severity="warning"
-                label="Go To Course"
-                onClick={() => navigate(`/courses/${course?.id}/subjects`)}
+                label="Go To My Course"
+                onClick={() => navigate(`/my-courses`)}
             />
         </div>
     );
