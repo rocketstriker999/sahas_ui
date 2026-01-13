@@ -4,6 +4,7 @@ on:
     push:
         branches:
             - dev
+            - feature_Auth_ResponsiveLayout
 
 jobs:
     deploy:
