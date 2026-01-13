@@ -49,7 +49,7 @@ export default function CardInputEmail({ email, setEmail, requestOTP }) {
 
           <Avatar
             icon="pi pi-user"
-            size="large"
+            size="xlarge"
             shape="circle"
             className="bg-orange-50 text-orange-500 mb-3 shadow-1 w-4rem h-4rem"
           />
