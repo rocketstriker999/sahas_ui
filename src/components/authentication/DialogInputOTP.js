@@ -66,8 +66,7 @@ export default function DialogInputOTP({
         />
 
         <div
-          className="flex align-items-center justify-content-center bg-orange-50 text-orange-500 border-circle mb-4"
-          style={{ width: "4rem", height: "4rem" }}
+          className="flex align-items-center w-4rem h-4rem justify-content-center bg-orange-50 text-orange-500 border-circle mb-4"
         >
           <i className="pi pi-lock text-3xl" />
         </div>

@@ -25,21 +25,11 @@ export default function CardInputEmail({ email, setEmail, requestOTP }) {
         grid-nogutter
         relative"
     >
-      <div
-        className="col-12 lg:col-6 flex align-items-center justify-content-center relative overflow-hidden p-0"
-        style={{ minHeight: "15rem" }}
-      >
+      <div className="col-12 lg:col-6 flex align-items-center justify-content-center relative overflow-hidden p-0 min-h-15rem">
         <img
           src="/images/banner.jpg"
           alt="background"
-          className="absolute top-0 left-0 w-full h-full"
-          style={{
-            objectFit: "cover",
-            filter: "blur(20px)",
-            transform: "scale(1.2)",
-            opacity: 0.6,
-            zIndex: 0,
-          }}
+          className="absolute top-0 left-0 w-full h-full object-cover blur-image scale-125 opacity-60 z-0"
         />
 
         <div className="absolute top-0 left-0 w-full h-full bg-black-alpha-10 z-1" />
@@ -47,8 +37,7 @@ export default function CardInputEmail({ email, setEmail, requestOTP }) {
         <img
           src="/images/banner.jpg"
           alt="banner"
-          className="relative w-full h-full z-2"
-          style={{ objectFit: "contain", maxHeight: "300px" }}
+          className="relative w-full h-full z-2 object-contain max-h-20rem"
         />
       </div>
 
@@ -62,8 +51,7 @@ export default function CardInputEmail({ email, setEmail, requestOTP }) {
             icon="pi pi-user"
             size="large"
             shape="circle"
-            className="bg-orange-50 text-orange-500 mb-3 shadow-1"
-            style={{ width: "4rem", height: "4rem" }}
+            className="bg-orange-50 text-orange-500 mb-3 shadow-1 w-4rem h-4rem"
           />
 
           <p
@@ -75,10 +63,7 @@ export default function CardInputEmail({ email, setEmail, requestOTP }) {
           <div className="w-full p-fluid">
             <div className="field mb-4">
               <span className="p-input-icon-left w-full">
-                <i
-                  className="pi pi-envelope text-500 ml-2"
-                  style={{ fontSize: "1.1rem" }}
-                />
+                <i className="pi pi-envelope text-500 ml-2 text-xl" />
                 <InputText
                   autoFocus
                   placeholder="Enter Your Email"
