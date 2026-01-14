@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { Dialog } from "primereact/dialog";
 import { classNames } from "primereact/utils";
 import Editor from "./DialogDashboard/Editor";
@@ -7,6 +7,7 @@ import Footer from "./DialogDashboard/Footer";
 import Header from "./DialogDashboard/Header";
 import { useDispatch } from "react-redux";
 import { updateDashboardDialog } from "../../redux/sliceTemplateConfig";
+import NoContent from "../common/NoContent";
 
 export const DialogDashboard = ({ dialogDashboard }) => {
     const [dialog, setDialog] = useState(dialogDashboard);
@@ -35,8 +36,8 @@ export const DialogDashboard = ({ dialogDashboard }) => {
             }}
         >
             {dialogDashboard?.editing ? (
-                <Editor dialog={dialog} setDialog={setDialog} />
-            ) : (
+                <Editor dialogDashboard={dialogDashboard} dialog={dialog} setDialog={setDialog} />
+            ) : dialog ? (
                 <div className="flex flex-column align-items-center gap-3">
                     <div className="w-full border-round overflow-hidden shadow-2">
                         <img src={dialogDashboard?.media_url} alt="News Update" className="w-full block" style={{ maxHeight: "200px", objectFit: "cover" }} />
@@ -51,6 +52,8 @@ export const DialogDashboard = ({ dialogDashboard }) => {
                         <span className="text-sm text-700">{dialogDashboard?.note}</span>
                     </div>
                 </div>
+            ) : (
+                <NoContent error={"Click Edit To Start"} />
             )}
         </Dialog>
     );

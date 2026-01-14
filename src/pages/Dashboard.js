@@ -6,7 +6,6 @@ import CarouselImages from "../components/dashboard/CarouselImages";
 import { TEXT_SIZE_SMALL, TITLE_TEXT } from "../style";
 import HasRequiredAuthority from "../components/dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../constants";
-import { useEffect, useState } from "react";
 import { DialogDashboard } from "../components/dashboard/DialogDashboard";
 import { updateDashboardDialog } from "../redux/sliceTemplateConfig";
 
@@ -45,7 +44,7 @@ export default function Dashboard() {
             <CarouselImages className={"mb-2"} images={pageConfig?.carousel_images} />
             <Operations className={"mx-2 mt-2 flex-1 min-h-0 overflow-scroll"} />
 
-            {pageConfig?.dialog && <DialogDashboard dialogDashboard={pageConfig?.dialog} />}
+            <DialogDashboard dialogDashboard={pageConfig?.dialog} />
         </div>
     );
 }
