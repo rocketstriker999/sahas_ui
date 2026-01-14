@@ -8,7 +8,7 @@ import { FloatLabel } from "primereact/floatlabel";
 import { InputText } from "primereact/inputtext";
 import { useDispatch } from "react-redux";
 import { addCarouselImage } from "../../redux/sliceTemplateConfig";
-import { SUB_TITLE_TEXT, TEXT_SIZE_SMALL, TEXT_SIZE_NORMAL, TITLE_TEXT } from "../../style";
+import { TEXT_SIZE_NORMAL, TITLE_TEXT } from "../../style";
 
 export default function DialogAddCarouselItem({ visible, closeDialog }) {
     const { requestAPI, showToast } = useAppContext();
@@ -26,22 +26,27 @@ export default function DialogAddCarouselItem({ visible, closeDialog }) {
             requestPostBody: carouselImage,
             setLoading: setLoading,
             onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Carousel Item !", life: 2000 }),
-            onResponseReceieved: (carouselImage, responseCode) => {
+            onResponseReceieved: ({ error, ...carouselImage }, responseCode) => {
                 if (carouselImage && responseCode === 201) {
                     showToast({ severity: "success", summary: "Added", detail: "Carousel Item Added", life: 1000 });
                     dispatch(addCarouselImage(carouselImage));
                     closeDialog(); //close the dialog
-                } else showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Carousel Item !", life: 2000 });
+                } else showToast({ severity: "error", summary: "Failed", detail: error || "Failed To Add Carousel Item !", life: 2000 });
             },
         });
     }, [carouselImage, closeDialog, dispatch, requestAPI, showToast]);
 
     return (
-        <Dialog header={`Add New Carousel Item`} visible={visible} className="w-11" onHide={closeDialog}
+        <Dialog
+            header={`Add New Carousel Item`}
+            visible={visible}
+            className="w-11"
+            onHide={closeDialog}
             pt={{
                 headertitle: { className: TITLE_TEXT },
-                content: { className: "overflow-visible" }
-            }}>
+                content: { className: "overflow-visible" },
+            }}
+        >
             <TabHeader
                 className="pt-3"
                 title="Add New Carousel Item"
@@ -68,13 +73,21 @@ export default function DialogAddCarouselItem({ visible, closeDialog }) {
                         root: { className: TEXT_SIZE_NORMAL },
                     }}
                 />
-                <label htmlFor="click_link" className={`${TEXT_SIZE_NORMAL}`}>Action URL</label>
+                <label htmlFor="click_link" className={`${TEXT_SIZE_NORMAL}`}>
+                    Action URL
+                </label>
             </FloatLabel>
 
-            <Button className="mt-3" label="Add Carousel Item" severity="warning" loading={loading} onClick={addCarouselItem}
+            <Button
+                className="mt-3"
+                label="Add Carousel Item"
+                severity="warning"
+                loading={loading}
+                onClick={addCarouselItem}
                 pt={{
                     label: { className: TEXT_SIZE_NORMAL },
-                }} />
+                }}
+            />
         </Dialog>
     );
 }
