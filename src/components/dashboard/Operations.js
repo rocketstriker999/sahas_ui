@@ -14,7 +14,7 @@ export default function Operations({ className }) {
                 title: "Student's Corner",
                 operations: [
                     {
-                        title: "Purchase Courses",
+                        title: "All Courses",
                         icon: "pi-sitemap",
                         path: "/course-categories",
                     },
