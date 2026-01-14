@@ -4,7 +4,7 @@ import FileInput from "../../common/FileInput";
 import { InputTextarea } from "primereact/inputtextarea";
 import { TEXT_SIZE_NORMAL } from "../../../style";
 
-export default function Editor({ dialog, setDialog }) {
+export default function Editor({ dialogDashboard, dialog, setDialog }) {
     return (
         <div>
             <div className="p-inputgroup ">
@@ -18,6 +18,7 @@ export default function Editor({ dialog, setDialog }) {
                     onChange={(e) => setDialog((prev) => ({ ...prev, title: e.target.value }))}
                     value={dialog?.title || ""}
                     placeholder="Title"
+                    disabled={dialogDashboard?.updating}
                 />
             </div>
             <FileInput
@@ -26,7 +27,7 @@ export default function Editor({ dialog, setDialog }) {
                 type="image"
                 cdn_url={dialog?.media_url}
                 setCDNUrl={(cdn_url) => setDialog((prev) => ({ ...prev, media_url: cdn_url }))}
-                // disabled={loading}
+                disabled={dialogDashboard?.updating}
                 pt={{
                     root: { className: TEXT_SIZE_NORMAL },
                 }}
@@ -43,6 +44,7 @@ export default function Editor({ dialog, setDialog }) {
                     onChange={(e) => setDialog((prev) => ({ ...prev, heading: e.target.value }))}
                     value={dialog?.heading || ""}
                     placeholder="Heading"
+                    disabled={dialogDashboard?.updating}
                 />
             </div>
 
@@ -57,6 +59,7 @@ export default function Editor({ dialog, setDialog }) {
                     cols={30}
                     className="w-full"
                     onChange={(e) => setDialog((prev) => ({ ...prev, description: e.target.value }))}
+                    disabled={dialogDashboard?.updating}
                 />
                 <label htmlFor="description">Description</label>
             </FloatLabel>
@@ -71,7 +74,8 @@ export default function Editor({ dialog, setDialog }) {
                     }}
                     value={dialog?.note || ""}
                     onChange={(e) => setDialog((prev) => ({ ...prev, note: e.target.value }))}
-                    placeholder="Redirect URL"
+                    placeholder="Note"
+                    disabled={dialogDashboard?.updating}
                 />
             </div>
             <div className="p-inputgroup mt-2">
@@ -85,6 +89,7 @@ export default function Editor({ dialog, setDialog }) {
                     onChange={(e) => setDialog((prev) => ({ ...prev, redirect_url: e.target.value }))}
                     value={dialog?.redirect_url || ""}
                     placeholder="Redirect URL"
+                    disabled={dialogDashboard?.updating}
                 />
             </div>
         </div>
