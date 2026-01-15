@@ -4,6 +4,7 @@ import CardInputEmail from "../components/authentication/CardInputEmail";
 import DialogInputOTP from "../components/authentication/DialogInputOTP";
 import { useAppContext } from "../providers/ProviderAppContainer";
 import { TEXT_SIZE_SMALL } from "../style";
+import NeedHelp from "../components/authentication/NeedHelp";
 
 export default function Authentication() {
   const { requestAPI, showToast } = useAppContext();
@@ -46,7 +47,7 @@ export default function Authentication() {
 
   return (
     <div className="flex flex-column min-h-screen bg-blue-500 text-white">
-      <div className="flex-grow-1 flex align-items-center justify-content-center p-4 w-full">
+      <div className="flex-grow-1 flex align-items-center justify-content-center p-2 w-full">
         <CardInputEmail
           email={email}
           setEmail={setEmail}
@@ -62,7 +63,9 @@ export default function Authentication() {
         )}
       </div>
 
-      <div className="flex-shrink-0 w-full text-center pb-4 pt-2 opacity-80">
+      <div className="flex-shrink-0 w-full flex flex-column align-items-center gap-2 pb-4 pt-2 opacity-80">
+        <NeedHelp phone="+919999999999" email="support@example.com" />
+
         <p className={`${TEXT_SIZE_SMALL} m-0`}>
           {`Copyright © 2019-2025 ${APP_NAME}`}
         </p>
