@@ -4,7 +4,7 @@ import { Button } from "primereact/button";
 import { useState } from "react";
 import { APP_NAME } from "../../constants";
 import Error from "../common/Error";
-import { TEXT_SIZE_NORMAL, TITLE_TEXT } from "../../style";
+import { TEXT_SIZE_NORMAL, SUB_TITLE_TEXT } from "../../style";
 
 export default function CardInputEmail({ email, setEmail, requestOTP }) {
   const [loading, setLoading] = useState(false);
@@ -43,9 +43,9 @@ export default function CardInputEmail({ email, setEmail, requestOTP }) {
 
       <div className="col-12 lg:col-6 p-4 lg:px-4 lg:py-7 flex flex-column justify-content-center bg-white z-2">
         <div className="flex flex-column align-items-center text-center w-full">
-          <div className="mb-4 lg:mb-5">
-            <div className={TITLE_TEXT}>{APP_NAME}</div>
-          </div>
+          <span className={`block mb-4 lg:mb-5 text-dark ${SUB_TITLE_TEXT}`}>
+            {APP_NAME}
+          </span>
 
           <Avatar
             icon="pi pi-user"
@@ -54,13 +54,13 @@ export default function CardInputEmail({ email, setEmail, requestOTP }) {
             className="bg-orange-50 text-orange-500 mb-3 shadow-1 w-4rem h-4rem"
           />
 
-          <p
-            className={`p-0 m-0 font-semibold text-700 ${TEXT_SIZE_NORMAL} mt-2 mb-5`}
+          <span
+            className={`font-semibold text-700 ${TEXT_SIZE_NORMAL} mt-2 mb-5`}
           >
             Verify Your User Credentials
-          </p>
+          </span>
 
-          <div className="w-full p-fluid">
+          <div>
             <div className="field mb-4">
               <span className="p-input-icon-left w-full">
                 <i className="pi pi-envelope text-500 ml-2 text-xl" />

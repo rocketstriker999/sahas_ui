@@ -46,7 +46,7 @@ export default function Authentication() {
   };
 
   return (
-    <div className="flex flex-column min-h-screen bg-blue-500 text-white">
+    <div className="flex flex-column min-h-screen bg-blue-500 ">
       <div className="flex-grow-1 flex align-items-center justify-content-center p-2 w-full">
         <CardInputEmail
           email={email}

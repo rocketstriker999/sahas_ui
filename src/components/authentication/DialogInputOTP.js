@@ -23,7 +23,6 @@ export default function DialogInputOTP({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Auto-submit when OTP is filled
   useUpdateEffect(() => {
     if (otp?.length === 4) validateOTP();
   }, [otp]);
@@ -53,10 +52,8 @@ export default function DialogInputOTP({
       visible={!!authenticationToken}
       onHide={() => setAuthenticationToken(null)}
       modal
-      dismissableMask={false}
       showHeader={false}
       className="w-full sm:w-25rem m-3"
-      contentClassName="border-round-2xl shadow-8 overflow-hidden p-0"
     >
       <div className="flex flex-column align-items-center text-center p-5 relative">
         <Button
@@ -65,9 +62,7 @@ export default function DialogInputOTP({
           onClick={() => setAuthenticationToken(null)}
         />
 
-        <div
-          className="flex align-items-center w-4rem h-4rem justify-content-center bg-orange-50 text-orange-500 border-circle mb-4"
-        >
+        <div className="flex align-items-center w-4rem h-4rem justify-content-center bg-orange-50 text-orange-500 border-circle mb-4">
           <i className="pi pi-lock text-3xl" />
         </div>
 
@@ -100,30 +95,21 @@ export default function DialogInputOTP({
             }}
           />
 
-          {loading && (
-            <div className="fadein animation-duration-300">
-              <Loading />
-            </div>
-          )}
+          {loading && <Loading />}
 
-          {error && (
-            <div className="w-full animation-duration-300 fadein">
-              <Error className="justify-content-center" error={error} />
-            </div>
-          )}
+          {error && <Error className="justify-content-center" error={error} />}
         </div>
 
-        <div className="mt-5 w-full border-top-1 surface-border pt-4">
-          <div className="flex flex-column align-items-center gap-2">
-            <span className="text-sm text-600 font-medium">
-              Didn't receive the code?
-            </span>
-            <ButtonResendOTP
-              requestOTP={requestOTP}
-              setError={setError}
-              setOTP={setOTP}
-            />
-          </div>
+        <div className="mt-5 w-full border-top-1 surface-border pt-4 flex flex-column align-items-center gap-2">
+          <span className="text-sm text-600 font-medium">
+            Didn't receive the code?
+          </span>
+
+          <ButtonResendOTP
+            requestOTP={requestOTP}
+            setError={setError}
+            setOTP={setOTP}
+          />
         </div>
       </div>
     </Dialog>
