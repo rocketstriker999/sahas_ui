@@ -9,7 +9,7 @@ export default function Loading({ message, className, type = "small" }) {
     return (
         <div className={`flex flex-column justify-content-center text-center ${className}`}>
             <ProgressSpinner style={sizes[type]} strokeWidth="6" fill="var(--surface-ground)" animationDuration=".5s" />
-            {message && <span>{message}</span>}
+            {message && <p className="p-0 m-0">{message}</p>}
         </div>
     );
 }
