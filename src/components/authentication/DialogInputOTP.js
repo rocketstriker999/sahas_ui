@@ -1,5 +1,6 @@
 import { Dialog } from "primereact/dialog";
 import { InputOtp } from "primereact/inputotp";
+import { Button } from "primereact/button";
 import { useUpdateEffect } from "primereact/hooks";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import { useState } from "react";
@@ -9,64 +10,108 @@ import Error from "../common/Error";
 import { KEY_AUTHENTICATION_TOKEN } from "../../constants";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "../../redux/sliceUser";
-import { TEXT_SIZE_NORMAL } from "../../style";
 
-export default function DialogInputOTP({ authenticationToken, setAuthenticationToken, requestOTP }) {
-    const { requestAPI } = useAppContext();
+export default function DialogInputOTP({
+  authenticationToken,
+  setAuthenticationToken,
+  requestOTP,
+}) {
+  const { requestAPI } = useAppContext();
+  const dispatch = useDispatch();
 
-    const dispatch = useDispatch();
+  const [otp, setOTP] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-    const [otp, setOTP] = useState();
-    const [loading, setLoading] = useState();
-    const [error, setError] = useState();
+  useUpdateEffect(() => {
+    if (otp?.length === 4) validateOTP();
+  }, [otp]);
 
-    useUpdateEffect(() => {
-        if (otp?.length === 4) validateOTP();
-    }, [otp]);
+  const validateOTP = () => {
+    requestAPI({
+      requestPath: "authentication-tokens",
+      requestMethod: "PATCH",
+      onRequestFailure: setError,
+      onRequestStart: setError,
+      setLoading: setLoading,
+      requestPostBody: {
+        otp,
+        authentication_token: authenticationToken,
+      },
+      onResponseReceieved: (user, responseCode) => {
+        if (user && responseCode === 200) {
+          localStorage.setItem(KEY_AUTHENTICATION_TOKEN, authenticationToken);
+          dispatch(setCurrentUser(user));
+        } else setError("Invalid OTP");
+      },
+    });
+  };
 
-    const validateOTP = () => {
-        requestAPI({
-            requestPath: "authentication-tokens",
-            requestMethod: "PATCH",
-            onRequestFailure: setError,
-            onRequestStart: setError,
-            setLoading: setLoading,
-            requestPostBody: {
-                otp,
-                authentication_token: authenticationToken,
-            },
-            onResponseReceieved: (user, responseCode) => {
-                if (user && responseCode === 200) {
-                    localStorage.setItem(KEY_AUTHENTICATION_TOKEN, authenticationToken);
-                    dispatch(setCurrentUser(user));
-                } else setError("Invalid OTP");
-            },
-        });
-    };
+  return (
+    <Dialog
+      visible={!!authenticationToken}
+      onHide={() => setAuthenticationToken(null)}
+      modal
+      showHeader={false}
+      className="w-full sm:w-25rem m-3"
+    >
+      <div className="flex flex-column align-items-center text-center p-5 relative">
+        <Button
+          icon="pi pi-times"
+          className="absolute top-0 right-0 m-3 p-button-rounded p-button-text p-button-secondary w-2rem h-2rem"
+          onClick={() => setAuthenticationToken(null)}
+        />
 
-    return (
-        <Dialog
-            pt={{ content: { className: "overflow-visible" } }}
-            position="bottom"
-            className="w-11"
-            header="Verify OTP"
-            visible={authenticationToken}
-            onHide={() => setAuthenticationToken()}
-        >
-            <div className="flex flex-column justify-content-center align-items-center">
-                <div className="flex gap-2 text-gray-800 align-items-center justify-content-center">
-                    <i className="pi pi-exclamation-circle"></i>
-                    <p className={`${TEXT_SIZE_NORMAL}`}>Enter The OTP That We have Sent You !</p>
-                </div>
+        <div className="flex align-items-center w-4rem h-4rem justify-content-center bg-orange-50 text-orange-500 border-circle mb-4">
+          <i className="pi pi-lock text-3xl" />
+        </div>
 
-                <InputOtp length={4} disabled={loading} invalid={error} value={otp} integerOnly mask onChange={(e) => setOTP(e.value)} />
+        <div className="mb-5">
+          <h2 className="text-900 font-bold text-xl m-0 mb-2">
+            Verify Your Identity
+          </h2>
+          <p className="text-600 line-height-3 m-0 text-sm">
+            Enter the 4-digit code sent to your email
+          </p>
+        </div>
 
-                {error && <Error className="p-2" error={error} />}
+        <div className="w-full flex flex-column align-items-center gap-3">
+          <InputOtp
+            length={4}
+            integerOnly
+            mask
+            value={otp}
+            disabled={loading}
+            invalid={!!error}
+            onChange={(e) => setOTP(e.value)}
+            pt={{
+              root: { className: "justify-content-center gap-3" },
+              input: {
+                root: {
+                  className:
+                    "text-2xl w-3rem h-3rem sm:w-4rem sm:h-4rem text-center border-round-xl border-1 surface-border appearance-none focus:border-orange-500 focus:shadow-none transition-colors transition-duration-200",
+                },
+              },
+            }}
+          />
 
-                {loading && <Loading className={"mt-2"} />}
+          {loading && <Loading />}
 
-                <ButtonResendOTP requestOTP={requestOTP} setError={setError} setOTP={setOTP} />
-            </div>
-        </Dialog>
-    );
+          {error && <Error className="justify-content-center" error={error} />}
+        </div>
+
+        <div className="mt-5 w-full border-top-1 surface-border pt-4 flex flex-column align-items-center gap-2">
+          <span className="text-sm text-600 font-medium">
+            Didn't receive the code?
+          </span>
+
+          <ButtonResendOTP
+            requestOTP={requestOTP}
+            setError={setError}
+            setOTP={setOTP}
+          />
+        </div>
+      </div>
+    </Dialog>
+  );
 }

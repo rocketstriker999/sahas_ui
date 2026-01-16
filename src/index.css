@@ -1,22 +1,29 @@
-body{
-    background-color: #212121;
-    margin: 0;
-    padding: 0;
+body {
+  background-color: #212121;
+  margin: 0;
+  padding: 0;
 }
 
-.word-break-all{
-    word-break: break-word;
-    overflow-wrap: break-word;
+.word-break-all {
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 video {
-    /* Disables the popup menu on iOS/Android */
-    -webkit-touch-callout: none;
+  /* Disables the popup menu on iOS/Android */
+  -webkit-touch-callout: none;
 
-    /* Prevents text/element selection highlighting */
-    -webkit-user-select: none;
-    user-select: none;
+  /* Prevents text/element selection highlighting */
+  -webkit-user-select: none;
+  user-select: none;
 
-    /* Removes the tap highlight color on mobile */
-    -webkit-tap-highlight-color: transparent;
+  /* Removes the tap highlight color on mobile */
+  -webkit-tap-highlight-color: transparent;
+}
+.blur-image {
+  filter: blur(20px);
+  transform: scale(1.2);
+}
+.object-cover {
+  object-fit: cover;
 }
