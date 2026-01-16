@@ -64,7 +64,7 @@ export default function Authentication() {
       </div>
 
       <div className="flex-shrink-0 w-full flex flex-column align-items-center gap-2 pb-4 pt-2 opacity-80">
-        <NeedHelp phone="+919999999999" email="support@example.com" />
+        <NeedHelp phone="+919265343871" email="support@sahasinstitute.com" />
 
         <p className={`${TEXT_SIZE_SMALL} m-0`}>
           {`Copyright © 2019-2025 ${APP_NAME}`}

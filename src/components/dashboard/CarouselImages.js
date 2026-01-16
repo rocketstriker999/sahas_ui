@@ -16,16 +16,15 @@ export default function CarouselImages({ className, images }) {
   const closeDialogAddCarouselItem = useCallback(() => {
     setDialogAddCarouselItem((prev) => ({ ...prev, visible: false }));
   }, []);
-
   const responsiveOptions = [
     {
       breakpoint: "1400px",
-      numVisible: 2,
+      numVisible: 1,
       numScroll: 1,
     },
     {
       breakpoint: "1199px",
-      numVisible: 2,
+      numVisible: 1,
       numScroll: 1,
     },
     {
@@ -37,24 +36,27 @@ export default function CarouselImages({ className, images }) {
 
   return (
     <div
-      className={`flex flex-column align-items-center justify-content-center border-bottom-3 border-purple-500 shadow-2 bg-white border-round-bottom-xl overflow-hidden ${className}`}
+      className={`flex flex-column border-bottom-3 border-purple-500 shadow-2 bg-white border-round-bottom-xl overflow-hidden ${className}`}
     >
       {!!images?.length && (
         <Carousel
           value={images}
-          numVisible={2}
+          numVisible={1}
           numScroll={1}
           responsiveOptions={responsiveOptions}
           className="w-full"
           circular
           autoplayInterval={3000}
-          showNavigators={true}
+          showNavigators
+          showIndicators
           itemTemplate={Image}
           pt={{
-            indicators: classNames("py-2"),
-            nextButton: classNames("bg-gray-800 text-white border-circle mx-2"),
+            indicators: classNames("hidden md:flex"),
+            nextButton: classNames(
+              "bg-gray-800 text-white border-circle mx-2 hidden md:flex"
+            ),
             previousButton: classNames(
-              "bg-gray-800 text-white border-circle mx-2"
+              "bg-gray-800 text-white border-circle mx-2 hidden md:flex"
             ),
           }}
         />

@@ -27,3 +27,23 @@ video {
 .object-cover {
   object-fit: cover;
 }
+.object-contain {
+  object-fit: contain;
+}
+.p-carousel-item,
+.p-carousel-item-content {
+  height: 14rem;
+}
+.p-carousel-item-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .p-carousel-item,
+  .p-carousel-item-content {
+    height: 14rem;
+  }
+}
