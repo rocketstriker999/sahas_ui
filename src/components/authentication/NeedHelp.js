@@ -13,12 +13,12 @@ export default function NeedHelp({ phone, email }) {
       />
 
       {open && (
-        <div className="flex gap-3 fadein">
+        <>
           <a
             href={`tel:${phone}`}
             className="p-button p-button-sm p-button-secondary no-underline flex align-items-center gap-2"
           >
-            <i className="pi pi-phone"></i>
+            <i className="pi pi-phone" />
             <span className="font-bold">Call</span>
           </a>
 
@@ -26,10 +26,10 @@ export default function NeedHelp({ phone, email }) {
             href={`mailto:${email}`}
             className="p-button p-button-sm p-button-secondary no-underline flex align-items-center gap-2"
           >
-            <i className="pi pi-envelope"></i>
+            <i className="pi pi-envelope" />
             <span className="font-bold">Email</span>
           </a>
-        </div>
+        </>
       )}
     </div>
   );
