@@ -3,7 +3,7 @@ import { RUPEE } from "../../constants";
 import { getReadableDate } from "../../utils";
 import { Tag } from "primereact/tag";
 
-export default function Transaction({ id, user_id, full_name, amount, courses, created_on, handler }) {
+export default function Transaction({ id, user_id, full_name, amount, courses, type, created_on, handler }) {
     const navigate = useNavigate();
 
     return (
@@ -28,6 +28,7 @@ export default function Transaction({ id, user_id, full_name, amount, courses, c
                     + {amount}
                     {RUPEE}
                 </span>
+                <span className="border-1 text-xs px-1 border-orange-800 bg-orange-300 border-round text-orange-800 p-1">{type}</span>
                 <div className="flex align-items-center gap-1 text-color-secondary">
                     <span className="pi pi-calendar"></span>
                     <span className="text-xs ">{getReadableDate({ date: created_on })}</span>
