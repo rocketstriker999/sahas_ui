@@ -1,14 +1,13 @@
 import { useParams } from "react-router-dom";
-import { useAppContext } from "../providers/ProviderAppContainer";
+import { useAppContext } from "../../providers/ProviderAppContainer";
 import { useEffect, useMemo, useState } from "react";
 import { TabPanel, TabView } from "primereact/tabview";
 import { classNames } from "primereact/utils";
 import { useSelector } from "react-redux";
-import { MediaType } from "../components/media_catalogue/MediaType";
-import ChapterHead from "../components/media_catalogue/ChapterHead";
-import OrderManager from "../components/common/OrderManager";
-import Media from "../components/media_catalogue/Media";
-import QuizHead from "../components/media_catalogue/QuizHead";
+import { MediaType } from "../media_catalogue/MediaType";
+import ChapterHead from "../media_catalogue/ChapterHead";
+import OrderManager from "../common/OrderManager";
+import Media from "../media_catalogue/Media";
 
 export default function MediaCatalogue() {
     const { chapterId } = useParams();
@@ -37,7 +36,7 @@ export default function MediaCatalogue() {
     const mediaTabs = useMemo(
         () =>
             media_types.map((mediaType) => ({ title: mediaType, media: mediaCatalogue?.filter(({ type }) => type.toLowerCase() === mediaType.toLowerCase()) })),
-        [mediaCatalogue, media_types]
+        [mediaCatalogue, media_types],
     );
 
     return (

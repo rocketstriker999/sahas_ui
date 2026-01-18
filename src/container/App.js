@@ -27,13 +27,14 @@ import CouponCodes from "../components/manage_coupon_codes/CouponCodes";
 import CouponCodeCourses from "../components/manage_coupon_codes/CouponCodeCourses";
 import Enroll from "../pages/Enroll";
 import PaymentGatewayPayLoad from "../pages/PaymentGatewayPayLoad";
-import MediaCatalogue from "../pages/MediaCatalogue";
+import MediaCatalogue from "../components/course/MediaCatalogue";
 import Media from "../pages/Media";
 import { AUTHORITIES } from "../constants";
 import HasMandatoryDetails from "../components/dependencies/HasMandatoryDetails";
 import MyCourses from "../pages/MyCourses";
 import Revenue from "../pages/Revenue";
 import Devices from "../components/manage_users/user/Devices";
+import Quiz from "../components/course/Quiz";
 
 export default function App() {
     return (
@@ -82,9 +83,14 @@ export default function App() {
                         </Route>
 
                         <Route path="/courses/:courseId" element={<Course />}>
-                            <Route path="subjects" element={<Subjects />}></Route>
-                            <Route path="subjects/:subjectId/chapters" element={<Chapters />} />
-                            <Route path="subjects/:subjectId/chapters/:chapterId/media" element={<MediaCatalogue />} />
+                            <Route path="subjects" element={<Subjects />} />
+                            <Route path="subjects/:subjectId">
+                                <Route path="chapters" element={<Chapters />} />
+                                <Route path="chapters/:chapterId">
+                                    <Route path="media" element={<MediaCatalogue />} />
+                                    <Route path="quiz" element={<Quiz />} />
+                                </Route>
+                            </Route>
                         </Route>
 
                         <Route path="/my-courses" element={<MyCourses />}></Route>

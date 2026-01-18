@@ -120,7 +120,7 @@ export default function ChapterHead({ setLoading, setError, mediaCatalogue, setM
 
                 {dialogAddMedia?.visible && <DialogAddMedia {...dialogAddMedia} />}
             </div>
-            {!!chapter?.quiz_attainable && <QuizHead />}
+            {!!chapter?.quiz_attainable && <QuizHead chapterId={chapterId} />}
         </div>
     );
 }
