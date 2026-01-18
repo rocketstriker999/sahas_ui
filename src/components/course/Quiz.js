@@ -74,7 +74,7 @@ export default function Quiz() {
         <div>
             <p className="text-xs text-center  p-2 m-0 bg-orange-500 text-white">Do Not Refresh While Taking Self Assesment !</p>
             <div className="flex align-items-center justify-content-center">
-                <Timer className={"mt-2"} minutes={1} onTimeUp={setQuizSubmitted} />
+                <Timer className={"mt-2"} minutes={quiz.quiz_time} onTimeUp={setQuizSubmitted} />
                 <Divider layout="vertical" />
                 <p
                     className="w-8rem text-center p-0  bg-green-300 text-white font-bold text-xl p-2 border-round border-1 border-green-800 scalein animation-duration-500 animation-iteration-1"
