@@ -6,6 +6,8 @@ import CardInputEmail from "../components/authentication/CardInputEmail";
 import DialogInputOTP from "../components/authentication/DialogInputOTP";
 import { useAppContext } from "../providers/ProviderAppContainer";
 import { TEXT_SIZE_SMALL } from "../style";
+import { Button } from "primereact/button";
+import HelpInLineAction from "../components/authentication/HelpInLineAction";
 
 export default function Authentication() {
     const { requestAPI, showToast } = useAppContext();
@@ -39,12 +41,18 @@ export default function Authentication() {
     };
 
     return (
-        <div className=" flex flex-column min-h-screen bg-blue-500 text-white">
-            <CardInputEmail email={email} setEmail={setEmail} requestOTP={requestOTP} />
+        <div className="min-h-screen bg-blue-500 md:py-2 flex flex-column">
+            <div className="flex flex-1 align-items-center justify-content-center">
+                 <CardInputEmail email={email} setEmail={setEmail} requestOTP={requestOTP} />
+            </div>
             {authenticationToken && (
                 <DialogInputOTP authenticationToken={authenticationToken} setAuthenticationToken={setAuthenticationToken} requestOTP={requestOTP} />
             )}
-            <p className={`${TEXT_SIZE_SMALL} pt-4 mb-2 w-full text-center w-full`}>{`Copyright © 2019-2025 ${APP_NAME}`} </p>
+            <div className="flex justify-content-center align-items-center gap-3">
+                <HelpInLineAction />
+            </div>
+
+            <p className={`${TEXT_SIZE_SMALL} mb-2 w-full text-center w-full`}>{`Copyright © 2019-2025 ${APP_NAME}`} </p>
         </div>
     );
 }
