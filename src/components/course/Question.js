@@ -57,13 +57,13 @@ export default function Question({
     );
 
     return (
-        <div>
-            <div className="fadeinleft animation-duration-1000 animation-iteration-1" key={currentQuestion}>
-                <p className=" text-orange-800 px-2 text-xl font-semibold">
+        <div className="flex-1 flex flex-column min-h-0">
+            <div className="fadeinleft animation-duration-1000 animation-iteration-1  min-h-0 flex flex-column " key={currentQuestion}>
+                <span className=" text-orange-800 px-2 font-semibold">
                     {currentQuestion + 1}. {question}
-                </p>
+                </span>
                 <Divider />
-                <div className="flex flex-column gap-2 px-2">
+                <div className="flex flex-column gap-2 px-2 flex-1 overflow-scroll">
                     <RadioButtonInput className={getBackgroundForChoice(choice_one)} value={selectedChoice?.value} label={choice_one} onChange={onChange} />
                     <RadioButtonInput className={getBackgroundForChoice(choice_two)} value={selectedChoice?.value} label={choice_two} onChange={onChange} />
                     <RadioButtonInput className={getBackgroundForChoice(choice_three)} value={selectedChoice?.value} label={choice_three} onChange={onChange} />
@@ -71,11 +71,11 @@ export default function Question({
                 </div>
             </div>
             <Divider />
-
             <div className="flex align-items-center justify-content-between px-2">
-                <Button label="Cancel" severity="danger" text icon="pi pi-times" iconPos="left" onClick={() => navigate(-1)} />
+                <Button label="Cancel" size="small" severity="danger" text icon="pi pi-times" iconPos="left" onClick={() => navigate(-1)} />
                 {canLoadNextQuestion ? (
                     <Button
+                        size="small"
                         label="Next"
                         severity="success"
                         text
@@ -88,6 +88,7 @@ export default function Question({
                     />
                 ) : (
                     <Button
+                        size="small"
                         label="Submit"
                         icon="pi pi-check"
                         iconPos="right"

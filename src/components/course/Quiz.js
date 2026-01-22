@@ -71,19 +71,25 @@ export default function Quiz() {
     }
 
     return (
-        <div>
+        <div className="flex-1 flex flex-column h-full min-h-0">
             <p className="text-xs text-center  p-2 m-0 bg-orange-500 text-white">Do Not Refresh While Taking Self Assesment !</p>
             <div className="flex align-items-center justify-content-center">
-                <Timer className={"mt-2"} minutes={quiz.quiz_time} onTimeUp={setQuizSubmitted} />
+                <Timer minutes={quiz.quiz_time} onTimeUp={setQuizSubmitted} />
                 <Divider layout="vertical" />
-                <p
-                    className="w-8rem text-center p-0  bg-green-300 text-white font-bold text-xl p-2 border-round border-1 border-green-800 scalein animation-duration-500 animation-iteration-1"
-                    key={score}
-                >
-                    score : {score}
-                </p>
+                <div className="flex flex-column gap-2">
+                    <span
+                        className=" text-center text-xs  bg-green-300 text-white font-bold p-2 border-round border-1 border-green-800 scalein animation-duration-500 animation-iteration-1"
+                        key={score}
+                    >
+                        Score : {score}
+                    </span>
+                    <span className=" text-center  text-xs bg-blue-300 text-white font-bold  p-2 border-round border-1 border-green-800 scalein animation-duration-500 animation-iteration-1">
+                        Question : {currentQuestion + 1}/{quiz?.quiz_pool?.length}
+                    </span>
+                </div>
             </div>
             <Divider />
+
             <Question
                 currentQuestion={currentQuestion}
                 {...quiz?.quiz_pool[currentQuestion]}
