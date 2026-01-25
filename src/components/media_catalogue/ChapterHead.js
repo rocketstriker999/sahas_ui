@@ -8,7 +8,6 @@ import DialogAddMedia from "./DialogAddMedia";
 import { getViewIndex } from "../../utils";
 import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../../constants";
-import QuizHead from "./QuizHead";
 
 export default function ChapterHead({ setLoading, setError, mediaCatalogue, setMediaCatalogue, updatingViewIndex, setUpdatingViewIndex }) {
     const { chapterId } = useParams();
@@ -120,7 +119,6 @@ export default function ChapterHead({ setLoading, setError, mediaCatalogue, setM
 
                 {dialogAddMedia?.visible && <DialogAddMedia {...dialogAddMedia} />}
             </div>
-            {!!chapter?.quiz_attainable && <QuizHead chapterId={chapterId} />}
         </div>
     );
 }

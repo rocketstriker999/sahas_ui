@@ -59,7 +59,12 @@ export const ProviderAppContainer = ({ children }) => {
                 requestPath =
                     requestPath +
                     Object.keys(requestGetQuery)
-                        .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(requestGetQuery[key]))
+                        .map((key) => {
+                            if (Array.isArray(requestGetQuery[key])) {
+                                return requestGetQuery[key]?.map((value) => encodeURIComponent(key) + "=" + encodeURIComponent(value)).join("&");
+                            }
+                            return encodeURIComponent(key) + "=" + encodeURIComponent(requestGetQuery[key]);
+                        })
                         .join("&");
             }
 
@@ -97,7 +102,7 @@ export const ProviderAppContainer = ({ children }) => {
             }
             if (onRequestEnd) onRequestEnd();
         },
-        [deviceFingerPrint]
+        [deviceFingerPrint],
     );
 
     return (

@@ -7,7 +7,18 @@ import IconButton from "../common/IconButton";
 import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../../constants";
 
-export default function Subject({ id, title, subject_id, setSubjects, background_color, updatingViewIndex, updated_at, setDialogEditSubject }) {
+export default function Subject({
+    id,
+    title,
+    subject_id,
+    setSubjects,
+    background_color,
+    test_timer_minutes,
+    test_size,
+    updatingViewIndex,
+    updated_at,
+    setDialogEditSubject,
+}) {
     const navigate = useNavigate();
 
     const { requestAPI, showToast } = useAppContext();
@@ -66,6 +77,8 @@ export default function Subject({ id, title, subject_id, setSubjects, background
                                 id: subject_id,
                                 title,
                                 background_color,
+                                test_timer_minutes,
+                                test_size,
                             }))
                         }
                     />
