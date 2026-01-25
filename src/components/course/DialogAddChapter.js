@@ -37,8 +37,6 @@ export default function DialogAddChapter({ visible, closeDialog, setChapters, su
         });
     }, [chapter, closeDialog, requestAPI, setChapters, showToast, subjectId, view_index]);
 
-    console.log(chapter);
-
     return (
         <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Add New Chapter`} visible={visible} className="w-11" onHide={closeDialog}>
             <TabHeader className="pt-3" title="Add New Chapter" highlights={["New Chapter Will Be Added"]} />
@@ -68,43 +66,18 @@ export default function DialogAddChapter({ visible, closeDialog, setChapters, su
 
             <CheckboxInput
                 className={"mt-3"}
-                label={"Self Assesment"}
-                checked={!!chapter?.quiz_attainable}
-                onChange={(checked) => setChapter((prev) => ({ ...prev, quiz_attainable: checked }))}
+                label={"Allow Test"}
+                checked={!!chapter?.test_attainable}
+                onChange={(checked) => setChapter((prev) => ({ ...prev, test_attainable: checked }))}
             />
 
-            {!!chapter?.quiz_attainable && (
-                <FloatLabel className="mt-5">
-                    <InputNumber
-                        value={chapter?.quiz_time}
-                        id="quiz_time"
-                        className="w-full"
-                        suffix=" minutes"
-                        onChange={(e) => setChapter((prev) => ({ ...prev, quiz_time: e.value }))}
-                    />
-                    <label htmlFor="quiz_time">Quiz Time</label>
-                </FloatLabel>
-            )}
-
-            {!!chapter?.quiz_attainable && (
-                <FloatLabel className="mt-5">
-                    <InputNumber
-                        value={chapter?.quiz_questions}
-                        id="quiz_questions"
-                        className="w-full"
-                        onChange={(e) => setChapter((prev) => ({ ...prev, quiz_questions: e.value }))}
-                    />
-                    <label htmlFor="quiz_questions">Quiz Questions</label>
-                </FloatLabel>
-            )}
-
-            {!!chapter?.quiz_attainable && (
+            {!!chapter?.test_attainable && (
                 <FileInput
                     className={"mt-3"}
                     label="Questions Sheet"
                     type="sheet"
-                    cdn_url={chapter?.quiz_pool}
-                    setCDNUrl={(cdn_url) => setChapter((prev) => ({ ...prev, quiz_pool: cdn_url }))}
+                    cdn_url={chapter?.test_questions_pool}
+                    setCDNUrl={(cdn_url) => setChapter((prev) => ({ ...prev, test_questions_pool: cdn_url }))}
                     disabled={loading}
                     pt={{
                         root: { className: TEXT_SIZE_NORMAL },

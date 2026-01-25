@@ -34,7 +34,10 @@ import HasMandatoryDetails from "../components/dependencies/HasMandatoryDetails"
 import MyCourses from "../pages/MyCourses";
 import Revenue from "../pages/Revenue";
 import Devices from "../components/manage_users/user/Devices";
-import Quiz from "../components/course/Quiz";
+import ChaptersTest from "../pages/ChaptersTest";
+import Selection from "../components/chapter_test/Selection";
+import Appear from "../components/chapter_test/Appear";
+import Result from "../components/chapter_test/Result";
 
 export default function App() {
     return (
@@ -88,7 +91,6 @@ export default function App() {
                                 <Route path="chapters" element={<Chapters />} />
                                 <Route path="chapters/:chapterId">
                                     <Route path="media" element={<MediaCatalogue />} />
-                                    <Route path="quiz" element={<Quiz />} />
                                 </Route>
                             </Route>
                         </Route>
@@ -98,6 +100,12 @@ export default function App() {
                         <Route path="/media-player/:mediaId" element={<Media />}></Route>
 
                         <Route path="/manage-chapter-types" element={<ManageChapterTypes />} />
+
+                        <Route path="/chapters-test" element={<ChaptersTest />}>
+                            <Route path="selection" element={<Selection />} />
+                            <Route path="appear" element={<Appear />} />
+                            <Route path="result" element={<Result />} />
+                        </Route>
 
                         <Route path="/manage-coupon-codes" element={<ManageCouponCodes />}>
                             <Route index element={<CouponCodes />}></Route>

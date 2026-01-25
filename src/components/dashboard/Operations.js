@@ -39,9 +39,9 @@ export default function Operations({ className }) {
                         path: "/my-reminders",
                     },
                     {
-                        title: "My Exams",
+                        title: "Self Test",
                         icon: "pi-question",
-                        path: "/my-exams",
+                        path: "/chapters-test/selection",
                     },
                     {
                         title: "My Tasks",

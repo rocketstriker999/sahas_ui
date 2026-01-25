@@ -6,6 +6,7 @@ import { useAppContext } from "../../providers/ProviderAppContainer";
 import TabHeader from "../common/TabHeader";
 import { InputText } from "primereact/inputtext";
 import ColorInput from "../common/ColorInput";
+import { InputNumber } from "primereact/inputnumber";
 
 export default function DialogAddSubject({ visible, view_index, closeDialog, setSubjects, courseId }) {
     const { requestAPI, showToast } = useAppContext();
@@ -43,6 +44,28 @@ export default function DialogAddSubject({ visible, view_index, closeDialog, set
                     disabled={loading}
                 />
                 <label htmlFor="title">Title</label>
+            </FloatLabel>
+
+            <FloatLabel className="mt-5">
+                <InputNumber
+                    value={subject?.test_timer_minutes}
+                    id="test_timer_minutes"
+                    className="w-full"
+                    suffix=" minutes"
+                    onChange={(e) => setSubject((prev) => ({ ...prev, test_timer_minutes: e.value }))}
+                />
+                <label htmlFor="test_timer_minutes">Test Timer Minutes</label>
+            </FloatLabel>
+
+            <FloatLabel className="mt-5">
+                <InputNumber
+                    value={subject?.test_size}
+                    id="test_size"
+                    className="w-full"
+                    suffix=" minutes"
+                    onChange={(e) => setSubject((prev) => ({ ...prev, test_size: e.value }))}
+                />
+                <label htmlFor="test_size">Test Size (Questions)</label>
             </FloatLabel>
 
             <ColorInput

@@ -14,7 +14,7 @@ export default function Timer({ minutes = 0, onTimeUp, className }) {
                 setSeconds((prev) => prev - 1);
             } else {
                 setActive(false);
-                if (onTimeUp) onTimeUp(true); // Callback to trigger end of quiz
+                if (onTimeUp) onTimeUp(true);
             }
         },
         1000,

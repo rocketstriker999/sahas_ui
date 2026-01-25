@@ -7,6 +7,7 @@ import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 
 import ColorInput from "../common/ColorInput";
+import { InputNumber } from "primereact/inputnumber";
 
 export default function DialogEditSubject({ visible, closeDialog, setSubjects, ...props }) {
     const { requestAPI, showToast } = useAppContext();
@@ -44,6 +45,28 @@ export default function DialogEditSubject({ visible, closeDialog, setSubjects, .
                     disabled={loading}
                 />
                 <label htmlFor="title">Title</label>
+            </FloatLabel>
+
+            <FloatLabel className="mt-5">
+                <InputNumber
+                    value={subject?.test_timer_minutes}
+                    id="test_timer_minutes"
+                    className="w-full"
+                    suffix=" minutes"
+                    onChange={(e) => setSubject((prev) => ({ ...prev, test_timer_minutes: e.value }))}
+                />
+                <label htmlFor="test_timer_minutes">Test Timer Minutes</label>
+            </FloatLabel>
+
+            <FloatLabel className="mt-5">
+                <InputNumber
+                    value={subject?.test_size}
+                    id="test_size"
+                    className="w-full"
+                    suffix=" questions"
+                    onChange={(e) => setSubject((prev) => ({ ...prev, test_size: e.value }))}
+                />
+                <label htmlFor="test_size">Test Size (Questions)</label>
             </FloatLabel>
 
             <ColorInput

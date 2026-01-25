@@ -34,12 +34,19 @@ export default function DialogAddCourse({ visible, enrollment_id, enrolledCourse
         });
     }, [closeDialog, courseId, enrollment_id, requestAPI, setCourses, showToast]);
 
+    console.log(courses);
+
     return (
-        <Dialog header={`Add New Course`} visible={visible} className="w-11" onHide={closeDialog}
+        <Dialog
+            header={`Add New Course`}
+            visible={visible}
+            className="w-11"
+            onHide={closeDialog}
             pt={{
                 headertitle: { className: TITLE_TEXT },
-                content: { className: "overflow-visible" }
-            }}>
+                content: { className: "overflow-visible" },
+            }}
+        >
             <TabHeader
                 className="pt-3"
                 title="Add New Course To Enrollment"
@@ -50,7 +57,7 @@ export default function DialogAddCourse({ visible, enrollment_id, enrolledCourse
                 <Dropdown
                     value={courses?.find((course) => courseId === course?.id)}
                     inputId="courses"
-                    options={courses?.filter(({ id }) => !enrolledCourses?.find(({ course_id }) => course_id == id))}
+                    options={courses?.filter(({ id, is_bundle }) => !is_bundle && !enrolledCourses?.find(({ course_id }) => course_id == id))}
                     optionLabel="title"
                     className="w-full"
                     onChange={(e) => setCourseId(e.value?.id)}
@@ -60,14 +67,22 @@ export default function DialogAddCourse({ visible, enrollment_id, enrolledCourse
                         item: { className: TEXT_SIZE_NORMAL },
                     }}
                 />
-                <label htmlFor="courses" className={`${TEXT_SIZE_SMALL}`}>Courses</label>
+                <label htmlFor="courses" className={`${TEXT_SIZE_SMALL}`}>
+                    Courses
+                </label>
             </FloatLabel>
 
-            <Button className="mt-3" label="Add Course" severity="warning" loading={loading} onClick={addInquiry}
+            <Button
+                className="mt-3"
+                label="Add Course"
+                severity="warning"
+                loading={loading}
+                onClick={addInquiry}
                 pt={{
                     label: { className: TEXT_SIZE_NORMAL },
-                    icon: { className: TEXT_SIZE_NORMAL }
-                }} />
+                    icon: { className: TEXT_SIZE_NORMAL },
+                }}
+            />
         </Dialog>
     );
 }

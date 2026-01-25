@@ -7,19 +7,7 @@ import IconButton from "../common/IconButton";
 import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../../constants";
 
-export default function Chapter({
-    id,
-    title,
-    quiz_attainable,
-    quiz_time,
-    quiz_questions,
-    quiz_pool,
-    setChapters,
-    type,
-    updatingViewIndex,
-    updated_at,
-    setDialogEditChapter,
-}) {
+export default function Chapter({ id, title, test_attainable, test_questions_pool, setChapters, type, updatingViewIndex, updated_at, setDialogEditChapter }) {
     const { requestAPI, showToast } = useAppContext();
 
     const [deleting, setDeleting] = useState();
@@ -80,10 +68,8 @@ export default function Chapter({
                                         id,
                                         title,
                                         type,
-                                        quiz_attainable,
-                                        quiz_time,
-                                        quiz_questions,
-                                        quiz_pool,
+                                        test_attainable,
+                                        test_questions_pool,
                                     }))
                                 }
                             />
