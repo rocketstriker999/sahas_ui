@@ -1,13 +1,17 @@
 import { Checkbox } from "primereact/checkbox";
 import { useCallback, useState } from "react";
-import { getReadableDate } from "../../../../utils";
+import { getReadableDate, hasRequiredAuthority } from "../../../../utils";
 import { useAppContext } from "../../../../providers/ProviderAppContainer";
 import ProgressiveControl from "../../../common/ProgressiveControl";
+import { useSelector } from "react-redux";
+import { AUTHORITIES } from "../../../../constants";
 
 export default function Device(device) {
     const { requestAPI, showToast } = useAppContext();
     const [active, setActive] = useState(device?.active);
     const [loading, setLoading] = useState();
+
+    const { authorities = [] } = useSelector((state) => state.stateUser);
 
     const updateDevice = useCallback(
         ({ checked }) => {
@@ -32,7 +36,7 @@ export default function Device(device) {
                 },
             });
         },
-        [device, requestAPI, showToast]
+        [device, requestAPI, showToast],
     );
 
     return (
@@ -41,7 +45,16 @@ export default function Device(device) {
                 <span>
                     {device?.index + 1}. {decodeURIComponent(escape(atob(device?.finger_print)))?.split("|")[0]}
                 </span>
-                <ProgressiveControl loading={loading} control={<Checkbox onChange={updateDevice} checked={!!active} />} />
+                <ProgressiveControl
+                    loading={loading}
+                    control={
+                        <Checkbox
+                            disabled={hasRequiredAuthority(authorities, AUTHORITIES.MANAGE_USER_STREAMING_DEVICES)}
+                            onChange={updateDevice}
+                            checked={!!active}
+                        />
+                    }
+                />
             </div>
             <div className="flex justify-content-between mt-2 text-color-secondary font-semibold">
                 <span>Created At {getReadableDate({ date: device?.created_on })}</span>
