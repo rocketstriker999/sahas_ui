@@ -4,7 +4,7 @@ import { useAppContext } from "../providers/ProviderAppContainer";
 import { useEffect, useState } from "react";
 import Loading from "../components/common/Loading";
 import NoContent from "../components/common/NoContent";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 export default function ChaptersTest() {
     const loggedInUser = useSelector((state) => state.stateUser);
@@ -16,8 +16,6 @@ export default function ChaptersTest() {
     const [testCatalogue, setTestCatalogue] = useState();
     const [testSelection, setTestSelection] = useState();
     const [testResult, setTestResult] = useState();
-
-    console.log(testResult);
 
     useEffect(() => {
         requestAPI({

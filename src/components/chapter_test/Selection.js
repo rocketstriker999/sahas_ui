@@ -12,7 +12,21 @@ export default function Selection() {
 
     return (
         <div className="p-2">
-            <span className="p-2 border-round text-sm text-gray-700 border-1 border-orange-300  bg-orange-100">Select Following To Continue Self Test</span>
+            <div className="flex align-items-center justify-content-between">
+                <span className="p-2 border-round text-xs text-gray-700 border-1 border-orange-300  bg-orange-100">Select Following...</span>
+                {testSelection?.course && testSelection?.subject && testSelection?.chapters?.length && (
+                    <Button
+                        severity="warning"
+                        onClick={() => {
+                            navigate("../appear");
+                        }}
+                        label="Start Self Test"
+                        icon="pi pi-arrow-right"
+                        iconPos="right"
+                        size="small"
+                    />
+                )}
+            </div>
 
             <FloatLabel className="mt-6">
                 <Dropdown
@@ -28,7 +42,7 @@ export default function Selection() {
                     }}
                 />
                 <label htmlFor="courses" className={`${TEXT_SIZE_SMALL}`}>
-                    Course
+                    Select Course
                 </label>
             </FloatLabel>
 
@@ -47,7 +61,7 @@ export default function Selection() {
                         }}
                     />
                     <label htmlFor="courses" className={`${TEXT_SIZE_SMALL}`}>
-                        Subject
+                        Select Subject
                     </label>
                 </FloatLabel>
             )}
@@ -67,21 +81,9 @@ export default function Selection() {
                         }}
                     />
                     <label htmlFor="chapters" className={`${TEXT_SIZE_SMALL}`}>
-                        Chapters
+                        Select Chapters
                     </label>
                 </FloatLabel>
-            )}
-
-            {testSelection?.course && testSelection?.subject && testSelection?.chapters?.length && (
-                <Button
-                    onClick={() => {
-                        navigate("../appear");
-                    }}
-                    className="mt-3 w-full"
-                    label="Start Self Test"
-                    icon="pi pi-arrow-right"
-                    iconPos="right"
-                />
             )}
         </div>
     );
