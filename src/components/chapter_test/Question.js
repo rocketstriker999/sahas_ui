@@ -1,6 +1,7 @@
 import { Divider } from "primereact/divider";
 import RadioButtonInput from "../common/RadioButtonInput";
 import { useEffect, useState } from "react";
+import { Button } from "primereact/button";
 
 // 1. Ensure all props are destructured here
 export default function Question({
@@ -49,8 +50,6 @@ export default function Question({
                 score: (prev.score || 0) + 1,
             }));
         }
-
-        setTimeout(loadNextQuestion, 1000);
     };
 
     const getChoiceClass = (choice) => {
@@ -82,6 +81,16 @@ export default function Question({
                         disabled={isAnswering}
                     />
                 ))}
+                <Button
+                    disabled={!selectedChoice}
+                    onClick={loadNextQuestion}
+                    className="w-8rem align-self-end"
+                    iconPos="right"
+                    icon="pi pi-arrow-right"
+                    severity="warning"
+                    label="Next"
+                    size="small"
+                />
             </div>
         </div>
     );
