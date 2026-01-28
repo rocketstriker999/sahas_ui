@@ -49,7 +49,7 @@ export default function Device(device) {
                     loading={loading}
                     control={
                         <Checkbox
-                            disabled={hasRequiredAuthority(authorities, AUTHORITIES.MANAGE_USER_STREAMING_DEVICES)}
+                            disabled={!hasRequiredAuthority(authorities, AUTHORITIES.MANAGE_USER_STREAMING_DEVICES)}
                             onChange={updateDevice}
                             checked={!!active}
                         />
