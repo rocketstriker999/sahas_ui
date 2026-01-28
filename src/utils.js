@@ -38,7 +38,7 @@ export async function generateDeviceFingerprint() {
             Intl.DateTimeFormat().resolvedOptions().timeZone,
             webglInfo.vendor,
             webglInfo.renderer,
-        ].join("::")
+        ].join("::"),
     );
 
     return btoa(unescape(encodeURIComponent(`${type} - ${brand} ${model} - ${os}(${osVersion}) - ${screenRes} | ${hardwareFingerPrint}`)));
