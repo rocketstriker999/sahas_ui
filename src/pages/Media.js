@@ -7,7 +7,6 @@ import PageTitle from "../components/common/PageTitle";
 import TabHeader from "../components/common/TabHeader";
 import { Button } from "primereact/button";
 import MediaPlayer from "../components/media/MediaPlayer";
-import Queries from "../components/media/Queries";
 import HasRequiredAuthority from "../components/dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../constants";
 
