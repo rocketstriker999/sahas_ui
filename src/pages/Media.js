@@ -40,18 +40,14 @@ export default function Media() {
             <TabHeader
                 className={"p-3"}
                 title={media?.title}
-                highlights={[`Question/Query Can be Raise Here`, "Allowed Media Will Have Download Button"]}
                 actionItems={[
                     <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
                         <Button icon="pi pi-download" severity="warning" />
                     </HasRequiredAuthority>,
-                    <Button icon="pi pi-question-circle" severity="warning" />,
                 ]}
             />
 
             {loading ? <Loading /> : media ? <MediaPlayer {...media} /> : <NoContent />}
-
-            <Queries {...media} />
         </div>
     );
 }
