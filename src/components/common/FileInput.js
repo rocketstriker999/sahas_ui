@@ -1,9 +1,16 @@
 import Preview from "./FileInput/Preview";
 import PlaceHolder from "./FileInput/PlaceHolder";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { InputText } from "primereact/inputtext";
+import { Button } from "primereact/button";
+import { applyToClipBoard } from "../../utils";
 
 export default function FileInput({ className, label, type, cdn_url, setCDNUrl, disabled }) {
-    const [preview, setPreview] = useState(cdn_url);
+    const [preview, setPreview] = useState();
+
+    useEffect(() => {
+        if (!!cdn_url) setPreview(cdn_url);
+    }, [cdn_url]);
 
     return (
         <div className={` p-4 border-1 border-gray-300 border-round ${className} `}>
@@ -12,6 +19,11 @@ export default function FileInput({ className, label, type, cdn_url, setCDNUrl, 
             ) : (
                 <PlaceHolder disabled={disabled} label={label} setCDNUrl={setCDNUrl} setPreview={setPreview} type={type} />
             )}
+
+            <div className="p-inputgroup flex-1 mt-2">
+                <InputText value={cdn_url} className="p-inputtext-sm w-full" placeholder="Preview URL" onChange={(e) => setCDNUrl(e.target.value)} />
+                <Button icon="pi pi-copy" className="p-button-warning" onClick={() => applyToClipBoard(cdn_url)} />
+            </div>
         </div>
     );
 }

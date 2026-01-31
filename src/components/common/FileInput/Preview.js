@@ -1,6 +1,7 @@
 import { Button } from "primereact/button";
 import Thumbnail from "./Thumbnail";
 
+
 export default function Preview({ type, preview, setPreview, setCDNUrl, label, disabled }) {
     return (
         <div className="flex flex-column align-items-center justify-content-center gap-3">

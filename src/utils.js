@@ -138,4 +138,6 @@ export async function uploadMedia({
     return xhr;
 }
 
+export const applyToClipBoard = (value) => navigator.clipboard.writeText(value);
+
 export const hasRequiredAuthority = (authorities, requiredAuthority) => authorities.includes(requiredAuthority);
