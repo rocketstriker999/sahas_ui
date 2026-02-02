@@ -14,7 +14,15 @@ export default function Revenue() {
 
     return (
         <div className="flex flex-column h-full">
-            <PageTitle title={"Revenue"} action={<span className="pi pi-filter-fill" />} />
+            <PageTitle
+                title={"Revenue"}
+                action={
+                    <div className="flex gap-3">
+                        <span className="pi pi-filter-fill" />
+                        <span className="pi pi-download" />
+                    </div>
+                }
+            />
             <Summary dates={dates} setDates={setDates} />
             <Transactions dates={dates} />
         </div>

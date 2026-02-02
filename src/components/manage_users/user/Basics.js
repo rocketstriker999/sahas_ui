@@ -96,6 +96,7 @@ export default function Basics() {
                         cdn_url={basics?.image}
                         setCDNUrl={(cdn_url) => setBasics((prev) => ({ ...prev, image: cdn_url }))}
                         disabled={loading || !enableInputs}
+                        source_visible={false}
                     />
                     <FloatLabel className="mt-4">
                         <InputText
@@ -174,11 +175,18 @@ export default function Basics() {
                 <NoContent error={"No Inquiries Found"} />
             )}
 
-            <Button className="mx-3 my-2" label="Update" severity="warning" onClick={updateUserBasics} loading={updating} disabled={!basics}
-                    pt={{
-                        label: { className: TEXT_SIZE_NORMAL },
-                        icon: { className: TEXT_SIZE_NORMAL }
-                    }} />
+            <Button
+                className="mx-3 my-2"
+                label="Update"
+                severity="warning"
+                onClick={updateUserBasics}
+                loading={updating}
+                disabled={!basics}
+                pt={{
+                    label: { className: TEXT_SIZE_NORMAL },
+                    icon: { className: TEXT_SIZE_NORMAL },
+                }}
+            />
         </div>
     );
 }
