@@ -96,7 +96,7 @@ export default function Basics() {
                         cdn_url={basics?.image}
                         setCDNUrl={(cdn_url) => setBasics((prev) => ({ ...prev, image: cdn_url }))}
                         disabled={loading || !enableInputs}
-                        source_visible={false}
+                        source_accessible={false}
                     />
                     <FloatLabel className="mt-4">
                         <InputText
