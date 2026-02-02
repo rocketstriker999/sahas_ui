@@ -5,7 +5,7 @@ import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { applyToClipBoard } from "../../utils";
 
-export default function FileInput({ className, label, type, cdn_url, setCDNUrl, disabled, source_visible = true }) {
+export default function FileInput({ className, label, type, cdn_url, setCDNUrl, disabled, source_accessible = true }) {
     const [preview, setPreview] = useState();
 
     useEffect(() => {
@@ -20,7 +20,7 @@ export default function FileInput({ className, label, type, cdn_url, setCDNUrl, 
                 <PlaceHolder disabled={disabled} label={label} setCDNUrl={setCDNUrl} setPreview={setPreview} type={type} />
             )}
 
-            {source_visible && (
+            {!!source_accessible && (
                 <div className="p-inputgroup flex-1 mt-2">
                     <InputText value={cdn_url} className="p-inputtext-sm w-full" placeholder="Preview URL" onChange={(e) => setCDNUrl(e.target.value)} />
                     <Button icon="pi pi-copy" className="p-button-warning" onClick={() => applyToClipBoard(cdn_url)} />

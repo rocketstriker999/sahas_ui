@@ -92,7 +92,7 @@ export default function DialogAddTransaction({ visible, enrollment_id, setTransa
                 cdn_url={transaction?.image}
                 setCDNUrl={(cdn_url) => setTransaction((prev) => ({ ...prev, image: cdn_url }))}
                 disabled={loading}
-                source_visible={false}
+                source_accessible={false}
             />
 
             <FloatLabel className="mt-5">
