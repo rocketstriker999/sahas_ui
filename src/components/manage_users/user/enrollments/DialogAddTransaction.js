@@ -39,11 +39,16 @@ export default function DialogAddTransaction({ visible, enrollment_id, setTransa
     }, [closeDialog, enrollment_id, requestAPI, setTransactions, showToast, transaction]);
 
     return (
-        <Dialog header={`Add New Transaction`} visible={visible} className="w-11" onHide={closeDialog}
+        <Dialog
+            header={`Add New Transaction`}
+            visible={visible}
+            className="w-11"
+            onHide={closeDialog}
             pt={{
                 headertitle: { className: TITLE_TEXT },
-                content: { className: "overflow-visible" }
-            }}>
+                content: { className: "overflow-visible" },
+            }}
+        >
             <TabHeader
                 className="pt-3"
                 title="Add New Transcation To Enrollment"
@@ -57,7 +62,9 @@ export default function DialogAddTransaction({ visible, enrollment_id, setTransa
                     className="w-full"
                     onChange={(e) => setTransaction((prev) => ({ ...prev, amount: e.value }))}
                 />
-                <label htmlFor="amount" className={`${TEXT_SIZE_SMALL}`}>Amount</label>
+                <label htmlFor="amount" className={`${TEXT_SIZE_SMALL}`}>
+                    Amount
+                </label>
             </FloatLabel>
 
             <FloatLabel className="mt-5">
@@ -73,16 +80,19 @@ export default function DialogAddTransaction({ visible, enrollment_id, setTransa
                         item: { className: TEXT_SIZE_NORMAL },
                     }}
                 />
-                <label htmlFor="types" className={`${TEXT_SIZE_SMALL}`}>Type</label>
+                <label htmlFor="types" className={`${TEXT_SIZE_SMALL}`}>
+                    Type
+                </label>
             </FloatLabel>
 
             <FileInput
                 className={"mt-3"}
-                label="Product Category"
+                label="Reference Image"
                 type="image"
                 cdn_url={transaction?.image}
                 setCDNUrl={(cdn_url) => setTransaction((prev) => ({ ...prev, image: cdn_url }))}
                 disabled={loading}
+                source_visible={false}
             />
 
             <FloatLabel className="mt-5">
@@ -98,14 +108,22 @@ export default function DialogAddTransaction({ visible, enrollment_id, setTransa
                         root: { className: TEXT_SIZE_NORMAL },
                     }}
                 />
-                <label htmlFor="note" className={`${TEXT_SIZE_SMALL}`}>Note</label>
+                <label htmlFor="note" className={`${TEXT_SIZE_SMALL}`}>
+                    Note
+                </label>
             </FloatLabel>
 
-            <Button className="mt-3" label="Add Transaction" severity="warning" loading={loading} onClick={addTransaction}
+            <Button
+                className="mt-3"
+                label="Add Transaction"
+                severity="warning"
+                loading={loading}
+                onClick={addTransaction}
                 pt={{
                     label: { className: TEXT_SIZE_NORMAL },
-                    icon: { className: TEXT_SIZE_NORMAL }
-                }} />
+                    icon: { className: TEXT_SIZE_NORMAL },
+                }}
+            />
         </Dialog>
     );
 }
