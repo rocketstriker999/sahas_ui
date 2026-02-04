@@ -90,6 +90,10 @@ export function getFileAcceptType(type) {
         return ".csv"; // CSVs only
     }
 
+    if (type === "audio") {
+        return ".mp3"; // MP3 only
+    }
+
     return ".png"; // PNG only
 }
 
