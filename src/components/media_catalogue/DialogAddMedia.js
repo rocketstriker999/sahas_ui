@@ -8,6 +8,7 @@ import { InputText } from "primereact/inputtext";
 import { Dropdown } from "primereact/dropdown";
 import { useSelector } from "react-redux";
 import FileInput from "../common/FileInput";
+import CheckboxInput from "../common/CheckBoxInput";
 
 export default function DialogAddMedia({ visible, closeDialog, setMediaCatalogue, chapterId, view_index }) {
     const { requestAPI, showToast } = useAppContext();
@@ -72,6 +73,13 @@ export default function DialogAddMedia({ visible, closeDialog, setMediaCatalogue
                     disabled={loading}
                 />
             )}
+
+            <CheckboxInput
+                className={"mt-3"}
+                label={"Combo Course"}
+                checked={!!media?.downloadable}
+                onChange={(checked) => setMedia((prev) => ({ ...prev, downloadable: checked }))}
+            />
 
             <FloatLabel className="mt-5">
                 <InputText
