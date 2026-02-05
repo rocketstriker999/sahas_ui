@@ -1,6 +1,14 @@
 export default function Thumbnail({ type, preview }) {
     if (type === "video") {
-        return <video src={preview} alt="success" className="w-full max-h-6rem" autoPlay />;
+        return <video src={preview} alt="success" className="w-full max-h-6rem" />;
+    }
+
+    if (type === "audio") {
+        return (
+            <audio className="w-full" controls controlsList="nodownload" onContextMenu={(e) => e.preventDefault()}>
+                <source src={preview} type="audio/mpeg" />
+            </audio>
+        );
     }
 
     if (type === "image") {

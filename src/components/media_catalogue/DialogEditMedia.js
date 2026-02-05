@@ -5,8 +5,7 @@ import { useCallback, useState } from "react";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import TabHeader from "../common/TabHeader";
 import { InputText } from "primereact/inputtext";
-import { Dropdown } from "primereact/dropdown";
-import { useSelector } from "react-redux";
+import CheckboxInput from "../common/CheckBoxInput";
 import FileInput from "../common/FileInput";
 
 export default function DialogEditMedia({ visible, closeDialog, setMediaCatalogue, chapterId, ...props }) {
@@ -14,8 +13,6 @@ export default function DialogEditMedia({ visible, closeDialog, setMediaCatalogu
 
     const [media, setMedia] = useState(props);
     const [loading, setLoading] = useState();
-
-    const { media_types = [] } = useSelector((state) => state.stateTemplateConfig?.chapter);
 
     const editMedia = useCallback(() => {
         requestAPI({
@@ -69,6 +66,13 @@ export default function DialogEditMedia({ visible, closeDialog, setMediaCatalogu
                 />
                 <label htmlFor="external_url">External URL</label>
             </FloatLabel>
+
+            <CheckboxInput
+                className={"mt-3"}
+                label={"Downloadable"}
+                checked={!!media?.downloadable}
+                onChange={(checked) => setMedia((prev) => ({ ...prev, downloadable: checked }))}
+            />
 
             <Button className="mt-3" label="Edit Media" severity="warning" loading={loading} onClick={editMedia} />
         </Dialog>
