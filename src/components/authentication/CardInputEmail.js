@@ -53,7 +53,7 @@ export default function CardInputEmail({ email, setEmail, requestOTP }) {
                     className="mt-4"
                     pt={{
                         title: { className: classNames(TITLE_TEXT, "text-center") },
-                        content: { className: "pb-0 p-3", style: { overflow: 'visible', position: 'relative' } },
+                        content: { className: "pb-0" },
                     }}
                 >
                 <div className="flex flex-column align-items-center text-center w-full">
@@ -104,10 +104,7 @@ export default function CardInputEmail({ email, setEmail, requestOTP }) {
                             buttonClassName="p-button-outlined p-button-help"
                             pt={{
                                 root: { className: "relative" },
-                                button: { className: "p-0" },
-                                menu: { className: "p-0 gap-1" },
-                                menuitem: { className: "p-0" },
-                                action: { className: "p-0" },
+                                button: { className: "h-2rem w-2rem" }
                             }}
                         />
                         <p className={`m-0 mt-2 ${TEXT_SIZE_SMALL} text-color-secondary`}>Need Help?</p>
