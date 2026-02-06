@@ -50,7 +50,7 @@ export default function CategoriesHeader({ categories, updatingViewIndex, setUpd
                 title="Course Categories"
                 highlights={[`Total ${categories?.length} Categories`]}
                 actionItems={[
-                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_COURSE_CATEGORY}>
                         <Button
                             onClick={() =>
                                 setDialogAddCategory((prev) => ({
@@ -65,7 +65,7 @@ export default function CategoriesHeader({ categories, updatingViewIndex, setUpd
                         />
                     </HasRequiredAuthority>,
                     !!categories?.length && (
-                        <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+                        <HasRequiredAuthority requiredAuthority={AUTHORITIES.UPDATE_COURSE_CATEGORY_VIEW_INDEX}>
                             <Button
                                 loading={loading}
                                 onClick={() => {
