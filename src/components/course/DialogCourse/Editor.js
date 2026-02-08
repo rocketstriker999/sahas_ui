@@ -3,8 +3,13 @@ import { InputText } from "primereact/inputtext";
 import FileInput from "../../common/FileInput";
 import { InputTextarea } from "primereact/inputtextarea";
 import { TEXT_SIZE_NORMAL } from "../../../style";
+import { useEffect } from "react";
 
-export default function Editor({ dialogDashboard, dialog, setDialog }) {
+export default function Editor({ dialogCourse, dialog, setDialog }) {
+    useEffect(() => {
+        setDialog(dialogCourse);
+    }, []);
+
     return (
         <div>
             <div className="p-inputgroup ">
@@ -18,17 +23,17 @@ export default function Editor({ dialogDashboard, dialog, setDialog }) {
                     onChange={(e) => setDialog((prev) => ({ ...prev, title: e.target.value }))}
                     value={dialog?.title || ""}
                     placeholder="Title"
-                    disabled={dialogDashboard?.updating}
+                    disabled={dialogCourse?.updating}
                 />
             </div>
             <FileInput
                 className={"mt-2"}
                 label="Product Category"
                 type="image"
-                source_accessible={false}
                 cdn_url={dialog?.media_url}
                 setCDNUrl={(cdn_url) => setDialog((prev) => ({ ...prev, media_url: cdn_url }))}
-                disabled={dialogDashboard?.updating}
+                disabled={dialogCourse?.updating}
+                source_accessible={false}
                 pt={{
                     root: { className: TEXT_SIZE_NORMAL },
                 }}
@@ -44,7 +49,7 @@ export default function Editor({ dialogDashboard, dialog, setDialog }) {
                     onChange={(e) => setDialog((prev) => ({ ...prev, heading: e.target.value }))}
                     value={dialog?.heading || ""}
                     placeholder="Heading"
-                    disabled={dialogDashboard?.updating}
+                    disabled={dialogCourse?.updating}
                 />
             </div>
             <FloatLabel className="mt-5">
@@ -58,7 +63,7 @@ export default function Editor({ dialogDashboard, dialog, setDialog }) {
                     cols={30}
                     className="w-full"
                     onChange={(e) => setDialog((prev) => ({ ...prev, description: e.target.value }))}
-                    disabled={dialogDashboard?.updating}
+                    disabled={dialogCourse?.updating}
                 />
                 <label htmlFor="description">Description</label>
             </FloatLabel>
@@ -73,7 +78,7 @@ export default function Editor({ dialogDashboard, dialog, setDialog }) {
                     value={dialog?.note || ""}
                     onChange={(e) => setDialog((prev) => ({ ...prev, note: e.target.value }))}
                     placeholder="Note"
-                    disabled={dialogDashboard?.updating}
+                    disabled={dialogCourse?.updating}
                 />
             </div>
             <div className="p-inputgroup mt-2">
@@ -87,7 +92,7 @@ export default function Editor({ dialogDashboard, dialog, setDialog }) {
                     onChange={(e) => setDialog((prev) => ({ ...prev, redirect_url: e.target.value }))}
                     value={dialog?.redirect_url || ""}
                     placeholder="Redirect URL"
-                    disabled={dialogDashboard?.updating}
+                    disabled={dialogCourse?.updating}
                 />
             </div>
         </div>
