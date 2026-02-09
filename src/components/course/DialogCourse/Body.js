@@ -7,7 +7,7 @@ export default function Body({ heading, media_url, description, note }) {
     return (
         <div className="flex flex-column align-items-center gap-3">
             <div className="w-full border-round overflow-hidden shadow-2">
-                <img src={media_url} alt="News Update" className="w-full block" style={{ maxHeight: "200px", objectFit: "cover" }} />
+                <img src={media_url} alt="News Update" className="w-full block" style={{ maxHeight: "256px", objectFit: "cover" }} />
             </div>
 
             <div className="text-center">

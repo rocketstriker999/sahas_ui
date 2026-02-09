@@ -28,7 +28,7 @@ export default function Editor({ dialogCourse, dialog, setDialog }) {
             </div>
             <FileInput
                 className={"mt-2"}
-                label="Product Category"
+                label="Notification"
                 type="image"
                 cdn_url={dialog?.media_url}
                 setCDNUrl={(cdn_url) => setDialog((prev) => ({ ...prev, media_url: cdn_url }))}
