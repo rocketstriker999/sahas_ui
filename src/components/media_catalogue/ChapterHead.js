@@ -78,7 +78,7 @@ export default function ChapterHead({ setLoading, setError, mediaCatalogue, setM
                     pt={{ root: classNames("font-bold text-xs border-noround bg-transparent border-none flex-1"), label: classNames("text-white") }}
                     model={items}
                 />
-                <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+                <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_MEDIA}>
                     <Button
                         onClick={() =>
                             setDialogAddMedia((prev) => ({
@@ -94,7 +94,7 @@ export default function ChapterHead({ setLoading, setError, mediaCatalogue, setM
                     />
                 </HasRequiredAuthority>
 
-                <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+                <HasRequiredAuthority requiredAuthority={AUTHORITIES.UPDATE_MEDIA_VIEW_INDEX}>
                     {!!mediaCatalogue?.length && (
                         <Button
                             loading={updating}

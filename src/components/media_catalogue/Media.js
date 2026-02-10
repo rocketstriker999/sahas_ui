@@ -75,7 +75,7 @@ export default function Media({ id, title, setMediaCatalogue, type, external_url
             )}
             {!!updatingViewIndex && <IconButton icon={"pi-equals"} color={"text-indigo-800"} />}
 
-            <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.UPDATE_MEDIA}>
                 {!updatingViewIndex && (
                     <ProgressiveControl
                         loading={loading}
@@ -104,13 +104,13 @@ export default function Media({ id, title, setMediaCatalogue, type, external_url
                 )}
             </HasRequiredAuthority>
 
-            <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.DELETE_MEDIA}>
                 {!updatingViewIndex && (
                     <ProgressiveControl loading={loading} control={<IconButton icon={`pi-trash`} color={"text-red-500"} onClick={deleteMedia} />} />
                 )}
             </HasRequiredAuthority>
 
-            <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.UPDATE_MEDIA}>
                 {dialogEditMedia?.visible && <DialogEditMedia {...dialogEditMedia} />}
             </HasRequiredAuthority>
         </div>

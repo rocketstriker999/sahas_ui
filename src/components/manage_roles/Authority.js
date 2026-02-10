@@ -4,6 +4,8 @@ import { useAppContext } from "../../providers/ProviderAppContainer";
 import Detail from "../common/Detail";
 import { getReadableDate } from "../../utils";
 import ProgressiveControl from "../common/ProgressiveControl";
+import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../constants";
 
 export default function Authority({ roleId, authority_id, title, ...props }) {
     const { requestAPI, showToast } = useAppContext();
@@ -53,10 +55,21 @@ export default function Authority({ roleId, authority_id, title, ...props }) {
                 value={title}
             />
 
-            <ProgressiveControl
-                loading={loading}
-                control={<Checkbox checked={Boolean(roleAuthority?.id)} onChange={({ checked }) => (checked ? addRoleAuthority() : deleteRoleAuthority())} />}
-            />
+            {roleAuthority?.id ? (
+                <HasRequiredAuthority requiredAuthority={AUTHORITIES.DELETE_ROLES_AUTHORITIES}>
+                    <ProgressiveControl
+                        loading={loading}
+                        control={<Checkbox checked={Boolean(roleAuthority?.id)} onChange={({ checked }) => (checked ? addRoleAuthority() : deleteRoleAuthority())} />}
+                    />
+                </HasRequiredAuthority>
+            ) : (
+                <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_ROLES_AUTHORITIES}>
+                    <ProgressiveControl
+                        loading={loading}
+                        control={<Checkbox checked={Boolean(roleAuthority?.id)} onChange={({ checked }) => (checked ? addRoleAuthority() : deleteRoleAuthority())} />}
+                    />
+                </HasRequiredAuthority>
+            )}
         </div>
     );
 }

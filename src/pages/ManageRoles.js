@@ -7,6 +7,8 @@ import NoContent from "../components/common/NoContent";
 import Role from "../components/manage_roles/Role";
 import { useCallback, useState } from "react";
 import DialogAddRole from "../components/manage_roles/DialogAddRole";
+import { AUTHORITIES } from "../constants";
+import HasRequiredAuthority from "../components/dependencies/HasRequiredAuthority";
 
 export default function ManageRoles() {
     const { roles = [] } = useSelector((state) => state.stateTemplateConfig?.global);
@@ -27,17 +29,19 @@ export default function ManageRoles() {
                 title="Roles"
                 highlights={[`Total - ${roles?.length} Roles`]}
                 actionItems={[
-                    <Button
-                        icon="pi pi-plus"
-                        severity="warning"
-                        onClick={() =>
-                            setDialogAddRole((prev) => ({
-                                ...prev,
-                                visible: true,
-                                closeDialog: closeDialogAddRole,
-                            }))
-                        }
-                    />,
+                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_ROLES}>
+                        <Button
+                            icon="pi pi-plus"
+                            severity="warning"
+                            onClick={() =>
+                                setDialogAddRole((prev) => ({
+                                    ...prev,
+                                    visible: true,
+                                    closeDialog: closeDialogAddRole,
+                                }))
+                            }
+                        />
+                    </HasRequiredAuthority>,
                 ]}
             />
             <Divider />
