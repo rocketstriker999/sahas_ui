@@ -1,9 +1,6 @@
 import NoContent from "../../common/NoContent";
 
 export default function Body({ heading, media_url, description, note }) {
-    if (!heading || !media_url || !description || !note) {
-        return <NoContent error={"Click Edit To Start"} />;
-    }
     return (
         <div className="flex flex-column align-items-center gap-3">
             <div className="w-full border-round overflow-hidden shadow-2">
