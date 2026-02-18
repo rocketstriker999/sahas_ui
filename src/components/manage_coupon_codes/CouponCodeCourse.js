@@ -13,7 +13,9 @@ export default function CouponCodeCourse({
     index,
     discount,
     discount_type,
-    validity,
+    validity_days,
+    validity_date,
+
     validity_type,
     distributor_email,
     distributor_name,
@@ -62,7 +64,12 @@ export default function CouponCodeCourse({
                 </span>
                 <div className="flex align-items-center gap-2 mt-2 justify-content-between">
                     <Detail className={"w-8rem"} icon="pi pi-money-bill" title={"Discount"} value={discount.concat(discount_type)} />
-                    <Detail className={"flex-1"} icon="pi pi-calendar" title={"Validity"} value={`${validity_type} ${validity} Days`} />
+                    <Detail
+                        className={"flex-1"}
+                        icon="pi pi-calendar"
+                        title={"Validity"}
+                        value={validity_type === "DAYS" ? `${validity_days} Days` : getReadableDate({ date: validity_date, removeTime: true })}
+                    />
                 </div>
                 <div className="flex align-items-center gap-2 mt-2 justify-content-between">
                     <Detail className={"w-8rem"} icon="pi pi-user" title={"Distributor"} value={distributor_name} />
@@ -85,7 +92,8 @@ export default function CouponCodeCourse({
                         title,
                         discount,
                         discount_type,
-                        validity,
+                        validity_days,
+                        validity_date: new Date(validity_date),
                         validity_type,
                         distributor_email,
                         commision,

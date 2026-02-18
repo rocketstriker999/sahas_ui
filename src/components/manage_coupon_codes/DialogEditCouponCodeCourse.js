@@ -7,6 +7,9 @@ import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { SelectButton } from "primereact/selectbutton";
 import { InputNumber } from "primereact/inputnumber";
+import { Calendar } from "primereact/calendar";
+import { TEXT_SIZE_SMALL } from "../../style";
+import { getWriteableDate } from "../../utils";
 
 export default function DialogEditCouponCodeCourse({ visible, setCouponCodeCourses, closeDialog, ...props }) {
     const { requestAPI, showToast } = useAppContext();
@@ -21,6 +24,7 @@ export default function DialogEditCouponCodeCourse({ visible, setCouponCodeCours
             requestPostBody: {
                 ...couponCodeCourse,
                 distributor_email: couponCodeCourse?.distributor_email || null,
+                validity_date: getWriteableDate({ date: couponCodeCourse?.validity_date, removeTime: true }),
             },
             setLoading: setLoading,
             onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Edit Coupon Code Course !", life: 2000 }),
@@ -28,7 +32,7 @@ export default function DialogEditCouponCodeCourse({ visible, setCouponCodeCours
                 if (updatedCouponCodeCourse && responseCode === 200) {
                     showToast({ severity: "success", summary: "Updated", detail: "Coupon Code Course Updated", life: 1000 });
                     setCouponCodeCourses((prev) =>
-                        prev?.map((couponCodeCourse) => (couponCodeCourse?.id === props?.id ? updatedCouponCodeCourse : couponCodeCourse))
+                        prev?.map((couponCodeCourse) => (couponCodeCourse?.id === props?.id ? updatedCouponCodeCourse : couponCodeCourse)),
                     );
                     setcouponCodeCourse(); //reset form
                     closeDialog(); //close the dialog
@@ -89,20 +93,38 @@ export default function DialogEditCouponCodeCourse({ visible, setCouponCodeCours
             </div>
 
             <div className="flex align-items-center  mt-5 gap-1">
-                <FloatLabel className="flex-1">
-                    <InputNumber
-                        value={couponCodeCourse?.validity}
-                        id="validity"
-                        onChange={(e) => setcouponCodeCourse((prev) => ({ ...prev, validity: e.value }))}
-                        disabled={loading}
-                        inputClassName="w-full"
-                    />
-                    <label htmlFor="validity">Validity Days</label>
-                </FloatLabel>
+                {couponCodeCourse?.validity_type === "DATE" ? (
+                    <FloatLabel className="flex-1">
+                        <Calendar
+                            dateFormat="dd/mm/yy"
+                            inputId="start_date"
+                            className="w-full"
+                            value={couponCodeCourse?.validity_date}
+                            onChange={(e) => setcouponCodeCourse((prev) => ({ ...prev, validity_date: e.value }))}
+                            disabled={loading}
+                            showTime={false}
+                            showIcon
+                        />
+                        <label htmlFor="start_date" className={`${TEXT_SIZE_SMALL}`}>
+                            Start Date
+                        </label>
+                    </FloatLabel>
+                ) : (
+                    <FloatLabel className="flex-1">
+                        <InputNumber
+                            value={couponCodeCourse?.validity_days}
+                            id="validity"
+                            onChange={(e) => setcouponCodeCourse((prev) => ({ ...prev, validity_days: e.value }))}
+                            disabled={loading}
+                            inputClassName="w-full"
+                        />
+                        <label htmlFor="validity">Validity Days</label>
+                    </FloatLabel>
+                )}
                 <SelectButton
                     value={couponCodeCourse?.validity_type}
                     onChange={(e) => setcouponCodeCourse((prev) => ({ ...prev, validity_type: e.target.value }))}
-                    options={["EXTEND", "FIX"]}
+                    options={["DAYS", "DATE"]}
                 />
             </div>
 
