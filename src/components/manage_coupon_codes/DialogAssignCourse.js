@@ -9,6 +9,9 @@ import { FloatLabel } from "primereact/floatlabel";
 import { InputText } from "primereact/inputtext";
 import { SelectButton } from "primereact/selectbutton";
 import { InputNumber } from "primereact/inputnumber";
+import { Calendar } from "primereact/calendar";
+import { TEXT_SIZE_SMALL } from "../../style";
+import { getWriteableDate } from "../../utils";
 
 export default function DialogAssignCourse({ visible, couponCodeId, couponCodeCourses, setCouponCodeCourses, closeDialog }) {
     const { requestAPI, showToast } = useAppContext();
@@ -21,8 +24,9 @@ export default function DialogAssignCourse({ visible, couponCodeId, couponCodeCo
         discount_type: "₹",
         commision: 0,
         commision_type: "₹",
-        validity: 0,
-        validity_type: "EXTEND",
+        validity_days: 365,
+        validity_date: new Date(),
+        validity_type: "DAYS",
         distributor_email: null,
     });
     const [loading, setLoading] = useState();
@@ -31,7 +35,10 @@ export default function DialogAssignCourse({ visible, couponCodeId, couponCodeCo
         requestAPI({
             requestPath: `coupon-code-courses`,
             requestMethod: "POST",
-            requestPostBody: assignCouponCodeCourses,
+            requestPostBody: {
+                ...assignCouponCodeCourses,
+                validity_date: getWriteableDate({ date: assignCouponCodeCourses?.validity_date, removeTime: true }),
+            },
             setLoading: setLoading,
             onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Assign Course !", life: 2000 }),
             onResponseReceieved: (assignedCouponCodeCourses, responseCode) => {
@@ -112,20 +119,39 @@ export default function DialogAssignCourse({ visible, couponCodeId, couponCodeCo
             </div>
 
             <div className="flex align-items-center  mt-5 gap-1">
-                <FloatLabel className="flex-1">
-                    <InputNumber
-                        value={assignCouponCodeCourses?.validity}
-                        id="validity"
-                        onChange={(e) => setAssignCouponCodeCourses((prev) => ({ ...prev, validity: e.value }))}
-                        disabled={loading}
-                        inputClassName="w-full"
-                    />
-                    <label htmlFor="validity">Validity Days</label>
-                </FloatLabel>
+                {assignCouponCodeCourses?.validity_type === "DATE" ? (
+                    <FloatLabel className="flex-1">
+                        <Calendar
+                            dateFormat="dd/mm/yy"
+                            inputId="start_date"
+                            className="w-full"
+                            value={assignCouponCodeCourses?.validity_date}
+                            onChange={(e) => setAssignCouponCodeCourses((prev) => ({ ...prev, validity_date: e.value }))}
+                            disabled={loading}
+                            showTime={false}
+                            showIcon
+                        />
+                        <label htmlFor="start_date" className={`${TEXT_SIZE_SMALL}`}>
+                            Start Date
+                        </label>
+                    </FloatLabel>
+                ) : (
+                    <FloatLabel className="flex-1">
+                        <InputNumber
+                            value={assignCouponCodeCourses?.validity_days}
+                            id="validity"
+                            onChange={(e) => setAssignCouponCodeCourses((prev) => ({ ...prev, validity_days: e.value }))}
+                            disabled={loading}
+                            inputClassName="w-full"
+                        />
+                        <label htmlFor="validity">Validity Days</label>
+                    </FloatLabel>
+                )}
+
                 <SelectButton
                     value={assignCouponCodeCourses?.validity_type}
                     onChange={(e) => setAssignCouponCodeCourses((prev) => ({ ...prev, validity_type: e.target.value }))}
-                    options={["EXTEND", "FIX"]}
+                    options={["DAYS", "DATE"]}
                 />
             </div>
 
