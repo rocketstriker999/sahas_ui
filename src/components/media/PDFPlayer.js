@@ -126,7 +126,7 @@ export default function PDFPlayer({ cdn_url, title, downloadable }) {
                     className="p-button-rounded p-button-text text-white"
                     onClick={toggleFullScreenOrZoomOut}
                 />
-                {downloadable && <Button icon="pi pi-download" className="p-button-rounded p-button-text" onClick={() => saveAs(cdn_url, `${title}.pdf`)} />}
+                {!!downloadable && <Button icon="pi pi-download" className="p-button-rounded p-button-text" onClick={() => saveAs(cdn_url, `${title}.pdf`)} />}
             </div>
             <div className="flex flex-column overflow-auto bg-gray-200 h-30rem" onContextMenu={disableRightClick}>
                 <div

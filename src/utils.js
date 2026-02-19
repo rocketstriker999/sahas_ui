@@ -23,7 +23,8 @@ export async function generateDeviceFingerprint() {
     const model = device.device?.model || "Unknown Model";
     const os = device.os?.name || "Unknown OS";
     const osVersion = device.os?.version || "";
-    const screenRes = (window.screen.width * window.devicePixelRatio + window.screen.height * window.devicePixelRatio).toFixed(2);
+
+    const screenRes = window.screen.width + window.screen.height;
 
     const webglInfo = getWebGLFingerprint();
 

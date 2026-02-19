@@ -41,7 +41,9 @@ export default function Media() {
                 title={media?.title}
                 actionItems={[
                     <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
-                        <Button icon="pi pi-download" severity="warning" />
+                        <a href={media?.cdn_url} target="_blank" rel="noopener noreferrer">
+                            <span className="pi pi-download" />
+                        </a>
                     </HasRequiredAuthority>,
                 ]}
             />

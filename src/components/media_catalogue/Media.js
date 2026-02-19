@@ -8,7 +8,7 @@ import IconButton from "../common/IconButton";
 import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../../constants";
 
-export default function Media({ id, title, setMediaCatalogue, type, external_url, cdn_url, updatingViewIndex, updated_at }) {
+export default function Media({ id, title, setMediaCatalogue, type, external_url, cdn_url, downloadable, updatingViewIndex, updated_at }) {
     const { requestAPI, showToast } = useAppContext();
 
     const navigate = useNavigate();
@@ -94,6 +94,7 @@ export default function Media({ id, title, setMediaCatalogue, type, external_url
                                         type,
                                         external_url,
                                         cdn_url,
+                                        downloadable,
                                         closeDialog: closeDialogEditMedia,
                                     }))
                                 }

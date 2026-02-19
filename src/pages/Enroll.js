@@ -189,7 +189,7 @@ export default function Enroll() {
                     />
                 )}
 
-                <ButtonPay {...paymentGateWayPayLoad} disabled={!termsAccepted || !phone || !full_name} icon="pi pi-wallet" label={`Continue To Pay`} />
+                <ButtonPay {...paymentGateWayPayLoad} disabled={!termsAccepted || !phone || !full_name} icon="pi pi-wallet" />
             </div>
         </div>
     ) : (
