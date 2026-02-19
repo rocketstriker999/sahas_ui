@@ -4,63 +4,49 @@ import Detail from "../common/Detail";
 import { Accordion, AccordionTab } from "primereact/accordion";
 import { Button } from "primereact/button";
 import { TEXT_SIZE_NORMAL, SUB_TITLE_TEXT, ICON_SIZE } from "../../style";
+import { useMemo } from "react";
 
 export default function DialogContactUs({ visible, closeDialog }) {
-
-    const socialMedia = [
-        { url: "https://www.facebook.com/sahasinstitute", icon: "pi-facebook" },
-        { url: "https://www.instagram.com/commerce_ke_kings/", icon: "pi-instagram" },
-        { url: "https://www.youtube.com/channel/UCy5Klqv-1iS28nAcgn8Ps6w", icon: "pi-youtube" },
-    ];
-
-    const branches = [
-        {
-            id: 1,
-            title: "Waghodia Branch",
-            phone: "+91 9265352165",
-            address: "FF9 Sharnam/complex,Opp. HDFC Bank, Near Crystal School, Waghodia Dabhoi ring Road.",
-
-        },
-        {
-            id: 2,
-            title: "Karelibaug Branch",
-            phone: "+91 9265347133",
-            address: "E 110 Vrundavan Township, Beside Tasty Restaurant, Near Sangam Cross Road, Karelibaug",
-        },
-        {
-            id: 3,
-            title: "Sayajigunj Branch",
-            phone: "+91 9265343871",
-            address: "3rd Floor (347,348,349), Iscon Janmahal, Opposite Vadodara Railway Station, Above Vitcos Bus Stand Beside Msu, Sayajigunj - Vadodara",
-        },
-    ];
-
+    const contactUs = useMemo(
+        () => ({
+            social_media: [
+                { url: "https://www.facebook.com/sahasinstitute", icon: "pi-facebook" },
+                { url: "https://www.instagram.com/commerce_ke_kings/", icon: "pi-instagram" },
+                { url: "https://www.youtube.com/channel/UCy5Klqv-1iS28nAcgn8Ps6w", icon: "pi-youtube" },
+            ],
+            branches: [
+                {
+                    id: 1,
+                    title: "Waghodia Branch",
+                    phone: "+91 9265352165",
+                    address: "FF9 Sharnam/complex,Opp. HDFC Bank, Near Crystal School, Waghodia Dabhoi ring Road.",
+                },
+                {
+                    id: 2,
+                    title: "Karelibaug Branch",
+                    phone: "+91 9265347133",
+                    address: "E 110 Vrundavan Township, Beside Tasty Restaurant, Near Sangam Cross Road, Karelibaug",
+                },
+                {
+                    id: 3,
+                    title: "Sayajigunj Branch",
+                    phone: "+91 9265343871",
+                    address:
+                        "3rd Floor (347,348,349), Iscon Janmahal, Opposite Vadodara Railway Station, Above Vitcos Bus Stand Beside Msu, Sayajigunj - Vadodara",
+                },
+            ],
+        }),
+        [],
+    );
 
     return (
-        <Dialog
-            pt={{ content: classNames("overflow-none") }}
-            header="Contact Us"
-            visible={visible}
-            className="w-11"
-            onHide={closeDialog}
-        >
+        <Dialog pt={{ content: classNames("overflow-none") }} header="Contact Us" visible={visible} className="w-11" onHide={closeDialog}>
             <div className="flex flex-column gap-3 overflow-y-auto max-h-30rem">
-                <Detail
-                    icon="pi pi-envelope"
-                    title="Support"
-                    value="support@sahassmartstudies.com"
-                    className="border-round"
-                />
-
-                <Detail
-                    icon="pi pi-globe"
-                    title="Website"
-                    value="https://www.sahasinstitute.com"
-                    className="border-round"
-                />
+                <Detail icon="pi pi-envelope" title="Support" value="support@sahasinstitute.com" className="border-round" />
+                <Detail icon="pi pi-globe" title="Website" value="https://www.sahasinstitute.com" className="border-round" />
 
                 <div className="flex align-items-center gap-2">
-                    {socialMedia.map((social, index) => (
+                    {contactUs?.social_media?.map((social, index) => (
                         <a
                             key={index}
                             href={social.url}
@@ -76,7 +62,7 @@ export default function DialogContactUs({ visible, closeDialog }) {
                 <div className="flex flex-column gap-2">
                     <h3 className={`m-0 ${SUB_TITLE_TEXT} font-semibold`}>Branch Locations</h3>
                     <Accordion>
-                        {branches.map((branch) => (
+                        {contactUs?.branches.map((branch) => (
                             <AccordionTab
                                 key={branch.id}
                                 header={
@@ -88,12 +74,7 @@ export default function DialogContactUs({ visible, closeDialog }) {
                             >
                                 <div className="flex flex-column gap-3">
                                     <div className="flex align-items-center gap-2">
-                                        <Detail
-                                            icon="pi pi-phone"
-                                            title="Contact"
-                                            value={branch.phone}
-                                            className="flex-1 border-round"
-                                        />
+                                        <Detail icon="pi pi-phone" title="Contact" value={branch.phone} className="flex-1 border-round" />
                                         <Button
                                             icon="pi pi-phone"
                                             rounded
@@ -105,12 +86,7 @@ export default function DialogContactUs({ visible, closeDialog }) {
                                         />
                                     </div>
                                     <div className="flex align-items-center gap-2">
-                                        <Detail
-                                            icon="pi pi-map"
-                                            title="Address"
-                                            value={branch.address}
-                                            className="flex-1 border-round"
-                                        />
+                                        <Detail icon="pi pi-map" title="Address" value={branch.address} className="flex-1 border-round" />
                                         <Button
                                             icon="pi pi-map-marker"
                                             rounded
@@ -133,4 +109,3 @@ export default function DialogContactUs({ visible, closeDialog }) {
         </Dialog>
     );
 }
-
