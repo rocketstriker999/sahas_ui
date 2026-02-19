@@ -7,45 +7,15 @@ import { useState } from "react";
 import Error from "../common/Error";
 import { TEXT_SIZE_NORMAL, TITLE_TEXT, TEXT_SIZE_SMALL } from "../../style";
 import { classNames } from "primereact/utils";
-import { SpeedDial } from 'primereact/speeddial';
+import DialogContactUs from "./DialogContactUs";
 
 export default function CardInputEmail({ email, setEmail, requestOTP }) {
     const [loading, setLoading] = useState();
     const [error, setError] = useState();
-
-    const helpItems = [
-        {
-            label: 'Call',
-            icon: 'pi pi-phone',
-            command: () => {
-                window.location.href = `tel:+919429279966`;
-            }
-        },
-        {
-            label: 'Email',
-            icon: 'pi pi-envelope',
-            command: () => {
-                window.location.href = `mailto:support@hammerbyte.co.in`;
-            }
-        }
-    ];
+    const [dialogContactUs, setDialogContactUs] = useState({ visible: false });
 
     return (
-        <>
-            <style>{`
-                .card-input-email-speeddial .p-speeddial-button.p-button.p-button-icon-only {
-                    width: 2rem !important;
-                    height: 2rem !important;
-                    min-width: 2rem !important;
-                    min-height: 2rem !important;
-                }
-                .card-input-email-speeddial .p-speeddial-action {
-                    width: 2rem !important;
-                    height: 2rem !important;
-                    min-width: 2rem !important;
-                    min-height: 2rem !important;
-                }
-            `}</style>
+        <>           
             <div className="w-full flex flex-column lg:flex-row align-items-center  lg:justify-content-center lg:p-1 lg:gap-3">
                 <img className="w-full lg:w-6" src="/images/banner.jpg" alt="banner" />
                 <Card
@@ -94,24 +64,21 @@ export default function CardInputEmail({ email, setEmail, requestOTP }) {
                 </div>
 
                 <div className="w-full mt-3">
-                    <div className="flex flex-column align-items-end relative card-input-email-speeddial">
-                        <SpeedDial
-                            model={helpItems}
-                            direction="left"
-                            transitionDelay={80}
-                            showIcon="pi pi-question"
-                            hideIcon="pi pi-times"
-                            buttonClassName="p-button-outlined p-button-help"
-                            pt={{
-                                root: { className: "relative" },
-                                button: { className: "h-2rem w-2rem" }
-                            }}
+                    <div className="flex flex-column align-items-end gap-2">
+                        <Button
+                            icon="pi pi-question"
+                            rounded
+                            outlined
+                            severity="help"
+                            className="h-2rem w-2rem"
+                            onClick={() => setDialogContactUs((prev) => ({ ...prev, visible: true }))}
                         />
-                        <p className={`m-0 mt-2 ${TEXT_SIZE_SMALL} text-color-secondary`}>Need Help?</p>
+                        <p className={`m-0 ${TEXT_SIZE_SMALL} text-color-secondary`}>Need Help?</p>
                     </div>
                 </div>
             </Card>
         </div>
+        <DialogContactUs visible={dialogContactUs.visible} closeDialog={() => setDialogContactUs({ visible: false })} />
         </>
     );
 }
