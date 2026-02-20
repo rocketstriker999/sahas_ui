@@ -38,6 +38,7 @@ import ChaptersTest from "../pages/ChaptersTest";
 import Selection from "../components/chapter_test/Selection";
 import Appear from "../components/chapter_test/Appear";
 import Result from "../components/chapter_test/Result";
+import ContactUs from "../pages/ContactUs";
 
 export default function App() {
     return (
@@ -46,6 +47,8 @@ export default function App() {
                 <HasMandatoryDetails>
                     <Routes>
                         <Route path="/" element={<Dashboard />} />
+
+                        <Route path="/contact-us" element={<ContactUs />} />
 
                         <Route path="/manage-users" element={<ManageUsers />}>
                             <Route

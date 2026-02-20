@@ -3,20 +3,14 @@ import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { Card } from "primereact/card";
 import { APP_NAME } from "../../constants";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import Error from "../common/Error";
-import { TEXT_SIZE_NORMAL, TITLE_TEXT, TEXT_SIZE_SMALL } from "../../style";
+import { TEXT_SIZE_NORMAL, TITLE_TEXT } from "../../style";
 import { classNames } from "primereact/utils";
-import DialogContactUs from "./DialogContactUs";
 
 export default function CardInputEmail({ email, setEmail, requestOTP }) {
     const [loading, setLoading] = useState();
     const [error, setError] = useState();
-    const [dialogContactUs, setDialogContactUs] = useState({ visible: false });
-
-    const closeDialogContactUs = useCallback(() => {
-        setDialogContactUs((prev) => ({ ...prev, visible: false }));
-    }, []);
 
     return (
         <>
@@ -65,25 +59,9 @@ export default function CardInputEmail({ email, setEmail, requestOTP }) {
                                 icon: { className: TEXT_SIZE_NORMAL },
                             }}
                         />
-
-                        <Button
-                            onClick={() => setDialogContactUs((prev) => ({ ...prev, visible: true }))}
-                            className="w-full mt-3"
-                            severity="help"
-                            icon="pi pi-question"
-                            iconPos="right"
-                            label="Need Help..."
-                            disabled={loading}
-                            loading={loading}
-                            pt={{
-                                label: { className: TEXT_SIZE_NORMAL },
-                                icon: { className: TEXT_SIZE_NORMAL },
-                            }}
-                        />
                     </div>
                 </Card>
             </div>
-            {dialogContactUs.visible && <DialogContactUs visible={dialogContactUs.visible} closeDialog={closeDialogContactUs} />}
         </>
     );
 }
