@@ -24,29 +24,36 @@ export default function Operations({ className }) {
                         path: "/my-courses",
                     },
                     {
-                        title: "Exam",
-                        icon: "pi-pencil",
-                        path: "/exam",
+                        title: "Self Test",
+                        icon: "pi-book",
+                        path: "/chapters-test/selection",
                     },
                     {
-                        title: "Invoices",
+                        title: "Fees Receipts",
                         icon: "pi-receipt",
                         path: `/invoices`,
                     },
                     {
-                        title: "My Reminders",
+                        title: "Exam",
+                        icon: "pi-pencil",
+                        path: "/exam",
+                    },
+
+                    {
+                        title: "Study Planner",
                         icon: "pi-calendar-clock",
                         path: "/my-reminders",
                     },
+
                     {
-                        title: "Self Test",
-                        icon: "pi-question",
-                        path: "/chapters-test/selection",
-                    },
-                    {
-                        title: "My Tasks",
+                        title: "Counselling",
                         icon: "pi-check-square",
                         path: "/tasks",
+                    },
+                    {
+                        title: "Contact Us",
+                        icon: "pi-question-circle",
+                        path: "/contact-us",
                     },
                     {
                         title: "My Profile",
