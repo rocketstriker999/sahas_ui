@@ -1,5 +1,3 @@
-import NoContent from "../../common/NoContent";
-
 export default function Body({ heading, media_url, description, note }) {
     return (
         <div className="flex flex-column align-items-center gap-3">
