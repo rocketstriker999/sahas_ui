@@ -8,7 +8,7 @@ import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
 import FiltersDrawer from "./users/FiltersDrawer";
 import { useSelector } from "react-redux";
 import UserCard from "./users/UserCard";
-import { TEXT_SIZE_NORMAL, TEXT_SIZE_SMALL } from "../../style";
+import { TEXT_SIZE_SMALL } from "../../style";
 import { AUTHORITIES } from "../../constants";
 
 export default function Users() {
