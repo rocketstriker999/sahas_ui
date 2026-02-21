@@ -45,7 +45,7 @@ export default function DialogAddUser({ visible, closeDialog }) {
     }, [basics, closeDialog, navigate, requestAPI, showToast]);
 
     return (
-        <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Add New User`} visible={visible} className="w-11" onHide={closeDialog}>
+        <Dialog pt={{ content: { className: "overflow-y-scroll" } }} header={`Add New User`} visible={visible} className="w-11" onHide={closeDialog}>
             <TabHeader className="pt-3" title="Add New User" highlights={["New User Can Be Added", "Inquiries Can Be Managed Post Creation"]} />
 
             <FileInput

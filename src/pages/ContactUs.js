@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import Detail from "../components/common/Detail";
-import { ICON_SIZE, SUB_TITLE_TEXT, TEXT_SIZE_NORMAL } from "../style";
+import { ICON_SIZE, TEXT_SIZE_NORMAL } from "../style";
 
 import PageTitle from "../components/common/PageTitle";
 import { Accordion, AccordionTab } from "primereact/accordion";
