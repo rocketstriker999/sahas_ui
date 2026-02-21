@@ -5,6 +5,8 @@ import { Button } from "primereact/button";
 import { useDispatch } from "react-redux";
 import { removeAuthority } from "../../redux/sliceTemplateConfig";
 import ProgressiveControl from "../common/ProgressiveControl";
+import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../constants";
 
 export default function Authority({ id, created_on, title, description }) {
     const { requestAPI, showToast } = useAppContext();
@@ -31,11 +33,12 @@ export default function Authority({ id, created_on, title, description }) {
     return (
         <div className="flex align-items-center gap-1">
             <Detail className={"flex-1"} icon="pi pi-angle-right" title={`Created At ${created_on}`} value={title} more={description} />
-
-            <ProgressiveControl
-                loading={deleting}
-                control={<Button className="w-2rem h-2rem" icon="pi pi-trash" rounded severity="danger" onClick={deleteAuthority} />}
-            />
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.DELETE_AUTHORITIES}>
+                <ProgressiveControl
+                    loading={deleting}
+                    control={<Button className="w-2rem h-2rem" icon="pi pi-trash" rounded severity="danger" onClick={deleteAuthority} />}
+                />
+            </HasRequiredAuthority>
         </div>
     );
 }

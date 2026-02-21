@@ -64,7 +64,7 @@ export default function Subject({
             </div>
             {!!updatingViewIndex && <IconButton icon={"pi-equals"} color={background_color ? "text-white" : `text-indigo-800`} />}
 
-            <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.UPDATE_COURSE_SUBJECT}>
                 {!updatingViewIndex && (
                     <IconButton
                         icon={`pi pi-pencil `}
@@ -85,7 +85,7 @@ export default function Subject({
                 )}
             </HasRequiredAuthority>
 
-            <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.DELETE_COURSE_SUBJECT}>
                 {!updatingViewIndex && (
                     <ProgressiveControl
                         loading={deleting}

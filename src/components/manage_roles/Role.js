@@ -7,6 +7,8 @@ import { removeRole, replaceRole } from "../../redux/sliceTemplateConfig";
 import DialogManageRoleAuthorities from "./DialogManageRoleAuthority";
 import ProgressiveControl from "../common/ProgressiveControl";
 import { Checkbox } from "primereact/checkbox";
+import { AUTHORITIES } from "../../constants";
+import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
 
 export default function Role({ created_on, ...props }) {
     const { requestAPI, showToast } = useAppContext();
@@ -64,27 +66,35 @@ export default function Role({ created_on, ...props }) {
     return (
         <div className="flex align-items-center gap-2">
             <Detail className={"flex-1"} icon="pi pi-angle-right" title={`Created At ${created_on}`} value={props?.title} />
-            <ProgressiveControl
-                loading={updating}
-                control={<Checkbox checked={Boolean(props?.active)} onChange={({ checked }) => updateRole({ active: checked })} />}
-            />
-            <Button
-                className="w-2rem h-2rem"
-                icon="pi pi-list-check"
-                rounded
-                severity="warning"
-                onClick={() =>
-                    setDialogManageRoleAuthorities((prev) => ({
-                        ...prev,
-                        visible: true,
-                        closeDialog: closeDialogAddCourse,
-                    }))
-                }
-            />
-            <ProgressiveControl
-                loading={deleting}
-                control={<Button className="w-2rem h-2rem" icon="pi pi-trash" rounded severity="danger" onClick={deleteRole} />}
-            />
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.UPDATE_ROLES}>
+                <ProgressiveControl
+                    loading={updating}
+                    control={<Checkbox checked={Boolean(props?.active)} onChange={({ checked }) => updateRole({ active: checked })} />}
+                />
+            </HasRequiredAuthority>
+
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.READ_ROLES_AUTHORITIES}>
+                <Button
+                    className="w-2rem h-2rem"
+                    icon="pi pi-list-check"
+                    rounded
+                    severity="warning"
+                    onClick={() =>
+                        setDialogManageRoleAuthorities((prev) => ({
+                            ...prev,
+                            visible: true,
+                            closeDialog: closeDialogAddCourse,
+                        }))
+                    }
+                />
+            </HasRequiredAuthority>
+
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.DELETE_ROLES}>
+                <ProgressiveControl
+                    loading={deleting}
+                    control={<Button className="w-2rem h-2rem" icon="pi pi-trash" rounded severity="danger" onClick={deleteRole} />}
+                />
+            </HasRequiredAuthority>
 
             {dialogManageRoleAuthorities?.visible && <DialogManageRoleAuthorities {...dialogManageRoleAuthorities} />}
         </div>

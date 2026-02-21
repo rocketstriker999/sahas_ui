@@ -10,6 +10,8 @@ import { InputTextarea } from "primereact/inputtextarea";
 import { InputNumber } from "primereact/inputnumber";
 import CheckboxInput from "../common/CheckBoxInput";
 import { useSelector } from "react-redux";
+import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../constants";
 
 export default function DialogAddCourse({ visible, view_index, closeDialog, setCourses, categoryId }) {
     const { requestAPI, showToast } = useAppContext();
@@ -116,7 +118,9 @@ export default function DialogAddCourse({ visible, view_index, closeDialog, setC
                 )}
             </div>
 
-            <Button className="mt-3" label="Add Course" severity="warning" loading={loading} onClick={addCourse} />
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_COURSE}>
+                <Button className="mt-3" label="Add Course" severity="warning" loading={loading} onClick={addCourse} />
+            </HasRequiredAuthority>
         </Dialog>
     );
 }

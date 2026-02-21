@@ -8,6 +8,8 @@ import { useAppContext } from "../providers/ProviderAppContainer";
 import Loading from "../components/common/Loading";
 import NoContent from "../components/common/NoContent";
 import DialogAddCouponCode from "../components/manage_coupon_codes/DialogAddCouponCode";
+import { AUTHORITIES } from "../constants";
+import HasRequiredAuthority from "../components/dependencies/HasRequiredAuthority";
 
 export default function ManageCouponCodes() {
     const { requestAPI } = useAppContext();
@@ -49,11 +51,13 @@ export default function ManageCouponCodes() {
                 title="Manage Coupon Codes"
                 highlights={[`Add/Remove Coupon Code`, `Red & Green Indicates The Status`]}
                 actionItems={[
-                    <Button
-                        icon="pi pi-plus"
-                        severity="warning"
-                        onClick={() => setDialogAddCouponCode((prev) => ({ ...prev, setCouponCodes, visible: true, closeDialog: closeDialogAddCouponCode }))}
-                    />,
+                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_COUPON_CODE}>
+                        <Button
+                            icon="pi pi-plus"
+                            severity="warning"
+                            onClick={() => setDialogAddCouponCode((prev) => ({ ...prev, setCouponCodes, visible: true, closeDialog: closeDialogAddCouponCode }))}
+                        />
+                    </HasRequiredAuthority>,
                 ]}
             />
             <Divider />

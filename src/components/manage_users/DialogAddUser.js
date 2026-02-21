@@ -105,7 +105,9 @@ export default function DialogAddUser({ visible, closeDialog }) {
                 <label htmlFor="address">Address</label>
             </FloatLabel>
 
-            <Button className="mx-3 my-2" label="Add New User" severity="warning" onClick={addUser} loading={loading} disabled={!basics} />
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_USER}>
+                <Button className="mx-3 my-2" label="Add New User" severity="warning" onClick={addUser} loading={loading} disabled={!basics} />
+            </HasRequiredAuthority>
         </Dialog>
     );
 }

@@ -51,7 +51,7 @@ export default function CoursesHeader({ courses, category, setCourses, updatingV
                 title={category?.title}
                 highlights={[`${category?.courses_count} Courses`]}
                 actionItems={[
-                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_COURSE}>
                         <Button
                             disabled={loading}
                             onClick={() =>
@@ -68,7 +68,7 @@ export default function CoursesHeader({ courses, category, setCourses, updatingV
                         />
                     </HasRequiredAuthority>,
                     !!courses?.length && (
-                        <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+                        <HasRequiredAuthority requiredAuthority={AUTHORITIES.UPDATE_COURSE_VIEW_INDEX}>
                             <Button
                                 loading={loading}
                                 onClick={() => {

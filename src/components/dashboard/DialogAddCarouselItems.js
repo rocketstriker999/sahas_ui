@@ -9,6 +9,8 @@ import { InputText } from "primereact/inputtext";
 import { useDispatch } from "react-redux";
 import { addCarouselImage } from "../../redux/sliceTemplateConfig";
 import { TEXT_SIZE_NORMAL, TITLE_TEXT } from "../../style";
+import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../constants";
 
 export default function DialogAddCarouselItem({ visible, closeDialog }) {
     const { requestAPI, showToast } = useAppContext();
@@ -78,16 +80,18 @@ export default function DialogAddCarouselItem({ visible, closeDialog }) {
                 </label>
             </FloatLabel>
 
-            <Button
-                className="mt-3"
-                label="Add Carousel Item"
-                severity="warning"
-                loading={loading}
-                onClick={addCarouselItem}
-                pt={{
-                    label: { className: TEXT_SIZE_NORMAL },
-                }}
-            />
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_CAROUSEL}>
+                <Button
+                    className="mt-3"
+                    label="Add Carousel Item"
+                    severity="warning"
+                    loading={loading}
+                    onClick={addCarouselItem}
+                    pt={{
+                        label: { className: TEXT_SIZE_NORMAL },
+                    }}
+                />
+            </HasRequiredAuthority>
         </Dialog>
     );
 }

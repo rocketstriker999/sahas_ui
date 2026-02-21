@@ -52,7 +52,7 @@ export default function Enrollment({ index, setEnrollments, ...props }) {
                 </HasRequiredAuthority>
             </div>
 
-            <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_OTHER_USERS}>
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.UPDATE_ENROLLMENT}>
                 <div className="flex justify-content-center gap-4 px-4 py-3 border-bottom-1 border-300">
                     <div className="flex align-items-center gap-2">
                         <ProgressiveControl

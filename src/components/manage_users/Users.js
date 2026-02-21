@@ -71,8 +71,9 @@ export default function Users() {
     }, [searchQuery]);
 
     return (
-        <div className="flex flex-column h-full overflow-hidden">
-            <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_OTHER_USERS}>
+        <HasRequiredAuthority requiredAuthority={AUTHORITIES.USE_PAGE_USERS}>
+            <div className="flex flex-column h-full overflow-hidden">
+                <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_OTHER_USERS}>
                 <SearchBar
                     countAppliedFilters={countAppliedFilters}
                     disable={loading}
@@ -117,5 +118,6 @@ export default function Users() {
                 setSearchQuery={setSearchQuery}
             />
         </div>
+        </HasRequiredAuthority>
     );
 }

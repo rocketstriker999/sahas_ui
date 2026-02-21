@@ -11,6 +11,8 @@ import CheckboxInput from "../common/CheckBoxInput";
 import { InputNumber } from "primereact/inputnumber";
 import FileInput from "../common/FileInput";
 import { TEXT_SIZE_NORMAL } from "../../style";
+import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../constants";
 
 export default function DialogAddChapter({ visible, closeDialog, setChapters, subjectId, view_index }) {
     const { requestAPI, showToast } = useAppContext();
@@ -85,7 +87,9 @@ export default function DialogAddChapter({ visible, closeDialog, setChapters, su
                 />
             )}
 
-            <Button className="mt-3" label="Add Subject" severity="warning" loading={loading} onClick={addSubject} />
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_CHAPTERS}>
+                <Button className="mt-3" label="Add Subject" severity="warning" loading={loading} onClick={addSubject} />
+            </HasRequiredAuthority>
         </Dialog>
     );
 }

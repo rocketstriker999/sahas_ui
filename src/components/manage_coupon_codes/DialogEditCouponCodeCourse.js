@@ -10,6 +10,8 @@ import { InputNumber } from "primereact/inputnumber";
 import { Calendar } from "primereact/calendar";
 import { TEXT_SIZE_SMALL } from "../../style";
 import { getWriteableDate } from "../../utils";
+import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../constants";
 
 export default function DialogEditCouponCodeCourse({ visible, setCouponCodeCourses, closeDialog, ...props }) {
     const { requestAPI, showToast } = useAppContext();
@@ -128,7 +130,9 @@ export default function DialogEditCouponCodeCourse({ visible, setCouponCodeCours
                 />
             </div>
 
-            <Button className="mt-3" label="Edit Coupon Code Course" severity="warning" loading={loading} onClick={editCouponCodeCourse} />
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.UPDATE_COUPON_CODE_COURSES}>
+                <Button className="mt-3" label="Edit Coupon Code Course" severity="warning" loading={loading} onClick={editCouponCodeCourse} />
+            </HasRequiredAuthority>
         </Dialog>
     );
 }

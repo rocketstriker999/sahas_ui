@@ -5,6 +5,8 @@ import TabHeader from "../common/TabHeader";
 import { FloatLabel } from "primereact/floatlabel";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
+import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../constants";
 
 export default function DialogAddCouponCode({ visible, setCouponCodes, closeDialog }) {
     const { requestAPI, showToast } = useAppContext();
@@ -45,7 +47,9 @@ export default function DialogAddCouponCode({ visible, setCouponCodes, closeDial
                 <label htmlFor="code">Code</label>
             </FloatLabel>
 
-            <Button className="mt-3" label="Add Coupon Code" severity="warning" loading={loading} onClick={addCouponCode} />
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_COUPON_CODE}>
+                <Button className="mt-3" label="Add Coupon Code" severity="warning" loading={loading} onClick={addCouponCode} />
+            </HasRequiredAuthority>
         </Dialog>
     );
 }

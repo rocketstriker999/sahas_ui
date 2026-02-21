@@ -9,6 +9,8 @@ import { useDispatch } from "react-redux";
 import { InputTextarea } from "primereact/inputtextarea";
 import { addAuthority } from "../../redux/sliceTemplateConfig";
 import { TEXT_SIZE_SMALL, TITLE_TEXT } from "../../style";
+import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../constants";
 
 export default function DialogAddAuthority({ visible, closeDialog }) {
     const { requestAPI, showToast } = useAppContext();
@@ -75,10 +77,12 @@ export default function DialogAddAuthority({ visible, closeDialog }) {
                 <label htmlFor="description" className={`${TEXT_SIZE_SMALL}`}>Description</label>
             </FloatLabel>
 
-            <Button className="mt-3" label="Add Authority" severity="warning" loading={loading} onClick={addNewAuthority}
-                pt={{
-                    label: { className: TEXT_SIZE_SMALL },
-                }} />
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_AUTHORITIES}>
+                <Button className="mt-3" label="Add Authority" severity="warning" loading={loading} onClick={addNewAuthority}
+                    pt={{
+                        label: { className: TEXT_SIZE_SMALL },
+                    }} />
+            </HasRequiredAuthority>
         </Dialog>
     );
 }

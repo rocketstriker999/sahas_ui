@@ -11,6 +11,8 @@ import { EMPTY_VALUE } from "../../../../constants";
 import { useOutletContext } from "react-router-dom";
 import { TEXT_SIZE_SMALL, TEXT_SIZE_NORMAL, TITLE_TEXT } from "../../../../style";
 import FileInput from "../../../common/FileInput";
+import HasRequiredAuthority from "../../../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../../../constants";
 
 export default function DialogAddTransaction({ visible, enrollment_id, setTransactions, closeDialog }) {
     const { requestAPI, showToast } = useAppContext();
@@ -113,17 +115,19 @@ export default function DialogAddTransaction({ visible, enrollment_id, setTransa
                 </label>
             </FloatLabel>
 
-            <Button
-                className="mt-3"
-                label="Add Transaction"
-                severity="warning"
-                loading={loading}
-                onClick={addTransaction}
-                pt={{
-                    label: { className: TEXT_SIZE_NORMAL },
-                    icon: { className: TEXT_SIZE_NORMAL },
-                }}
-            />
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_ENROLLMENT_TRANSACTION}>
+                <Button
+                    className="mt-3"
+                    label="Add Transaction"
+                    severity="warning"
+                    loading={loading}
+                    onClick={addTransaction}
+                    pt={{
+                        label: { className: TEXT_SIZE_NORMAL },
+                        icon: { className: TEXT_SIZE_NORMAL },
+                    }}
+                />
+            </HasRequiredAuthority>
         </Dialog>
     );
 }

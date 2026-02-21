@@ -52,7 +52,7 @@ export default function Category({ id, image, title, courses_count, updatingView
                 <ProgressiveControl
                     loading={deleting}
                     control={
-                        <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+                        <HasRequiredAuthority requiredAuthority={AUTHORITIES.DELETE_COURSE_CATEGORY}>
                             <IconButton icon={"pi-trash"} color={"text-red-500"} onClick={deleteCategory} className={ICON_SIZE} />
                         </HasRequiredAuthority>
                     }
