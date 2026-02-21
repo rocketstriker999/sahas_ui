@@ -3,6 +3,8 @@ import { InputText } from "primereact/inputtext";
 import { useCallback, useState } from "react";
 import { useAppContext } from "../../../../providers/ProviderAppContainer";
 import { TEXT_SIZE_NORMAL } from "../../../../style";
+import HasRequiredAuthority from "../../../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../../../constants";
 
 export default function CardInputNote({ inquiry_id, setNotes }) {
     const [note, setNote] = useState("");
@@ -33,10 +35,12 @@ export default function CardInputNote({ inquiry_id, setNotes }) {
                 pt={{
                     root: { className: TEXT_SIZE_NORMAL },
                 }} />
-            <Button loading={loading} icon="pi pi-plus" className="p-button-warning" onClick={addInquiryNote} disabled={!note?.length}
-                pt={{
-                    icon: { className: TEXT_SIZE_NORMAL }
-                }} />
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_INQUIRY_NOTE}>
+                <Button loading={loading} icon="pi pi-plus" className="p-button-warning" onClick={addInquiryNote} disabled={!note?.length}
+                    pt={{
+                        icon: { className: TEXT_SIZE_NORMAL }
+                    }} />
+            </HasRequiredAuthority>
         </div>
     );
 }

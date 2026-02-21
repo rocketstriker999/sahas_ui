@@ -9,6 +9,8 @@ import { Dropdown } from "primereact/dropdown";
 import { useSelector } from "react-redux";
 import FileInput from "../common/FileInput";
 import CheckboxInput from "../common/CheckBoxInput";
+import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../constants";
 
 export default function DialogAddMedia({ visible, closeDialog, setMediaCatalogue, chapterId, view_index }) {
     const { requestAPI, showToast } = useAppContext();
@@ -92,7 +94,9 @@ export default function DialogAddMedia({ visible, closeDialog, setMediaCatalogue
                 <label htmlFor="external_url">External URL</label>
             </FloatLabel>
 
-            <Button className="mt-3" label="Add Media" severity="warning" loading={loading} onClick={addMedia} />
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_MEDIA}>
+                <Button className="mt-3" label="Add Media" severity="warning" loading={loading} onClick={addMedia} />
+            </HasRequiredAuthority>
         </Dialog>
     );
 }

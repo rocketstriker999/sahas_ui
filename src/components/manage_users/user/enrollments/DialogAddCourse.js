@@ -7,6 +7,8 @@ import TabHeader from "../../../common/TabHeader";
 import { useAppContext } from "../../../../providers/ProviderAppContainer";
 import { useOutletContext } from "react-router-dom";
 import { TEXT_SIZE_SMALL, TEXT_SIZE_NORMAL, TITLE_TEXT } from "../../../../style";
+import HasRequiredAuthority from "../../../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../../../constants";
 
 export default function DialogAddCourse({ visible, enrollment_id, enrolledCourses, setCourses, closeDialog }) {
     const { requestAPI, showToast } = useAppContext();
@@ -72,17 +74,19 @@ export default function DialogAddCourse({ visible, enrollment_id, enrolledCourse
                 </label>
             </FloatLabel>
 
-            <Button
-                className="mt-3"
-                label="Add Course"
-                severity="warning"
-                loading={loading}
-                onClick={addInquiry}
-                pt={{
-                    label: { className: TEXT_SIZE_NORMAL },
-                    icon: { className: TEXT_SIZE_NORMAL },
-                }}
-            />
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_ENROLLMENT_COURSE}>
+                <Button
+                    className="mt-3"
+                    label="Add Course"
+                    severity="warning"
+                    loading={loading}
+                    onClick={addInquiry}
+                    pt={{
+                        label: { className: TEXT_SIZE_NORMAL },
+                        icon: { className: TEXT_SIZE_NORMAL },
+                    }}
+                />
+            </HasRequiredAuthority>
         </Dialog>
     );
 }

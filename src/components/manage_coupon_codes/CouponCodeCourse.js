@@ -4,6 +4,8 @@ import { getReadableDate } from "../../utils";
 import ProgressiveControl from "../common/ProgressiveControl";
 import Detail from "../../components/common/Detail";
 import DialogEditCouponCodeCourse from "./DialogEditCouponCodeCourse";
+import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../constants";
 
 export default function CouponCodeCourse({
     id,
@@ -81,28 +83,32 @@ export default function CouponCodeCourse({
                     <span className="m-0 p-0 text-xs">{`Last Updated At ${getReadableDate({ date: updated_at })}`}</span>
                 </div>
             </div>
-            <i
-                className={`pi pi-pencil `}
-                onClick={() =>
-                    setDialogEditCouponCodeCourse((prev) => ({
-                        ...prev,
-                        visible: true,
-                        setCouponCodeCourses,
-                        id,
-                        title,
-                        discount,
-                        discount_type,
-                        validity_days,
-                        validity_date: new Date(validity_date),
-                        validity_type,
-                        distributor_email,
-                        commision,
-                        commision_type,
-                        closeDialog: closeDialogEditCouponCodeCourse,
-                    }))
-                }
-            ></i>
-            <ProgressiveControl loading={deleting} control={<i className={`pi pi-trash `} onClick={deleteCouponCodeCourse}></i>} />
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.UPDATE_COUPON_CODE_COURSES}>
+                <i
+                    className={`pi pi-pencil `}
+                    onClick={() =>
+                        setDialogEditCouponCodeCourse((prev) => ({
+                            ...prev,
+                            visible: true,
+                            setCouponCodeCourses,
+                            id,
+                            title,
+                            discount,
+                            discount_type,
+                            validity_days,
+                            validity_date: new Date(validity_date),
+                            validity_type,
+                            distributor_email,
+                            commision,
+                            commision_type,
+                            closeDialog: closeDialogEditCouponCodeCourse,
+                        }))
+                    }
+                ></i>
+            </HasRequiredAuthority>
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.DELETE_COUPON_CODE_COURSES}>
+                <ProgressiveControl loading={deleting} control={<i className={`pi pi-trash `} onClick={deleteCouponCodeCourse}></i>} />
+            </HasRequiredAuthority>
             {dialogEditCouponCodeCourse?.visible && <DialogEditCouponCodeCourse {...dialogEditCouponCodeCourse} />}
         </div>
     );

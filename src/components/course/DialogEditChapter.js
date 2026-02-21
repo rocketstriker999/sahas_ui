@@ -10,6 +10,8 @@ import { useSelector } from "react-redux";
 import CheckboxInput from "../common/CheckBoxInput";
 import FileInput from "../common/FileInput";
 import { TEXT_SIZE_NORMAL } from "../../style";
+import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../constants";
 
 export default function DialogEditChapter({ visible, closeDialog, setChapters, ...props }) {
     const { requestAPI, showToast } = useAppContext();
@@ -84,7 +86,9 @@ export default function DialogEditChapter({ visible, closeDialog, setChapters, .
                 />
             )}
 
-            <Button className="mt-3" label="Edit Subject" severity="warning" loading={loading} onClick={editChapter} />
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.UPDATE_CHAPTERS}>
+                <Button className="mt-3" label="Edit Subject" severity="warning" loading={loading} onClick={editChapter} />
+            </HasRequiredAuthority>
         </Dialog>
     );
 }

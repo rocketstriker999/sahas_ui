@@ -13,6 +13,8 @@ import { Checkbox } from "primereact/checkbox";
 import { TITLE_TEXT, TEXT_SIZE_SMALL } from "../../../../style";
 import { useSelector } from "react-redux";
 import { Dropdown } from "primereact/dropdown";
+import HasRequiredAuthority from "../../../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../../../constants";
 
 export default function DialogAddEnrollment({ visible, closeDialog, setEnrollments }) {
     const { requestAPI, showToast } = useAppContext();
@@ -172,16 +174,18 @@ export default function DialogAddEnrollment({ visible, closeDialog, setEnrollmen
                 </div>
             </div>
 
-            <Button
-                className="mt-3"
-                label="Add Enrollment"
-                severity="warning"
-                loading={loading}
-                onClick={addTransaction}
-                pt={{
-                    label: { className: TEXT_SIZE_SMALL },
-                }}
-            />
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_ENROLLMENT}>
+                <Button
+                    className="mt-3"
+                    label="Add Enrollment"
+                    severity="warning"
+                    loading={loading}
+                    onClick={addTransaction}
+                    pt={{
+                        label: { className: TEXT_SIZE_SMALL },
+                    }}
+                />
+            </HasRequiredAuthority>
         </Dialog>
     );
 }

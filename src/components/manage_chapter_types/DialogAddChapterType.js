@@ -8,6 +8,8 @@ import { InputText } from "primereact/inputtext";
 import { Checkbox } from "primereact/checkbox";
 import { classNames } from "primereact/utils";
 import CheckboxInput from "../common/CheckBoxInput";
+import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../constants";
 
 export default function DialogAddChapterType({ setChapterTypes, visible, closeDialog }) {
     const { requestAPI, showToast } = useAppContext();
@@ -59,7 +61,9 @@ export default function DialogAddChapterType({ setChapterTypes, visible, closeDi
                 onChange={(checked) => setChapterType((prev) => ({ ...prev, requires_enrollment_digital_access: checked }))}
             />
 
-            <Button className="mt-3" label="Add Chapter Type" severity="warning" loading={loading} onClick={addChapterType} />
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_CHAPTER_TYPES}>
+                <Button className="mt-3" label="Add Chapter Type" severity="warning" loading={loading} onClick={addChapterType} />
+            </HasRequiredAuthority>
         </Dialog>
     );
 }

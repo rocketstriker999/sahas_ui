@@ -7,6 +7,8 @@ import TabHeader from "../common/TabHeader";
 import { InputText } from "primereact/inputtext";
 import ColorInput from "../common/ColorInput";
 import { InputNumber } from "primereact/inputnumber";
+import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../constants";
 
 export default function DialogAddSubject({ visible, view_index, closeDialog, setSubjects, courseId }) {
     const { requestAPI, showToast } = useAppContext();
@@ -74,7 +76,9 @@ export default function DialogAddSubject({ visible, view_index, closeDialog, set
                 setColor={(color) => setSubject((prev) => ({ ...prev, background_color: color }))}
             />
 
-            <Button className="mt-3" label="Add Subject" severity="warning" loading={loading} onClick={addSubject} />
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_COURSE_SUBJECT}>
+                <Button className="mt-3" label="Add Subject" severity="warning" loading={loading} onClick={addSubject} />
+            </HasRequiredAuthority>
         </Dialog>
     );
 }

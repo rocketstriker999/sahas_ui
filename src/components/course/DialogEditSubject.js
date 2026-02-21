@@ -8,6 +8,8 @@ import { Button } from "primereact/button";
 
 import ColorInput from "../common/ColorInput";
 import { InputNumber } from "primereact/inputnumber";
+import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../constants";
 
 export default function DialogEditSubject({ visible, closeDialog, setSubjects, ...props }) {
     const { requestAPI, showToast } = useAppContext();
@@ -75,7 +77,9 @@ export default function DialogEditSubject({ visible, closeDialog, setSubjects, .
                 setColor={(color) => setSubject((prev) => ({ ...prev, background_color: color }))}
             />
 
-            <Button className="mt-3" label="Edit Subject" severity="warning" loading={loading} onClick={editSubject} />
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.UPDATE_SUBJECTS}>
+                <Button className="mt-3" label="Edit Subject" severity="warning" loading={loading} onClick={editSubject} />
+            </HasRequiredAuthority>
         </Dialog>
     );
 }

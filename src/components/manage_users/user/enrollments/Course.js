@@ -39,7 +39,7 @@ export default function Course({ id, setCourses, ...course }) {
                 value={getCourseTitle(course?.course_id)}
             />
 
-            <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_OTHER_USERS}>
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.DELETE_ENROLLMENT_COURSE}>
                 <ProgressiveControl
                     loading={deleting}
                     control={<Button className="w-2rem h-2rem" icon="pi pi-trash" rounded severity="danger" onClick={deleteEnrollmentCourse} />}
