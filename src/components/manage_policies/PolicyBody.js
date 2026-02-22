@@ -1,20 +1,14 @@
 import { useCallback, useState } from "react";
 import { useAppContext } from "../../providers/ProviderAppContainer";
-import { AccordionTab } from "primereact/accordion";
-import { getReadableDate } from "../../utils";
 import ProgressiveControl from "../common/ProgressiveControl";
 import Detail from "../common/Detail";
 import { Button } from "primereact/button";
-import { TEXT_SIZE_NORMAL, TEXT_SIZE_SMALL } from "../../style";
 import DialogEditPolicy from "./DialogEditPolicy";
 
-export default function Policy({ id, title, content, created_at, updated_at, index, setPolicies, useDummyData }) {
+export default function PolicyBody({ id, title, content, created_at, updated_at, setPolicies, useDummyData }) {
     const { requestAPI, showToast } = useAppContext();
-
     const [deleting, setDeleting] = useState();
-    const [dialogEditPolicy, setDialogEditPolicy] = useState({
-        visible: false,
-    });
+    const [dialogEditPolicy, setDialogEditPolicy] = useState({ visible: false });
 
     const closeDialogEditPolicy = useCallback(() => {
         setDialogEditPolicy((prev) => ({ ...prev, visible: false }));
@@ -42,22 +36,7 @@ export default function Policy({ id, title, content, created_at, updated_at, ind
         });
     }, [id, requestAPI, setPolicies, showToast, useDummyData]);
 
-    const header = (
-        <div className="flex align-items-center">
-            <div className="flex-1 flex flex-column gap-2 align-items-start">
-                <p className={`m-0 p-0 ${TEXT_SIZE_NORMAL}`}>
-                    {index}. {title}
-                </p>
-                {created_at && (
-                    <p className={`${TEXT_SIZE_SMALL} m-0 p-0 font-medium text-color-secondary`}>
-                        <i className={`${TEXT_SIZE_SMALL} pi pi-calendar`}></i> Updated at {getReadableDate({ date: updated_at || created_at })}
-                    </p>
-                )}
-            </div>
-        </div>
-    );
-
-    const body = (
+    return (
         <div className="flex gap-2 align-items-center justify-content-end">
             <Detail className="flex-1" title="Content" value={content} />
 
@@ -94,6 +73,4 @@ export default function Policy({ id, title, content, created_at, updated_at, ind
             {dialogEditPolicy?.visible && <DialogEditPolicy {...dialogEditPolicy} />}
         </div>
     );
-
-    return <AccordionTab header={header}>{body}</AccordionTab>;
 }

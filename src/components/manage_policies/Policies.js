@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Accordion } from "primereact/accordion";
+import { Accordion, AccordionTab } from "primereact/accordion";
 import { Divider } from "primereact/divider";
 import NoContent from "../common/NoContent";
-import Policy from "./Policy";
 import PoliciesHeader from "./PoliciesHeader";
+import PolicyHead from "./PolicyHead";
+import PolicyBody from "./PolicyBody";
 
 // TODO: Replace with API when backend is ready - dummy data for accordion testing
 const DUMMY_POLICIES = [
@@ -19,22 +20,27 @@ export default function Policies() {
     const useDummyData = true;
 
     return (
-        <div className="flex-1 min-h-0 overflow-hidden flex flex-column">
+        <div className="flex flex-column h-full min-h-0">
             <PoliciesHeader policies={policies} setPolicies={setPolicies} useDummyData={useDummyData} />
 
             <Divider />
 
-            {policies?.length ? (
-                <div className="flex-1 min-h-0 px-3 pb-2 overflow-y-auto gap-2 flex flex-column">
-                    <Accordion>
+            <div className="flex-1 min-h-0 px-3 pb-2 overflow-y-scroll gap-2 flex flex-column">
+                {policies?.length ? (
+                    <Accordion activeIndex={0}>
                         {policies.map((policy, index) => (
-                            <Policy key={policy?.id} {...policy} index={policies.length - index} setPolicies={setPolicies} useDummyData={useDummyData} />
+                            <AccordionTab
+                                key={policy?.id}
+                                header={() => <PolicyHead {...policy} index={policies.length - index} />}
+                            >
+                                <PolicyBody setPolicies={setPolicies} useDummyData={useDummyData} {...policy} />
+                            </AccordionTab>
                         ))}
                     </Accordion>
-                </div>
-            ) : (
-                <NoContent error={"No Policies Found"} />
-            )}
+                ) : (
+                    <NoContent error={"No Policies Found"} />
+                )}
+            </div>
         </div>
     );
 }
