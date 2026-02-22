@@ -51,6 +51,7 @@ export default function Summary({ dates, setDates }) {
                     selectionMode="range"
                     readOnlyInput
                     hideOnRangeSelection
+                    dateFormat="dd/mm/yy"
                 />
             </div>
 
