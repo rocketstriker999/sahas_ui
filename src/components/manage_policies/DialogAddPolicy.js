@@ -7,26 +7,13 @@ import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import { Button } from "primereact/button";
 
-export default function DialogAddPolicy({ visible, setPolicies, closeDialog, useDummyData }) {
+export default function DialogAddPolicy({ visible, setPolicies, closeDialog }) {
     const { requestAPI, showToast } = useAppContext();
 
     const [policy, setPolicy] = useState({});
     const [loading, setLoading] = useState();
 
     const addPolicy = useCallback(() => {
-        if (useDummyData) {
-            const newPolicy = {
-                id: Date.now(),
-                ...policy,
-                created_at: new Date().toISOString(),
-                updated_at: new Date().toISOString(),
-            };
-            showToast({ severity: "success", summary: "Added", detail: "Policy Added", life: 1000 });
-            setPolicies((prev) => [newPolicy, ...prev]);
-            setPolicy({});
-            closeDialog();
-            return;
-        }
         requestAPI({
             requestPath: `policies`,
             requestMethod: "POST",
@@ -42,7 +29,7 @@ export default function DialogAddPolicy({ visible, setPolicies, closeDialog, use
                 } else showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Policy !", life: 2000 });
             },
         });
-    }, [closeDialog, policy, requestAPI, setPolicies, showToast, useDummyData]);
+    }, [closeDialog, policy, requestAPI, setPolicies, showToast]);
 
     return (
         <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Add New Policy`} visible={visible} className="w-11" onHide={closeDialog}>

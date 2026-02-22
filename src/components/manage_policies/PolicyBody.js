@@ -5,7 +5,7 @@ import Detail from "../common/Detail";
 import { Button } from "primereact/button";
 import DialogEditPolicy from "./DialogEditPolicy";
 
-export default function PolicyBody({ id, title, content, created_at, updated_at, setPolicies, useDummyData }) {
+export default function PolicyBody({ id, title, content, created_at, updated_at, setPolicies }) {
     const { requestAPI, showToast } = useAppContext();
     const [deleting, setDeleting] = useState();
     const [dialogEditPolicy, setDialogEditPolicy] = useState({ visible: false });
@@ -15,11 +15,6 @@ export default function PolicyBody({ id, title, content, created_at, updated_at,
     }, []);
 
     const deletePolicy = useCallback(() => {
-        if (useDummyData) {
-            showToast({ severity: "success", summary: "Deleted", detail: "Policy Deleted", life: 1000 });
-            setPolicies((prev) => prev?.filter((policy) => policy?.id !== id));
-            return;
-        }
         requestAPI({
             requestPath: `policies/${id}`,
             requestMethod: "DELETE",
@@ -34,7 +29,7 @@ export default function PolicyBody({ id, title, content, created_at, updated_at,
                 }
             },
         });
-    }, [id, requestAPI, setPolicies, showToast, useDummyData]);
+    }, [id, requestAPI, setPolicies, showToast]);
 
     return (
         <div className="flex gap-2 align-items-center justify-content-end">
@@ -53,7 +48,6 @@ export default function PolicyBody({ id, title, content, created_at, updated_at,
                                 ...prev,
                                 visible: true,
                                 setPolicies,
-                                useDummyData,
                                 id,
                                 title,
                                 content,

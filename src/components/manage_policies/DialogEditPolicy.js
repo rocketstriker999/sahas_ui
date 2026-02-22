@@ -7,23 +7,15 @@ import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import { Button } from "primereact/button";
 
-export default function DialogEditPolicy({ visible, setPolicies, closeDialog, useDummyData, ...props }) {
+export default function DialogEditPolicy({ visible, setPolicies, closeDialog, ...props }) {
     const { requestAPI, showToast } = useAppContext();
 
     const [policy, setPolicy] = useState(props);
     const [loading, setLoading] = useState();
 
     const editPolicy = useCallback(() => {
-        if (useDummyData) {
-            const updatedPolicy = { ...policy, updated_at: new Date().toISOString() };
-            showToast({ severity: "success", summary: "Updated", detail: "Policy Updated", life: 1000 });
-            setPolicies((prev) => prev?.map((p) => (p?.id === props?.id ? updatedPolicy : p)));
-            setPolicy({});
-            closeDialog();
-            return;
-        }
         requestAPI({
-            requestPath: `policies`,
+            requestPath: `policies/${props?.id}`,
             requestMethod: "PATCH",
             requestPostBody: policy,
             setLoading: setLoading,
@@ -37,7 +29,7 @@ export default function DialogEditPolicy({ visible, setPolicies, closeDialog, us
                 } else showToast({ severity: "error", summary: "Failed", detail: "Failed To Update Policy !", life: 2000 });
             },
         });
-    }, [closeDialog, policy, props, requestAPI, setPolicies, showToast, useDummyData]);
+    }, [closeDialog, policy, props, requestAPI, setPolicies, showToast]);
 
     return (
         <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Edit Policy`} visible={visible} className="w-11" onHide={closeDialog}>

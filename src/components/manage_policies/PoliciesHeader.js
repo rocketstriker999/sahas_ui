@@ -3,7 +3,7 @@ import TabHeader from "../common/TabHeader";
 import { Button } from "primereact/button";
 import DialogAddPolicy from "./DialogAddPolicy";
 
-export default function PoliciesHeader({ policies, setPolicies, useDummyData }) {
+export default function PoliciesHeader({ policies, setPolicies }) {
     const [dialogAddPolicy, setDialogAddPolicy] = useState({
         visible: false,
     });
@@ -26,7 +26,6 @@ export default function PoliciesHeader({ policies, setPolicies, useDummyData }) 
                             setDialogAddPolicy((prev) => ({
                                 ...prev,
                                 setPolicies,
-                                useDummyData,
                                 visible: true,
                                 closeDialog: closeDialogAddPolicy,
                             }))
