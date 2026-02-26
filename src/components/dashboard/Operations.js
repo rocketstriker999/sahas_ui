@@ -60,6 +60,11 @@ export default function Operations({ className }) {
                         icon: "pi-user",
                         path: `/manage-users/${id}/basics`,
                     },
+                    {
+                        title: "Policies",
+                        icon: "pi-file-pdf",
+                        path: "/policies",
+                    },
                 ],
             },
             {
