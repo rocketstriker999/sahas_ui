@@ -26,6 +26,7 @@ export default function Users() {
         roles,
         courses,
         branches,
+        inquiry_branches: branches,
     });
     const [filtersDrawerVisibility, setFiltersDrawerVisibility] = useState();
 
