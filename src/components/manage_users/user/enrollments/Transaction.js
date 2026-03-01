@@ -10,9 +10,11 @@ export default function Transaction({ index, amount, created_by_full_name, note,
 
             <div className="flex justify-content-center align-items-center gap-2">
                 <span className={`font-semibold ${TEXT_SIZE_NORMAL}`}>{`${amount} ${RUPEE}`}</span>
-                <a target="_blank" rel="noreferrer" href={invoice}>
-                    <i className={`${TEXT_SIZE_NORMAL} pi pi-file-pdf font-semibold text-red-500`}></i>
-                </a>
+                {invoice && (
+                    <a target="_blank" rel="noreferrer" href={invoice}>
+                        <i className={`${TEXT_SIZE_NORMAL} pi pi-file-pdf font-semibold text-red-500`}></i>
+                    </a>
+                )}
                 {image && (
                     <a target="_blank" rel="noreferrer" href={image}>
                         <i className="pi pi-image font-semibold "></i>
