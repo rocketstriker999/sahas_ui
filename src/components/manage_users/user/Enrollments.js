@@ -12,6 +12,7 @@ import DialogAddEnrollment from "./enrollments/DialogAddEnrollment";
 import EnrollmentHead from "./enrollments/EnrollmentHead";
 import HasRequiredAuthority from "../../dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../../../constants";
+import DialogEditEnrollment from "./enrollments/DialogEditEnrollment";
 
 export default function Enrollments() {
     const { userId } = useOutletContext();
@@ -22,6 +23,18 @@ export default function Enrollments() {
     const [dialogAddEnrollment, setDialogAddEnrollment] = useState({
         visible: false,
     });
+
+    const [dialogEditEnrollment, setDialogEditEnrollment] = useState({
+        visible: false,
+    });
+
+    const closeDialogEditEnrollment = useCallback(() => {
+        setDialogEditEnrollment((prev) => ({ ...prev, visible: false }));
+    }, []);
+
+    const closeDialogAddEnrollment = useCallback(() => {
+        setDialogAddEnrollment((prev) => ({ ...prev, visible: false }));
+    }, []);
 
     useEffect(() => {
         requestAPI({
@@ -38,10 +51,6 @@ export default function Enrollments() {
             },
         });
     }, [requestAPI, userId]);
-
-    const closeDialogAddEnrollment = useCallback(() => {
-        setDialogAddEnrollment((prev) => ({ ...prev, visible: false }));
-    }, []);
 
     return (
         <div className="flex flex-column h-full min-h-0">
@@ -79,7 +88,14 @@ export default function Enrollments() {
                                     content: { className: "p-0" },
                                 }}
                                 key={enrollment?.id}
-                                header={() => <EnrollmentHead {...enrollment} index={enrollments.length - index} />}
+                                header={() => (
+                                    <EnrollmentHead
+                                        {...enrollment}
+                                        setDialogEditEnrollment={setDialogEditEnrollment}
+                                        setEnrollments={setEnrollments}
+                                        index={enrollments.length - index}
+                                    />
+                                )}
                             >
                                 <Enrollment setEnrollments={setEnrollments} key={index} index={index} {...enrollment} />
                             </AccordionTab>
@@ -90,6 +106,9 @@ export default function Enrollments() {
                 )}
             </div>
             <DialogAddEnrollment {...dialogAddEnrollment} setEnrollments={setEnrollments} />
+            {dialogEditEnrollment?.visible && (
+                <DialogEditEnrollment {...dialogEditEnrollment} closeDialog={closeDialogEditEnrollment} setEnrollments={setEnrollments} />
+            )}
         </div>
     );
 }
