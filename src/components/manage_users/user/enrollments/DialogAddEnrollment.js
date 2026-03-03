@@ -13,6 +13,7 @@ import { Checkbox } from "primereact/checkbox";
 import { TITLE_TEXT, TEXT_SIZE_SMALL } from "../../../../style";
 import { useSelector } from "react-redux";
 import { Dropdown } from "primereact/dropdown";
+import { InputTextarea } from "primereact/inputtextarea";
 
 export default function DialogAddEnrollment({ visible, closeDialog, setEnrollments }) {
     const { requestAPI, showToast } = useAppContext();
@@ -56,7 +57,7 @@ export default function DialogAddEnrollment({ visible, closeDialog, setEnrollmen
             onHide={closeDialog}
             pt={{
                 headertitle: { className: TITLE_TEXT },
-                content: { className: "overflow-visible" },
+                content: { className: "overflow-scroll" },
             }}
         >
             <TabHeader
@@ -171,6 +172,19 @@ export default function DialogAddEnrollment({ visible, closeDialog, setEnrollmen
                     />
                 </div>
             </div>
+
+            <FloatLabel className="mt-5">
+                <InputTextarea
+                    value={enrollment?.note || ""}
+                    id="note"
+                    rows={5}
+                    cols={30}
+                    className={`w-full `}
+                    onChange={(e) => setEnrollment((prev) => ({ ...prev, note: e.target.value }))}
+                    disabled={loading}
+                />
+                <label htmlFor="note">Note</label>
+            </FloatLabel>
 
             <Button
                 className="mt-3"
