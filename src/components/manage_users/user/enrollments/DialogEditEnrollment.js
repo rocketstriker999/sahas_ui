@@ -9,6 +9,7 @@ import { InputNumber } from "primereact/inputnumber";
 import { Checkbox } from "primereact/checkbox";
 import { TITLE_TEXT, TEXT_SIZE_SMALL } from "../../../../style";
 import { getWriteableDate } from "../../../../utils";
+import { InputTextarea } from "primereact/inputtextarea";
 
 export default function DialogEditEnrollment({ visible, closeDialog, setEnrollments, ...props }) {
     const { requestAPI, showToast } = useAppContext();
@@ -122,6 +123,19 @@ export default function DialogEditEnrollment({ visible, closeDialog, setEnrollme
                     />
                 </div>
             </div>
+
+            <FloatLabel className="mt-5">
+                <InputTextarea
+                    value={enrollment?.note || ""}
+                    id="note"
+                    rows={5}
+                    cols={30}
+                    className={`w-full `}
+                    onChange={(e) => setEnrollment((prev) => ({ ...prev, note: e.target.value }))}
+                    disabled={loading}
+                />
+                <label htmlFor="note">Note</label>
+            </FloatLabel>
 
             <Button
                 className="mt-3"
