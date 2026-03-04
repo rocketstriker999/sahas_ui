@@ -36,6 +36,8 @@ export default function Enrollments() {
         setDialogAddEnrollment((prev) => ({ ...prev, visible: false }));
     }, []);
 
+    console.log(enrollments);
+
     useEffect(() => {
         requestAPI({
             requestPath: `users/${userId}/enrollments`,
@@ -86,6 +88,7 @@ export default function Enrollments() {
                             <AccordionTab
                                 pt={{
                                     content: { className: "p-0" },
+                                    headeraction: { className: "px-2 py-3" },
                                 }}
                                 key={enrollment?.id}
                                 header={() => (
