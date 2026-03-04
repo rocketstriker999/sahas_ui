@@ -7,6 +7,7 @@ import { useAppContext } from "../../../../providers/ProviderAppContainer";
 import ProgressiveControl from "../../../common/ProgressiveControl";
 import HasRequiredAuthority from "../../../dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../../../../constants";
+import { Divider } from "primereact/divider";
 
 export default function EnrollmentHead({
     setDialogEditEnrollment,
@@ -22,6 +23,7 @@ export default function EnrollmentHead({
     note,
     start_date,
     end_date,
+    courses,
 }) {
     const { requestAPI, showToast } = useAppContext();
 
@@ -109,7 +111,18 @@ export default function EnrollmentHead({
                     />
                 </HasRequiredAuthority>
             </div>
-            <span className="text-xs text-color-secondary mt-2 font-light">{note}</span>
+
+            {(!!note || !!courses?.length) && (
+                <div>
+                    <Divider className="my-3 w-full" />
+                    {note && <li className="text-xs text-color-secondary flex-1 font-light">{note}</li>}
+                    <div className="flex  mt-2">
+                        {courses?.map((course) => (
+                            <span className="p-1 text-xs text-color-secondary border-round border-1 border-gray-300 text-light">{course}</span>
+                        ))}
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
