@@ -8,6 +8,7 @@ import ProgressiveControl from "../../../common/ProgressiveControl";
 import HasRequiredAuthority from "../../../dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../../../../constants";
 import { Divider } from "primereact/divider";
+import Error from "../../../common/Error";
 
 export default function EnrollmentHead({
     setDialogEditEnrollment,
@@ -116,11 +117,15 @@ export default function EnrollmentHead({
                 <div>
                     <Divider className="my-3 w-full" />
                     {note && <li className="text-xs text-color-secondary flex-1 font-light">{note}</li>}
-                    <div className="flex  mt-2">
-                        {courses?.map((course) => (
-                            <span className="p-1 text-xs text-color-secondary border-round border-1 border-gray-300 text-light">{course}</span>
-                        ))}
-                    </div>
+                    {!!courses?.length ? (
+                        <div className="flex flex-wrap mt-2">
+                            {courses?.map((course) => (
+                                <span className="p-1 text-xs text-color-secondary border-round border-1 border-gray-300 text-light">{course}</span>
+                            ))}
+                        </div>
+                    ) : (
+                        <Error error="No Courses !" />
+                    )}
                 </div>
             )}
         </div>
