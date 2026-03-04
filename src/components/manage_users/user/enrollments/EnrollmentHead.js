@@ -118,7 +118,7 @@ export default function EnrollmentHead({
                     <Divider className="my-3 w-full" />
                     {note && <li className="text-xs text-color-secondary flex-1 font-light">{note}</li>}
                     {!!courses?.length ? (
-                        <div className="flex flex-wrap mt-2">
+                        <div className="flex flex-wrap mt-2 gap-2">
                             {courses?.map((course) => (
                                 <span className="p-1 text-xs text-color-secondary border-round border-1 border-gray-300 text-light">{course}</span>
                             ))}
