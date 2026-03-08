@@ -7,6 +7,8 @@ import TabHeader from "../common/TabHeader";
 import { InputText } from "primereact/inputtext";
 import CheckboxInput from "../common/CheckBoxInput";
 import FileInput from "../common/FileInput";
+import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../constants";
 
 export default function DialogEditMedia({ visible, closeDialog, setMediaCatalogue, chapterId, ...props }) {
     const { requestAPI, showToast } = useAppContext();
@@ -74,7 +76,9 @@ export default function DialogEditMedia({ visible, closeDialog, setMediaCatalogu
                 onChange={(checked) => setMedia((prev) => ({ ...prev, downloadable: checked }))}
             />
 
-            <Button className="mt-3" label="Edit Media" severity="warning" loading={loading} onClick={editMedia} />
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.UPDATE_MEDIA}>
+                <Button className="mt-3" label="Edit Media" severity="warning" loading={loading} onClick={editMedia} />
+            </HasRequiredAuthority>
         </Dialog>
     );
 }

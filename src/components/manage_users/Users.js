@@ -74,6 +74,12 @@ export default function Users() {
     }, [searchQuery]);
 
     return (
+
+        <HasRequiredAuthority requiredAuthority={AUTHORITIES.USE_PAGE_USERS}>
+         
+             
+             
+
         <div className="flex flex-column h-full overflow-hidden">
             <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_OTHER_USERS}>
                 <div className="flex align-items-center p-2 gap-1">
@@ -86,6 +92,7 @@ export default function Users() {
                     />
                     {users?.recordsCount > 0 && <Download searchQuery={searchQuery} />}
                 </div>
+
             </HasRequiredAuthority>
 
             <div className="flex-1 min-h-0  overflow-y-scroll p-2 bg-gray-100">
@@ -124,5 +131,6 @@ export default function Users() {
                 setSearchQuery={setSearchQuery}
             />
         </div>
+        </HasRequiredAuthority>
     );
 }

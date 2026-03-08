@@ -8,6 +8,8 @@ import { InputText } from "primereact/inputtext";
 import { useDispatch } from "react-redux";
 import { addRole } from "../../redux/sliceTemplateConfig";
 import { TEXT_SIZE_SMALL, TITLE_TEXT } from "../../style";
+import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../constants";
 
 export default function DialogAddRole({ visible, closeDialog }) {
     const { requestAPI, showToast } = useAppContext();
@@ -58,10 +60,12 @@ export default function DialogAddRole({ visible, closeDialog }) {
                 <label htmlFor="title" className={`${TEXT_SIZE_SMALL}`}>Title</label>
             </FloatLabel>
 
-            <Button className="mt-3" label="Add Role" severity="warning" loading={loading} onClick={addNewRole}
-                pt={{
-                    label: { className: TEXT_SIZE_SMALL },
-                }} />
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_ROLES}>
+                <Button className="mt-3" label="Add Role" severity="warning" loading={loading} onClick={addNewRole}
+                    pt={{
+                        label: { className: TEXT_SIZE_SMALL },
+                    }} />
+            </HasRequiredAuthority>
         </Dialog>
     );
 }

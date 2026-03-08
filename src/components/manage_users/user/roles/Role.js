@@ -5,6 +5,8 @@ import { getReadableDate } from "../../../../utils";
 import { Checkbox } from "primereact/checkbox";
 import { useOutletContext } from "react-router-dom";
 import ProgressiveControl from "../../../common/ProgressiveControl";
+import HasRequiredAuthority from "../../../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../../../constants";
 
 export default function Role({ role_id, title, ...props }) {
     const { requestAPI, showToast } = useAppContext();
@@ -58,10 +60,12 @@ export default function Role({ role_id, title, ...props }) {
                 title={userRole?.id && `Added By ${userRole?.created_by_full_name} at ${getReadableDate({ date: userRole?.created_on, removeTime: true })}`}
                 value={title}
             />
-            <ProgressiveControl
-                loading={loading}
-                control={<Checkbox checked={Boolean(userRole?.id)} onChange={({ checked }) => (checked ? addRole() : deleteUserRole())} />}
-            />
+            <HasRequiredAuthority requiredAuthority={userRole?.id ? AUTHORITIES.DELETE_USER_ROLES : AUTHORITIES.CREATE_USER_ROLES}>
+                <ProgressiveControl
+                    loading={loading}
+                    control={<Checkbox checked={Boolean(userRole?.id)} onChange={({ checked }) => (checked ? addRole() : deleteUserRole())} />}
+                />
+            </HasRequiredAuthority>
         </div>
     );
 }

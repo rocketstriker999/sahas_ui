@@ -79,7 +79,9 @@ export default function Basics() {
                             disabled={!enableInputs}
                         />
                     </HasRequiredAuthority>,
-                    <Button icon="pi pi-pencil" severity="warning" onClick={setEnableInputs} />,
+                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.UPDATE_USER}>
+                        <Button icon="pi pi-pencil" severity="warning" onClick={setEnableInputs} />
+                    </HasRequiredAuthority>,
                 ]}
             />
             <Divider />
@@ -175,18 +177,20 @@ export default function Basics() {
                 <NoContent error={"No Inquiries Found"} />
             )}
 
-            <Button
-                className="mx-3 my-2"
-                label="Update"
-                severity="warning"
-                onClick={updateUserBasics}
-                loading={updating}
-                disabled={!basics}
-                pt={{
-                    label: { className: TEXT_SIZE_NORMAL },
-                    icon: { className: TEXT_SIZE_NORMAL },
-                }}
-            />
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.UPDATE_USER}>
+                <Button
+                    className="mx-3 my-2"
+                    label="Update"
+                    severity="warning"
+                    onClick={updateUserBasics}
+                    loading={updating}
+                    disabled={!basics}
+                    pt={{
+                        label: { className: TEXT_SIZE_NORMAL },
+                        icon: { className: TEXT_SIZE_NORMAL },
+                    }}
+                />
+            </HasRequiredAuthority>
         </div>
     );
 }

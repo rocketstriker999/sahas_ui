@@ -13,6 +13,8 @@ import { Checkbox } from "primereact/checkbox";
 import { TITLE_TEXT, TEXT_SIZE_SMALL } from "../../../../style";
 import { useSelector } from "react-redux";
 import { Dropdown } from "primereact/dropdown";
+import HasRequiredAuthority from "../../../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../../../constants";
 import { InputTextarea } from "primereact/inputtextarea";
 
 export default function DialogAddEnrollment({ visible, closeDialog, setEnrollments }) {
@@ -173,6 +175,20 @@ export default function DialogAddEnrollment({ visible, closeDialog, setEnrollmen
                 </div>
             </div>
 
+
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_ENROLLMENT}>
+                <Button
+                    className="mt-3"
+                    label="Add Enrollment"
+                    severity="warning"
+                    loading={loading}
+                    onClick={addTransaction}
+                    pt={{
+                        label: { className: TEXT_SIZE_SMALL },
+                    }}
+                />
+          
+
             <FloatLabel className="mt-5">
                 <InputTextarea
                     value={enrollment?.note || ""}
@@ -196,6 +212,8 @@ export default function DialogAddEnrollment({ visible, closeDialog, setEnrollmen
                     label: { className: TEXT_SIZE_SMALL },
                 }}
             />
+              </HasRequiredAuthority>
+
         </Dialog>
     );
 }

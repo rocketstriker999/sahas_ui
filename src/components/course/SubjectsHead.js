@@ -68,7 +68,7 @@ export default function SubjectsHead({ course, subjects, setSubjects, updatingVi
                 title="Subjects"
                 highlights={[`Total ${subjects?.length} Subjects`]}
                 actionItems={[
-                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_COURSE_SUBJECT}>
                         <Button
                             disabled={loading}
                             onClick={() => {
@@ -87,7 +87,7 @@ export default function SubjectsHead({ course, subjects, setSubjects, updatingVi
                             severity="warning"
                         />
                     </HasRequiredAuthority>,
-                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.ASSIGN_COURSE_SUBJECT}>
                         <Button
                             disabled={loading}
                             onClick={() =>
@@ -104,7 +104,7 @@ export default function SubjectsHead({ course, subjects, setSubjects, updatingVi
                             severity="info"
                         />
                     </HasRequiredAuthority>,
-                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.UPDATE_COURSE_SUBJECT_VIEW_INDEX}>
                         {!!subjects?.length && (
                             <Button
                                 loading={loading}

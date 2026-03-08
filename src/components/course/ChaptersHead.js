@@ -66,7 +66,7 @@ export default function ChaptersHead({ setLoading, setError, chapters, setChapte
                 title={`${subject?.title} Chapters`}
                 highlights={[`Demo Chapters Requires No Enrollment`, `Chapters Are Categorized Into Sections`]}
                 actionItems={[
-                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_CHAPTERS}>
                         <Button
                             onClick={() =>
                                 setDialogAddChapter((prev) => ({
@@ -81,7 +81,7 @@ export default function ChaptersHead({ setLoading, setError, chapters, setChapte
                             severity="warning"
                         />
                     </HasRequiredAuthority>,
-                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.UPDATE_CHAPTERS_VIEW_INDEXES}>
                         {!!chapters?.length && (
                             <Button
                                 loading={updating}

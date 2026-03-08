@@ -40,7 +40,7 @@ export default function Image({ id, click_link, source }) {
                 alt={source}
             />
 
-            <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_FEATURE_CAROUSEL}>
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.DELETE_CAROUSEL}>
                 <Button
                     onClick={deleteCarouselImage}
                     className="absolute bottom-0 right-0 m-3"

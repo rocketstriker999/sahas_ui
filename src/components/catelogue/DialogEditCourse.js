@@ -11,6 +11,8 @@ import { classNames } from "primereact/utils";
 import CheckboxInput from "../common/CheckBoxInput";
 import { ListBox } from "primereact/listbox";
 import { useSelector } from "react-redux";
+import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../constants";
 
 export default function DialogEditCourse({ visible, closeDialog, setCourses, ...props }) {
     const { requestAPI, showToast } = useAppContext();
@@ -117,7 +119,9 @@ export default function DialogEditCourse({ visible, closeDialog, setCourses, ...
                 )}
             </div>
 
-            <Button className="mt-3" label="Edit Course" severity="warning" loading={loading} onClick={editCourse} />
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.UPDATE_COURSE}>
+                <Button className="mt-3" label="Edit Course" severity="warning" loading={loading} onClick={editCourse} />
+            </HasRequiredAuthority>
         </Dialog>
     );
 }
