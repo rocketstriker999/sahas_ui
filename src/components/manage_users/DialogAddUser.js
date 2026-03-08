@@ -12,6 +12,8 @@ import { useSelector } from "react-redux";
 import { Button } from "primereact/button";
 import { useNavigate } from "react-router-dom";
 import { InputNumber } from "primereact/inputnumber";
+import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../constants";
 
 export default function DialogAddUser({ visible, closeDialog }) {
     const { requestAPI, showToast } = useAppContext();

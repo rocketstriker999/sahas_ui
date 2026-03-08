@@ -18,43 +18,6 @@ export default function Enrollment({ index, setEnrollments, ...props }) {
                 <Detail icon="pi pi-calendar" title="End Date" value={getReadableDate({ date: props?.end_date, removeTime: true })} />
             </div>
 
-            <HasRequiredAuthority requiredAuthority={AUTHORITIES.UPDATE_ENROLLMENT}>
-                <div className="flex justify-content-center gap-4 px-4 py-3 border-bottom-1 border-300">
-                    <div className="flex align-items-center gap-2">
-                        <ProgressiveControl
-                            loading={updating}
-                            control={
-                                <Checkbox
-                                    inputId="on_site_access"
-                                    onChange={({ checked }) => updateEnrollment({ on_site_access: checked })}
-                                    checked={!!props?.on_site_access}
-                                />
-                            }
-                        />
-
-                        <span className={`${TEXT_SIZE_SMALL} font-semibold`} htmlFor="on_site_access">
-                            On Site Access
-                        </span>
-                    </div>
-                    <div className="flex align-items-center gap-2">
-                        <ProgressiveControl
-                            loading={updating}
-                            control={
-                                <Checkbox
-                                    inputId="digital_access"
-                                    onChange={({ checked }) => updateEnrollment({ digital_access: checked })}
-                                    checked={!!props?.digital_access}
-                                />
-                            }
-                        />
-
-                        <span className={`${TEXT_SIZE_SMALL} font-semibold`} htmlFor="digital_access">
-                            Digital Access
-                        </span>
-                    </div>
-                </div>
-            </HasRequiredAuthority>
-
             <TabView>
                 <TabPanel
                     headerTemplate={(option) => <TransactionsHead {...option} totalTransactions={totalTransactions} />}
