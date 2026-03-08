@@ -4,6 +4,8 @@ import ProgressiveControl from "../common/ProgressiveControl";
 import { getReadableDate } from "../../utils";
 import DialogEditChapterType from "./DialogEditChapterType";
 import IconButton from "../common/IconButton";
+import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../constants";
 
 export default function ChapterType({ id, title, setChapterTypes, requires_enrollment_digital_access, updatingViewIndex, updated_at, active }) {
     const { requestAPI, showToast } = useAppContext();
@@ -55,26 +57,30 @@ export default function ChapterType({ id, title, setChapterTypes, requires_enrol
             </div>
             {!!updatingViewIndex && <IconButton icon={"pi-equals"} color={"text-white"} />}
             {!updatingViewIndex && (
-                <IconButton
-                    icon={`pi-pencil `}
-                    color={"text-white"}
-                    onClick={() =>
-                        setDialogEditChapterType((prev) => ({
-                            ...prev,
-                            visible: true,
-                            setChapterTypes,
-                            id,
-                            title,
-                            requires_enrollment_digital_access,
-                            active,
-                            closeDialog: closeDialogEditChapterType,
-                        }))
-                    }
-                />
+                <HasRequiredAuthority requiredAuthority={AUTHORITIES.UPDATE_CHAPTER_TYPES}>
+                    <IconButton
+                        icon={`pi-pencil `}
+                        color={"text-white"}
+                        onClick={() =>
+                            setDialogEditChapterType((prev) => ({
+                                ...prev,
+                                visible: true,
+                                setChapterTypes,
+                                id,
+                                title,
+                                requires_enrollment_digital_access,
+                                active,
+                                closeDialog: closeDialogEditChapterType,
+                            }))
+                        }
+                    />
+                </HasRequiredAuthority>
             )}
 
             {!updatingViewIndex && (
-                <ProgressiveControl loading={deleting} control={<IconButton icon={`pi-trash`} color={"text-white"} onClick={deleteChapterType} />} />
+                <HasRequiredAuthority requiredAuthority={AUTHORITIES.DELETE_CHAPTER_TYPES}>
+                    <ProgressiveControl loading={deleting} control={<IconButton icon={`pi-trash`} color={"text-white"} onClick={deleteChapterType} />} />
+                </HasRequiredAuthority>
             )}
             {dialogEditChapterType?.visible && <DialogEditChapterType {...dialogEditChapterType} />}
         </div>

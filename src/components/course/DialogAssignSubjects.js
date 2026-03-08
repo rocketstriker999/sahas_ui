@@ -4,6 +4,8 @@ import { useCallback, useEffect, useState } from "react";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import TabHeader from "../common/TabHeader";
 import { ListBox } from "primereact/listbox";
+import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../constants";
 
 export default function DialogAssignSubjects({ visible, closeDialog, courseSubjects, setCourseSubjects, courseId, view_index }) {
     const { requestAPI, showToast } = useAppContext();
@@ -64,7 +66,9 @@ export default function DialogAssignSubjects({ visible, closeDialog, courseSubje
                     </span>
                 )}
             />
-            <Button className="mt-3" label="Add Subjects" severity="warning" disabled={!selectedSubjects?.length} loading={loading} onClick={addSubjects} />
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_COURSE_SUBJECTS}>
+                <Button className="mt-3" label="Add Subjects" severity="warning" disabled={!selectedSubjects?.length} loading={loading} onClick={addSubjects} />
+            </HasRequiredAuthority>
         </Dialog>
     );
 }

@@ -31,7 +31,7 @@ export default function CarouselImages({ className, images }) {
                     itemTemplate={Image}
                 />
             )}
-            <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_FEATURE_CAROUSEL}>
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_CAROUSEL}>
                 <Button
                     className="mt-1"
                     icon="pi pi-plus"
@@ -45,7 +45,7 @@ export default function CarouselImages({ className, images }) {
             </HasRequiredAuthority>
 
             {dialogAddCarouselItem?.visible && (
-                <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_FEATURE_CAROUSEL}>
+                <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_CAROUSEL}>
                     <DialogAddCarouselItem {...dialogAddCarouselItem} />
                 </HasRequiredAuthority>
             )}

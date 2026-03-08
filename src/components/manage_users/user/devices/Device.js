@@ -1,10 +1,11 @@
 import { Checkbox } from "primereact/checkbox";
 import { useCallback, useState } from "react";
-import { getReadableDate, hasRequiredAuthority } from "../../../../utils";
+import { getReadableDate } from "../../../../utils";
 import { useAppContext } from "../../../../providers/ProviderAppContainer";
 import ProgressiveControl from "../../../common/ProgressiveControl";
 import { useSelector } from "react-redux";
 import { AUTHORITIES } from "../../../../constants";
+import HasRequiredAuthority from "../../../dependencies/HasRequiredAuthority";
 
 export default function Device(device) {
     const { requestAPI, showToast } = useAppContext();
@@ -45,16 +46,17 @@ export default function Device(device) {
                 <span>
                     {device?.index + 1}. {decodeURIComponent(escape(atob(device?.finger_print)))?.split("|")[0]}
                 </span>
-                <ProgressiveControl
-                    loading={loading}
-                    control={
-                        <Checkbox
-                            disabled={!hasRequiredAuthority(authorities, AUTHORITIES.MANAGE_USER_STREAMING_DEVICES)}
-                            onChange={updateDevice}
-                            checked={!!active}
-                        />
-                    }
-                />
+                <HasRequiredAuthority requiredAuthority={AUTHORITIES.UPDATE_USER_DEVICE}>
+                    <ProgressiveControl
+                        loading={loading}
+                        control={
+                            <Checkbox
+                                onChange={updateDevice}
+                                checked={!!active}
+                            />
+                        }
+                    />
+                </HasRequiredAuthority>
             </div>
             <div className="flex justify-content-between mt-2 text-color-secondary font-semibold">
                 <span>Created At {getReadableDate({ date: device?.created_on })}</span>

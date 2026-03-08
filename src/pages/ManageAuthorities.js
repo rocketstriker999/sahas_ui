@@ -10,6 +10,8 @@ import { useSelector } from "react-redux";
 import Authority from "../components/manage_authorities/Authority";
 import DialogAddAuthority from "../components/manage_authorities/DialogAddAuthority";
 import SearchBar from "../components/manage_authorities/SearchBar";
+import { AUTHORITIES } from "../constants";
+import HasRequiredAuthority from "../components/dependencies/HasRequiredAuthority";
 
 export default function ManageAuthorities() {
     const { authorities = [] } = useSelector((state) => state.stateTemplateConfig?.global);
@@ -36,17 +38,19 @@ export default function ManageAuthorities() {
                 title="Authorities"
                 highlights={[`Total - ${authorities?.length} Authorities`]}
                 actionItems={[
-                    <Button
-                        icon="pi pi-plus"
-                        severity="warning"
-                        onClick={() =>
-                            setDialogAddAuthority((prev) => ({
-                                ...prev,
-                                visible: true,
-                                closeDialog: closeDialogAddCourse,
-                            }))
-                        }
-                    />,
+                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_AUTHORITIES}>
+                        <Button
+                            icon="pi pi-plus"
+                            severity="warning"
+                            onClick={() =>
+                                setDialogAddAuthority((prev) => ({
+                                    ...prev,
+                                    visible: true,
+                                    closeDialog: closeDialogAddCourse,
+                                }))
+                            }
+                        />
+                    </HasRequiredAuthority>,
                 ]}
             />
             <Divider />

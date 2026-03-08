@@ -4,6 +4,8 @@ import { getReadableDate } from "../../utils";
 import ProgressiveControl from "../common/ProgressiveControl";
 import DialogEditCouponCode from "./DialogEditCouponCode";
 import { useNavigate } from "react-router-dom";
+import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../constants";
 
 export default function CouponCode({ id, code, active, updated_at, setCouponCodes }) {
     const { requestAPI, showToast } = useAppContext();
@@ -44,9 +46,8 @@ export default function CouponCode({ id, code, active, updated_at, setCouponCode
 
     return (
         <div
-            className={`flex gap-3 align-items-center border-1 border-gray-300 border-round py-2 px-3 overflow-hidden text-white ${
-                active ? "bg-green-500 " : "bg-red-500"
-            }`}
+            className={`flex gap-3 align-items-center border-1 border-gray-300 border-round py-2 px-3 overflow-hidden text-white ${active ? "bg-green-500 " : "bg-red-500"
+                }`}
         >
             <div className="flex flex-column flex-1 gap-2" onClick={() => navigate(`${id}/courses`)}>
                 <span className={`text-sm font-semibold `}>
@@ -58,21 +59,28 @@ export default function CouponCode({ id, code, active, updated_at, setCouponCode
                 </div>
             </div>
 
-            <i
-                className={`pi pi-pencil `}
-                onClick={() =>
-                    setDialogEditCouponCode((prev) => ({
-                        ...prev,
-                        visible: true,
-                        setCouponCodes,
-                        id,
-                        code,
-                        active,
-                        closeDialog: closeDialogEditCouponCode,
-                    }))
-                }
-            ></i>
-            {<ProgressiveControl loading={deleting} control={<i className={`pi pi-trash `} onClick={deleteCouponCode}></i>} />}
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.UPDATE_COUPON_CODE}>
+                <i
+                    className={`pi pi-pencil `}
+                    onClick={() =>
+                        setDialogEditCouponCode((prev) => ({
+                            ...prev,
+                            visible: true,
+                            setCouponCodes,
+                            id,
+                            code,
+                            active,
+                            closeDialog: closeDialogEditCouponCode,
+                        }))
+                    }
+                ></i>
+            </HasRequiredAuthority>
+
+            {
+                <HasRequiredAuthority requiredAuthority={AUTHORITIES.DELETE_COUPON_CODE}>
+                    <ProgressiveControl loading={deleting} control={<i className={`pi pi-trash `} onClick={deleteCouponCode}></i>} />
+                </HasRequiredAuthority>
+            }
             {dialogEditCouponCode?.visible && <DialogEditCouponCode {...dialogEditCouponCode} />}
         </div>
     );

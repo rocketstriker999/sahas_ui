@@ -8,6 +8,8 @@ import TabHeader from "../../../common/TabHeader";
 import { useAppContext } from "../../../../providers/ProviderAppContainer";
 import { useOutletContext } from "react-router-dom";
 import { TEXT_SIZE_NORMAL, TITLE_TEXT } from "../../../../style";
+import HasRequiredAuthority from "../../../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../../../constants";
 
 export default function DialogAddInquiry({ visible, setVisible, setInquiries }) {
     const { userId, courses, branches } = useOutletContext();
@@ -103,11 +105,13 @@ export default function DialogAddInquiry({ visible, setVisible, setInquiries }) 
                 />
                 <label htmlFor="note">Note</label>
             </FloatLabel>
-            <Button className="mt-3" label="Add Inquiry" severity="warning" loading={loading} onClick={addInquiry}
-                pt={{
-                    label: { className: TEXT_SIZE_NORMAL },
-                    icon: { className: TEXT_SIZE_NORMAL }
-                }} />
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_INQUIRY}>
+                <Button className="mt-3" label="Add Inquiry" severity="warning" loading={loading} onClick={addInquiry}
+                    pt={{
+                        label: { className: TEXT_SIZE_NORMAL },
+                        icon: { className: TEXT_SIZE_NORMAL }
+                    }} />
+            </HasRequiredAuthority>
         </Dialog>
     );
 }

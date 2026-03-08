@@ -8,6 +8,8 @@ import DialogManageInquiryNotes from "./DialogManageInquiryNotes";
 
 import { InputSwitch } from "primereact/inputswitch";
 import ProgressiveControl from "../../../common/ProgressiveControl";
+import HasRequiredAuthority from "../../../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../../../constants";
 
 export default function InquiryBody({ setInquiries, ...props }) {
     const { branches } = useOutletContext();
@@ -68,15 +70,19 @@ export default function InquiryBody({ setInquiries, ...props }) {
         <div className="flex gap-2 align-items-center justify-content-end">
             <Detail className="flex-1" title="Branch" value={branches?.find((branch) => branch.id === props?.branch_id)?.title} />
 
-            <ProgressiveControl
-                loading={updating}
-                control={<InputSwitch checked={Boolean(props?.active)} onChange={(e) => updateInquiry({ active: e.value })} />}
-            />
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.UPDATE_INQUIRY}>
+                <ProgressiveControl
+                    loading={updating}
+                    control={<InputSwitch checked={Boolean(props?.active)} onChange={(e) => updateInquiry({ active: e.value })} />}
+                />
+            </HasRequiredAuthority>
 
-            <ProgressiveControl
-                loading={deleting}
-                control={<Button className="w-2rem h-2rem" icon="pi pi-trash" rounded severity="danger" onClick={deleteInquiry} />}
-            />
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.DELETE_INQUIRY}>
+                <ProgressiveControl
+                    loading={deleting}
+                    control={<Button className="w-2rem h-2rem" icon="pi pi-trash" rounded severity="danger" onClick={deleteInquiry} />}
+                />
+            </HasRequiredAuthority>
 
             <div className="p-overlay-badge">
                 <Button

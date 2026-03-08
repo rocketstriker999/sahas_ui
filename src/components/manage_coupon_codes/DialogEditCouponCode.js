@@ -7,6 +7,8 @@ import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { Checkbox } from "primereact/checkbox";
 import CheckboxInput from "../common/CheckBoxInput";
+import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../constants";
 
 export default function DialogEditCouponCode({ visible, setCouponCodes, closeDialog, ...props }) {
     const { requestAPI, showToast } = useAppContext();
@@ -54,7 +56,9 @@ export default function DialogEditCouponCode({ visible, setCouponCodes, closeDia
                 onChange={(checked) => setCouponCode((prev) => ({ ...prev, active: checked }))}
             />
 
-            <Button className="mt-3" label="Edit Coupon Code" severity="warning" loading={loading} onClick={editCouponCode} />
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.UPDATE_COUPON_CODE}>
+                <Button className="mt-3" label="Edit Coupon Code" severity="warning" loading={loading} onClick={editCouponCode} />
+            </HasRequiredAuthority>
         </Dialog>
     );
 }

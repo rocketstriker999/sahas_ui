@@ -12,6 +12,8 @@ import { useSelector } from "react-redux";
 import { Button } from "primereact/button";
 import { useNavigate } from "react-router-dom";
 import { InputNumber } from "primereact/inputnumber";
+import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../constants";
 
 export default function DialogAddUser({ visible, closeDialog }) {
     const { requestAPI, showToast } = useAppContext();
@@ -104,7 +106,9 @@ export default function DialogAddUser({ visible, closeDialog }) {
                 <label htmlFor="address">Address</label>
             </FloatLabel>
 
-            <Button className="mx-3 my-2" label="Add New User" severity="warning" onClick={addUser} loading={loading} disabled={!basics} />
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_USER}>
+                <Button className="mx-3 my-2" label="Add New User" severity="warning" onClick={addUser} loading={loading} disabled={!basics} />
+            </HasRequiredAuthority>
         </Dialog>
     );
 }
