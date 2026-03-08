@@ -46,7 +46,7 @@ export default function DialogAddTransaction({ visible, enrollment_id, setTransa
             onHide={closeDialog}
             pt={{
                 headertitle: { className: TITLE_TEXT },
-                content: { className: "overflow-visible" },
+                content: { className: "overflow-scroll" },
             }}
         >
             <TabHeader
