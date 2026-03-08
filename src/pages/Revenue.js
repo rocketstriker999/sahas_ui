@@ -10,8 +10,6 @@ export default function Revenue() {
         moment().endOf("day").toDate(), // End date (Today)
     ]);
 
-    console.log(dates);
-
     return (
         <div className="flex flex-column h-full">
             <PageTitle

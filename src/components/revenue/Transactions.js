@@ -34,7 +34,7 @@ export default function Transactions({ dates }) {
     return transactions?.length ? (
         <div className="flex-1 p-2 flex flex-column gap-2 overflow-y-scroll">
             {transactions?.map((transaction) => (
-                <Transaction key={transaction?.id} {...transaction} />
+                <Transaction setTransactions={setTransactions} key={transaction?.id} {...transaction} />
             ))}
         </div>
     ) : (

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { EMPTY_VALUE } from "../../../constants";
 import { TEXT_SIZE_NORMAL, TEXT_SIZE_SMALL } from "../../../style";
 
-export default function UserCard({ id, email, image, full_name, phone, active }) {
+export default function UserCard({ id, email, image, full_name, phone, active, inquiries }) {
     const navigate = useNavigate();
 
     return (
@@ -24,6 +24,10 @@ export default function UserCard({ id, email, image, full_name, phone, active })
                 </div>
             </div>
             <i className="pi pi-angle-right"></i>
+
+            {!!inquiries?.filter(({ active }) => active)?.length && (
+                <span className="absolute right-0 top-0 m-2 text-xs border-1 border-orange-500 border-round p-1 font-semibold text-orange-500">{`${inquiries?.length} Inquiries`}</span>
+            )}
 
             {!active && <Tag className="top-0 right-0 absolute m-1" severity="danger" value="Inactive"></Tag>}
         </div>

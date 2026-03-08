@@ -8,8 +8,7 @@ import { useAppContext } from "../../providers/ProviderAppContainer";
 import { useCallback, useState } from "react";
 import { Dropdown } from "primereact/dropdown";
 import { useSelector } from "react-redux";
-import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
-import { AUTHORITIES } from "../../constants";
+
 import { Button } from "primereact/button";
 import { useNavigate } from "react-router-dom";
 import { InputNumber } from "primereact/inputnumber";

@@ -144,28 +144,11 @@ export default function Enroll() {
             {!paymentGateWayPayLoad?.transaction?.couponCode && (
                 <div className="flex align-items-center gap-2 p-3 border-1 border-gray-300 m-2 border-round">
                     <i className="pi pi-ticket"></i>
-                    <span className="flex-1">Coupon Code</span>
-                    <Inplace
-                        pt={{
-                            content: classNames("flex"),
-                        }}
-                    >
-                        <InplaceDisplay>
-                            <span className="font-bold text-orange-500">Apply</span>
-                        </InplaceDisplay>
-                        <InplaceContent>
-                            <div className="p-inputgroup">
-                                <InputText
-                                    value={couponCode}
-                                    className="w-8rem"
-                                    placeholder="Code"
-                                    onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
-                                    autoFocus
-                                />
-                                <Button icon="pi pi-check" severity="success" onClick={() => setPayInputs((prev) => ({ ...prev, couponCode }))} />
-                            </div>
-                        </InplaceContent>
-                    </Inplace>
+                    <span className="flex-1">Promo Code</span>
+                    <div className="p-inputgroup w-12rem">
+                        <InputText value={couponCode} placeholder="Code" onChange={(e) => setCouponCode(e.target.value.toUpperCase())} autoFocus />
+                        <Button size="small" severity="success" label="Apply" onClick={() => setPayInputs((prev) => ({ ...prev, couponCode }))} />
+                    </div>
                 </div>
             )}
             <div className="flex flex-column align-items-center mt-2 gap-3">

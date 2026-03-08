@@ -8,8 +8,10 @@ import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
 import FiltersDrawer from "./users/FiltersDrawer";
 import { useSelector } from "react-redux";
 import UserCard from "./users/UserCard";
-import { TEXT_SIZE_SMALL } from "../../style";
+import { TEXT_SIZE_NORMAL, TEXT_SIZE_SMALL } from "../../style";
 import { AUTHORITIES } from "../../constants";
+import { Button } from "primereact/button";
+import Download from "./users/Dowload";
 
 export default function Users() {
     const { requestAPI } = useAppContext();
@@ -26,6 +28,7 @@ export default function Users() {
         roles,
         courses,
         branches,
+        inquiry_branches: branches,
     });
     const [filtersDrawerVisibility, setFiltersDrawerVisibility] = useState();
 
@@ -71,15 +74,25 @@ export default function Users() {
     }, [searchQuery]);
 
     return (
+
         <HasRequiredAuthority requiredAuthority={AUTHORITIES.USE_PAGE_USERS}>
-            <div className="flex flex-column h-full overflow-hidden">
-                <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_OTHER_USERS}>
-                <SearchBar
-                    countAppliedFilters={countAppliedFilters}
-                    disable={loading}
-                    setFiltersDrawerVisibility={setFiltersDrawerVisibility}
-                    setSearchQuery={setSearchQuery}
-                />
+         
+             
+             
+
+        <div className="flex flex-column h-full overflow-hidden">
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_OTHER_USERS}>
+                <div className="flex align-items-center p-2 gap-1">
+                    <SearchBar
+                        className={"flex-1"}
+                        countAppliedFilters={countAppliedFilters}
+                        disable={loading}
+                        setFiltersDrawerVisibility={setFiltersDrawerVisibility}
+                        setSearchQuery={setSearchQuery}
+                    />
+                    {users?.recordsCount > 0 && <Download searchQuery={searchQuery} />}
+                </div>
+
             </HasRequiredAuthority>
 
             <div className="flex-1 min-h-0  overflow-y-scroll p-2 bg-gray-100">

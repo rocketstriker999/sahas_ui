@@ -17,7 +17,6 @@ export default function CouponCodeCourse({
     discount_type,
     validity_days,
     validity_date,
-
     validity_type,
     distributor_email,
     distributor_name,
