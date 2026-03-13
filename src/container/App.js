@@ -39,6 +39,7 @@ import Selection from "../components/chapter_test/Selection";
 import Appear from "../components/chapter_test/Appear";
 import Result from "../components/chapter_test/Result";
 import ContactUs from "../pages/ContactUs";
+import ManageInquiries from "../pages/ManageInquiries";
 
 export default function App() {
     return (
@@ -83,6 +84,16 @@ export default function App() {
                                 />
                             </Route>
                         </Route>
+
+                        <Route
+                            path="/manage-inquiries"
+                            element={
+                                <HasRequiredAuthority showForBidden={true} requiredAuthority={AUTHORITIES.USE_PAGE_INQUIRIES}>
+                                    <ManageInquiries />
+                                </HasRequiredAuthority>
+                            }
+                        />
+
                         <Route path="/course-categories" element={<Catelogue />}>
                             <Route index element={<Categories />} />
                             <Route path=":categoryId/courses" element={<Courses />} />

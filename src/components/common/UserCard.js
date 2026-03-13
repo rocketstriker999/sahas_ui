@@ -1,8 +1,8 @@
 import { Avatar } from "primereact/avatar";
 import { Tag } from "primereact/tag";
 import { useNavigate } from "react-router-dom";
-import { EMPTY_VALUE } from "../../../constants";
-import { TEXT_SIZE_NORMAL, TEXT_SIZE_SMALL } from "../../../style";
+import { EMPTY_VALUE } from "../../constants";
+import { TEXT_SIZE_NORMAL, TEXT_SIZE_SMALL } from "../../style";
 
 export default function UserCard({ id, email, image, full_name, phone, active, inquiries }) {
     const navigate = useNavigate();
