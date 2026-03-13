@@ -1,11 +1,9 @@
 import { Sidebar } from "primereact/sidebar";
-import { MultiSelect } from "primereact/multiselect";
-import { FloatLabel } from "primereact/floatlabel";
 import { Button } from "primereact/button";
 import { useState } from "react";
 import NoContent from "../../common/NoContent";
-import { getFilterNameFormalized } from "../../../utils";
 import { TITLE_TEXT, TEXT_SIZE_SMALL } from "../../../style";
+import FilterSelector from "../../common/FilterSelector";
 
 export default function FiltersDrawer({ filtersDrawerVisibility, setFiltersDrawerVisibility, filters, setSearchQuery }) {
     const [selectedFilters, setSelectedFilters] = useState();
@@ -13,26 +11,10 @@ export default function FiltersDrawer({ filtersDrawerVisibility, setFiltersDrawe
     return (
         <Sidebar visible={filtersDrawerVisibility} onHide={() => setFiltersDrawerVisibility(false)}>
             <h2 className={`${TITLE_TEXT} mb-5`}>Filters</h2>
-            {filters ? (
-                Object.keys(filters)
-                    .filter((key) => filters[key]?.length)
-                    .map((key) => (
-                        <FloatLabel className="w-full mb-5" key={key}>
-                            <MultiSelect
-                                value={selectedFilters?.[key]}
-                                onChange={(e) => setSelectedFilters((prev) => ({ ...prev, [key]: e.value }))}
-                                options={filters[key]}
-                                optionLabel="title"
-                                maxSelectedLabels={3}
-                                className="w-full"
-                                pt={{
-                                    label: { className: TEXT_SIZE_SMALL },
-                                    item: { className: TEXT_SIZE_SMALL },
-                                }}
-                            />
-                            <label htmlFor="ms-cities">{getFilterNameFormalized(key)}</label>
-                        </FloatLabel>
-                    ))
+            {filters?.length ? (
+                filters.map((filter) => (
+                    <FilterSelector key={filter?.key} filter={filter} selectedFilters={selectedFilters} setSelectedFilters={setSelectedFilters} />
+                ))
             ) : (
                 <NoContent error="No Filters Found" />
             )}
@@ -56,14 +38,17 @@ export default function FiltersDrawer({ filtersDrawerVisibility, setFiltersDrawe
 
                         setSearchQuery((prev) => {
                             //remove previous set of filters
-                            if (filters)
-                                Object.keys(filters).forEach((key) => {
-                                    delete prev[key];
-                                });
+                            filters?.forEach((filter) => delete prev[filter?.key]);
 
                             if (selectedFilters)
                                 Object.keys(selectedFilters).forEach((key) => {
-                                    prev[key] = selectedFilters[key].map((selectedFilter) => selectedFilter.id).join(",");
+                                    //multiple objects
+                                    if (Array.isArray(selectedFilters[key])) {
+                                        return (prev[key] = selectedFilters[key].map((selectedFilter) => selectedFilter?.id || selectedFilter).join(","));
+                                    }
+
+                                    //single object
+                                    prev[key] = selectedFilters[key]?.id;
                                 });
 
                             //put new values

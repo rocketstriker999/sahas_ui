@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 import { useAppContext } from "../../../providers/ProviderAppContainer";
 import ProgressiveControl from "../../common/ProgressiveControl";
 
-export default function Download({ searchQuery }) {
+export default function Download({ entity, searchQuery }) {
     const { requestAPI, showToast } = useAppContext();
 
     const [loading, setLoading] = useState();
@@ -12,7 +12,7 @@ export default function Download({ searchQuery }) {
     const downloadUsers = useCallback(() => {
         requestAPI({
             requestMethod: "GET",
-            requestPath: `users/download`,
+            requestPath: `${entity}/download`,
             requestGetQuery: searchQuery,
             setLoading,
             onResponseReceieved: ({ cdn_url, error }, responseCode) => {
@@ -20,7 +20,7 @@ export default function Download({ searchQuery }) {
                 else showToast({ severity: "error", summary: "Failed", detail: error || "Failed To Download Users !", life: 2000 });
             },
         });
-    }, [requestAPI, searchQuery, showToast]);
+    }, [entity, requestAPI, searchQuery, showToast]);
 
     return (
         <ProgressiveControl

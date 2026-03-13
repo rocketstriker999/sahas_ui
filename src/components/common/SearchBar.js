@@ -2,7 +2,7 @@ import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { useState } from "react";
 import { Badge } from "primereact/badge";
-import { TEXT_SIZE_NORMAL } from "../../../style";
+import { TEXT_SIZE_NORMAL } from "../../style";
 
 export default function SearchBar({ disable, setFiltersDrawerVisibility, setSearchQuery, countAppliedFilters, className }) {
     const [search, setSearch] = useState("");

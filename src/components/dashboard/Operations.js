@@ -73,6 +73,12 @@ export default function Operations({ className }) {
                         path: "/manage-users",
                     },
                     {
+                        title: "Inquiries",
+                        icon: "pi-address-book",
+                        required_authority: AUTHORITIES.USE_PAGE_USERS,
+                        path: "/manage-inquiries",
+                    },
+                    {
                         title: "My Expenses",
                         icon: "pi-images",
                         required_authority: AUTHORITIES.USE_PAGE_MY_EXPENSES,
