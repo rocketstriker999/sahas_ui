@@ -25,7 +25,7 @@ export default function User() {
         { label: "Enrollments", icon: "pi pi-folder-open", command: () => navigate(`enrollments`, { replace: true }) },
         { label: "Devices", icon: "pi pi-tablet", command: () => navigate(`devices`) },
         { label: "Wallet", icon: "pi pi-wallet", command: () => navigate(`wallet`) },
-        { label: "Notes", icon: "pi pi-clipboard", command: () => navigate(`notes`) },
+        { label: "Notes", icon: "pi pi-clipboard", command: () => navigate(`global-notes`) },
         { label: "Roles", icon: "pi pi-id-card", command: () => navigate(`roles`) },
     ];
 
