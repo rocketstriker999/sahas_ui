@@ -40,6 +40,7 @@ import Appear from "../components/chapter_test/Appear";
 import Result from "../components/chapter_test/Result";
 import ContactUs from "../pages/ContactUs";
 import ManageInquiries from "../pages/ManageInquiries";
+import GlobalNotes from "../components/manage_users/user/GlobalNotes";
 
 export default function App() {
     return (
@@ -73,7 +74,7 @@ export default function App() {
                                 <Route path="enrollments" element={<Enrollments />} />
                                 <Route path="devices" element={<Devices />} />
                                 <Route path="wallet" element={<Wallet />} />
-                                <Route path="notes" element={<NoContent error={"Coming soon !"} />} />
+                                <Route path="global-notes" element={<GlobalNotes />} />
                                 <Route
                                     path="roles"
                                     element={

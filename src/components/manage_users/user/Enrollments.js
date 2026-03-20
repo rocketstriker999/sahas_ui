@@ -36,8 +36,6 @@ export default function Enrollments() {
         setDialogAddEnrollment((prev) => ({ ...prev, visible: false }));
     }, []);
 
-    console.log(enrollments);
-
     useEffect(() => {
         requestAPI({
             requestPath: `users/${userId}/enrollments`,
