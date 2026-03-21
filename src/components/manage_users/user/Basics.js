@@ -17,6 +17,7 @@ import { useOutletContext } from "react-router-dom";
 import { TEXT_SIZE_NORMAL } from "../../../style";
 import FileInput from "../../common/FileInput";
 import { InputNumber } from "primereact/inputnumber";
+import { Accordion, AccordionTab } from "primereact/accordion";
 
 export default function Basics() {
     const { userId, branches } = useOutletContext();
@@ -172,6 +173,41 @@ export default function Basics() {
                         />
                         <label htmlFor="address">Address</label>
                     </FloatLabel>
+
+                    <Accordion>
+                        <AccordionTab header="History">
+                            <FloatLabel className="mt-2">
+                                <InputText
+                                    value={basics?.history?.institute}
+                                    id="institute"
+                                    className="w-full"
+                                    onChange={(e) => setBasics((prev) => ({ ...prev, history: { ...prev?.history, institute: e.target.value } }))}
+                                    disabled={!enableInputs}
+                                />
+                                <label htmlFor="institute">Last Collage</label>
+                            </FloatLabel>
+                            <FloatLabel className="mt-4">
+                                <InputText
+                                    value={basics?.history?.course}
+                                    id="course"
+                                    className="w-full"
+                                    onChange={(e) => setBasics((prev) => ({ ...prev, history: { ...prev?.history, course: e.target.value } }))}
+                                    disabled={!enableInputs}
+                                />
+                                <label htmlFor="class">Last Class</label>
+                            </FloatLabel>
+                            <FloatLabel className="mt-4">
+                                <InputText
+                                    value={basics?.history?.refered_by}
+                                    id="refered_by"
+                                    className="w-full"
+                                    onChange={(e) => setBasics((prev) => ({ ...prev, history: { ...prev?.history, refered_by: e.target.value } }))}
+                                    disabled={!enableInputs}
+                                />
+                                <label htmlFor="refered_by">Refered By</label>
+                            </FloatLabel>
+                        </AccordionTab>
+                    </Accordion>
                 </div>
             ) : (
                 <NoContent error={"No Inquiries Found"} />

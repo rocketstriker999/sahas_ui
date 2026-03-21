@@ -8,7 +8,7 @@ import { useAppContext } from "../../providers/ProviderAppContainer";
 import { useCallback, useState } from "react";
 import { Dropdown } from "primereact/dropdown";
 import { useSelector } from "react-redux";
-
+import { Accordion, AccordionTab } from "primereact/accordion";
 import { Button } from "primereact/button";
 import { useNavigate } from "react-router-dom";
 import { InputNumber } from "primereact/inputnumber";
@@ -24,6 +24,8 @@ export default function DialogAddUser({ visible, closeDialog }) {
 
     const [basics, setBasics] = useState();
     const [loading, setLoading] = useState();
+
+    console.log(basics);
 
     const addUser = useCallback(() => {
         requestAPI({
@@ -105,6 +107,38 @@ export default function DialogAddUser({ visible, closeDialog }) {
                 />
                 <label htmlFor="address">Address</label>
             </FloatLabel>
+
+            <Accordion className="mt-3">
+                <AccordionTab header="History">
+                    <FloatLabel className="mt-2">
+                        <InputText
+                            value={basics?.history?.institute}
+                            id="institute"
+                            className="w-full"
+                            onChange={(e) => setBasics((prev) => ({ ...prev, history: { ...prev?.history, institute: e.target.value } }))}
+                        />
+                        <label htmlFor="institute">Last Collage</label>
+                    </FloatLabel>
+                    <FloatLabel className="mt-4">
+                        <InputText
+                            value={basics?.history?.course}
+                            id="course"
+                            className="w-full"
+                            onChange={(e) => setBasics((prev) => ({ ...prev, history: { ...prev?.history, course: e.target.value } }))}
+                        />
+                        <label htmlFor="class">Last Class</label>
+                    </FloatLabel>
+                    <FloatLabel className="mt-4">
+                        <InputText
+                            value={basics?.history?.refered_by}
+                            id="refered_by"
+                            className="w-full"
+                            onChange={(e) => setBasics((prev) => ({ ...prev, history: { ...prev?.history, refered_by: e.target.value } }))}
+                        />
+                        <label htmlFor="refered_by">Refered By</label>
+                    </FloatLabel>
+                </AccordionTab>
+            </Accordion>
 
             <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_USER}>
                 <Button className="mx-3 my-2" label="Add New User" severity="warning" onClick={addUser} loading={loading} disabled={!basics} />
