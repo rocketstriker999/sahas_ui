@@ -7,7 +7,20 @@ import { useCallback, useState } from "react";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import ProgressiveControl from "../common/ProgressiveControl";
 
-export default function Transaction({ id, user_id, full_name, amount, courses, type, created_on, handler, manually_verified, setTransactions }) {
+export default function Transaction({
+    id,
+    user_id,
+    full_name,
+    created_by_id,
+    created_by_full_name,
+    amount,
+    courses,
+    type,
+    created_on,
+    handler,
+    manually_verified,
+    setTransactions,
+}) {
     const navigate = useNavigate();
     const { requestAPI, showToast } = useAppContext();
     const [loading, setLoading] = useState();
@@ -57,7 +70,12 @@ export default function Transaction({ id, user_id, full_name, amount, courses, t
                         + {amount}
                         {RUPEE}
                     </span>
-                    <span className="border-1 text-xs px-1 border-orange-800 bg-orange-300 border-round text-orange-800 p-1">{type}</span>
+                    <div className="flex gap-2">
+                        <span className="border-1 text-xs px-1 border-orange-800 bg-orange-300 border-round text-orange-800 p-1">{type}</span>
+                        <span className="border-1 text-xs px-1 border-blue-800 bg-blue-300 border-round text-blue-800 p-1">
+                            By {user_id === created_by_id ? "Self" : created_by_full_name}
+                        </span>
+                    </div>
                     <div className="flex align-items-center gap-1 text-color-secondary">
                         <span className="pi pi-calendar"></span>
                         <span className="text-xs ">{getReadableDate({ date: created_on })}</span>
@@ -70,7 +88,7 @@ export default function Transaction({ id, user_id, full_name, amount, courses, t
                     <CheckboxInput
                         checked={!!manually_verified}
                         onChange={updateTransactionManualVerification}
-                        className={"text-sm text-gray-900 font-semibold"}
+                        className={"text-sm text-gray-900 font-semibold mb-1 mx-1 border-0"}
                         label={"Manually Verified"}
                     />
                 }
