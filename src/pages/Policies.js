@@ -13,6 +13,8 @@ import TabHeader from "../components/common/TabHeader";
 import { Button } from "primereact/button";
 import OrderManager from "../components/common/OrderManager";
 import { Fieldset } from "primereact/fieldset";
+import HasRequiredAuthority from "../components/dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../constants";
 
 export default function Policies() {
     const [policies, setPolicies] = useState();
@@ -60,19 +62,23 @@ export default function Policies() {
                 title="Policies Sahas Follow"
                 highlights={[`Following Policies get applied`]}
                 actionItems={[
-                    <Button
-                        icon="pi pi-plus"
-                        severity="warning"
-                        onClick={() =>
-                            setDialogAddPolicy((prev) => ({
-                                ...prev,
-                                setPolicies,
-                                visible: true,
-                                closeDialog: closeDialogAddPolicy,
-                            }))
-                        }
-                    />,
-                    <Button loading={loading} onClick={() => {}} icon="pi pi-arrows-v" />,
+                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_POLICY}>
+                        <Button
+                            icon="pi pi-plus"
+                            severity="warning"
+                            onClick={() =>
+                                setDialogAddPolicy((prev) => ({
+                                    ...prev,
+                                    setPolicies,
+                                    visible: true,
+                                    closeDialog: closeDialogAddPolicy,
+                                }))
+                            }
+                        />
+                    </HasRequiredAuthority>,
+                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.UPDATE_POLICY_VIEW_INDEX}>
+                        <Button loading={loading} onClick={() => {}} icon="pi pi-arrows-v" />
+                    </HasRequiredAuthority>,
                 ]}
             />
 
