@@ -8,6 +8,8 @@ import TabHeader from "../../../common/TabHeader";
 import { useAppContext } from "../../../../providers/ProviderAppContainer";
 import { useOutletContext } from "react-router-dom";
 import { TEXT_SIZE_NORMAL, TITLE_TEXT } from "../../../../style";
+import HasRequiredAuthority from "../../../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../../../constants";
 
 export default function DialogAddInquiry({ visible, setVisible, setInquiries }) {
     const { userId, courses, branches } = useOutletContext();
@@ -24,7 +26,7 @@ export default function DialogAddInquiry({ visible, setVisible, setInquiries }) 
             setLoading: setLoading,
             onResponseReceieved: (inquiry, responseCode) => {
                 if (responseCode === 201) {
-                    showToast({ severity: "success", summary: "Updated", detail: "Inquiry Added", life: 1000 });
+                    showToast({ severity: "success", summary: "Added", detail: "Inquiry Added", life: 1000 });
                     setInquiries((prev) => [inquiry, ...prev]);
                     setInquiry(() => ({
                         user_id: userId,
@@ -45,7 +47,7 @@ export default function DialogAddInquiry({ visible, setVisible, setInquiries }) 
             onHide={() => setVisible(false)}
             pt={{
                 headertitle: { className: TITLE_TEXT },
-                content: { className: "overflow-visible" }
+                content: { className: "overflow-visible" },
             }}
         >
             <TabHeader
@@ -103,11 +105,19 @@ export default function DialogAddInquiry({ visible, setVisible, setInquiries }) 
                 />
                 <label htmlFor="note">Note</label>
             </FloatLabel>
-            <Button className="mt-3" label="Add Inquiry" severity="warning" loading={loading} onClick={addInquiry}
-                pt={{
-                    label: { className: TEXT_SIZE_NORMAL },
-                    icon: { className: TEXT_SIZE_NORMAL }
-                }} />
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_INQUIRY}>
+                <Button
+                    className="mt-3"
+                    label="Add Inquiry"
+                    severity="warning"
+                    loading={loading}
+                    onClick={addInquiry}
+                    pt={{
+                        label: { className: TEXT_SIZE_NORMAL },
+                        icon: { className: TEXT_SIZE_NORMAL },
+                    }}
+                />
+            </HasRequiredAuthority>
         </Dialog>
     );
 }

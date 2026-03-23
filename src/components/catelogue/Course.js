@@ -67,7 +67,7 @@ export default function Course({
 
                 {!!is_bundle && <Badge className="align-self-start fadeinleft animation-duration-1000 " value={`${fees} ${RUPEE}`} severity="warning"></Badge>}
 
-                <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+                <HasRequiredAuthority requiredAuthority={AUTHORITIES.UPDATE_COURSE}>
                     {!updatingViewIndex && (
                         <ProgressiveControl
                             loading={deleting}
@@ -94,7 +94,7 @@ export default function Course({
                         />
                     )}
                 </HasRequiredAuthority>
-                <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+                <HasRequiredAuthority requiredAuthority={AUTHORITIES.DELETE_COURSE}>
                     {!updatingViewIndex && (
                         <ProgressiveControl loading={deleting} control={<IconButton icon={"pi-trash"} color={"text-red-500"} onClick={deleteCourse} />} />
                     )}

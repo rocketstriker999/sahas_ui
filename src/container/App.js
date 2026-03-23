@@ -40,6 +40,11 @@ import Appear from "../components/chapter_test/Appear";
 import Result from "../components/chapter_test/Result";
 import Policies from "../pages/Policies";
 
+import ContactUs from "../pages/ContactUs";
+import ManageInquiries from "../pages/ManageInquiries";
+import GlobalNotes from "../components/manage_users/user/GlobalNotes";
+
+
 export default function App() {
     return (
         <HasAuthentication>
@@ -72,7 +77,7 @@ export default function App() {
                                 <Route path="enrollments" element={<Enrollments />} />
                                 <Route path="devices" element={<Devices />} />
                                 <Route path="wallet" element={<Wallet />} />
-                                <Route path="notes" element={<NoContent error={"Coming soon !"} />} />
+                                <Route path="global-notes" element={<GlobalNotes />} />
                                 <Route
                                     path="roles"
                                     element={
@@ -83,6 +88,16 @@ export default function App() {
                                 />
                             </Route>
                         </Route>
+
+                        <Route
+                            path="/manage-inquiries"
+                            element={
+                                <HasRequiredAuthority showForBidden={true} requiredAuthority={AUTHORITIES.USE_PAGE_INQUIRIES}>
+                                    <ManageInquiries />
+                                </HasRequiredAuthority>
+                            }
+                        />
+
                         <Route path="/course-categories" element={<Catelogue />}>
                             <Route index element={<Categories />} />
                             <Route path=":categoryId/courses" element={<Courses />} />

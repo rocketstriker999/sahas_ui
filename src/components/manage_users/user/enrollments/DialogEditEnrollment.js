@@ -6,107 +6,56 @@ import { FloatLabel } from "primereact/floatlabel";
 import { Button } from "primereact/button";
 import { Calendar } from "primereact/calendar";
 import { InputNumber } from "primereact/inputnumber";
-import { getWriteableDate } from "../../../../utils";
-import { useOutletContext } from "react-router-dom";
-import { MultiSelect } from "primereact/multiselect";
 import { Checkbox } from "primereact/checkbox";
 import { TITLE_TEXT, TEXT_SIZE_SMALL } from "../../../../style";
-import { useSelector } from "react-redux";
-import { Dropdown } from "primereact/dropdown";
-import HasRequiredAuthority from "../../../dependencies/HasRequiredAuthority";
-import { AUTHORITIES } from "../../../../constants";
+import { getWriteableDate } from "../../../../utils";
 import { InputTextarea } from "primereact/inputtextarea";
 
-export default function DialogAddEnrollment({ visible, closeDialog, setEnrollments }) {
+export default function DialogEditEnrollment({ visible, closeDialog, setEnrollments, ...props }) {
     const { requestAPI, showToast } = useAppContext();
-    const { userId, courses } = useOutletContext();
 
     const [loading, setLoading] = useState();
 
-    const { enrollmentHandlers = [] } = useSelector((state) => state.stateTemplateConfig?.global);
+    const [enrollment, setEnrollment] = useState(props);
 
-    const [enrollment, setEnrollment] = useState();
-
-    const addTransaction = useCallback(() => {
+    const updateEnrollment = useCallback(() => {
         requestAPI({
             requestPath: `enrollments`,
-            requestMethod: "POST",
+            requestMethod: "PATCH",
             requestPostBody: {
                 ...enrollment,
-                user_id: userId,
                 start_date: getWriteableDate({ date: enrollment?.start_date, removeTime: true }),
                 end_date: getWriteableDate({ date: enrollment?.end_date, removeTime: true }),
             },
-            setLoading: setLoading,
-            onResponseReceieved: (enrollment, responseCode) => {
-                if (enrollment && responseCode === 201) {
-                    showToast({ severity: "success", summary: "Added", detail: "Enrollment Added", life: 1000 });
-                    setEnrollments((prev) => [enrollment, ...prev]);
-                    setEnrollment(); //reset this form
-                    closeDialog(); //close the dialog
+            setLoading,
+            onResponseReceieved: (updatedEnrollment, responseCode) => {
+                if (updatedEnrollment && responseCode === 200) {
+                    showToast({ severity: "success", summary: "Updated", detail: "Enrollment Updated Succesfully", life: 1000 });
+                    setEnrollments((prev) => prev.map((enrollment) => (enrollment?.id === props?.id ? updatedEnrollment : enrollment)));
+                    closeDialog();
                 } else {
-                    showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Enrollment !", life: 2000 });
+                    showToast({ severity: "error", summary: "Failed", detail: "Failed To Updated Enrollment !", life: 2000 });
                 }
             },
         });
-    }, [closeDialog, enrollment, requestAPI, setEnrollments, showToast, userId]);
+    }, [closeDialog, enrollment, props, requestAPI, setEnrollments, showToast]);
 
     return (
         <Dialog
-            header={`Add New Enrollment`}
+            header={`Edit Enrollment ${enrollment?.id}`}
             visible={visible}
             className="w-11"
             onHide={closeDialog}
             pt={{
                 headertitle: { className: TITLE_TEXT },
-                content: { className: "overflow-scroll" },
+                content: { className: "overflow-visible" },
             }}
         >
-            <TabHeader
-                className="pt-3"
-                title="Add New Course Enrollment"
-                highlights={["Enrollment Will be Recorded immidiatly", "Enrollment Can Be Deactivated"]}
-            />
-
-            <FloatLabel className="mt-5">
-                <MultiSelect
-                    value={enrollment?.courses}
-                    inputId="courses"
-                    options={courses}
-                    optionLabel="title"
-                    className="w-full"
-                    onChange={(e) => setEnrollment((prev) => ({ ...prev, courses: e.value }))}
-                    disabled={loading}
-                    pt={{
-                        label: { className: TEXT_SIZE_SMALL },
-                        item: { className: TEXT_SIZE_SMALL },
-                    }}
-                />
-                <label htmlFor="courses" className={`${TEXT_SIZE_SMALL}`}>
-                    Courses
-                </label>
-            </FloatLabel>
-
-            <FloatLabel className="mt-5">
-                <Dropdown
-                    disabled={loading}
-                    value={enrollment?.handler}
-                    onChange={(e) => setEnrollment((prev) => ({ ...prev, handler: e.value }))}
-                    options={enrollmentHandlers}
-                    className="w-full "
-                    pt={{
-                        label: { className: TEXT_SIZE_SMALL },
-                        item: { className: TEXT_SIZE_SMALL },
-                    }}
-                />
-                <label htmlFor="courses" className={`${TEXT_SIZE_SMALL}`}>
-                    Transactions Handler
-                </label>
-            </FloatLabel>
+            <TabHeader className="pt-3" title="Edit Enrollment Below Details" />
 
             <FloatLabel className="mt-5">
                 <Calendar
-                    dateFormat="dd/mm/yy"
+                    dateFormat="dd-mm-yy"
                     inputId="start_date"
                     className="w-full"
                     value={enrollment?.start_date}
@@ -159,7 +108,7 @@ export default function DialogAddEnrollment({ visible, closeDialog, setEnrollmen
                     <Checkbox
                         inputId="on_site_access"
                         onChange={({ checked }) => setEnrollment((prev) => ({ ...prev, on_site_access: checked }))}
-                        checked={enrollment?.on_site_access}
+                        checked={!!enrollment?.on_site_access}
                     />
                 </div>
 
@@ -170,24 +119,10 @@ export default function DialogAddEnrollment({ visible, closeDialog, setEnrollmen
                     <Checkbox
                         inputId="digital_access"
                         onChange={({ checked }) => setEnrollment((prev) => ({ ...prev, digital_access: checked }))}
-                        checked={enrollment?.digital_access}
+                        checked={!!enrollment?.digital_access}
                     />
                 </div>
             </div>
-
-
-            <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_ENROLLMENT}>
-                <Button
-                    className="mt-3"
-                    label="Add Enrollment"
-                    severity="warning"
-                    loading={loading}
-                    onClick={addTransaction}
-                    pt={{
-                        label: { className: TEXT_SIZE_SMALL },
-                    }}
-                />
-          
 
             <FloatLabel className="mt-5">
                 <InputTextarea
@@ -204,16 +139,14 @@ export default function DialogAddEnrollment({ visible, closeDialog, setEnrollmen
 
             <Button
                 className="mt-3"
-                label="Add Enrollment"
+                label="Edit Enrollment"
                 severity="warning"
                 loading={loading}
-                onClick={addTransaction}
+                onClick={updateEnrollment}
                 pt={{
                     label: { className: TEXT_SIZE_SMALL },
                 }}
             />
-              </HasRequiredAuthority>
-
         </Dialog>
     );
 }

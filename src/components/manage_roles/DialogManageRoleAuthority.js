@@ -20,7 +20,7 @@ export default function DialogManageRoleAuthorities({ visible, roleId, closeDial
 
     const searchedRoleAuthorities = useMemo(
         () => roleAuthorities?.filter((roleAuthority) => roleAuthority?.title?.toLowerCase()?.includes(search.toLowerCase())),
-        [roleAuthorities, search]
+        [roleAuthorities, search],
     );
 
     useEffect(() => {
@@ -41,11 +41,16 @@ export default function DialogManageRoleAuthorities({ visible, roleId, closeDial
     }, [requestAPI, roleId]);
 
     return (
-        <Dialog header={`Manage Role Authorities`} visible={visible} className="w-11" onHide={closeDialog}
+        <Dialog
+            header={`Manage Role Authorities`}
+            visible={visible}
+            className="w-11"
+            onHide={closeDialog}
             pt={{
                 headertitle: { className: TITLE_TEXT },
-                content: { className: "overflow-visible" }
-            }}>
+                content: { className: "overflow-scroll" },
+            }}
+        >
             <TabHeader
                 className="pt-3 "
                 title={`Manage Authorities - ${roles?.find((role) => role?.id === roleId)?.title}`}

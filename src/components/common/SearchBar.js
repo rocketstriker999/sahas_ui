@@ -2,16 +2,16 @@ import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { useState } from "react";
 import { Badge } from "primereact/badge";
-import { TEXT_SIZE_NORMAL } from "../../../style";
+import { TEXT_SIZE_NORMAL } from "../../style";
 
-export default function SearchBar({ disable, setFiltersDrawerVisibility, setSearchQuery, countAppliedFilters }) {
+export default function SearchBar({ disable, setFiltersDrawerVisibility, setSearchQuery, countAppliedFilters, className }) {
     const [search, setSearch] = useState("");
 
     return (
-        <div className="relative mt-1">
+        <div className={`relative ${className}`}>
             {countAppliedFilters > 0 && <Badge severity="warning" className="absolute top-0 left-0 z-2 mx-1" value={countAppliedFilters}></Badge>}
 
-            <div className="p-inputgroup  p-2 ">
+            <div className="p-inputgroup   ">
                 <Button
                     icon="pi pi-filter-fill"
                     className="p-button-secondary "
@@ -40,6 +40,7 @@ export default function SearchBar({ disable, setFiltersDrawerVisibility, setSear
                         icon: { className: TEXT_SIZE_NORMAL },
                     }}
                 />
+
                 {search && (
                     <Button
                         icon="pi pi-times"

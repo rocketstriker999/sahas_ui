@@ -52,7 +52,7 @@ export default function Chapter({ id, title, test_attainable, test_questions_poo
             </div>
             {!!updatingViewIndex && <IconButton icon={"pi-equals"} color={"text-indigo-800"} />}
 
-            <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.UPDATE_CHAPTERS}>
                 {!updatingViewIndex && (
                     <ProgressiveControl
                         loading={deleting}
@@ -78,7 +78,7 @@ export default function Chapter({ id, title, test_attainable, test_questions_poo
                 )}
             </HasRequiredAuthority>
 
-            <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.DELETE_CHAPTERS}>
                 {!updatingViewIndex && (
                     <ProgressiveControl loading={deleting} control={<IconButton icon={"pi-trash"} color={"text-red-500"} onClick={deleteChapter} />} />
                 )}

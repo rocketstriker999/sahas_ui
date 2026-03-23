@@ -8,6 +8,8 @@ import { InputText } from "primereact/inputtext";
 import FileInput from "../common/FileInput";
 import { useOutletContext } from "react-router-dom";
 import { TEXT_SIZE_NORMAL, TITLE_TEXT } from "../../style";
+import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../constants";
 
 export default function DialogAddCategory({ visible, view_index, closeDialog }) {
     const { requestAPI, showToast } = useAppContext();
@@ -79,16 +81,18 @@ export default function DialogAddCategory({ visible, view_index, closeDialog }) 
                 }}
             />
 
-            <Button
-                className="mt-3"
-                label="Add Category"
-                severity="warning"
-                loading={loading}
-                onClick={addProductCategory}
-                pt={{
-                    label: { className: TEXT_SIZE_NORMAL },
-                }}
-            />
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_COURSE_CATEGORY}>
+                <Button
+                    className="mt-3"
+                    label="Add Category"
+                    severity="warning"
+                    loading={loading}
+                    onClick={addProductCategory}
+                    pt={{
+                        label: { className: TEXT_SIZE_NORMAL },
+                    }}
+                />
+            </HasRequiredAuthority>
         </Dialog>
     );
 }

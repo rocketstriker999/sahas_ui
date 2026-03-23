@@ -68,7 +68,7 @@ export default function SubjectsHead({ course, subjects, setSubjects, updatingVi
                 title="Subjects"
                 highlights={[`Total ${subjects?.length} Subjects`]}
                 actionItems={[
-                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_COURSE_SUBJECT}>
                         <Button
                             disabled={loading}
                             onClick={() => {
@@ -87,7 +87,7 @@ export default function SubjectsHead({ course, subjects, setSubjects, updatingVi
                             severity="warning"
                         />
                     </HasRequiredAuthority>,
-                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.ASSIGN_COURSE_SUBJECT}>
                         <Button
                             disabled={loading}
                             onClick={() =>
@@ -104,7 +104,7 @@ export default function SubjectsHead({ course, subjects, setSubjects, updatingVi
                             severity="info"
                         />
                     </HasRequiredAuthority>,
-                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.MANAGE_COURSES}>
+                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.UPDATE_COURSE_SUBJECT_VIEW_INDEX}>
                         {!!subjects?.length && (
                             <Button
                                 loading={loading}
@@ -130,35 +130,40 @@ export default function SubjectsHead({ course, subjects, setSubjects, updatingVi
 
             <div className="px-3 py-2 bg-blue-900 text-white flex gap-2 flex-column">
                 {!!(course?.enrollment?.on_site_access || course?.enrollment?.digital_access) && (
-                    <TabHeader
-                        title="Enrollment Details"
-                        highlights={[
-                            `Validity - ${getReadableDate({ date: course?.enrollment?.start_date, removeTime: true })} to ${getReadableDate({
-                                date: course?.enrollment?.end_date,
-                                removeTime: true,
-                            })}`,
-                            [
-                                !!course?.enrollment?.on_site_access ? "On-Site Access" : "No On-Site Access",
-                                !!course?.enrollment?.digital_access ? "Digital Access" : "No Digital Access",
-                            ].join(" & "),
-                        ]}
-                        actionItems={[
-                            <Button
-                                onClick={() => window.open(`https://chat.whatsapp.com/${course?.whatsapp_group}`)}
-                                icon="pi pi-whatsapp"
-                                rounded
-                                severity="success"
-                                aria-label="Join Whatsapp Group"
-                            />,
-                            <Button
-                                onClick={() => navigate(`/manage-users/${loggedInUser?.id}/enrollments`)}
-                                icon="pi pi-receipt"
-                                rounded
-                                severity="info"
-                                aria-label="Invoices"
-                            />,
-                        ]}
-                    />
+                    <div>
+                        <TabHeader
+                            title="Enrollment Details"
+                            highlights={[
+                                `Validity - ${getReadableDate({ date: course?.enrollment?.start_date, removeTime: true })} to ${getReadableDate({
+                                    date: course?.enrollment?.end_date,
+                                    removeTime: true,
+                                })}`,
+                                [
+                                    !!course?.enrollment?.on_site_access ? "On-Site Access" : "No On-Site Access",
+                                    !!course?.enrollment?.digital_access ? "Digital Access" : "No Digital Access",
+                                ].join(" & "),
+                            ]}
+                            actionItems={[
+                                <Button
+                                    onClick={() => navigate(`/manage-users/${loggedInUser?.id}/enrollments`)}
+                                    icon="pi pi-receipt"
+                                    rounded
+                                    severity="info"
+                                    aria-label="Invoices"
+                                />,
+                            ]}
+                        />
+                        <Button
+                            className="mt-2 w-full "
+                            onClick={() => window.open(`https://chat.whatsapp.com/${course?.whatsapp_group}`)}
+                            icon="pi pi-whatsapp"
+                            iconPos="right"
+                            severity="success"
+                            aria-label="Join Whatsapp Group"
+                            label="Join Whatsapp Group"
+                            size="small"
+                        />
+                    </div>
                 )}
 
                 {!course?.enrollment?.digital_access && (

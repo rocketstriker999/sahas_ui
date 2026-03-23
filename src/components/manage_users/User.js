@@ -1,5 +1,7 @@
 import { useSelector } from "react-redux";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
+import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../constants";
 import { TabMenu } from "primereact/tabmenu";
 import { useCallback } from "react";
 
@@ -23,16 +25,18 @@ export default function User() {
         { label: "Enrollments", icon: "pi pi-folder-open", command: () => navigate(`enrollments`, { replace: true }) },
         { label: "Devices", icon: "pi pi-tablet", command: () => navigate(`devices`) },
         { label: "Wallet", icon: "pi pi-wallet", command: () => navigate(`wallet`) },
-        { label: "Notes", icon: "pi pi-clipboard", command: () => navigate(`notes`) },
+        { label: "Notes", icon: "pi pi-clipboard", command: () => navigate(`global-notes`) },
         { label: "Roles", icon: "pi pi-id-card", command: () => navigate(`roles`) },
     ];
 
     return (
-        <div className="flex flex-column h-full overflow-hidden">
-            <TabMenu model={items} />
-            <div className="flex-1 min-h-0 overflow-hidden">
-                <Outlet context={{ roles, userId, authorities, courses, branches, paymentTypes, getCourseTitle }} />
+        <HasRequiredAuthority requiredAuthority={AUTHORITIES.USE_CONTAINER_USER}>
+            <div className="flex flex-column h-full overflow-hidden">
+                <TabMenu model={items} />
+                <div className="flex-1 min-h-0 overflow-hidden">
+                    <Outlet context={{ roles, userId, authorities, courses, branches, paymentTypes, getCourseTitle }} />
+                </div>
             </div>
-        </div>
+        </HasRequiredAuthority>
     );
 }

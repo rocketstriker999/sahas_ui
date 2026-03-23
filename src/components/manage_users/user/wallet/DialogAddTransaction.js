@@ -11,6 +11,8 @@ import { RUPEE } from "../../../../constants";
 import { InputTextarea } from "primereact/inputtextarea";
 import { useOutletContext } from "react-router-dom";
 import { TEXT_SIZE_SMALL, TITLE_TEXT, TEXT_SIZE_NORMAL } from "../../../../style";
+import HasRequiredAuthority from "../../../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../../../constants";
 
 export default function DialogAddTransaction({ setWalletTransActions, currentBalance, visible, closeDialog }) {
     const { requestAPI, showToast } = useAppContext();
@@ -108,10 +110,12 @@ export default function DialogAddTransaction({ setWalletTransActions, currentBal
                 <label htmlFor="note" className={`${TEXT_SIZE_SMALL}`}>Note</label>
             </FloatLabel>
 
-            <Button className="mt-3" label={"Apply"} disabled={!transaction?.operation} severity="warning" loading={loading} onClick={addTransaction}
-                pt={{
-                    label: { className: TEXT_SIZE_SMALL },
-                }} />
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_WALLET_TRANSACTION}>
+                <Button className="mt-3" label={"Apply"} disabled={!transaction?.operation} severity="warning" loading={loading} onClick={addTransaction}
+                    pt={{
+                        label: { className: TEXT_SIZE_SMALL },
+                    }} />
+            </HasRequiredAuthority>
         </Dialog>
     );
 }
