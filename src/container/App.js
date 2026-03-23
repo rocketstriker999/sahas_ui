@@ -40,10 +40,8 @@ import Appear from "../components/chapter_test/Appear";
 import Result from "../components/chapter_test/Result";
 import Policies from "../pages/Policies";
 
-import ContactUs from "../pages/ContactUs";
 import ManageInquiries from "../pages/ManageInquiries";
 import GlobalNotes from "../components/manage_users/user/GlobalNotes";
-
 
 export default function App() {
     return (

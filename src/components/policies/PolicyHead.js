@@ -5,7 +5,7 @@ import { Button } from "primereact/button";
 import { useCallback, useState } from "react";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 
-export default function PolicyHead({ index, id, title, updated_at, description, setPolicies, setDialogEditPolicy }) {
+export default function PolicyHead({ id, title, updated_at, description, setPolicies, setDialogEditPolicy }) {
     const { requestAPI, showToast } = useAppContext();
 
     const [loading, setLoading] = useState();
@@ -31,7 +31,7 @@ export default function PolicyHead({ index, id, title, updated_at, description, 
         <div className="flex align-items-center">
             <div className="flex-1 flex flex-column gap-2 align-items-start">
                 <p className={`m-0 p-0 ${TEXT_SIZE_NORMAL}`}>
-                    {index}. {title}
+                    {id}. {title}
                 </p>
                 {updated_at && (
                     <p className={`${TEXT_SIZE_SMALL} m-0 p-0 font-medium text-color-secondary`}>

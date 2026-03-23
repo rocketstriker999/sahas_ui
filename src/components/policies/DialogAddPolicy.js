@@ -20,7 +20,7 @@ export default function DialogAddPolicy({ visible, setPolicies, closeDialog }) {
             requestPostBody: policy,
             setLoading: setLoading,
             onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Policy !", life: 2000 }),
-            onResponseReceieved: ({ error, policy }, responseCode) => {
+            onResponseReceieved: ({ error, ...policy }, responseCode) => {
                 if (policy && responseCode === 201) {
                     showToast({ severity: "success", summary: "Added", detail: "Policy Added", life: 1000 });
                     setPolicies((prev) => [policy, ...prev]);

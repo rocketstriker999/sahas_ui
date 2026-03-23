@@ -15,7 +15,7 @@ export default function DialogEditPolicy({ visible, setPolicies, closeDialog, ..
 
     const editPolicy = useCallback(() => {
         requestAPI({
-            requestPath: `policies/${props?.id}`,
+            requestPath: `policies`,
             requestMethod: "PATCH",
             requestPostBody: policy,
             setLoading: setLoading,

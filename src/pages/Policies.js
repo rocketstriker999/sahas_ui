@@ -11,6 +11,8 @@ import DialogEditPolicy from "../components/policies/DialogEditPolicy";
 
 import TabHeader from "../components/common/TabHeader";
 import { Button } from "primereact/button";
+import OrderManager from "../components/common/OrderManager";
+import { Fieldset } from "primereact/fieldset";
 
 export default function Policies() {
     const [policies, setPolicies] = useState();
@@ -34,20 +36,7 @@ export default function Policies() {
                 if (policies && responseCode === 200) {
                     setPolicies(policies);
                 } else {
-                    // setError("Couldn't load Policies");
-                    setPolicies([
-                        {
-                            title: "Policy 1",
-                            description: "this is text",
-                            updated_at: "22-07-2026",
-                        },
-                        {
-                            title: "Policy 2",
-                        },
-                        {
-                            title: "Policy 3",
-                        },
-                    ]);
+                    setError("Couldn't load Policies");
                 }
             },
         });
@@ -60,6 +49,7 @@ export default function Policies() {
     const closeDialogAddPolicy = useCallback(() => {
         setDialogAddPolicy((prev) => ({ ...prev, visible: false }));
     }, []);
+    const [updatingViewIndex, setUpdatingViewIndex] = useState();
 
     return (
         <div className="flex flex-column h-full overflow-hidden">
@@ -94,16 +84,17 @@ export default function Policies() {
                 ) : error ? (
                     <NoContent error={error} />
                 ) : policies?.length ? (
-                    <Accordion activeIndex={0}>
-                        {policies.map((policy, index) => (
-                            <AccordionTab
-                                key={policy?.id}
-                                header={() => <PolicyHead {...policy} index={index + 1} setDialogEditPolicy={setDialogEditPolicy} />}
-                            >
-                                <span>{policy?.description}</span>
-                            </AccordionTab>
-                        ))}
-                    </Accordion>
+                    <OrderManager
+                        updatingViewIndex={updatingViewIndex}
+                        items={policies}
+                        setItems={setPolicies}
+                        entity={"Categories"}
+                        itemTemplate={(item) => (
+                            <Fieldset legend={<PolicyHead {...item} setPolicies={setPolicies} setDialogEditPolicy={setDialogEditPolicy} />}>
+                                <span>{item?.description}</span>
+                            </Fieldset>
+                        )}
+                    />
                 ) : (
                     <NoContent error={"No Policies Found"} />
                 )}
