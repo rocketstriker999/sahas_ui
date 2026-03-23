@@ -1,4 +1,4 @@
-import { SUB_TITLE_TEXT, TEXT_SIZE_SMALL, TEXT_SIZE_NORMAL, TITLE_TEXT } from "../../style";
+import { TEXT_SIZE_SMALL, TITLE_TEXT } from "../../style";
 
 export default function TabHeader({ title, highlights, actionItems, className }) {
     return (

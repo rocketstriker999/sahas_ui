@@ -38,7 +38,8 @@ import ChaptersTest from "../pages/ChaptersTest";
 import Selection from "../components/chapter_test/Selection";
 import Appear from "../components/chapter_test/Appear";
 import Result from "../components/chapter_test/Result";
-import ContactUs from "../pages/ContactUs";
+import Policies from "../pages/Policies";
+
 import ManageInquiries from "../pages/ManageInquiries";
 import GlobalNotes from "../components/manage_users/user/GlobalNotes";
 
@@ -50,7 +51,7 @@ export default function App() {
                     <Routes>
                         <Route path="/" element={<Dashboard />} />
 
-                        <Route path="/contact-us" element={<ContactUs />} />
+                        <Route path="/policies" element={<Policies />} />
 
                         <Route path="/manage-users" element={<ManageUsers />}>
                             <Route
