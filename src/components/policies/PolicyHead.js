@@ -4,6 +4,8 @@ import ProgressiveControl from "../common/ProgressiveControl";
 import { Button } from "primereact/button";
 import { useCallback, useState } from "react";
 import { useAppContext } from "../../providers/ProviderAppContainer";
+import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../constants";
 
 export default function PolicyHead({ id, title, updated_at, description, setPolicies, setDialogEditPolicy }) {
     const { requestAPI, showToast } = useAppContext();
@@ -39,33 +41,36 @@ export default function PolicyHead({ id, title, updated_at, description, setPoli
                     </p>
                 )}
             </div>
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.UPDATE_POLICY}>
+                <ProgressiveControl
+                    loading={loading}
+                    control={
+                        <Button
+                            className="w-2rem h-2rem mx-2"
+                            icon="pi pi-pencil"
+                            rounded
+                            severity="warning"
+                            onClick={() =>
+                                setDialogEditPolicy((prev) => ({
+                                    ...prev,
+                                    visible: true,
+                                    setPolicies,
+                                    id,
+                                    title,
+                                    description,
+                                }))
+                            }
+                        />
+                    }
+                />
+            </HasRequiredAuthority>
 
-            <ProgressiveControl
-                loading={loading}
-                control={
-                    <Button
-                        className="w-2rem h-2rem mx-2"
-                        icon="pi pi-pencil"
-                        rounded
-                        severity="warning"
-                        onClick={() =>
-                            setDialogEditPolicy((prev) => ({
-                                ...prev,
-                                visible: true,
-                                setPolicies,
-                                id,
-                                title,
-                                description,
-                            }))
-                        }
-                    />
-                }
-            />
-
-            <ProgressiveControl
-                loading={loading}
-                control={<Button className="w-2rem h-2rem" icon="pi pi-trash" rounded severity="danger" onClick={deletePolicy} />}
-            />
+            <HasRequiredAuthority requiredAuthority={AUTHORITIES.DELETE_POLICY}>
+                <ProgressiveControl
+                    loading={loading}
+                    control={<Button className="w-2rem h-2rem" icon="pi pi-trash" rounded severity="danger" onClick={deletePolicy} />}
+                />
+            </HasRequiredAuthority>
         </div>
     );
 }
