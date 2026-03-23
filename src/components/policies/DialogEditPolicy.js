@@ -20,13 +20,13 @@ export default function DialogEditPolicy({ visible, setPolicies, closeDialog, ..
             requestPostBody: policy,
             setLoading: setLoading,
             onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Update Policy !", life: 2000 }),
-            onResponseReceieved: (updatedPolicy, responseCode) => {
+            onResponseReceieved: ({ error, ...updatedPolicy }, responseCode) => {
                 if (updatedPolicy && responseCode === 200) {
                     showToast({ severity: "success", summary: "Updated", detail: "Policy Updated", life: 1000 });
                     setPolicies((prev) => prev?.map((p) => (p?.id === props?.id ? updatedPolicy : p)));
                     setPolicy({});
                     closeDialog();
-                } else showToast({ severity: "error", summary: "Failed", detail: "Failed To Update Policy !", life: 2000 });
+                } else showToast({ severity: "error", summary: "Failed", detail: error || "Failed To Update Policy !", life: 2000 });
             },
         });
     }, [closeDialog, policy, props, requestAPI, setPolicies, showToast]);
@@ -48,15 +48,15 @@ export default function DialogEditPolicy({ visible, setPolicies, closeDialog, ..
 
             <FloatLabel className="mt-5">
                 <InputTextarea
-                    value={policy?.content || ""}
-                    id="content"
+                    value={policy?.description || ""}
+                    id="description"
                     rows={5}
                     cols={30}
                     className="w-full"
-                    onChange={(e) => setPolicy((prev) => ({ ...prev, content: e.target.value }))}
+                    onChange={(e) => setPolicy((prev) => ({ ...prev, description: e.target.value }))}
                     disabled={loading}
                 />
-                <label htmlFor="content">Content</label>
+                <label htmlFor="description">Description</label>
             </FloatLabel>
 
             <Button className="mt-3" label="Edit Policy" severity="warning" loading={loading} onClick={editPolicy} />

@@ -38,9 +38,7 @@ import ChaptersTest from "../pages/ChaptersTest";
 import Selection from "../components/chapter_test/Selection";
 import Appear from "../components/chapter_test/Appear";
 import Result from "../components/chapter_test/Result";
-import ContactUs from "../pages/ContactUs";
-import ManagePolicies from "../pages/ManagePolicies";
-import Policies from "../components/manage_policies/Policies";
+import Policies from "../pages/Policies";
 
 export default function App() {
     return (
@@ -50,9 +48,7 @@ export default function App() {
                     <Routes>
                         <Route path="/" element={<Dashboard />} />
 
-                        <Route path="/policies" element={<ManagePolicies />}>
-                            <Route index element={<Policies />} />
-                        </Route>
+                        <Route path="/policies" element={<Policies />} />
 
                         <Route path="/manage-users" element={<ManageUsers />}>
                             <Route

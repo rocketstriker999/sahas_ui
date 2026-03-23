@@ -20,13 +20,13 @@ export default function DialogAddPolicy({ visible, setPolicies, closeDialog }) {
             requestPostBody: policy,
             setLoading: setLoading,
             onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Policy !", life: 2000 }),
-            onResponseReceieved: (newPolicy, responseCode) => {
-                if (newPolicy && responseCode === 201) {
+            onResponseReceieved: ({ error, policy }, responseCode) => {
+                if (policy && responseCode === 201) {
                     showToast({ severity: "success", summary: "Added", detail: "Policy Added", life: 1000 });
-                    setPolicies((prev) => [newPolicy, ...prev]);
+                    setPolicies((prev) => [policy, ...prev]);
                     setPolicy({});
                     closeDialog();
-                } else showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Policy !", life: 2000 });
+                } else showToast({ severity: "error", summary: "Failed", detail: error || "Failed To Add Policy !", life: 2000 });
             },
         });
     }, [closeDialog, policy, requestAPI, setPolicies, showToast]);
@@ -48,15 +48,15 @@ export default function DialogAddPolicy({ visible, setPolicies, closeDialog }) {
 
             <FloatLabel className="mt-5">
                 <InputTextarea
-                    value={policy?.content || ""}
-                    id="content"
+                    value={policy?.description || ""}
+                    id="description"
                     rows={5}
                     cols={30}
                     className="w-full"
-                    onChange={(e) => setPolicy((prev) => ({ ...prev, content: e.target.value }))}
+                    onChange={(e) => setPolicy((prev) => ({ ...prev, description: e.target.value }))}
                     disabled={loading}
                 />
-                <label htmlFor="content">Content</label>
+                <label htmlFor="description">Description</label>
             </FloatLabel>
 
             <Button className="mt-3" label="Add Policy" severity="warning" loading={loading} onClick={addPolicy} />

@@ -1,24 +1,20 @@
+import { getReadableDate } from "../../utils";
+import { TEXT_SIZE_NORMAL, TEXT_SIZE_SMALL } from "../../style";
+import ProgressiveControl from "../common/ProgressiveControl";
+import { Button } from "primereact/button";
 import { useCallback, useState } from "react";
 import { useAppContext } from "../../providers/ProviderAppContainer";
-import ProgressiveControl from "../common/ProgressiveControl";
-import Detail from "../common/Detail";
-import { Button } from "primereact/button";
-import DialogEditPolicy from "./DialogEditPolicy";
 
-export default function PolicyBody({ id, title, content, created_at, updated_at, setPolicies }) {
+export default function PolicyHead({ index, id, title, updated_at, description, setPolicies, setDialogEditPolicy }) {
     const { requestAPI, showToast } = useAppContext();
-    const [deleting, setDeleting] = useState();
-    const [dialogEditPolicy, setDialogEditPolicy] = useState({ visible: false });
 
-    const closeDialogEditPolicy = useCallback(() => {
-        setDialogEditPolicy((prev) => ({ ...prev, visible: false }));
-    }, []);
+    const [loading, setLoading] = useState();
 
     const deletePolicy = useCallback(() => {
         requestAPI({
             requestPath: `policies/${id}`,
             requestMethod: "DELETE",
-            setLoading: setDeleting,
+            setLoading,
             parseResponseBody: false,
             onResponseReceieved: (_, responseCode) => {
                 if (responseCode === 204) {
@@ -32,14 +28,23 @@ export default function PolicyBody({ id, title, content, created_at, updated_at,
     }, [id, requestAPI, setPolicies, showToast]);
 
     return (
-        <div className="flex gap-2 align-items-center justify-content-end">
-            <Detail className="flex-1" title="Content" value={content} />
+        <div className="flex align-items-center">
+            <div className="flex-1 flex flex-column gap-2 align-items-start">
+                <p className={`m-0 p-0 ${TEXT_SIZE_NORMAL}`}>
+                    {index}. {title}
+                </p>
+                {updated_at && (
+                    <p className={`${TEXT_SIZE_SMALL} m-0 p-0 font-medium text-color-secondary`}>
+                        <i className={`${TEXT_SIZE_SMALL} pi pi-calendar`}></i> Updated at {getReadableDate({ date: updated_at })}
+                    </p>
+                )}
+            </div>
 
             <ProgressiveControl
-                loading={false}
+                loading={loading}
                 control={
                     <Button
-                        className="w-2rem h-2rem"
+                        className="w-2rem h-2rem mx-2"
                         icon="pi pi-pencil"
                         rounded
                         severity="warning"
@@ -50,10 +55,7 @@ export default function PolicyBody({ id, title, content, created_at, updated_at,
                                 setPolicies,
                                 id,
                                 title,
-                                content,
-                                created_at,
-                                updated_at,
-                                closeDialog: closeDialogEditPolicy,
+                                description,
                             }))
                         }
                     />
@@ -61,10 +63,9 @@ export default function PolicyBody({ id, title, content, created_at, updated_at,
             />
 
             <ProgressiveControl
-                loading={deleting}
+                loading={loading}
                 control={<Button className="w-2rem h-2rem" icon="pi pi-trash" rounded severity="danger" onClick={deletePolicy} />}
             />
-            {dialogEditPolicy?.visible && <DialogEditPolicy {...dialogEditPolicy} />}
         </div>
     );
 }
