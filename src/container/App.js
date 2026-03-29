@@ -45,7 +45,6 @@ import StreamSelectionTestResults from "../components/manage_users/user/StreamSe
 import StreamSelectionQuestions from "../pages/StreamSelectionQuestions";
 import StreamSelectionTest from "../pages/StreamSelectionTest";
 import StreamSelection from "../pages/StreamSelection";
-import StreamSelectionTestResult from "../pages/StreamSelectionTestResult";
 
 export default function App() {
     return (

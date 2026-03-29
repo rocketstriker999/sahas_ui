@@ -24,7 +24,6 @@ export default function User() {
         { label: "Inquiries", icon: "pi pi-question", command: () => navigate(`inquiries`, { replace: true }) },
         { label: "Enrollments", icon: "pi pi-folder-open", command: () => navigate(`enrollments`, { replace: true }) },
         { label: "P.C.A.T.", icon: "pi pi-folder-open", command: () => navigate(`stream-selection-test-results`, { replace: true }) },
-
         { label: "Devices", icon: "pi pi-tablet", command: () => navigate(`devices`) },
         { label: "Wallet", icon: "pi pi-wallet", command: () => navigate(`wallet`) },
         { label: "Notes", icon: "pi pi-clipboard", command: () => navigate(`global-notes`) },
