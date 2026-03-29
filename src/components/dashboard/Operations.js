@@ -61,6 +61,11 @@ export default function Operations({ className }) {
                         path: `/manage-users/${id}/basics`,
                     },
                     {
+                        title: "P.C.A.T.",
+                        icon: "pi-calculator",
+                        path: `/stream-selection`,
+                    },
+                    {
                         title: "Policies",
                         icon: "pi-file-pdf",
                         path: "/policies",
@@ -143,6 +148,13 @@ export default function Operations({ className }) {
                         icon: "pi-ticket",
                         required_authority: AUTHORITIES.USE_PAGE_COUPON_CODES,
                         path: "/manage-coupon-codes",
+                    },
+                    {
+                        //stream-selection-test-results
+                        title: "Stream Selection Questions",
+                        icon: "pi-ticket",
+                        required_authority: AUTHORITIES.USE_PAGE_COUPON_CODES,
+                        path: "/stream-selection-questions",
                     },
                 ],
             },
