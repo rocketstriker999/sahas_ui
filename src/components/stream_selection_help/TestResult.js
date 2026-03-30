@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
-import { useAppContext } from "../providers/ProviderAppContainer";
-import Loading from "../components/common/Loading";
-import NoContent from "../components/common/NoContent";
+import { useAppContext } from "../../providers/ProviderAppContainer";
+import Loading from "../common/Loading";
+import NoContent from "../common/NoContent";
+import Summary from "../common/Summary";
+import { Panel } from "primereact/panel";
+import { getReadableDate } from "../../utils";
 
-export default function StreamSelectionTestResult() {
+export default function TestResult() {
     const { requestAPI, showToast } = useAppContext();
 
     const [loading, setLoading] = useState();
@@ -30,7 +33,14 @@ export default function StreamSelectionTestResult() {
     }
 
     return streamSelectionTestResult?.result ? (
-        <span> {streamSelectionTestResult?.result} </span>
+        <Panel className="m-2" header={` Conducted At - ${getReadableDate({ date: streamSelectionTestResult?.created_at })}`}>
+            <Summary icon={"pi pi-search"} title={"Result"} values={[streamSelectionTestResult?.result]} />
+            <Summary
+                icon={"pi pi-pen-to-square"}
+                title={"Q&A"}
+                values={streamSelectionTestResult?.answers?.map(({ question, answer }) => `${question} -> ${answer}`)}
+            />
+        </Panel>
     ) : (
         <NoContent error="Failed To Load Stream Selection Result" />
     );

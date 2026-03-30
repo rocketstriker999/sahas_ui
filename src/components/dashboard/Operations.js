@@ -63,7 +63,7 @@ export default function Operations({ className }) {
                     {
                         title: "P.C.A.T.",
                         icon: "pi-calculator",
-                        path: `/stream-selection`,
+                        path: `/stream-selection-help/attend`,
                     },
                     {
                         title: "Policies",
@@ -151,10 +151,10 @@ export default function Operations({ className }) {
                     },
                     {
                         //stream-selection-test-results
-                        title: "Stream Selection Questions",
+                        title: "P.C.A.T. Configuration",
                         icon: "pi-ticket",
                         required_authority: AUTHORITIES.USE_PAGE_COUPON_CODES,
-                        path: "/stream-selection-questions",
+                        path: "/stream-selection-test-configuration",
                     },
                 ],
             },

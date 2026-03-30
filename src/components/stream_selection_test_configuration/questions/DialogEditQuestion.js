@@ -1,11 +1,11 @@
 import { useCallback, useState } from "react";
-import { useAppContext } from "../../providers/ProviderAppContainer";
 import { Dialog } from "primereact/dialog";
-import TabHeader from "../common/TabHeader";
 import { FloatLabel } from "primereact/floatlabel";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import { Button } from "primereact/button";
+import { useAppContext } from "../../../providers/ProviderAppContainer";
+import TabHeader from "../../common/TabHeader";
 
 export default function DialogEditQuestion({ visible, setPolicies, closeDialog, ...props }) {
     const { requestAPI, showToast } = useAppContext();
