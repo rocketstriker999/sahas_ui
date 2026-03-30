@@ -1,5 +1,5 @@
 import { Button } from "primereact/button";
-import { useLocation, useNavigate, useOutlet, useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 
 export default function Result() {
     const { testResult } = useOutletContext();

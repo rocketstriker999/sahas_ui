@@ -1,19 +1,18 @@
 import { useCallback, useEffect, useState } from "react";
-import PageTitle from "../components/common/PageTitle";
-import { useParams } from "react-router-dom";
-import { useAppContext } from "../providers/ProviderAppContainer";
-import TabHeader from "../components/common/TabHeader";
-import HasRequiredAuthority from "../components/dependencies/HasRequiredAuthority";
-import { AUTHORITIES } from "../constants";
+import PageTitle from "../common/PageTitle";
+import { useAppContext } from "../../providers/ProviderAppContainer";
+import TabHeader from "../common/TabHeader";
+import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../constants";
 import { Button } from "primereact/button";
 import { Divider } from "primereact/divider";
-import Loading from "../components/common/Loading";
-import OrderManager from "../components/common/OrderManager";
-import Question from "../components/stream_selection_questions/Question";
-import DialogAddQuestion from "../components/stream_selection_questions/DialogAddQuestion";
-import DialogEditQuestion from "../components/stream_selection_questions/DialogEditQuestion";
+import Loading from "../common/Loading";
+import OrderManager from "../common/OrderManager";
+import Question from "./questions/Question";
+import DialogAddQuestion from "./questions/DialogAddQuestion";
+import DialogEditQuestion from "./questions/DialogEditQuestion";
 
-export default function StreamSelectionQuestions() {
+export default function Questions() {
     const { requestAPI, showToast } = useAppContext();
     const [loading, setLoading] = useState();
     const [questions, setQuestions] = useState([]);

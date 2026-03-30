@@ -1,16 +1,18 @@
 import { useCallback, useEffect, useState } from "react";
-import { useAppContext } from "../providers/ProviderAppContainer";
-import TabHeader from "../components/common/TabHeader";
+import { useAppContext } from "../../providers/ProviderAppContainer";
+import TabHeader from "../common/TabHeader";
 import { Divider } from "primereact/divider";
-import Loading from "../components/common/Loading";
-import Error from "../components/common/Error";
+import Loading from "../common/Loading";
+import Error from "../common/Error";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "primereact/button";
-import Ask from "../components/stream_selection_questions/Ask";
 import { useNavigate } from "react-router-dom";
-import { updateCurrentUser } from "../redux/sliceUser";
+import { updateCurrentUser } from "../../redux/sliceUser";
+import Ask from "../stream_selection_test_configuration/questions/Ask";
+import { TEXT_SIZE_NORMAL, TEXT_SIZE_SMALL } from "../../style";
+import { Message } from "primereact/message";
 
-export default function StreamSelectionTest() {
+export default function QuickTest() {
     const { requestAPI, showToast } = useAppContext();
     const [loading, setLoading] = useState();
     const [questions, setQuestions] = useState();
@@ -61,11 +63,27 @@ export default function StreamSelectionTest() {
         setCurrentQuestionIndex((prev) => prev - 1);
     }, []);
 
+    if (!!loggedInUser?.stream_selection_test_taken) {
+        return (
+            <div className="flex flex-column gap-3 align-items-center justify-content-center h-full">
+                <div className="flex flex-column align-items-center justify-content-center p-2 text-center">
+                    <img src="/images/form_submit.png" alt="forbidden" className="w-6rem lg:w-8rem" />
+                    <p className={`${TEXT_SIZE_NORMAL} font-bold`}>C.S.A.T. Test Already Given</p>
+                    <p className={`${TEXT_SIZE_SMALL} text-color-secondary`}>
+                        OOPS ! Your Result For C.S.A.T. is already published Or You Are Not Allowed To Attend Test
+                    </p>
+                </div>
+
+                <Button icon="pi pi-qrcode" label="Scan Invite QR" severity="warning" />
+                <Button icon="pi pi-clipboard" label="Explore Result" outlined onClick={() => navigate("../result")} />
+            </div>
+        );
+    }
     return (
         <div className="flex flex-column h-full overflow-hidden">
             <TabHeader
                 className={"mx-3 mt-2"}
-                title="Stream Selection Test"
+                title="Press Start To Attend Test"
                 highlights={[`Answer To Following Questions`]}
                 actionItems={[
                     <Button visible={currentQuestionIndex == null} onClick={() => setCurrentQuestionIndex(0)} outlined label="Start" severity="warning" />,
@@ -83,7 +101,7 @@ export default function StreamSelectionTest() {
             {loading ? (
                 <Loading />
             ) : questions?.length ? (
-                currentQuestionIndex != null ? (
+                currentQuestionIndex != null && (
                     <Ask
                         askNext={askNext}
                         askPrevious={askPrevious}
@@ -94,8 +112,6 @@ export default function StreamSelectionTest() {
                         canMoveToPrevious={currentQuestionIndex > 0}
                         setQuestions={setQuestions}
                     />
-                ) : (
-                    <span>Press Start Button To Take Stream Selection Test</span>
                 )
             ) : (
                 <Error error="No Stream Selection Test Questions Found" />

@@ -1,10 +1,10 @@
 import { Chip } from "primereact/chip";
-import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
-import { AUTHORITIES } from "../../constants";
-import ProgressiveControl from "../common/ProgressiveControl";
 import { Button } from "primereact/button";
 import { useCallback, useState } from "react";
-import { useAppContext } from "../../providers/ProviderAppContainer";
+import { useAppContext } from "../../../providers/ProviderAppContainer";
+import HasRequiredAuthority from "../../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../../constants";
+import ProgressiveControl from "../../common/ProgressiveControl";
 
 export default function Question({ id, question, options, setQuestions, setDialogEditQuestion }) {
     const [loading, setLoading] = useState();

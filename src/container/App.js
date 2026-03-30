@@ -42,9 +42,12 @@ import Policies from "../pages/Policies";
 import ManageInquiries from "../pages/ManageInquiries";
 import GlobalNotes from "../components/manage_users/user/GlobalNotes";
 import StreamSelectionTestResults from "../components/manage_users/user/StreamSelectionTestResults";
-import StreamSelectionQuestions from "../pages/StreamSelectionQuestions";
-import StreamSelectionTest from "../pages/StreamSelectionTest";
-import StreamSelection from "../pages/StreamSelection";
+import StreamSelectionHelp from "../pages/StreamSelectionHelp";
+import StreamSelectionTestConfiguration from "../pages/StreamSelectionTestConfiguration";
+import Questions from "../components/stream_selection_test_configuration/Questions";
+import TestResult from "../components/stream_selection_help/TestResult";
+import Test from "../components/stream_selection_help/QuickTest";
+import QuickTest from "../components/stream_selection_help/QuickTest";
 
 export default function App() {
     return (
@@ -144,9 +147,14 @@ export default function App() {
                                 </HasRequiredAuthority>
                             }
                         />
-                        <Route path="/stream-selection-questions" element={<StreamSelectionQuestions />} />
+                        <Route path="/stream-selection-test-configuration" element={<StreamSelectionTestConfiguration />}>
+                            <Route path="questions" element={<Questions />} />
+                        </Route>
 
-                        <Route path="/stream-selection" element={<StreamSelection />} />
+                        <Route path="/stream-selection-help" element={<StreamSelectionHelp />}>
+                            <Route path="attend" element={<QuickTest />} />
+                            <Route path="result" element={<TestResult />} />
+                        </Route>
 
                         <Route path="/enroll/:courseId" element={<Enroll />} />
                         <Route path="/revenue" element={<Revenue />} />
@@ -158,11 +166,3 @@ export default function App() {
         </HasAuthentication>
     );
 }
-
-//USE_CONTAINER_CONTAINERNAME
-//USE_PAGE_PAGENAME
-//USE_FEATURE_FEATURENAME
-//READ_FEATURE
-//WRITE_FEATURE
-//DELETE_FEATURE
-//UPDATE_FEATURE
