@@ -72,11 +72,10 @@ export default function Scanner() {
                 <Button icon="pi pi-qrcode" label="Scan Invite QR" severity="warning" onClick={() => setScanningQR(true)} />
             </div>
         );
-        return;
     }
 
     return (
-        <div className="w-full px-4 flex flex-column">
+        <div className="w-full px-4 flex flex-column gap-2">
             <BarcodeScanner
                 height={128}
                 onUpdate={(error, result) => {
