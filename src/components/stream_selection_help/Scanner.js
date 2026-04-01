@@ -30,7 +30,7 @@ export default function Scanner() {
                             detail: `QR Invite Verified`,
                             life: 1000,
                         });
-                        dispatch(updateCurrentUser({ stream_selection_test_taken: true }));
+                        dispatch(updateCurrentUser({ stream_selection_test_taken: false }));
                     } else {
                         showToast({ severity: "error", summary: "Failed", detail: "Failed To Check QR Invite !", life: 2000 });
                     }
