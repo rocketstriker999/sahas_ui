@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { updateCurrentUser } from "../../redux/sliceUser";
 import Ask from "../stream_selection_test_configuration/questions/Ask";
 import { TEXT_SIZE_NORMAL, TEXT_SIZE_SMALL } from "../../style";
-import { Message } from "primereact/message";
+import BarcodeScanner from "react-qr-barcode-scanner";
 
 export default function QuickTest() {
     const { requestAPI, showToast } = useAppContext();
@@ -63,6 +63,9 @@ export default function QuickTest() {
         setCurrentQuestionIndex((prev) => prev - 1);
     }, []);
 
+    const [scanningQR, setScanningQR] = useState();
+    const [data, setData] = useState();
+
     if (!!loggedInUser?.stream_selection_test_taken) {
         return (
             <div className="flex flex-column gap-3 align-items-center justify-content-center h-full">
@@ -73,6 +76,16 @@ export default function QuickTest() {
                         OOPS ! Your Result For C.S.A.T. is already published Or You Are Not Allowed To Attend Test
                     </p>
                 </div>
+
+                <BarcodeScanner
+                    width={500}
+                    height={500}
+                    onUpdate={(err, result) => {
+                        if (result) setData(result.text);
+                        else setData("Not Found");
+                    }}
+                />
+                {data}
 
                 <Button icon="pi pi-qrcode" label="Scan Invite QR" severity="warning" />
                 <Button icon="pi pi-clipboard" label="Explore Result" outlined onClick={() => navigate("../result")} />

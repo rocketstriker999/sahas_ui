@@ -48,6 +48,7 @@ import Questions from "../components/stream_selection_test_configuration/Questio
 import TestResult from "../components/stream_selection_help/TestResult";
 import Test from "../components/stream_selection_help/QuickTest";
 import QuickTest from "../components/stream_selection_help/QuickTest";
+import QRInvites from "../components/stream_selection_test_configuration/QRInvites";
 
 export default function App() {
     return (
@@ -149,6 +150,7 @@ export default function App() {
                         />
                         <Route path="/stream-selection-test-configuration" element={<StreamSelectionTestConfiguration />}>
                             <Route path="questions" element={<Questions />} />
+                            <Route path="qr-invites" element={<QRInvites />} />
                         </Route>
 
                         <Route path="/stream-selection-help" element={<StreamSelectionHelp />}>

@@ -6,7 +6,6 @@ import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../../constants";
 import { Button } from "primereact/button";
 import { Divider } from "primereact/divider";
-import Loading from "../common/Loading";
 import OrderManager from "../common/OrderManager";
 import Question from "./questions/Question";
 import DialogAddQuestion from "./questions/DialogAddQuestion";
@@ -15,7 +14,7 @@ import DialogEditQuestion from "./questions/DialogEditQuestion";
 export default function Questions() {
     const { requestAPI, showToast } = useAppContext();
     const [loading, setLoading] = useState();
-    const [questions, setQuestions] = useState([]);
+    const [questions, setQuestions] = useState();
 
     const [dialogEditQuestion, setDialogEditQuestion] = useState({ visible: false });
 
@@ -39,8 +38,7 @@ export default function Questions() {
             setLoading: setLoading,
             onResponseReceieved: (questions, responseCode) => {
                 if (questions && responseCode === 200) {
-                    console.log(questions);
-                    setQuestions([...questions]);
+                    setQuestions(questions);
                 } else {
                     showToast({ severity: "error", summary: "Failed", detail: "Failed To Load Stream Selection Questions !", life: 2000 });
                 }
@@ -48,17 +46,14 @@ export default function Questions() {
         });
     }, [requestAPI, showToast]);
 
-    console.log(questions);
-
     return (
-        <div className="flex flex-column h-full overflow-hidden">
-            <PageTitle title={`Stream Selection Questions`} />
+        <div className="flex-1 flex flex-column min-h-0 h-full">
             <TabHeader
                 className={"mx-3 mt-2"}
-                title="Policies Sahas Follow"
-                highlights={[`Following Policies get applied`]}
+                title="P.C.A.T. Questions"
+                highlights={[`Following Questions Will Be Asked For P.C.A.T.`]}
                 actionItems={[
-                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_STREAM_SELECTION_TEST}>
+                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_STREAM_SELECTION_TEST_QUESTION}>
                         <Button
                             icon="pi pi-plus"
                             severity="warning"
@@ -72,25 +67,22 @@ export default function Questions() {
                             }
                         />
                     </HasRequiredAuthority>,
-                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.UPDATE_POLICY_VIEW_INDEX}>
-                        <Button loading={loading} onClick={() => {}} icon="pi pi-arrows-v" />
+                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.UPDATE_STREAM_SELECTION_TEST_QUESTION}>
+                        <Button loading={loading} icon="pi pi-arrows-v" />
                     </HasRequiredAuthority>,
                 ]}
             />
             <Divider />
 
-            <div className="flex-1 min-h-0 px-3 pb-2 overflow-y-scroll gap-2 flex flex-column">
-                {loading ? (
-                    <Loading message="Loading Questions" />
-                ) : (
-                    <OrderManager
-                        updatingViewIndex={updatingViewIndex}
-                        items={questions}
-                        setItems={setQuestions}
-                        entity={"Questions"}
-                        itemTemplate={(item) => <Question key={item?.id} {...item} setQuestions={setQuestions} setDialogEditQuestion={setDialogEditQuestion} />}
-                    />
-                )}
+            <div className="flex-1 overflow-y-scroll ">
+                <OrderManager
+                    loading={loading}
+                    updatingViewIndex={updatingViewIndex}
+                    items={questions}
+                    setItems={setQuestions}
+                    entity={"Questions"}
+                    itemTemplate={(item) => <Question key={item?.id} {...item} setQuestions={setQuestions} setDialogEditQuestion={setDialogEditQuestion} />}
+                />
             </div>
 
             {dialogAddQuestion?.visible && <DialogAddQuestion {...dialogAddQuestion} />}

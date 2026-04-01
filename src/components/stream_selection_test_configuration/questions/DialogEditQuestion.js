@@ -2,64 +2,60 @@ import { useCallback, useState } from "react";
 import { Dialog } from "primereact/dialog";
 import { FloatLabel } from "primereact/floatlabel";
 import { InputText } from "primereact/inputtext";
-import { InputTextarea } from "primereact/inputtextarea";
 import { Button } from "primereact/button";
 import { useAppContext } from "../../../providers/ProviderAppContainer";
-import TabHeader from "../../common/TabHeader";
+import { Chips } from "primereact/chips";
+import { classNames } from "primereact/utils";
 
-export default function DialogEditQuestion({ visible, setPolicies, closeDialog, ...props }) {
+export default function DialogEditQuestion({ visible, setQuestions, closeDialog, ...props }) {
     const { requestAPI, showToast } = useAppContext();
-
-    const [policy, setPolicy] = useState(props);
+    const [streamSelectionQuestion, setStreamSelectionQuestion] = useState(props);
     const [loading, setLoading] = useState();
 
-    const editPolicy = useCallback(() => {
+    const editStreamSelectionQuestion = useCallback(() => {
         requestAPI({
-            requestPath: `policies`,
-            requestMethod: "PATCH",
-            requestPostBody: policy,
+            requestPath: `stream-selection-test-questions`,
+            requestMethod: "PUT",
+            requestPostBody: streamSelectionQuestion,
             setLoading: setLoading,
             onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Update Policy !", life: 2000 }),
-            onResponseReceieved: ({ error, ...updatedPolicy }, responseCode) => {
-                if (updatedPolicy && responseCode === 200) {
-                    showToast({ severity: "success", summary: "Updated", detail: "Policy Updated", life: 1000 });
-                    setPolicies((prev) => prev?.map((p) => (p?.id === props?.id ? updatedPolicy : p)));
-                    setPolicy({});
+            onResponseReceieved: ({ error, ...updatedQuestion }, responseCode) => {
+                if (updatedQuestion && responseCode === 200) {
+                    showToast({ severity: "success", summary: "Updated", detail: "Question Updated", life: 1000 });
+                    setQuestions((prev) => prev?.map((p) => (p?.id === props?.id ? updatedQuestion : p)));
+                    setStreamSelectionQuestion({});
                     closeDialog();
                 } else showToast({ severity: "error", summary: "Failed", detail: error || "Failed To Update Policy !", life: 2000 });
             },
         });
-    }, [closeDialog, policy, props, requestAPI, setPolicies, showToast]);
+    }, [closeDialog, props?.id, requestAPI, setQuestions, showToast, streamSelectionQuestion]);
 
     return (
-        <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Edit Policy`} visible={visible} className="w-11" onHide={closeDialog}>
-            <TabHeader className="pt-3" title="Edit Policy" />
-
+        <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Edit Question`} visible={visible} className="w-11" onHide={closeDialog}>
             <FloatLabel className="mt-5">
                 <InputText
-                    value={policy?.title || ""}
-                    id="title"
+                    value={streamSelectionQuestion?.question || ""}
+                    id="question"
                     className="w-full"
-                    onChange={(e) => setPolicy((prev) => ({ ...prev, title: e.target.value }))}
+                    onChange={(e) => setStreamSelectionQuestion((prev) => ({ ...prev, question: e.target.value }))}
                     disabled={loading}
                 />
-                <label htmlFor="title">Title</label>
+                <label htmlFor="question">Question</label>
             </FloatLabel>
 
             <FloatLabel className="mt-5">
-                <InputTextarea
-                    value={policy?.description || ""}
-                    id="description"
-                    rows={5}
-                    cols={30}
-                    className="w-full"
-                    onChange={(e) => setPolicy((prev) => ({ ...prev, description: e.target.value }))}
-                    disabled={loading}
+                <Chips
+                    pt={{
+                        root: classNames("w-full"),
+                        container: { className: classNames("w-full") },
+                    }}
+                    value={streamSelectionQuestion?.options}
+                    onChange={(e) => setStreamSelectionQuestion((prev) => ({ ...prev, options: e.value }))}
                 />
-                <label htmlFor="description">Description</label>
+                <label htmlFor="options">Options</label>
             </FloatLabel>
 
-            <Button className="mt-3" label="Edit Policy" severity="warning" loading={loading} onClick={editPolicy} />
+            <Button className="mt-3" label="Edit Question" severity="warning" loading={loading} onClick={editStreamSelectionQuestion} />
         </Dialog>
     );
 }

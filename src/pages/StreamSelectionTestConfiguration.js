@@ -1,20 +1,19 @@
 import { TabMenu } from "primereact/tabmenu";
 import PageTitle from "../components/common/PageTitle";
-import { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 export default function StreamSelectionTestConfiguration() {
+    const navigate = useNavigate();
+
     const items = [
-        { label: "QR Invites", icon: "pi pi-qrcode" },
-        { label: "Questions", icon: "pi pi-question" },
+        { label: "QR Invites", icon: "pi pi-qrcode", command: () => navigate(`qr-invites`, { replace: true }) },
+        { label: "Questions", icon: "pi pi-question", command: () => navigate(`questions`, { replace: true }) },
     ];
 
-    const [activeIndex, setActiveIndex] = useState(3);
-
     return (
-        <div>
+        <div className="flex flex-column min-h-0 h-full overflow-hidden">
             <PageTitle title={`Stream Selection Test Configuration`} />
-            <TabMenu model={items} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} />
+            <TabMenu model={items} />
             <Outlet />
         </div>
     );

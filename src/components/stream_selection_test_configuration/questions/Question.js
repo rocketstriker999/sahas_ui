@@ -33,7 +33,7 @@ export default function Question({ id, question, options, setQuestions, setDialo
                 <span className="font-semibold flex-1">
                     {id}.{question}
                 </span>
-                <HasRequiredAuthority requiredAuthority={AUTHORITIES.UPDATE_POLICY}>
+                <HasRequiredAuthority requiredAuthority={AUTHORITIES.UPDATE_STREAM_SELECTION_TEST_QUESTION}>
                     <ProgressiveControl
                         loading={loading}
                         control={
@@ -49,7 +49,7 @@ export default function Question({ id, question, options, setQuestions, setDialo
                                         setQuestions,
                                         id,
                                         question,
-                                        options,
+                                        options: options?.map(({ option }) => option),
                                     }))
                                 }
                             />
@@ -57,7 +57,7 @@ export default function Question({ id, question, options, setQuestions, setDialo
                     />
                 </HasRequiredAuthority>
 
-                <HasRequiredAuthority requiredAuthority={AUTHORITIES.DELETE_POLICY}>
+                <HasRequiredAuthority requiredAuthority={AUTHORITIES.DELETE_STREAM_SELECTION_TEST_QUESTION}>
                     <ProgressiveControl
                         loading={loading}
                         control={<Button className="w-2rem h-2rem" icon="pi pi-trash" rounded severity="danger" onClick={deletePolicy} />}
