@@ -77,7 +77,7 @@ export default function Scanner() {
     return (
         <div className="w-full px-4 flex flex-column gap-2">
             <BarcodeScanner
-                height={128}
+                height={192}
                 onUpdate={(error, result) => {
                     if (result) setScanResult(result);
                 }}
