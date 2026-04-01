@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { updateCurrentUser } from "../../redux/sliceUser";
 import Ask from "../stream_selection_test_configuration/questions/Ask";
 import { TEXT_SIZE_NORMAL, TEXT_SIZE_SMALL } from "../../style";
-import BarcodeScanner from "react-qr-barcode-scanner";
+import Scanner from "./Scanner";
 
 export default function QuickTest() {
     const { requestAPI, showToast } = useAppContext();
@@ -63,31 +63,10 @@ export default function QuickTest() {
         setCurrentQuestionIndex((prev) => prev - 1);
     }, []);
 
-    const [scanningQR, setScanningQR] = useState();
-    const [data, setData] = useState();
-
     if (!!loggedInUser?.stream_selection_test_taken) {
         return (
             <div className="flex flex-column gap-3 align-items-center justify-content-center h-full">
-                <div className="flex flex-column align-items-center justify-content-center p-2 text-center">
-                    <img src="/images/form_submit.png" alt="forbidden" className="w-6rem lg:w-8rem" />
-                    <p className={`${TEXT_SIZE_NORMAL} font-bold`}>C.S.A.T. Test Already Given</p>
-                    <p className={`${TEXT_SIZE_SMALL} text-color-secondary`}>
-                        OOPS ! Your Result For C.S.A.T. is already published Or You Are Not Allowed To Attend Test
-                    </p>
-                </div>
-
-                <BarcodeScanner
-                    width={500}
-                    height={500}
-                    onUpdate={(err, result) => {
-                        if (result) setData(result.text);
-                        else setData("Not Found");
-                    }}
-                />
-                {data}
-
-                <Button icon="pi pi-qrcode" label="Scan Invite QR" severity="warning" />
+                <Scanner />
                 <Button icon="pi pi-clipboard" label="Explore Result" outlined onClick={() => navigate("../result")} />
             </div>
         );
