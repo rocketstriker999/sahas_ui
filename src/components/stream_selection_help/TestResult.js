@@ -22,7 +22,7 @@ export default function TestResult() {
                 if (streamSelectionTestResult && responseCode === 200) {
                     setStreamSelectionTestResult(streamSelectionTestResult);
                 } else {
-                    showToast({ severity: "error", summary: "Failed", detail: error || "Failed To Load Stream Selection Questions !", life: 2000 });
+                    showToast({ severity: "error", summary: "Failed", detail: error || "Failed To Load Psychometric Test Questions !", life: 2000 });
                 }
             },
         });
@@ -42,6 +42,6 @@ export default function TestResult() {
             />
         </Panel>
     ) : (
-        <NoContent error="Failed To Load Stream Selection Result" />
+        <NoContent error="Failed To Load Psychometric Test Result" />
     );
 }

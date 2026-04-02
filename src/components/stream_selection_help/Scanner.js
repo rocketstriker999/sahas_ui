@@ -7,8 +7,7 @@ import { useDispatch } from "react-redux";
 import { updateCurrentUser } from "../../redux/sliceUser";
 import { TEXT_SIZE_NORMAL, TEXT_SIZE_SMALL } from "../../style";
 
-export default function Scanner() {
-    const [scanningQR, setScanningQR] = useState();
+export default function Scanner({ scanningQR, setScanningQR }) {
     const [scanResult, setScanResult] = useState();
     const { requestAPI, showToast } = useAppContext();
     const [loading, setLoading] = useState();
@@ -55,7 +54,7 @@ export default function Scanner() {
                 setScanningQR(false);
             }
         }
-    }, [attendStreamSelectionTestByInviteId, scanResult, scanningQR, showToast]);
+    }, [attendStreamSelectionTestByInviteId, scanResult, scanningQR, setScanningQR, showToast]);
 
     if (loading) {
         return <Loading message={"Verifying QR"} />;
@@ -64,10 +63,10 @@ export default function Scanner() {
     if (!scanningQR) {
         return (
             <div className="flex flex-column align-items-center justify-content-center p-2 text-center">
-                <img src="/images/form_submit.png" alt="forbidden" className="w-6rem lg:w-8rem" />
-                <p className={`${TEXT_SIZE_NORMAL} font-bold`}>C.S.A.T. Test Already Given</p>
-                <p className={`${TEXT_SIZE_SMALL} text-color-secondary`}>
-                    OOPS ! Your Result For C.S.A.T. is already published Or You Are Not Allowed To Attend Test
+                <img src="/images/scan_qr.png" alt="forbidden" className="w-6rem lg:w-8rem" />
+                <p className={`${TEXT_SIZE_NORMAL} font-bold`}>Scan QR to Start</p>
+                <p className={`${TEXT_SIZE_SMALL} text-color-secondary text-center px-4`}>
+                    Scan QR Code For Psychometric Test Invite, Validate Invite Will Start Test.Check Camera Permission Berfore Scanning QR !
                 </p>
                 <Button icon="pi pi-qrcode" label="Scan Invite QR" severity="warning" onClick={() => setScanningQR(true)} />
             </div>
@@ -75,9 +74,9 @@ export default function Scanner() {
     }
 
     return (
-        <div className="w-full px-4 flex flex-column gap-2">
+        <div className="flex flex-column p-4 border-1 border-gray-300 border-round w-10 gap-2">
+            <span className="font-semibold text-xs text-center">Scan QR Code for Psychometric Test Invite</span>
             <BarcodeScanner
-                height={192}
                 onUpdate={(error, result) => {
                     if (result) setScanResult(result);
                 }}

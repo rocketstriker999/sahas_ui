@@ -9,8 +9,8 @@ import { Button } from "primereact/button";
 import { useNavigate } from "react-router-dom";
 import { updateCurrentUser } from "../../redux/sliceUser";
 import Ask from "../stream_selection_test_configuration/questions/Ask";
-import { TEXT_SIZE_NORMAL, TEXT_SIZE_SMALL } from "../../style";
 import Scanner from "./Scanner";
+import ExploreResult from "./ExploreResult";
 
 export default function QuickTest() {
     const { requestAPI, showToast } = useAppContext();
@@ -18,6 +18,8 @@ export default function QuickTest() {
     const [questions, setQuestions] = useState();
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState();
     const loggedInUser = useSelector((state) => state.stateUser);
+
+    const [scanningQR, setScanningQR] = useState();
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -31,7 +33,7 @@ export default function QuickTest() {
                 if (questions && responseCode === 200) {
                     setQuestions(questions);
                 } else {
-                    showToast({ severity: "error", summary: "Failed", detail: "Failed To Load Stream Selection Questions !", life: 2000 });
+                    showToast({ severity: "error", summary: "Failed", detail: "Failed To Load Psychometric Test Questions !", life: 2000 });
                 }
             },
         });
@@ -46,10 +48,10 @@ export default function QuickTest() {
             parseResponseBody: false,
             onResponseReceieved: (_, responseCode) => {
                 if (responseCode === 201) {
-                    showToast({ severity: "success", summary: "Added", detail: "Stream Selection Test Submitted", life: 1000 });
+                    showToast({ severity: "success", summary: "Added", detail: "Psychometric Test Submitted", life: 1000 });
                     dispatch(updateCurrentUser({ stream_selection_test_taken: true }));
                 } else {
-                    showToast({ severity: "error", summary: "Failed", detail: "Failed To Submit Stream Selection Test !", life: 2000 });
+                    showToast({ severity: "error", summary: "Failed", detail: "Failed To Submit Psychometric Test !", life: 2000 });
                 }
             },
         });
@@ -66,8 +68,9 @@ export default function QuickTest() {
     if (!!loggedInUser?.stream_selection_test_taken) {
         return (
             <div className="flex flex-column gap-3 align-items-center justify-content-center h-full">
-                <Scanner />
-                <Button icon="pi pi-clipboard" label="Explore Result" outlined onClick={() => navigate("../result")} />
+                <Scanner scanningQR={scanningQR} setScanningQR={setScanningQR} />
+                {!scanningQR && <Divider />}
+                {!scanningQR && <ExploreResult />}
             </div>
         );
     }
@@ -106,7 +109,7 @@ export default function QuickTest() {
                     />
                 )
             ) : (
-                <Error error="No Stream Selection Test Questions Found" />
+                <Error error="No Psychometric Test Questions Found" />
             )}
         </div>
     );

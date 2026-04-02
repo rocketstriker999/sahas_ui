@@ -7,9 +7,11 @@ import { useCallback, useEffect, useState } from "react";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import DialogAddInvite from "./qr_invites/DialogAddInvite";
 import { Accordion, AccordionTab } from "primereact/accordion";
-import QRCode from "react-qr-code";
-import { getReadableDate } from "../../utils";
+
 import Invite from "./qr_invites/Invite";
+import Loading from "../common/Loading";
+import DialogEditInvite from "./qr_invites/DialogEditInvite";
+import NoContent from "../common/NoContent";
 
 export default function QRInvites() {
     const [loading, setLoading] = useState();
@@ -17,18 +19,10 @@ export default function QRInvites() {
     const [streamSelectionTestInvites, setStreamSelectionTestInvites] = useState();
 
     const [dialogEditInvite, setDialogEditInvite] = useState({ visible: false });
+    const [dialogAddInvite, setDialogAddInvite] = useState({ visible: false });
 
-    const [dialogAddInvite, setDialogAddInvite] = useState({
-        visible: false,
-    });
-
-    const closeDialogAddInvite = useCallback(() => {
-        setDialogAddInvite((prev) => ({ ...prev, visible: false }));
-    }, []);
-
-    const closeDialogEditQuestion = useCallback(() => {
-        setDialogEditInvite((prev) => ({ ...prev, visible: false }));
-    }, []);
+    const closeDialogAddInvite = useCallback(() => setDialogAddInvite((prev) => ({ ...prev, visible: false })), []);
+    const closeDialogEditInvite = useCallback(() => setDialogEditInvite((prev) => ({ ...prev, visible: false })), []);
 
     useEffect(() => {
         requestAPI({
@@ -39,14 +33,14 @@ export default function QRInvites() {
                 if (invites && responseCode === 200) {
                     setStreamSelectionTestInvites(invites);
                 } else {
-                    showToast({ severity: "error", summary: "Failed", detail: "Failed To Load Stream Selection Questions !", life: 2000 });
+                    showToast({ severity: "error", summary: "Failed", detail: "Failed To Load Psychometric Test Invites !", life: 2000 });
                 }
             },
         });
     }, [requestAPI, showToast]);
 
     return (
-        <div className="flex flex-column h-full overflow-hidden">
+        <div className="flex-1 flex flex-column min-h-0 h-full">
             <TabHeader
                 className={"mx-3 mt-2"}
                 title="Q.R. Invite "
@@ -71,25 +65,23 @@ export default function QRInvites() {
             <Divider />
 
             <div className="flex-1 overflow-y-scroll px-2">
-                <Accordion>
-                    {streamSelectionTestInvites?.map((invite) => (
-                        <AccordionTab header={invite?.title}>
-                            <Invite setStreamSelectionTestInvites={setStreamSelectionTestInvites} {...invite} />
-                        </AccordionTab>
-                    ))}
-                </Accordion>
+                {loading ? (
+                    <Loading />
+                ) : streamSelectionTestInvites?.length ? (
+                    <Accordion>
+                        {streamSelectionTestInvites?.map((invite) => (
+                            <AccordionTab header={invite?.title}>
+                                <Invite setDialogEditInvite={setDialogEditInvite} setStreamSelectionTestInvites={setStreamSelectionTestInvites} {...invite} />
+                            </AccordionTab>
+                        ))}
+                    </Accordion>
+                ) : (
+                    <NoContent error={"No Invites Found"} />
+                )}
             </div>
 
             {dialogAddInvite?.visible && <DialogAddInvite {...dialogAddInvite} />}
+            {dialogEditInvite?.visible && <DialogEditInvite {...dialogEditInvite} closeDialog={closeDialogEditInvite} />}
         </div>
     );
 }
-
-//  onClick={() =>
-//                                 setDialogAddQuestion((prev) => ({
-//                                     ...prev,
-//                                     setQuestions,
-//                                     visible: true,
-//                                     closeDialog: closeDialogAddQuestion,
-//                                 }))
-//                             }

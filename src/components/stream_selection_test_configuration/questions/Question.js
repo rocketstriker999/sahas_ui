@@ -18,10 +18,10 @@ export default function Question({ id, question, options, setQuestions, setDialo
             parseResponseBody: false,
             onResponseReceieved: (_, responseCode) => {
                 if (responseCode === 204) {
-                    showToast({ severity: "success", summary: "Deleted", detail: "Stream Selection Question Deleted", life: 1000 });
+                    showToast({ severity: "success", summary: "Deleted", detail: "Psychometric Test Question Deleted", life: 1000 });
                     setQuestions((prev) => prev?.filter((question) => question?.id !== id));
                 } else {
-                    showToast({ severity: "error", summary: "Failed", detail: "Failed To Delete Stream Selection Question !", life: 2000 });
+                    showToast({ severity: "error", summary: "Failed", detail: "Failed To Delete Psychometric Test Question !", life: 2000 });
                 }
             },
         });

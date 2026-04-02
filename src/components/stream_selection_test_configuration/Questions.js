@@ -40,7 +40,7 @@ export default function Questions() {
                 if (questions && responseCode === 200) {
                     setQuestions(questions);
                 } else {
-                    showToast({ severity: "error", summary: "Failed", detail: "Failed To Load Stream Selection Questions !", life: 2000 });
+                    showToast({ severity: "error", summary: "Failed", detail: "Failed To Load Psychometric Test Questions !", life: 2000 });
                 }
             },
         });

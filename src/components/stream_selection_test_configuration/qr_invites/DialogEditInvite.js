@@ -6,32 +6,31 @@ import { Button } from "primereact/button";
 import { useAppContext } from "../../../providers/ProviderAppContainer";
 import CheckboxInput from "../../common/CheckBoxInput";
 
-export default function DialogAddInvite({ visible, setStreamSelectionTestInvites, closeDialog }) {
+export default function DialogEditInvite({ visible, setStreamSelectionTestInvites, closeDialog, ...props }) {
     const { requestAPI, showToast } = useAppContext();
-
-    const [invite, setInvite] = useState({ active: false });
+    const [invite, setInvite] = useState(props);
     const [loading, setLoading] = useState();
 
-    const addInvite = useCallback(() => {
+    const editInvite = useCallback(() => {
         requestAPI({
             requestPath: `stream-selection-test-invites`,
-            requestMethod: "POST",
+            requestMethod: "PATCH",
             requestPostBody: invite,
             setLoading: setLoading,
-            onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Invite !", life: 2000 }),
-            onResponseReceieved: ({ error, ...invite }, responseCode) => {
-                if (invite && responseCode === 201) {
-                    showToast({ severity: "success", summary: "Added", detail: "Invite Added", life: 1000 });
-                    setStreamSelectionTestInvites((prev) => [invite, ...prev]);
+            onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Update Invite !", life: 2000 }),
+            onResponseReceieved: ({ error, ...updatedInvite }, responseCode) => {
+                if (updatedInvite && responseCode === 200) {
+                    showToast({ severity: "success", summary: "Updated", detail: "Invite Updated", life: 1000 });
+                    setStreamSelectionTestInvites((prev) => prev?.map((p) => (p?.id === props?.id ? updatedInvite : p)));
                     setInvite({});
                     closeDialog();
-                } else showToast({ severity: "error", summary: "Failed", detail: error || "Failed To Add Invite !", life: 2000 });
+                } else showToast({ severity: "error", summary: "Failed", detail: error || "Failed To Updated Invite !", life: 2000 });
             },
         });
-    }, [closeDialog, invite, requestAPI, setStreamSelectionTestInvites, showToast]);
+    }, [closeDialog, invite, props?.id, requestAPI, setStreamSelectionTestInvites, showToast]);
 
     return (
-        <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Add New Invite`} visible={visible} className="w-11" onHide={closeDialog}>
+        <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Edit Invite`} visible={visible} className="w-11" onHide={closeDialog}>
             <FloatLabel className="mt-5">
                 <InputText
                     value={invite?.title || ""}
@@ -50,7 +49,7 @@ export default function DialogAddInvite({ visible, setStreamSelectionTestInvites
                 onChange={(checked) => setInvite((prev) => ({ ...prev, active: checked }))}
             />
 
-            <Button className="mt-3" label="Add Question" severity="warning" loading={loading} onClick={addInvite} />
+            <Button className="mt-3" label="Edit Invite" severity="warning" loading={loading} onClick={editInvite} />
         </Dialog>
     );
 }

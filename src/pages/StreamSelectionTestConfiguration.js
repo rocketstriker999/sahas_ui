@@ -12,7 +12,7 @@ export default function StreamSelectionTestConfiguration() {
 
     return (
         <div className="flex flex-column min-h-0 h-full overflow-hidden">
-            <PageTitle title={`Stream Selection Test Configuration`} />
+            <PageTitle title={`Psychometric Test Configuration`} />
             <TabMenu model={items} />
             <Outlet />
         </div>

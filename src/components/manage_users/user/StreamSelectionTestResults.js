@@ -27,7 +27,7 @@ export default function StreamSelectionTestResults() {
                 if (streamSelectionTestResults && responseCode === 200) {
                     setStreamSelectionTestResults(streamSelectionTestResults);
                 } else {
-                    showToast({ severity: "error", summary: "Failed", detail: "Failed To Load Stream Selection Questions !", life: 2000 });
+                    showToast({ severity: "error", summary: "Failed", detail: "Failed To Load Psychometric Test Questions !", life: 2000 });
                 }
             },
         });
@@ -40,13 +40,12 @@ export default function StreamSelectionTestResults() {
                 requestMethod: "PATCH",
                 requestPostBody: { id: loggedInUser?.id, stream_selection_test_taken: !allowStreamSelectionTest },
                 setLoading: setLoading,
-                onRequestFailure: () =>
-                    showToast({ severity: "error", summary: "Failed", detail: "Failed To Update Stream Selection Test Access !", life: 2000 }),
+                onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Update Psychometric Test Access !", life: 2000 }),
                 onResponseReceieved: ({ error, ...updatedUser }, responseCode) => {
                     if (updatedUser && responseCode === 200) {
-                        showToast({ severity: "success", summary: "Updated", detail: "Stream Selection Test Access Updated", life: 1000 });
+                        showToast({ severity: "success", summary: "Updated", detail: "Psychometric Test Access Updated", life: 1000 });
                         dispatch(updateCurrentUser(updatedUser));
-                    } else showToast({ severity: "error", summary: "Failed", detail: error || "Failed To Update Stream Selection Test Access !", life: 2000 });
+                    } else showToast({ severity: "error", summary: "Failed", detail: error || "Failed To Update Psychometric Test Access !", life: 2000 });
                 },
             });
         },
@@ -60,7 +59,7 @@ export default function StreamSelectionTestResults() {
     return streamSelectionTestResults?.length ? (
         <div className="p-2 flex flex-column h-full min-h-0">
             <CheckboxInput
-                label={"Stream Selection Test Allowed"}
+                label={"Psychometric Test Allowed"}
                 checked={!loggedInUser?.stream_selection_test_taken}
                 onChange={updateStreamSelectionTestAccess}
             />
@@ -74,6 +73,6 @@ export default function StreamSelectionTestResults() {
             </Accordion>
         </div>
     ) : (
-        <NoContent error={"No Stream Selection Tests Found"} />
+        <NoContent error={"No Psychometric Tests Found"} />
     );
 }

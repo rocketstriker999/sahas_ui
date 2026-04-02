@@ -154,7 +154,7 @@ export default function Operations({ className }) {
                         title: "P.C.A.T. Configuration",
                         icon: "pi-ticket",
                         required_authority: AUTHORITIES.USE_PAGE_COUPON_CODES,
-                        path: "/stream-selection-test-configuration",
+                        path: "/stream-selection-test-configuration/qr-invites",
                     },
                 ],
             },

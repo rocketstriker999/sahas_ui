@@ -149,8 +149,8 @@ export default function App() {
                             }
                         />
                         <Route path="/stream-selection-test-configuration" element={<StreamSelectionTestConfiguration />}>
-                            <Route path="questions" element={<Questions />} />
                             <Route path="qr-invites" element={<QRInvites />} />
+                            <Route path="questions" element={<Questions />} />
                         </Route>
 
                         <Route path="/stream-selection-help" element={<StreamSelectionHelp />}>
