@@ -7,10 +7,10 @@ import { Chips } from "primereact/chips";
 import { classNames } from "primereact/utils";
 import { useAppContext } from "../../../providers/ProviderAppContainer";
 
-export default function DialogAddQuestion({ visible, setQuestions, closeDialog }) {
+export default function DialogAddQuestion({ visible, category_id, setQuestions, closeDialog }) {
     const { requestAPI, showToast } = useAppContext();
 
-    const [streamSelectionQuestion, setStreamSelectionQuestion] = useState({});
+    const [streamSelectionQuestion, setStreamSelectionQuestion] = useState({ category_id });
     const [loading, setLoading] = useState();
 
     const addPolicy = useCallback(() => {
@@ -24,12 +24,12 @@ export default function DialogAddQuestion({ visible, setQuestions, closeDialog }
                 if (question && responseCode === 201) {
                     showToast({ severity: "success", summary: "Added", detail: "Quesiton Added", life: 1000 });
                     setQuestions((prev) => [question, ...prev]);
-                    setStreamSelectionQuestion({});
+                    setStreamSelectionQuestion({ category_id });
                     closeDialog();
                 } else showToast({ severity: "error", summary: "Failed", detail: error || "Failed To Add Quesiton !", life: 2000 });
             },
         });
-    }, [closeDialog, requestAPI, setQuestions, showToast, streamSelectionQuestion]);
+    }, [category_id, closeDialog, requestAPI, setQuestions, showToast, streamSelectionQuestion]);
 
     return (
         <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Add New Question`} visible={visible} className="w-11" onHide={closeDialog}>

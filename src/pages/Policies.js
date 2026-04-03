@@ -34,7 +34,7 @@ export default function Policies() {
             requestMethod: "GET",
             setLoading: setLoading,
             onRequestFailure: setError,
-            onResponseReceieved: ({ error, ...policies }, responseCode) => {
+            onResponseReceieved: (policies, responseCode) => {
                 if (policies && responseCode === 200) {
                     setPolicies(policies);
                 } else {
@@ -96,11 +96,7 @@ export default function Policies() {
                         setItems={setPolicies}
                         entity={"Categories"}
                         itemTemplate={(item) => (
-                            <Fieldset
-                                collapsed={true}
-                                toggleable
-                                legend={<PolicyHead {...item} setPolicies={setPolicies} setDialogEditPolicy={setDialogEditPolicy} />}
-                            >
+                            <Fieldset legend={<PolicyHead {...item} setPolicies={setPolicies} setDialogEditPolicy={setDialogEditPolicy} />}>
                                 <span>{item?.description}</span>
                             </Fieldset>
                         )}

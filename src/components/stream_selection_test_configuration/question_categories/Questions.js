@@ -1,20 +1,17 @@
-import { useCallback, useEffect, useState } from "react";
-import PageTitle from "../common/PageTitle";
-import { useAppContext } from "../../providers/ProviderAppContainer";
-import TabHeader from "../common/TabHeader";
-import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
-import { AUTHORITIES } from "../../constants";
-import { Button } from "primereact/button";
-import { Divider } from "primereact/divider";
-import OrderManager from "../common/OrderManager";
-import Question from "./questions/Question";
-import DialogAddQuestion from "./questions/DialogAddQuestion";
-import DialogEditQuestion from "./questions/DialogEditQuestion";
+import { useCallback, useState } from "react";
+import TabHeader from "../../common/TabHeader";
+import HasRequiredAuthority from "../../dependencies/HasRequiredAuthority";
+import { AUTHORITIES } from "../../../constants";
 
-export default function Questions() {
-    const { requestAPI, showToast } = useAppContext();
-    const [loading, setLoading] = useState();
-    const [questions, setQuestions] = useState();
+import DialogAddQuestion from "./DialogAddQuestion";
+import DialogEditQuestion from "./DialogEditQuestion";
+import IconButton from "../../common/IconButton";
+import { ICON_SIZE } from "../../../style";
+import OrderManager from "../../common/OrderManager";
+import Question from "./Question";
+
+export default function Questions(props) {
+    const [questions, setQuestions] = useState([...props?.questions]);
 
     const [dialogEditQuestion, setDialogEditQuestion] = useState({ visible: false });
 
@@ -23,40 +20,26 @@ export default function Questions() {
     }, []);
 
     const [dialogAddQuestion, setDialogAddQuestion] = useState({
+        category_id: props?.id,
         visible: false,
     });
 
     const closeDialogAddQuestion = useCallback(() => {
         setDialogAddQuestion((prev) => ({ ...prev, visible: false }));
     }, []);
+
     const [updatingViewIndex, setUpdatingViewIndex] = useState();
 
-    useEffect(() => {
-        requestAPI({
-            requestPath: `stream-selection-questions`,
-            requestMethod: "GET",
-            setLoading: setLoading,
-            onResponseReceieved: (questions, responseCode) => {
-                if (questions && responseCode === 200) {
-                    setQuestions(questions);
-                } else {
-                    showToast({ severity: "error", summary: "Failed", detail: "Failed To Load Psychometric Test Questions !", life: 2000 });
-                }
-            },
-        });
-    }, [requestAPI, showToast]);
-
     return (
-        <div className="flex-1 flex flex-column min-h-0 h-full">
+        <div>
             <TabHeader
-                className={"mx-3 mt-2"}
+                className={"border-1 border-gray-300 border-round p-2"}
                 title="P.C.A.T. Questions"
-                highlights={[`Following Questions Will Be Asked For P.C.A.T.`]}
                 actionItems={[
                     <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_STREAM_SELECTION_TEST_QUESTION}>
-                        <Button
-                            icon="pi pi-plus"
-                            severity="warning"
+                        <IconButton
+                            icon={"pi-plus"}
+                            color={"text-red-500"}
                             onClick={() =>
                                 setDialogAddQuestion((prev) => ({
                                     ...prev,
@@ -65,18 +48,29 @@ export default function Questions() {
                                     closeDialog: closeDialogAddQuestion,
                                 }))
                             }
+                            className={ICON_SIZE}
                         />
                     </HasRequiredAuthority>,
                     <HasRequiredAuthority requiredAuthority={AUTHORITIES.UPDATE_STREAM_SELECTION_TEST_QUESTION}>
-                        <Button loading={loading} icon="pi pi-arrows-v" />
+                        <IconButton
+                            icon={"pi-arrows-v"}
+                            color={"text-blue-500"}
+                            onClick={() =>
+                                setDialogAddQuestion((prev) => ({
+                                    ...prev,
+                                    setQuestions,
+                                    visible: true,
+                                    closeDialog: closeDialogEditQuestion,
+                                }))
+                            }
+                            className={ICON_SIZE}
+                        />
                     </HasRequiredAuthority>,
                 ]}
             />
-            <Divider />
 
             <div className="flex-1 overflow-y-scroll ">
                 <OrderManager
-                    loading={loading}
                     updatingViewIndex={updatingViewIndex}
                     items={questions}
                     setItems={setQuestions}

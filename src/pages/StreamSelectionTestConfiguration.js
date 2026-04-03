@@ -7,7 +7,7 @@ export default function StreamSelectionTestConfiguration() {
 
     const items = [
         { label: "QR Invites", icon: "pi pi-qrcode", command: () => navigate(`qr-invites`, { replace: true }) },
-        { label: "Questions", icon: "pi pi-question", command: () => navigate(`questions`, { replace: true }) },
+        { label: "Questions", icon: "pi pi-question", command: () => navigate(`question-categories`, { replace: true }) },
     ];
 
     return (

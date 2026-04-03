@@ -14,7 +14,7 @@ export default function DialogEditQuestion({ visible, setQuestions, closeDialog,
 
     const editStreamSelectionQuestion = useCallback(() => {
         requestAPI({
-            requestPath: `stream-selection-test-questions`,
+            requestPath: `stream-selection-questions`,
             requestMethod: "PUT",
             requestPostBody: streamSelectionQuestion,
             setLoading: setLoading,

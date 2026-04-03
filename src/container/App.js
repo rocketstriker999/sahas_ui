@@ -44,11 +44,12 @@ import GlobalNotes from "../components/manage_users/user/GlobalNotes";
 import StreamSelectionTestResults from "../components/manage_users/user/StreamSelectionTestResults";
 import StreamSelectionHelp from "../pages/StreamSelectionHelp";
 import StreamSelectionTestConfiguration from "../pages/StreamSelectionTestConfiguration";
-import Questions from "../components/stream_selection_test_configuration/Questions";
+import Questions from "../components/stream_selection_test_configuration/question_categories/Questions";
 import TestResult from "../components/stream_selection_help/TestResult";
 import Test from "../components/stream_selection_help/QuickTest";
 import QuickTest from "../components/stream_selection_help/QuickTest";
 import QRInvites from "../components/stream_selection_test_configuration/QRInvites";
+import QuestionCategories from "../components/stream_selection_test_configuration/QuestionCategories";
 
 export default function App() {
     return (
@@ -150,7 +151,7 @@ export default function App() {
                         />
                         <Route path="/stream-selection-test-configuration" element={<StreamSelectionTestConfiguration />}>
                             <Route path="qr-invites" element={<QRInvites />} />
-                            <Route path="questions" element={<Questions />} />
+                            <Route path="question-categories" element={<QuestionCategories />} />
                         </Route>
 
                         <Route path="/stream-selection-help" element={<StreamSelectionHelp />}>
