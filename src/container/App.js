@@ -10,7 +10,6 @@ import User from "../components/manage_users/User";
 import Basics from "../components/manage_users/user/Basics";
 import Inquiries from "../components/manage_users/user/Inquiries";
 import Enrollments from "../components/manage_users/user/Enrollments";
-import NoContent from "../components/common/NoContent";
 import Roles from "../components/manage_users/user/Roles";
 import Wallet from "../components/manage_users/user/Wallet";
 import ManageRoles from "../pages/ManageRoles";
@@ -42,6 +41,15 @@ import Policies from "../pages/Policies";
 
 import ManageInquiries from "../pages/ManageInquiries";
 import GlobalNotes from "../components/manage_users/user/GlobalNotes";
+import StreamSelectionTestResults from "../components/manage_users/user/StreamSelectionTestResults";
+import StreamSelectionHelp from "../pages/StreamSelectionHelp";
+import StreamSelectionTestConfiguration from "../pages/StreamSelectionTestConfiguration";
+import Questions from "../components/stream_selection_test_configuration/question_categories/Questions";
+import TestResult from "../components/stream_selection_help/TestResult";
+import Test from "../components/stream_selection_help/QuickTest";
+import QuickTest from "../components/stream_selection_help/QuickTest";
+import QRInvites from "../components/stream_selection_test_configuration/QRInvites";
+import QuestionCategories from "../components/stream_selection_test_configuration/QuestionCategories";
 
 export default function App() {
     return (
@@ -50,9 +58,7 @@ export default function App() {
                 <HasMandatoryDetails>
                     <Routes>
                         <Route path="/" element={<Dashboard />} />
-
                         <Route path="/policies" element={<Policies />} />
-
                         <Route path="/manage-users" element={<ManageUsers />}>
                             <Route
                                 index
@@ -73,6 +79,14 @@ export default function App() {
                                     }
                                 />
                                 <Route path="enrollments" element={<Enrollments />} />
+                                <Route
+                                    path="stream-selection-test-results"
+                                    element={
+                                        <HasRequiredAuthority showForBidden={true} requiredAuthority={AUTHORITIES.MANAGE_OTHER_USERS}>
+                                            <StreamSelectionTestResults />
+                                        </HasRequiredAuthority>
+                                    }
+                                />
                                 <Route path="devices" element={<Devices />} />
                                 <Route path="wallet" element={<Wallet />} />
                                 <Route path="global-notes" element={<GlobalNotes />} />
@@ -86,7 +100,6 @@ export default function App() {
                                 />
                             </Route>
                         </Route>
-
                         <Route
                             path="/manage-inquiries"
                             element={
@@ -95,12 +108,10 @@ export default function App() {
                                 </HasRequiredAuthority>
                             }
                         />
-
                         <Route path="/course-categories" element={<Catelogue />}>
                             <Route index element={<Categories />} />
                             <Route path=":categoryId/courses" element={<Courses />} />
                         </Route>
-
                         <Route path="/courses/:courseId" element={<Course />}>
                             <Route path="subjects" element={<Subjects />} />
                             <Route path="subjects/:subjectId">
@@ -110,24 +121,18 @@ export default function App() {
                                 </Route>
                             </Route>
                         </Route>
-
                         <Route path="/my-courses" element={<MyCourses />}></Route>
-
                         <Route path="/media-player/:mediaId" element={<Media />}></Route>
-
                         <Route path="/manage-chapter-types" element={<ManageChapterTypes />} />
-
                         <Route path="/chapters-test" element={<ChaptersTest />}>
                             <Route path="selection" element={<Selection />} />
                             <Route path="appear" element={<Appear />} />
                             <Route path="result" element={<Result />} />
                         </Route>
-
                         <Route path="/manage-coupon-codes" element={<ManageCouponCodes />}>
                             <Route index element={<CouponCodes />}></Route>
                             <Route path=":couponCodeId/courses" element={<CouponCodeCourses />} />
                         </Route>
-
                         <Route
                             path="/manage-roles"
                             element={
@@ -136,7 +141,6 @@ export default function App() {
                                 </HasRequiredAuthority>
                             }
                         />
-
                         <Route
                             path="/manage-authorities"
                             element={
@@ -145,13 +149,22 @@ export default function App() {
                                 </HasRequiredAuthority>
                             }
                         />
+                        <Route path="/stream-selection-test-configuration" element={<StreamSelectionTestConfiguration />}>
+                            <Route path="qr-invites" element={<QRInvites />} />
+                            <Route path="question-categories">
+                                <Route index element={<QuestionCategories />} />
+                                <Route path=":id" element={<Questions />} />
+                            </Route>
+                        </Route>
+
+                        <Route path="/stream-selection-help" element={<StreamSelectionHelp />}>
+                            <Route path="attend" element={<QuickTest />} />
+                            <Route path="result" element={<TestResult />} />
+                        </Route>
 
                         <Route path="/enroll/:courseId" element={<Enroll />} />
-
                         <Route path="/revenue" element={<Revenue />} />
-
                         <Route path="/payment-gateway-payloads/:paymentGatewayPayloadId" element={<PaymentGatewayPayLoad />} />
-
                         <Route path="*" element={<NotFound />} />
                     </Routes>
                 </HasMandatoryDetails>
@@ -159,11 +172,3 @@ export default function App() {
         </HasAuthentication>
     );
 }
-
-//USE_CONTAINER_CONTAINERNAME
-//USE_PAGE_PAGENAME
-//USE_FEATURE_FEATURENAME
-//READ_FEATURE
-//WRITE_FEATURE
-//DELETE_FEATURE
-//UPDATE_FEATURE

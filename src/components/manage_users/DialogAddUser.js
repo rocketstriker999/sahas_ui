@@ -25,8 +25,6 @@ export default function DialogAddUser({ visible, closeDialog }) {
     const [basics, setBasics] = useState();
     const [loading, setLoading] = useState();
 
-    console.log(basics);
-
     const addUser = useCallback(() => {
         requestAPI({
             requestPath: `users`,
