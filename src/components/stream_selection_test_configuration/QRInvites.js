@@ -46,7 +46,7 @@ export default function QRInvites() {
                 title="Q.R. Invite "
                 highlights={[`Q.R. Invites AS Following`]}
                 actionItems={[
-                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_STREAM_SELECTION_TEST}>
+                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_STREAM_SELECTION_TEST_INVITE}>
                         <Button
                             icon="pi pi-plus"
                             severity="warning"
