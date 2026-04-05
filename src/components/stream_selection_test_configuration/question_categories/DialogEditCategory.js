@@ -13,23 +13,23 @@ export default function DialogEditCategory({ visible, closeDialog, setCategories
     const [category, setCategory] = useState(props);
     const [loading, setLoading] = useState();
 
-    const addCategory = useCallback(() => {
+    const editCategory = useCallback(() => {
         requestAPI({
             requestPath: `stream-selection-question-categories`,
-            requestMethod: "PUT",
+            requestMethod: "PATCH",
             requestPostBody: category,
             setLoading: setLoading,
             onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Update Category !", life: 2000 }),
-            onResponseReceieved: ({ error, ...category }, responseCode) => {
-                if (category && responseCode === 200) {
+            onResponseReceieved: ({ error, ...updatedCategory }, responseCode) => {
+                if (updatedCategory && responseCode === 200) {
                     showToast({ severity: "success", summary: "Updated", detail: "Category Updated", life: 1000 });
-                    setCategories((prev) => prev?.map((p) => (p?.id === props?.id ? category : p)));
+                    setCategories((prev) => prev?.map((p) => (p?.id === props?.id ? updatedCategory : p)));
                     setCategory({});
                     closeDialog();
                 } else showToast({ severity: "error", summary: "Failed", detail: error || "Failed To Update Category !", life: 2000 });
             },
         });
-    }, [category, closeDialog, props?.id, requestAPI, setCategories, showToast]);
+    }, [category, closeDialog, props, requestAPI, setCategories, showToast]);
 
     return (
         <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Update Category`} visible={visible} className="w-11" onHide={closeDialog}>
@@ -51,7 +51,7 @@ export default function DialogEditCategory({ visible, closeDialog, setCategories
                 onChange={(checked) => setCategory((prev) => ({ ...prev, active: checked }))}
             />
 
-            <Button className="mt-3" label="Update Category" severity="warning" loading={loading} onClick={addCategory} />
+            <Button className="mt-3" label="Update Category" severity="warning" loading={loading} onClick={editCategory} />
         </Dialog>
     );
 }

@@ -49,14 +49,12 @@ export default function Category({ id, image, title, courses_count, updatingView
             </div>
             {!!updatingViewIndex && <IconButton icon={"pi-equals"} color={"text-indigo-800"} className={ICON_SIZE} />}
             {!updatingViewIndex && (
-                <ProgressiveControl
-                    loading={deleting}
-                    control={
-                        <HasRequiredAuthority requiredAuthority={AUTHORITIES.DELETE_COURSE_CATEGORY}>
-                            <IconButton icon={"pi-trash"} color={"text-red-500"} onClick={deleteCategory} className={ICON_SIZE} />
-                        </HasRequiredAuthority>
-                    }
-                />
+                <HasRequiredAuthority requiredAuthority={AUTHORITIES.DELETE_COURSE_CATEGORY}>
+                    <ProgressiveControl
+                        loading={deleting}
+                        control={<IconButton icon={"pi-trash"} color={"text-red-500"} onClick={deleteCategory} className={ICON_SIZE} />}
+                    />
+                </HasRequiredAuthority>
             )}
             {!updatingViewIndex && <IconButton icon={"pi-arrow-circle-right"} className={ICON_SIZE} />}
         </div>

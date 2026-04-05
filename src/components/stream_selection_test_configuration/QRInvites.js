@@ -70,7 +70,7 @@ export default function QRInvites() {
                 ) : streamSelectionTestInvites?.length ? (
                     <Accordion>
                         {streamSelectionTestInvites?.map((invite) => (
-                            <AccordionTab header={invite?.title}>
+                            <AccordionTab key={invite?.id} header={invite?.title}>
                                 <Invite setDialogEditInvite={setDialogEditInvite} setStreamSelectionTestInvites={setStreamSelectionTestInvites} {...invite} />
                             </AccordionTab>
                         ))}

@@ -151,7 +151,10 @@ export default function App() {
                         />
                         <Route path="/stream-selection-test-configuration" element={<StreamSelectionTestConfiguration />}>
                             <Route path="qr-invites" element={<QRInvites />} />
-                            <Route path="question-categories" element={<QuestionCategories />} />
+                            <Route path="question-categories">
+                                <Route index element={<QuestionCategories />} />
+                                <Route path=":id" element={<Questions />} />
+                            </Route>
                         </Route>
 
                         <Route path="/stream-selection-help" element={<StreamSelectionHelp />}>

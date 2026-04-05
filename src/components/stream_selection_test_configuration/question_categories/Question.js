@@ -5,8 +5,10 @@ import { useAppContext } from "../../../providers/ProviderAppContainer";
 import HasRequiredAuthority from "../../dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../../../constants";
 import ProgressiveControl from "../../common/ProgressiveControl";
+import IconButton from "../../common/IconButton";
+import { ICON_SIZE } from "../../../style";
 
-export default function Question({ id, question, options, setQuestions, setDialogEditQuestion }) {
+export default function Question({ id, question, options, setQuestions, setDialogEditQuestion, updatingViewIndex }) {
     const [loading, setLoading] = useState();
     const { requestAPI, showToast } = useAppContext();
 
@@ -30,39 +32,42 @@ export default function Question({ id, question, options, setQuestions, setDialo
     return (
         <div className="border-1 p-2 gap-2 flex flex-column border-gray-300 border-round">
             <div className="flex gap-1">
-                <span className="font-semibold flex-1">
-                    {id}.{question}
-                </span>
-                <HasRequiredAuthority requiredAuthority={AUTHORITIES.UPDATE_STREAM_SELECTION_TEST_QUESTION}>
-                    <ProgressiveControl
-                        loading={loading}
-                        control={
-                            <Button
-                                className="w-2rem h-2rem"
-                                icon="pi pi-pencil"
-                                rounded
-                                severity="warning"
-                                onClick={() =>
-                                    setDialogEditQuestion((prev) => ({
-                                        ...prev,
-                                        visible: true,
-                                        setQuestions,
-                                        id,
-                                        question,
-                                        options: options?.map(({ option }) => option),
-                                    }))
-                                }
-                            />
-                        }
-                    />
-                </HasRequiredAuthority>
+                <span className="font-semibold flex-1">{question}</span>
+                {!!updatingViewIndex && <IconButton icon={"pi-equals"} color={"text-indigo-800"} className={ICON_SIZE} />}
+                {!updatingViewIndex && (
+                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.UPDATE_STREAM_SELECTION_TEST_QUESTION}>
+                        <ProgressiveControl
+                            loading={loading}
+                            control={
+                                <Button
+                                    className="w-2rem h-2rem"
+                                    icon="pi pi-pencil"
+                                    rounded
+                                    severity="warning"
+                                    onClick={() =>
+                                        setDialogEditQuestion((prev) => ({
+                                            ...prev,
+                                            visible: true,
+                                            setQuestions,
+                                            id,
+                                            question,
+                                            options: options?.map(({ option }) => option),
+                                        }))
+                                    }
+                                />
+                            }
+                        />
+                    </HasRequiredAuthority>
+                )}
 
-                <HasRequiredAuthority requiredAuthority={AUTHORITIES.DELETE_STREAM_SELECTION_TEST_QUESTION}>
-                    <ProgressiveControl
-                        loading={loading}
-                        control={<Button className="w-2rem h-2rem" icon="pi pi-trash" rounded severity="danger" onClick={deletePolicy} />}
-                    />
-                </HasRequiredAuthority>
+                {!updatingViewIndex && (
+                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.DELETE_STREAM_SELECTION_TEST_QUESTION}>
+                        <ProgressiveControl
+                            loading={loading}
+                            control={<Button className="w-2rem h-2rem" icon="pi pi-trash" rounded severity="danger" onClick={deletePolicy} />}
+                        />
+                    </HasRequiredAuthority>
+                )}
             </div>
 
             <div className="card flex flex-wrap gap-2">

@@ -18,14 +18,14 @@ export default function DialogEditQuestion({ visible, setQuestions, closeDialog,
             requestMethod: "PUT",
             requestPostBody: streamSelectionQuestion,
             setLoading: setLoading,
-            onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Update Policy !", life: 2000 }),
+            onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Update Question !", life: 2000 }),
             onResponseReceieved: ({ error, ...updatedQuestion }, responseCode) => {
                 if (updatedQuestion && responseCode === 200) {
                     showToast({ severity: "success", summary: "Updated", detail: "Question Updated", life: 1000 });
                     setQuestions((prev) => prev?.map((p) => (p?.id === props?.id ? updatedQuestion : p)));
                     setStreamSelectionQuestion({});
                     closeDialog();
-                } else showToast({ severity: "error", summary: "Failed", detail: error || "Failed To Update Policy !", life: 2000 });
+                } else showToast({ severity: "error", summary: "Failed", detail: error || "Failed To Update Question !", life: 2000 });
             },
         });
     }, [closeDialog, props?.id, requestAPI, setQuestions, showToast, streamSelectionQuestion]);

@@ -5,14 +5,10 @@ import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../../constants";
 import { Button } from "primereact/button";
 import { Divider } from "primereact/divider";
-
 import OrderManager from "../common/OrderManager";
-import { Fieldset } from "primereact/fieldset";
-import CategoryHead from "./question_categories/CategoryHead";
+import Category from "./question_categories/Category";
 import DialogAddCategory from "./question_categories/DialogAddCategory";
 import DialogEditCategory from "./question_categories/DialogEditCategory";
-import Questions from "./question_categories/Questions";
-import { classNames } from "primereact/utils";
 
 export default function QuestionCategories() {
     const { requestAPI, showToast } = useAppContext();
@@ -32,7 +28,31 @@ export default function QuestionCategories() {
     const closeDialogAddCategory = useCallback(() => {
         setDialogAddCategory((prev) => ({ ...prev, visible: false }));
     }, []);
+
     const [updatingViewIndex, setUpdatingViewIndex] = useState();
+
+    const updateViewIndexs = useCallback(() => {
+        requestAPI({
+            requestPath: `stream-selection-question-categories/view_indexes`,
+            requestMethod: "PATCH",
+            requestPostBody: categories.map(({ id }, view_index) => ({ id, view_index })),
+            setLoading: setLoading,
+            parseResponseBody: false,
+            onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Update View Indexes !", life: 2000 }),
+            onResponseReceieved: (_, responseCode) => {
+                if (responseCode === 200) {
+                    showToast({
+                        severity: "success",
+                        summary: "Updated",
+                        detail: `View Indexes Updated`,
+                        life: 1000,
+                    });
+                } else {
+                    showToast({ severity: "error", summary: "Failed", detail: "Failed To Update View Indexes !", life: 2000 });
+                }
+            },
+        });
+    }, [categories, requestAPI, showToast]);
 
     useEffect(() => {
         requestAPI({
@@ -70,9 +90,28 @@ export default function QuestionCategories() {
                             }
                         />
                     </HasRequiredAuthority>,
-                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.UPDATE_STREAM_SELECTION_TEST_QUESTION}>
-                        <Button loading={loading} icon="pi pi-arrows-v" />
-                    </HasRequiredAuthority>,
+
+                    !!categories?.length && (
+                        <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_STREAM_SELECTION_TEST_QUESTION}>
+                            <Button
+                                loading={loading}
+                                onClick={() => {
+                                    showToast({
+                                        severity: "info",
+                                        summary: "Repositioning",
+                                        detail: `Repositioning Mode ${!updatingViewIndex ? "Enabled" : "Disabled"}`,
+                                        life: 1000,
+                                    });
+                                    //give signal to update view indexs
+                                    if (!!updatingViewIndex) {
+                                        updateViewIndexs();
+                                    }
+                                    setUpdatingViewIndex((prev) => !prev);
+                                }}
+                                icon="pi pi-arrows-v"
+                            />
+                        </HasRequiredAuthority>
+                    ),
                 ]}
             />
             <Divider />
@@ -85,14 +124,7 @@ export default function QuestionCategories() {
                     setItems={setCategories}
                     entity={"Categories/Questions"}
                     itemTemplate={(item) => (
-                        <Fieldset
-                            pt={{
-                                content: classNames("p-0 mt-1 "),
-                            }}
-                            legend={<CategoryHead {...item} setCategories={setCategories} setDialogEditCategory={setDialogEditCategory} />}
-                        >
-                            <Questions {...item} />
-                        </Fieldset>
+                        <Category updatingViewIndex={updatingViewIndex} {...item} setCategories={setCategories} setDialogEditCategory={setDialogEditCategory} />
                     )}
                 />
             </div>

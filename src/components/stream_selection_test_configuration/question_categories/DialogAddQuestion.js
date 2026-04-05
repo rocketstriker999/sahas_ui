@@ -13,6 +13,8 @@ export default function DialogAddQuestion({ visible, category_id, setQuestions, 
     const [streamSelectionQuestion, setStreamSelectionQuestion] = useState({ category_id });
     const [loading, setLoading] = useState();
 
+    console.log(streamSelectionQuestion);
+
     const addPolicy = useCallback(() => {
         requestAPI({
             requestPath: `stream-selection-questions`,

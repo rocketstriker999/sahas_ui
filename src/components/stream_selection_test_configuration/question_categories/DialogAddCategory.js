@@ -10,7 +10,7 @@ import CheckboxInput from "../../common/CheckBoxInput";
 export default function DialogAddCategory({ visible, setCategories, closeDialog }) {
     const { requestAPI, showToast } = useAppContext();
 
-    const [category, setCategory] = useState({});
+    const [category, setCategory] = useState({ active: false });
     const [loading, setLoading] = useState();
 
     const addCategory = useCallback(() => {
