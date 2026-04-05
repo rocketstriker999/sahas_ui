@@ -73,7 +73,7 @@ export default function QuestionCategories() {
         <div className="flex-1 flex flex-column min-h-0 h-full">
             <TabHeader
                 className={"mx-3 mt-2"}
-                title="P.C.A.T. Questions & Categories"
+                title="P.C.A.T.  Categories"
                 highlights={[`Following Questions Will Be Asked For P.C.A.T.`]}
                 actionItems={[
                     <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_STREAM_SELECTION_TEST_QUESTION}>

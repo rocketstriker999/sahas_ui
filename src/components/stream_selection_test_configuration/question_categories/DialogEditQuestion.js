@@ -6,6 +6,8 @@ import { Button } from "primereact/button";
 import { useAppContext } from "../../../providers/ProviderAppContainer";
 import { Chips } from "primereact/chips";
 import { classNames } from "primereact/utils";
+import FileInput from "../../common/FileInput";
+import { TEXT_SIZE_NORMAL } from "../../../style";
 
 export default function DialogEditQuestion({ visible, setQuestions, closeDialog, ...props }) {
     const { requestAPI, showToast } = useAppContext();
@@ -32,6 +34,18 @@ export default function DialogEditQuestion({ visible, setQuestions, closeDialog,
 
     return (
         <Dialog pt={{ content: { className: "overflow-visible" } }} header={`Edit Question`} visible={visible} className="w-11" onHide={closeDialog}>
+            <FileInput
+                className={"mt-3"}
+                label="Question Image"
+                type="image"
+                cdn_url={streamSelectionQuestion?.media_url}
+                setCDNUrl={(cdn_url) => setStreamSelectionQuestion((prev) => ({ ...prev, media_url: cdn_url }))}
+                disabled={loading}
+                source_accessible={false}
+                pt={{
+                    root: { className: TEXT_SIZE_NORMAL },
+                }}
+            />
             <FloatLabel className="mt-5">
                 <InputText
                     value={streamSelectionQuestion?.question || ""}

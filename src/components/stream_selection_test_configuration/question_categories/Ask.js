@@ -7,6 +7,7 @@ export default function Ask({
     category,
     total,
     question,
+    media_url,
     answer,
     setQuestions,
     options,
@@ -24,8 +25,11 @@ export default function Ask({
                 </span>
                 <Button disabled={!canMoveToNext} onClick={askNext} size="small" text label="Next >>" severity="warning" />
             </div>
-            <div className="flex flex-column gap-2 px-4 mt-3">
-                <Detail icon={"pi pi-question-circle"} className={"border-1 border-gray-300 border-round p-2"} title={category} value={question} />
+            <div className="flex flex-column gap-2 px-4 mt-3 ">
+                <div className="border-1 border-gray-300 border-round p-2 flex align-items-start gap-2">
+                    {!!media_url && <img className="w-6rem" src={media_url} alt="media_url" />}
+                    <Detail className="flex-1" icon={"pi pi-question-circle"} title={category} value={question} />
+                </div>
 
                 <ListBox
                     value={answer}
