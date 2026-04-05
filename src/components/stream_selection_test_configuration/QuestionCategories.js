@@ -76,7 +76,7 @@ export default function QuestionCategories() {
                 title="P.C.A.T.  Categories"
                 highlights={[`Following Questions Will Be Asked For P.C.A.T.`]}
                 actionItems={[
-                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_STREAM_SELECTION_TEST_QUESTION}>
+                    <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_STREAM_SELECTION_QUESTION_CATEGORY}>
                         <Button
                             icon="pi pi-plus"
                             severity="warning"
@@ -92,7 +92,7 @@ export default function QuestionCategories() {
                     </HasRequiredAuthority>,
 
                     !!categories?.length && (
-                        <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_STREAM_SELECTION_TEST_QUESTION}>
+                        <HasRequiredAuthority requiredAuthority={AUTHORITIES.UPDATE_STREAM_SELECTION_QUESTION_CATEGORY}>
                             <Button
                                 loading={loading}
                                 onClick={() => {
