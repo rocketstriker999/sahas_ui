@@ -35,7 +35,7 @@ export default function Category({ id, title, updated_at, active, questions, set
 
     return (
         <div
-            className="flex align-items-center border-1 border-round p-2  border-gray-300"
+            className="flex align-items-center border-1 border-round p-2 gap-2  border-gray-300"
             onClick={() => {
                 if (!updatingViewIndex) navigate(`${id}`);
             }}
@@ -60,11 +60,9 @@ export default function Category({ id, title, updated_at, active, questions, set
                     <ProgressiveControl
                         loading={loading}
                         control={
-                            <Button
-                                className="w-2rem h-2rem mx-2"
-                                icon="pi pi-pencil"
-                                rounded
-                                severity="warning"
+                            <IconButton
+                                icon={"pi-pencil"}
+                                color={"text-orange-500"}
                                 onClick={() =>
                                     setDialogEditCategory((prev) => ({
                                         ...prev,
@@ -85,7 +83,7 @@ export default function Category({ id, title, updated_at, active, questions, set
                 <HasRequiredAuthority requiredAuthority={AUTHORITIES.DELETE_STREAM_SELECTION_QUESTION_CATEGORY}>
                     <ProgressiveControl
                         loading={loading}
-                        control={<Button className="w-2rem h-2rem" icon="pi pi-trash" rounded severity="danger" onClick={deleteCategory} />}
+                        control={<IconButton color={"text-red-500"} icon="pi pi-trash" rounded onClick={deleteCategory} className={ICON_SIZE} />}
                     />
                 </HasRequiredAuthority>
             )}
