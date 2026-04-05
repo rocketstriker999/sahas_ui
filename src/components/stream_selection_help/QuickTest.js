@@ -13,14 +13,12 @@ import Scanner from "./Scanner";
 import ExploreResult from "./ExploreResult";
 
 export default function QuickTest() {
-    const { requestAPI, showToast } = useAppContext();
+    const { requestAPI, showToast, setApplicationLoading } = useAppContext();
     const [loading, setLoading] = useState();
     const [questions, setQuestions] = useState();
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState();
     const loggedInUser = useSelector((state) => state.stateUser);
-
     const [scanningQR, setScanningQR] = useState();
-
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -44,7 +42,8 @@ export default function QuickTest() {
             requestPath: `stream-selection-tests`,
             requestMethod: "POST",
             requestPostBody: questions,
-            setLoading,
+            onRequestStart: () => setApplicationLoading({ message: "Generating A.I. Based Psychometric Test Result..." }),
+            onRequestEnd: setApplicationLoading,
             parseResponseBody: false,
             onResponseReceieved: (_, responseCode) => {
                 if (responseCode === 201) {
@@ -55,7 +54,7 @@ export default function QuickTest() {
                 }
             },
         });
-    }, [dispatch, questions, requestAPI, showToast]);
+    }, [dispatch, questions, requestAPI, setApplicationLoading, showToast]);
 
     const askNext = useCallback(() => {
         setCurrentQuestionIndex((prev) => (prev || 0) + 1);
