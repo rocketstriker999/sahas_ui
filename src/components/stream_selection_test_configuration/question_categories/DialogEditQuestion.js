@@ -7,7 +7,7 @@ import { useAppContext } from "../../../providers/ProviderAppContainer";
 import { Chips } from "primereact/chips";
 import { classNames } from "primereact/utils";
 import FileInput from "../../common/FileInput";
-import { TEXT_SIZE_NORMAL } from "../../../style";
+import { TEXT_NORMAL } from "../../../style";
 
 export default function DialogEditQuestion({ visible, setQuestions, closeDialog, ...props }) {
     const { requestAPI, showToast } = useAppContext();
@@ -43,7 +43,7 @@ export default function DialogEditQuestion({ visible, setQuestions, closeDialog,
                 disabled={loading}
                 source_accessible={false}
                 pt={{
-                    root: { className: TEXT_SIZE_NORMAL },
+                    root: { className: TEXT_NORMAL },
                 }}
             />
             <FloatLabel className="mt-5">

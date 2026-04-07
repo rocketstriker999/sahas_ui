@@ -8,6 +8,7 @@ import { useAppContext } from "../../providers/ProviderAppContainer";
 import { useDispatch } from "react-redux";
 import { updateCurrentUser } from "../../redux/sliceUser";
 import { InputNumber } from "primereact/inputnumber";
+import { TEXT_NORMAL } from "../../style";
 
 export default function AskPhone({ id }) {
     const { requestAPI, showToast } = useAppContext();
@@ -48,7 +49,7 @@ export default function AskPhone({ id }) {
             className="m-2"
             pt={{ content: classNames("text-right") }}
         >
-            <p className="text-sm line-height-3">
+            <p className={`${TEXT_NORMAL} line-height-3`}>
                 In Order To Continue With Sahas Smart Studies App - User is Required To Submit The Contact Details. Sahas Smart Studies Respect The Privacy &
                 Stores The Details For Internal Usage To Make User Expereice Better !
             </p>

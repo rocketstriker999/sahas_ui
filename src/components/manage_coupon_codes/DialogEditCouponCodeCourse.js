@@ -8,7 +8,7 @@ import { Button } from "primereact/button";
 import { SelectButton } from "primereact/selectbutton";
 import { InputNumber } from "primereact/inputnumber";
 import { Calendar } from "primereact/calendar";
-import { TEXT_SIZE_SMALL } from "../../style";
+import { TEXT_SMALL } from "../../style";
 import { getWriteableDate } from "../../utils";
 import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../../constants";
@@ -107,7 +107,7 @@ export default function DialogEditCouponCodeCourse({ visible, setCouponCodeCours
                             showTime={false}
                             showIcon
                         />
-                        <label htmlFor="start_date" className={`${TEXT_SIZE_SMALL}`}>
+                        <label htmlFor="start_date" className={`${TEXT_SMALL}`}>
                             Start Date
                         </label>
                     </FloatLabel>

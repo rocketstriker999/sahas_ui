@@ -1,5 +1,5 @@
 import { Button } from "primereact/button";
-import { TEXT_SIZE_NORMAL } from "../../../style";
+import { TEXT_NORMAL } from "../../../style";
 import { useCallback, useState } from "react";
 import { useAppContext } from "../../../providers/ProviderAppContainer";
 import ProgressiveControl from "../../common/ProgressiveControl";
@@ -31,7 +31,7 @@ export default function Download({ entity, searchQuery }) {
                     icon="pi pi-download"
                     className="p-button-warning"
                     pt={{
-                        icon: { className: TEXT_SIZE_NORMAL },
+                        icon: { className: TEXT_NORMAL },
                     }}
                     onClick={downloadUsers}
                 />

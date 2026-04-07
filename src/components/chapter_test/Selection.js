@@ -1,6 +1,6 @@
 import { FloatLabel } from "primereact/floatlabel";
 import { Dropdown } from "primereact/dropdown";
-import { TEXT_SIZE_SMALL } from "../../style";
+import { TEXT_SMALL } from "../../style";
 import { MultiSelect } from "primereact/multiselect";
 import { Button } from "primereact/button";
 import { useNavigate, useOutletContext } from "react-router-dom";
@@ -13,7 +13,7 @@ export default function Selection() {
     return (
         <div className="p-2">
             <div className="flex align-items-center justify-content-between">
-                <span className="p-2 border-round text-xs text-gray-700 border-1 border-orange-300  bg-orange-100">Select Following...</span>
+                <span className={`p-2 border-round ${TEXT_SMALL} text-gray-700 border-1 border-orange-300 bg-orange-100`}>Select Following...</span>
                 {testSelection?.course && testSelection?.subject && testSelection?.chapters?.length && (
                     <Button
                         severity="warning"
@@ -37,11 +37,11 @@ export default function Selection() {
                     className="w-full"
                     onChange={(e) => setTestSelection((prev) => ({ ...prev, course: e.value }))}
                     pt={{
-                        label: { className: TEXT_SIZE_SMALL },
-                        item: { className: TEXT_SIZE_SMALL },
+                        label: { className: TEXT_SMALL },
+                        item: { className: TEXT_SMALL },
                     }}
                 />
-                <label htmlFor="courses" className={`${TEXT_SIZE_SMALL}`}>
+                <label htmlFor="courses" className={`${TEXT_SMALL}`}>
                     Select Course
                 </label>
             </FloatLabel>
@@ -56,11 +56,11 @@ export default function Selection() {
                         className="w-full"
                         onChange={(e) => setTestSelection((prev) => ({ ...prev, subject: e.value }))}
                         pt={{
-                            label: { className: TEXT_SIZE_SMALL },
-                            item: { className: TEXT_SIZE_SMALL },
+                            label: { className: TEXT_SMALL },
+                            item: { className: TEXT_SMALL },
                         }}
                     />
-                    <label htmlFor="courses" className={`${TEXT_SIZE_SMALL}`}>
+                    <label htmlFor="courses" className={`${TEXT_SMALL}`}>
                         Select Subject
                     </label>
                 </FloatLabel>
@@ -76,11 +76,11 @@ export default function Selection() {
                         className="w-full"
                         onChange={(e) => setTestSelection((prev) => ({ ...prev, chapters: e.value }))}
                         pt={{
-                            label: { className: TEXT_SIZE_SMALL },
-                            item: { className: TEXT_SIZE_SMALL },
+                            label: { className: TEXT_SMALL },
+                            item: { className: TEXT_SMALL },
                         }}
                     />
-                    <label htmlFor="chapters" className={`${TEXT_SIZE_SMALL}`}>
+                    <label htmlFor="chapters" className={`${TEXT_SMALL}`}>
                         Select Chapters
                     </label>
                 </FloatLabel>

@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import CheckboxInput from "../common/CheckBoxInput";
 import { InputNumber } from "primereact/inputnumber";
 import FileInput from "../common/FileInput";
-import { TEXT_SIZE_NORMAL } from "../../style";
+import { TEXT_NORMAL } from "../../style";
 import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../../constants";
 
@@ -82,7 +82,7 @@ export default function DialogAddChapter({ visible, closeDialog, setChapters, su
                     setCDNUrl={(cdn_url) => setChapter((prev) => ({ ...prev, test_questions_pool: cdn_url }))}
                     disabled={loading}
                     pt={{
-                        root: { className: TEXT_SIZE_NORMAL },
+                        root: { className: TEXT_NORMAL },
                     }}
                 />
             )}

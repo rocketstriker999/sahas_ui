@@ -2,7 +2,7 @@ import { Sidebar } from "primereact/sidebar";
 import { Button } from "primereact/button";
 import { useState } from "react";
 import NoContent from "../../common/NoContent";
-import { TITLE_TEXT, TEXT_SIZE_SMALL } from "../../../style";
+import { TEXT_TITLE, TEXT_SMALL } from "../../../style";
 import FilterSelector from "../../common/FilterSelector";
 
 export default function FiltersDrawer({ filtersDrawerVisibility, setFiltersDrawerVisibility, filters, setSearchQuery }) {
@@ -10,7 +10,7 @@ export default function FiltersDrawer({ filtersDrawerVisibility, setFiltersDrawe
 
     return (
         <Sidebar visible={filtersDrawerVisibility} onHide={() => setFiltersDrawerVisibility(false)}>
-            <h2 className={`${TITLE_TEXT} mb-5`}>Filters</h2>
+            <h2 className={`${TEXT_TITLE} mb-5`}>Filters</h2>
             {filters?.length ? (
                 filters.map((filter) => (
                     <FilterSelector key={filter?.key} filter={filter} selectedFilters={selectedFilters} setSelectedFilters={setSelectedFilters} />
@@ -27,7 +27,7 @@ export default function FiltersDrawer({ filtersDrawerVisibility, setFiltersDrawe
                     severity="danger"
                     icon="pi pi-times"
                     pt={{
-                        label: { className: TEXT_SIZE_SMALL },
+                        label: { className: TEXT_SMALL },
                     }}
                 />
                 <Button
@@ -58,7 +58,7 @@ export default function FiltersDrawer({ filtersDrawerVisibility, setFiltersDrawe
                     severity="warning"
                     icon="pi pi-check"
                     pt={{
-                        label: { className: TEXT_SIZE_SMALL },
+                        label: { className: TEXT_SMALL },
                     }}
                 />
             </div>

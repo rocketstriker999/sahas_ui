@@ -4,7 +4,7 @@ export default function PageTitle({ title, action, allow_back = true, onBackPres
     const navigate = useNavigate();
 
     return (
-        <div className="bg-blue-800 text-white px-3 font-semibold shadow-3 flex align-items-center justify-content-between">
+        <div className="bg-primary px-3 py-2 font-semibold shadow-3 flex align-items-center justify-content-between">
             <div className="flex gap-2 align-items-center">
                 {allow_back && (
                     <i

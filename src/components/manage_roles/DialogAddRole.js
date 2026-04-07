@@ -7,7 +7,7 @@ import TabHeader from "../common/TabHeader";
 import { InputText } from "primereact/inputtext";
 import { useDispatch } from "react-redux";
 import { addRole } from "../../redux/sliceTemplateConfig";
-import { TEXT_SIZE_SMALL, TITLE_TEXT } from "../../style";
+import { TEXT_SMALL, TEXT_TITLE } from "../../style";
 import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../../constants";
 
@@ -41,7 +41,7 @@ export default function DialogAddRole({ visible, closeDialog }) {
     return (
         <Dialog header={`Add New Role`} visible={visible} className="w-11" onHide={closeDialog}
             pt={{
-                headertitle: { className: TITLE_TEXT },
+                headertitle: { className: TEXT_TITLE },
                 content: { className: "overflow-visible" }
             }}>
             <TabHeader className="pt-3" title="Add New Role" highlights={["Role Will be Added Immidiatly", "Authorities Can Be Mapped To Role"]} />
@@ -54,16 +54,16 @@ export default function DialogAddRole({ visible, closeDialog }) {
                     onChange={(e) => setRole((prev) => ({ ...prev, title: e.target.value.toUpperCase() }))}
                     disabled={loading}
                     pt={{
-                        root: { className: TEXT_SIZE_SMALL },
+                        root: { className: TEXT_SMALL },
                     }}
                 />
-                <label htmlFor="title" className={`${TEXT_SIZE_SMALL}`}>Title</label>
+                <label htmlFor="title" className={`${TEXT_SMALL}`}>Title</label>
             </FloatLabel>
 
             <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_ROLES}>
                 <Button className="mt-3" label="Add Role" severity="warning" loading={loading} onClick={addNewRole}
                     pt={{
-                        label: { className: TEXT_SIZE_SMALL },
+                        label: { className: TEXT_SMALL },
                     }} />
             </HasRequiredAuthority>
         </Dialog>

@@ -128,7 +128,7 @@ export default function SubjectsHead({ course, subjects, setSubjects, updatingVi
                 ]}
             />
 
-            <div className="px-3 py-2 bg-blue-900 text-white flex gap-2 flex-column">
+            <div className="px-3 py-2 surface-900 text-white flex gap-2 flex-column">
                 {!!(course?.enrollment?.on_site_access || course?.enrollment?.digital_access) && (
                     <div>
                         <TabHeader

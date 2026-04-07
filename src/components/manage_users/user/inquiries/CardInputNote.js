@@ -2,7 +2,7 @@ import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { useCallback, useState } from "react";
 import { useAppContext } from "../../../../providers/ProviderAppContainer";
-import { TEXT_SIZE_NORMAL } from "../../../../style";
+import { TEXT_NORMAL } from "../../../../style";
 import HasRequiredAuthority from "../../../dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../../../../constants";
 
@@ -33,12 +33,12 @@ export default function CardInputNote({ inquiry_id, setNotes }) {
         <div className="p-inputgroup ">
             <InputText disabled={loading} placeholder="Add Note" value={note} onChange={(e) => setNote(e.target.value)}
                 pt={{
-                    root: { className: TEXT_SIZE_NORMAL },
+                    root: { className: TEXT_NORMAL },
                 }} />
             <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_INQUIRY_NOTE}>
                 <Button loading={loading} icon="pi pi-plus" className="p-button-warning" onClick={addInquiryNote} disabled={!note?.length}
                     pt={{
-                        icon: { className: TEXT_SIZE_NORMAL }
+                        icon: { className: TEXT_NORMAL }
                     }} />
             </HasRequiredAuthority>
         </div>

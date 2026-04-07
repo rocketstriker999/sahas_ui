@@ -1,5 +1,6 @@
 import { Button } from "primereact/button";
 import Thumbnail from "./Thumbnail";
+import { TEXT_NORMAL } from "../../../style";
 
 
 export default function Preview({ type, preview, setPreview, setCDNUrl, label, disabled }) {
@@ -18,7 +19,7 @@ export default function Preview({ type, preview, setPreview, setCDNUrl, label, d
                 }}
                 disabled={disabled}
             />
-            <span className="text-sm text-gray-500">Selected {label}</span>
+            <span className={`${TEXT_NORMAL} text-gray-500`}>Selected {label}</span>
         </div>
     );
 }

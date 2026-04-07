@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { useAppContext } from "../../../providers/ProviderAppContainer";
-import { ICON_SIZE, TEXT_SIZE_NORMAL, TEXT_SIZE_SMALL } from "../../../style";
+import { ICON_SIZE, TEXT_NORMAL, TEXT_SMALL } from "../../../style";
 import { getReadableDate } from "../../../utils";
 import HasRequiredAuthority from "../../dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../../../constants";
@@ -41,16 +41,16 @@ export default function Category({ id, title, updated_at, active, questions, set
             }}
         >
             <div className="flex-1 flex flex-column gap-2 align-items-start">
-                <span className={`font-semibold ${TEXT_SIZE_NORMAL}`}>
+                <span className={`font-semibold ${TEXT_NORMAL}`}>
                     {id}. {title}
                 </span>
                 {updated_at && (
-                    <p className={`${TEXT_SIZE_SMALL} m-0 p-0 font-medium text-color-secondary`}>
-                        <i className={`${TEXT_SIZE_SMALL} pi pi-calendar`}></i> Updated at {getReadableDate({ date: updated_at })}
+                    <p className={`${TEXT_SMALL} m-0 p-0 font-medium text-color-secondary`}>
+                        <i className={`${TEXT_SMALL} pi pi-calendar`}></i> Updated at {getReadableDate({ date: updated_at })}
                     </p>
                 )}
-                <p className={`${TEXT_SIZE_SMALL} m-0 p-0 font-medium text-color-secondary`}>
-                    <i className={`${TEXT_SIZE_SMALL} pi pi-question-circle`}></i> Questions {questions}
+                <p className={`${TEXT_SMALL} m-0 p-0 font-medium text-color-secondary`}>
+                    <i className={`${TEXT_SMALL} pi pi-question-circle`}></i> Questions {questions}
                 </p>
             </div>
 

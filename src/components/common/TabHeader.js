@@ -1,13 +1,13 @@
-import { TEXT_SIZE_SMALL, TITLE_TEXT } from "../../style";
+import { TEXT_SMALL, TEXT_TITLE } from "../../style";
 
 export default function TabHeader({ title, highlights, actionItems, className }) {
     return (
         <div className={`flex gap-2  justify-content-between align-items-center ${className}`}>
             <div className="flex flex-column gap-1 ">
-                {title && <p className={`${TITLE_TEXT} m-0 font-bold`}>{title}</p>}
+                {title && <p className={`${TEXT_TITLE} m-0 font-bold`}>{title}</p>}
 
                 {highlights?.map((highlight) => (
-                    <li key={highlight} className={`${TEXT_SIZE_SMALL} ml-2`}>
+                    <li key={highlight} className={`${TEXT_SMALL} ml-2`}>
                         {highlight}
                     </li>
                 ))}
