@@ -16,6 +16,7 @@ import { Button } from "primereact/button";
 import { getReadableDate } from "../utils";
 import { Tag } from "primereact/tag";
 import { useSelector } from "react-redux";
+import { TEXT_LARGE, TEXT_NORMAL } from "../style";
 
 export default function Enroll() {
     const [paymentGateWayPayLoad, setPaymentGateWayPayLoad] = useState();
@@ -59,20 +60,24 @@ export default function Enroll() {
             <img className="w-full h-8rem" src={paymentGateWayPayLoad?.course?.image} alt={paymentGateWayPayLoad?.course?.image} />
 
             <div className="flex flex-column gap-2 p-4 border-1 border-gray-300 m-2 border-round">
-                <div className="flex align-items-center justify-content-between text-lg font-bold">
+                <div className={`flex align-items-center justify-content-between font-bold ${TEXT_LARGE}`}>
                     <span>Fees</span>
                     <span>
                         {paymentGateWayPayLoad?.course?.fees} {RUPEE}
                     </span>
                 </div>
                 {paymentGateWayPayLoad?.transaction?.couponCode && (
-                    <div className="flex align-items-center justify-content-between text-sm">
+                    <div className={`flex align-items-center justify-content-between ${TEXT_NORMAL}`}>
                         <Chip
                             onRemove={() => {
                                 setPayInputs((prev) => ({ ...prev, couponCode: false }));
                             }}
                             pt={{
-                                label: classNames(`text-sm  font-bold ${paymentGateWayPayLoad?.transaction?.discount > 0 ? `text-green-800` : `text-red-800`}`),
+                                label: classNames(
+                                    TEXT_NORMAL,
+                                    "font-bold",
+                                    paymentGateWayPayLoad?.transaction?.discount > 0 ? "text-green-800" : "text-red-800",
+                                ),
                             }}
                             label={`${paymentGateWayPayLoad?.transaction?.couponCode} Discount`}
                             removable
@@ -84,7 +89,7 @@ export default function Enroll() {
                     </div>
                 )}
                 {paymentGateWayPayLoad?.transaction?.usedWalletBalance && (
-                    <div className="flex align-items-center justify-content-between text-sm">
+                    <div className={`flex align-items-center justify-content-between ${TEXT_NORMAL}`}>
                         <span>Wallet Balance</span>
                         <span className="text-red-500 font-bold">
                             -{paymentGateWayPayLoad?.transaction?.usedWalletBalance} {RUPEE}
@@ -103,13 +108,13 @@ export default function Enroll() {
                     </div>
                 )}
 
-                <div className="flex align-items-center justify-content-between text-sm mt-2">
+                <div className={`flex align-items-center justify-content-between mt-2 ${TEXT_NORMAL}`}>
                     <span>CGST</span>
                     <span>
                         {paymentGateWayPayLoad?.transaction?.cgst} {RUPEE}
                     </span>
                 </div>
-                <div className="flex align-items-center justify-content-between text-sm">
+                <div className={`flex align-items-center justify-content-between ${TEXT_NORMAL}`}>
                     <span>SGST</span>
                     <span>
                         {paymentGateWayPayLoad?.transaction?.sgst} {RUPEE}
@@ -154,7 +159,7 @@ export default function Enroll() {
             <div className="flex flex-column align-items-center mt-2 gap-3">
                 <div className="flex align-items-center gap-2 mb-3 ">
                     <Checkbox id="terms" checked={termsAccepted} invalid={!termsAccepted} onChange={(e) => setTermsAccepted(e.checked)} />
-                    <label htmlFor="terms" className="text-sm">
+                    <label htmlFor="terms" className={TEXT_NORMAL}>
                         I agree to the{" "}
                         <a href="/path-to-your-pdf.pdf" target="_blank" rel="noopener noreferrer" className="text-primary underline">
                             Terms and Conditions

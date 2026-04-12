@@ -1,6 +1,7 @@
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import { useCallback, useEffect, useState } from "react";
+import { TEXT_SMALL } from "../../style";
 import Loading from "../common/Loading";
 import NoContent from "../common/NoContent";
 import { Divider } from "primereact/divider";
@@ -62,7 +63,7 @@ export default function Appear() {
 
     return (
         <div className="flex-1 flex flex-column h-full min-h-0">
-            <p className="text-xs text-center  p-2 m-0 bg-orange-500 text-white">Do Not Refresh While Taking Self Test !</p>
+            <p className={`${TEXT_SMALL} text-center p-2 m-0 bg-orange-500 text-white`}>Do Not Refresh While Taking Self Test !</p>
 
             <Summary test={test} setTest={setTest} showResult={showResult} />
 

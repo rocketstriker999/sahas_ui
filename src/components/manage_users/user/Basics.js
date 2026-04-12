@@ -14,7 +14,7 @@ import Loading from "../../common/Loading";
 import NoContent from "../../common/NoContent";
 import { AUTHORITIES } from "../../../constants";
 import { useOutletContext } from "react-router-dom";
-import { TEXT_SIZE_NORMAL } from "../../../style";
+import { TEXT_NORMAL } from "../../../style";
 import FileInput from "../../common/FileInput";
 import { InputNumber } from "primereact/inputnumber";
 import { Accordion, AccordionTab } from "primereact/accordion";
@@ -109,7 +109,7 @@ export default function Basics() {
                             onChange={(e) => setBasics((prev) => ({ ...prev, full_name: e.target.value }))}
                             disabled={!enableInputs}
                             pt={{
-                                root: { className: TEXT_SIZE_NORMAL },
+                                root: { className: TEXT_NORMAL },
                             }}
                         />
                         <label htmlFor="fullname">Full Name</label>
@@ -134,7 +134,7 @@ export default function Basics() {
                                 onChange={(e) => setBasics((prev) => ({ ...prev, phone: e.value }))}
                                 disabled={!enableInputs}
                                 pt={{
-                                    root: { className: TEXT_SIZE_NORMAL },
+                                    root: { className: TEXT_NORMAL },
                                 }}
                             />
                             <label htmlFor="phone">Phone</label>
@@ -150,8 +150,8 @@ export default function Basics() {
                                 onChange={(e) => setBasics((prev) => ({ ...prev, branch_id: e.value?.id }))}
                                 disabled={!enableInputs}
                                 pt={{
-                                    input: { className: TEXT_SIZE_NORMAL },
-                                    item: { className: TEXT_SIZE_NORMAL },
+                                    input: { className: TEXT_NORMAL },
+                                    item: { className: TEXT_NORMAL },
                                 }}
                             />
                             <label htmlFor="branch">Branch</label>
@@ -168,7 +168,7 @@ export default function Basics() {
                             onChange={(e) => setBasics((prev) => ({ ...prev, address: e.target.value }))}
                             disabled={!enableInputs}
                             pt={{
-                                root: { className: TEXT_SIZE_NORMAL },
+                                root: { className: TEXT_NORMAL },
                             }}
                         />
                         <label htmlFor="address">Address</label>
@@ -222,8 +222,8 @@ export default function Basics() {
                     loading={updating}
                     disabled={!basics}
                     pt={{
-                        label: { className: TEXT_SIZE_NORMAL },
-                        icon: { className: TEXT_SIZE_NORMAL },
+                        label: { className: TEXT_NORMAL },
+                        icon: { className: TEXT_NORMAL },
                     }}
                 />
             </HasRequiredAuthority>

@@ -6,6 +6,7 @@ import DialogEditCouponCode from "./DialogEditCouponCode";
 import { useNavigate } from "react-router-dom";
 import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../../constants";
+import { TEXT_NORMAL, TEXT_SMALL } from "../../style";
 
 export default function CouponCode({ id, code, active, updated_at, setCouponCodes }) {
     const { requestAPI, showToast } = useAppContext();
@@ -50,12 +51,12 @@ export default function CouponCode({ id, code, active, updated_at, setCouponCode
                 }`}
         >
             <div className="flex flex-column flex-1 gap-2" onClick={() => navigate(`${id}/courses`)}>
-                <span className={`text-sm font-semibold `}>
+                <span className={`${TEXT_NORMAL} font-semibold`}>
                     {id}. {code}
                 </span>
                 <div className={`flex align-items-center gap-1 `}>
-                    <i className="pi pi-book text-sm"></i>
-                    <span className="m-0 p-0 text-xs">{`Last Updated At ${getReadableDate({ date: updated_at })}`}</span>
+                    <i className={`pi pi-book ${TEXT_NORMAL}`}></i>
+                    <span className={`m-0 p-0 ${TEXT_SMALL}`}>{`Last Updated At ${getReadableDate({ date: updated_at })}`}</span>
                 </div>
             </div>
 

@@ -7,6 +7,7 @@ import { classNames } from "primereact/utils";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import { useDispatch } from "react-redux";
 import { updateCurrentUser } from "../../redux/sliceUser";
+import { TEXT_NORMAL } from "../../style";
 
 export default function AskFullName({ id }) {
     const { requestAPI, showToast } = useAppContext();
@@ -47,7 +48,7 @@ export default function AskFullName({ id }) {
             className="m-2"
             pt={{ content: classNames("text-right") }}
         >
-            <p className="text-sm line-height-3">
+            <p className={`${TEXT_NORMAL} line-height-3`}>
                 In Order To Continue With Sahas Smart Studies App - User is Required To Submit The Full Name. Sahas Smart Studies Respect The Privacy & Stores
                 The Details For Internal Usage To Make User Expereice Better !
             </p>

@@ -7,7 +7,7 @@ import Loading from "../common/Loading";
 import NoContent from "../common/NoContent";
 import Authority from "./Authority";
 import SearchBar from "../manage_authorities/SearchBar";
-import { TITLE_TEXT } from "../../style";
+import { TEXT_TITLE } from "../../style";
 
 export default function DialogManageRoleAuthorities({ visible, roleId, closeDialog }) {
     const { requestAPI } = useAppContext();
@@ -47,7 +47,7 @@ export default function DialogManageRoleAuthorities({ visible, roleId, closeDial
             className="w-11"
             onHide={closeDialog}
             pt={{
-                headertitle: { className: TITLE_TEXT },
+                headertitle: { className: TEXT_TITLE },
                 content: { className: "overflow-scroll" },
             }}
         >

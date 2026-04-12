@@ -2,7 +2,7 @@ import { Avatar } from "primereact/avatar";
 import { Tag } from "primereact/tag";
 import { useNavigate } from "react-router-dom";
 import { EMPTY_VALUE } from "../../constants";
-import { TEXT_SIZE_NORMAL, TEXT_SIZE_SMALL } from "../../style";
+import { TEXT_BADGE, TEXT_NORMAL, TEXT_SMALL } from "../../style";
 
 export default function UserCard({ id, email, image, full_name, phone, active, inquiries }) {
     const navigate = useNavigate();
@@ -11,22 +11,22 @@ export default function UserCard({ id, email, image, full_name, phone, active, i
         <div onClick={() => navigate(`${id}/basics`)} className="bg-white border-round-md shadow-3 mb-2 flex p-3 align-items-center gap-4 relative" key={id}>
             <Avatar {...(image ? { image: image } : { icon: "pi pi-user" })} size="xlarge" shape="circle" />
             <div className="flex flex-column gap-1 flex-1">
-                <p className={`m-0 p-0 font-semibold ${TEXT_SIZE_NORMAL}`}>
+                <p className={`m-0 p-0 font-semibold ${TEXT_NORMAL}`}>
                     #{id}. {full_name || EMPTY_VALUE}
                 </p>
                 <div className="flex align-items-center gap-2 text-color-secondary">
-                    <i className={`pi pi-envelope ${TEXT_SIZE_SMALL}`}></i>
-                    <p className={`m-0 p-0 font-semibold ${TEXT_SIZE_SMALL}`}>{email}</p>
+                    <i className={`pi pi-envelope ${TEXT_SMALL}`}></i>
+                    <p className={`m-0 p-0 font-semibold ${TEXT_SMALL}`}>{email}</p>
                 </div>
                 <div className="flex align-items-center gap-2 text-color-secondary">
-                    <i className={`pi pi-phone ${TEXT_SIZE_SMALL}`}></i>
-                    <p className={`m-0 p-0 font-semibold ${TEXT_SIZE_SMALL}`}>{phone || EMPTY_VALUE}</p>
+                    <i className={`pi pi-phone ${TEXT_SMALL}`}></i>
+                    <p className={`m-0 p-0 font-semibold ${TEXT_SMALL}`}>{phone || EMPTY_VALUE}</p>
                 </div>
             </div>
             <i className="pi pi-angle-right"></i>
 
             {!!inquiries?.filter(({ active }) => active)?.length && (
-                <span className="absolute right-0 top-0 m-2 text-xs border-1 border-orange-500 border-round p-1 font-semibold text-orange-500">{`${inquiries?.length} Inquiries`}</span>
+                <span className={`absolute right-0 top-0 m-2 ${TEXT_BADGE} border-1 border-orange-500 border-round p-1 font-semibold text-orange-500`}>{`${inquiries?.length} Inquiries`}</span>
             )}
 
             {!active && <Tag className="top-0 right-0 absolute m-1" severity="danger" value="Inactive"></Tag>}

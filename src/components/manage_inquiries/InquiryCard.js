@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Detail from "../common/Detail";
 import { Divider } from "primereact/divider";
 import { getReadableDate } from "../../utils";
+import { TEXT_SMALL } from "../../style";
 
 export default function InquiryCard({ id, user_id, email, full_name, phone, active, course_id, branch_id, created_by_full_name, created_at }) {
     const navigate = useNavigate();
@@ -20,11 +21,11 @@ export default function InquiryCard({ id, user_id, email, full_name, phone, acti
                     <span>
                         {id}. {email}
                     </span>
-                    <div className="flex align-items-center text-xs gap-1">
+                    <div className={`flex align-items-center gap-1 ${TEXT_SMALL}`}>
                         <span className="pi pi-calendar" />
                         <span>{getReadableDate({ date: created_at })}</span>
                     </div>
-                    <div className="flex align-items-center text-xs gap-1">
+                    <div className={`flex align-items-center gap-1 ${TEXT_SMALL}`}>
                         <span className="pi pi-pen-to-square" />
                         <span>Created By {created_by_full_name}</span>
                     </div>

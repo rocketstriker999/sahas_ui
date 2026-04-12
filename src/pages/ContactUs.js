@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import Detail from "../components/common/Detail";
-import { ICON_SIZE, TEXT_SIZE_NORMAL } from "../style";
+import { ICON_SIZE, TEXT_NORMAL, TEXT_SMALL } from "../style";
 
 import PageTitle from "../components/common/PageTitle";
 import { Accordion, AccordionTab } from "primereact/accordion";
@@ -57,7 +57,7 @@ export default function ContactUs() {
                             header={
                                 <div className="flex align-items-center gap-2 w-full">
                                     <i className="pi pi-map-marker text-primary"></i>
-                                    <span className={`font-semibold ${TEXT_SIZE_NORMAL}`}>{branch.title}</span>
+                                    <span className={`font-semibold ${TEXT_NORMAL}`}>{branch.title}</span>
                                 </div>
                             }
                         >
@@ -108,7 +108,7 @@ export default function ContactUs() {
                             </a>
                         ))}
                     </div>
-                    <p className="text-center font-semibold text-center text-xs m-1 text-color-secondary">Social Media</p>
+                    <p className={`text-center font-semibold text-center m-1 text-color-secondary ${TEXT_SMALL}`}>Social Media</p>
                 </div>
             </div>
         </div>

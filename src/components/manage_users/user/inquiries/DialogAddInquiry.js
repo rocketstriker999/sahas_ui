@@ -7,7 +7,7 @@ import { useCallback, useState } from "react";
 import TabHeader from "../../../common/TabHeader";
 import { useAppContext } from "../../../../providers/ProviderAppContainer";
 import { useOutletContext } from "react-router-dom";
-import { TEXT_SIZE_NORMAL, TITLE_TEXT } from "../../../../style";
+import { TEXT_NORMAL, TEXT_TITLE } from "../../../../style";
 import HasRequiredAuthority from "../../../dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../../../../constants";
 
@@ -46,7 +46,7 @@ export default function DialogAddInquiry({ visible, setVisible, setInquiries }) 
             className="w-11"
             onHide={() => setVisible(false)}
             pt={{
-                headertitle: { className: TITLE_TEXT },
+                headertitle: { className: TEXT_TITLE },
                 content: { className: "overflow-visible" },
             }}
         >
@@ -66,8 +66,8 @@ export default function DialogAddInquiry({ visible, setVisible, setInquiries }) 
                     onChange={(e) => setInquiry((prev) => ({ ...prev, branch_id: e.value?.id }))}
                     disabled={loading}
                     pt={{
-                        input: { className: TEXT_SIZE_NORMAL },
-                        item: { className: TEXT_SIZE_NORMAL },
+                        input: { className: TEXT_NORMAL },
+                        item: { className: TEXT_NORMAL },
                     }}
                 />
                 <label htmlFor="branch">Branch</label>
@@ -83,8 +83,8 @@ export default function DialogAddInquiry({ visible, setVisible, setInquiries }) 
                     onChange={(e) => setInquiry((prev) => ({ ...prev, course_id: e.value?.id }))}
                     disabled={loading}
                     pt={{
-                        input: { className: TEXT_SIZE_NORMAL },
-                        item: { className: TEXT_SIZE_NORMAL },
+                        input: { className: TEXT_NORMAL },
+                        item: { className: TEXT_NORMAL },
                     }}
                 />
                 <label htmlFor="course">Course</label>
@@ -100,7 +100,7 @@ export default function DialogAddInquiry({ visible, setVisible, setInquiries }) 
                     onChange={(e) => setInquiry((prev) => ({ ...prev, note: e.target.value }))}
                     disabled={loading}
                     pt={{
-                        root: { className: TEXT_SIZE_NORMAL },
+                        root: { className: TEXT_NORMAL },
                     }}
                 />
                 <label htmlFor="note">Note</label>
@@ -113,8 +113,8 @@ export default function DialogAddInquiry({ visible, setVisible, setInquiries }) 
                     loading={loading}
                     onClick={addInquiry}
                     pt={{
-                        label: { className: TEXT_SIZE_NORMAL },
-                        icon: { className: TEXT_SIZE_NORMAL },
+                        label: { className: TEXT_NORMAL },
+                        icon: { className: TEXT_NORMAL },
                     }}
                 />
             </HasRequiredAuthority>

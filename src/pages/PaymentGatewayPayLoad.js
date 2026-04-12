@@ -32,7 +32,7 @@ export default function PaymentGatewayPayLoad() {
     }, [paymentGatewayPayloadId, requestAPI]);
 
     return (
-        <div className="flex flex-column h-full justify-content-center p-4 bg-blue-500">
+        <div className="flex flex-column h-full justify-content-center p-4 surface-ground text-color">
             {loading ? (
                 <Loading message="Loading Payment Status" />
             ) : error ? (

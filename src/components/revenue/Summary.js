@@ -6,6 +6,7 @@ import Detail from "../common/Detail";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import Loading from "../common/Loading";
+import { TEXT_BADGE } from "../../style";
 
 export default function Summary({ dates, setDates }) {
     const { requestAPI, showToast } = useAppContext();
@@ -42,7 +43,7 @@ export default function Summary({ dates, setDates }) {
                     pt={{
                         input: {
                             root: {
-                                className: classNames("bg-orange-500 text-xs text-white font-semibold border-1 border-orange-600 p-2 text-center"),
+                                className: classNames("bg-orange-500 text-white font-semibold border-1 border-orange-600 p-2 text-center", TEXT_BADGE),
                             },
                         },
                     }}
@@ -61,7 +62,7 @@ export default function Summary({ dates, setDates }) {
             </div>
             <div className="px-2 mt-1 flex justify-content-around  ">
                 <Detail
-                    className={"border-1 border-blue-300 border-round p-2 bg-blue-100"}
+                    className={"border-1 border-primary border-round p-2 bg-primary-50"}
                     icon={"pi pi-money-bill"}
                     title="Total"
                     value={`${summary?.total}${RUPEE}`}

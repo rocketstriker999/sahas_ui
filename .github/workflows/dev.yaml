@@ -4,6 +4,7 @@ on:
     push:
         branches:
             - dev
+            - ui_enhancement 
 
 jobs:
     deploy:

@@ -6,7 +6,7 @@ import { useCallback, useState } from "react";
 import TabHeader from "../../../common/TabHeader";
 import { useAppContext } from "../../../../providers/ProviderAppContainer";
 import { useOutletContext } from "react-router-dom";
-import { TEXT_SIZE_SMALL, TEXT_SIZE_NORMAL, TITLE_TEXT } from "../../../../style";
+import { TEXT_SMALL, TEXT_NORMAL, TEXT_TITLE } from "../../../../style";
 import HasRequiredAuthority from "../../../dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../../../../constants";
 
@@ -45,7 +45,7 @@ export default function DialogAddCourse({ visible, enrollment_id, enrolledCourse
             className="w-11"
             onHide={closeDialog}
             pt={{
-                headertitle: { className: TITLE_TEXT },
+                headertitle: { className: TEXT_TITLE },
                 content: { className: "overflow-visible" },
             }}
         >
@@ -65,11 +65,11 @@ export default function DialogAddCourse({ visible, enrollment_id, enrolledCourse
                     onChange={(e) => setCourseId(e.value?.id)}
                     disabled={loading}
                     pt={{
-                        input: { className: TEXT_SIZE_NORMAL },
-                        item: { className: TEXT_SIZE_NORMAL },
+                        input: { className: TEXT_NORMAL },
+                        item: { className: TEXT_NORMAL },
                     }}
                 />
-                <label htmlFor="courses" className={`${TEXT_SIZE_SMALL}`}>
+                <label htmlFor="courses" className={`${TEXT_SMALL}`}>
                     Courses
                 </label>
             </FloatLabel>
@@ -82,8 +82,8 @@ export default function DialogAddCourse({ visible, enrollment_id, enrolledCourse
                     loading={loading}
                     onClick={addInquiry}
                     pt={{
-                        label: { className: TEXT_SIZE_NORMAL },
-                        icon: { className: TEXT_SIZE_NORMAL },
+                        label: { className: TEXT_NORMAL },
+                        icon: { className: TEXT_NORMAL },
                     }}
                 />
             </HasRequiredAuthority>
