@@ -1,5 +1,5 @@
 import { getReadableDate } from "../../utils";
-import { TEXT_SIZE_NORMAL, TEXT_SIZE_SMALL } from "../../style";
+import { TEXT_NORMAL, TEXT_SMALL } from "../../style";
 import ProgressiveControl from "../common/ProgressiveControl";
 import { Button } from "primereact/button";
 import { useCallback, useState } from "react";
@@ -32,12 +32,12 @@ export default function PolicyHead({ id, title, updated_at, description, setPoli
     return (
         <div className="flex align-items-center">
             <div className="flex-1 flex flex-column gap-2 align-items-start">
-                <p className={`m-0 p-0 ${TEXT_SIZE_NORMAL}`}>
+                <p className={`m-0 p-0 ${TEXT_NORMAL}`}>
                     {id}. {title}
                 </p>
                 {updated_at && (
-                    <p className={`${TEXT_SIZE_SMALL} m-0 p-0 font-medium text-color-secondary`}>
-                        <i className={`${TEXT_SIZE_SMALL} pi pi-calendar`}></i> Updated at {getReadableDate({ date: updated_at })}
+                    <p className={`${TEXT_SMALL} m-0 p-0 font-medium text-color-secondary`}>
+                        <i className={`${TEXT_SMALL} pi pi-calendar`}></i> Updated at {getReadableDate({ date: updated_at })}
                     </p>
                 )}
             </div>

@@ -8,6 +8,7 @@ import DialogAddMedia from "./DialogAddMedia";
 import { getViewIndex } from "../../utils";
 import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../../constants";
+import { TEXT_BADGE } from "../../style";
 
 export default function ChapterHead({ setLoading, setError, mediaCatalogue, setMediaCatalogue, updatingViewIndex, setUpdatingViewIndex }) {
     const { chapterId } = useParams();
@@ -75,7 +76,10 @@ export default function ChapterHead({ setLoading, setError, mediaCatalogue, setM
         <div>
             <div className="flex align-items-center bg-gray-800 p-2 gap-2 justify-content-end">
                 <BreadCrumb
-                    pt={{ root: classNames("font-bold text-xs border-noround bg-transparent border-none flex-1"), label: classNames("text-white") }}
+                    pt={{
+                        root: classNames("font-bold border-noround bg-transparent border-none flex-1", TEXT_BADGE),
+                        label: classNames("text-white"),
+                    }}
                     model={items}
                 />
                 <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_MEDIA}>

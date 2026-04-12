@@ -5,7 +5,7 @@ import { InputTextarea } from "primereact/inputtextarea";
 import { useCallback, useState } from "react";
 import { useAppContext } from "../../../../providers/ProviderAppContainer";
 import { useOutletContext } from "react-router-dom";
-import { TEXT_SIZE_NORMAL, TITLE_TEXT } from "../../../../style";
+import { TEXT_NORMAL, TEXT_TITLE } from "../../../../style";
 import HasRequiredAuthority from "../../../dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../../../../constants";
 
@@ -44,7 +44,7 @@ export default function DialogAddGlobalNote({ visible, closeDialog, setGlobalNot
             className="w-11"
             onHide={closeDialog}
             pt={{
-                headertitle: { className: TITLE_TEXT },
+                headertitle: { className: TEXT_TITLE },
                 content: { className: "overflow-visible" },
             }}
         >
@@ -58,7 +58,7 @@ export default function DialogAddGlobalNote({ visible, closeDialog, setGlobalNot
                     onChange={(e) => setNote((prev) => ({ ...prev, note: e.target.value }))}
                     disabled={loading}
                     pt={{
-                        root: { className: TEXT_SIZE_NORMAL },
+                        root: { className: TEXT_NORMAL },
                     }}
                 />
                 <label htmlFor="note">Note</label>
@@ -71,8 +71,8 @@ export default function DialogAddGlobalNote({ visible, closeDialog, setGlobalNot
                     loading={loading}
                     onClick={addNote}
                     pt={{
-                        label: { className: TEXT_SIZE_NORMAL },
-                        icon: { className: TEXT_SIZE_NORMAL },
+                        label: { className: TEXT_NORMAL },
+                        icon: { className: TEXT_NORMAL },
                     }}
                 />
             </HasRequiredAuthority>

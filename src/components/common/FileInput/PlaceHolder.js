@@ -3,6 +3,7 @@ import Loading from "../Loading";
 import { getFileAcceptType, uploadMedia } from "../../../utils";
 
 import { useAppContext } from "../../../providers/ProviderAppContainer";
+import { ICON_SIZE, TEXT_NORMAL } from "../../../style";
 
 export default function PlaceHolder({ label, type, setCDNUrl, setPreview, disabled }) {
     const fileInputRef = useRef(null);
@@ -50,8 +51,8 @@ export default function PlaceHolder({ label, type, setCDNUrl, setPreview, disabl
                 }
             }}
         >
-            <i className="pi pi-cloud-upload border-circle bg-gray-200 text-gray-500 p-4 text-3xl"></i>
-            <span className="text-sm text-gray-500">Select {label}</span>
+            <i className={`pi pi-cloud-upload border-circle bg-gray-200 text-gray-500 p-4 ${ICON_SIZE}`}></i>
+            <span className={`${TEXT_NORMAL} text-gray-500`}>Select {label}</span>
             {!disabled && <input type="file" ref={fileInputRef} onChange={onFileSelected} accept={getFileAcceptType(type)} style={{ display: "none" }} />}
         </div>
     );

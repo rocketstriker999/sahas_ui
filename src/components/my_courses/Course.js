@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { TEXT_BADGE, TEXT_NORMAL, TEXT_SMALL } from "../../style";
 
 export default function Course({ id, title, description, image }) {
     const navigate = useNavigate();
@@ -8,12 +9,12 @@ export default function Course({ id, title, description, image }) {
             <img className="w-full h-8rem" src={image} alt={title} />
 
             <div className="flex align-items-center mt-1 px-3 gap-3">
-                <span className="text-sm font-semibold text-indigo-800 flex-1">
-                    <i className="pi text-xs pi-circle-fill"></i> {title}
+                <span className={`${TEXT_NORMAL} font-semibold text-indigo-800 flex-1`}>
+                    <i className={`pi ${TEXT_BADGE} pi-circle-fill`}></i> {title}
                 </span>
             </div>
 
-            <span className="text-xs px-3">{description}</span>
+            <span className={`${TEXT_SMALL} px-3`}>{description}</span>
         </div>
     );
 }

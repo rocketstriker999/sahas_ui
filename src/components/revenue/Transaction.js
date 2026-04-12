@@ -6,6 +6,7 @@ import CheckboxInput from "../common/CheckBoxInput";
 import { useCallback, useState } from "react";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import ProgressiveControl from "../common/ProgressiveControl";
+import { TEXT_BADGE, TEXT_NORMAL, TEXT_SMALL } from "../../style";
 
 export default function Transaction({
     id,
@@ -59,7 +60,7 @@ export default function Transaction({
                     </span>
                     {handler && <Tag value={handler}></Tag>}
                     {courses?.map(({ title }) => (
-                        <span key={title} className="text-xs text-color-secondary">
+                        <span key={title} className={`${TEXT_SMALL} text-color-secondary`}>
                             {title}
                         </span>
                     ))}
@@ -71,14 +72,14 @@ export default function Transaction({
                         {RUPEE}
                     </span>
                     <div className="flex gap-2">
-                        <span className="border-1 text-xs px-1 border-orange-800 bg-orange-300 border-round text-orange-800 p-1">{type}</span>
-                        <span className="border-1 text-xs px-1 border-blue-800 bg-blue-300 border-round text-blue-800 p-1">
+                        <span className={`border-1 ${TEXT_BADGE} px-1 border-orange-800 bg-orange-300 border-round text-orange-800 p-1`}>{type}</span>
+                        <span className={`border-1 ${TEXT_BADGE} px-1 border-primary bg-primary-100 border-round text-primary-800 p-1`}>
                             By {user_id === created_by_id ? "Self" : created_by_full_name}
                         </span>
                     </div>
                     <div className="flex align-items-center gap-1 text-color-secondary">
                         <span className="pi pi-calendar"></span>
-                        <span className="text-xs ">{getReadableDate({ date: created_on })}</span>
+                        <span className={TEXT_SMALL}>{getReadableDate({ date: created_on })}</span>
                     </div>
                 </div>
             </div>
@@ -88,7 +89,7 @@ export default function Transaction({
                     <CheckboxInput
                         checked={!!manually_verified}
                         onChange={updateTransactionManualVerification}
-                        className={"text-sm text-gray-900 font-semibold mb-1 mx-1 border-0"}
+                        className={`${TEXT_NORMAL} text-gray-900 font-semibold mb-1 mx-1 border-0`}
                         label={"Manually Verified"}
                     />
                 }

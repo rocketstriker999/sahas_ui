@@ -5,7 +5,7 @@ import { Card } from "primereact/card";
 import { APP_NAME } from "../../constants";
 import { useState } from "react";
 import Error from "../common/Error";
-import { TEXT_SIZE_NORMAL, TITLE_TEXT } from "../../style";
+import { TEXT_NORMAL, TEXT_TITLE } from "../../style";
 import { classNames } from "primereact/utils";
 
 export default function CardInputEmail({ email, setEmail, requestOTP }) {
@@ -20,13 +20,13 @@ export default function CardInputEmail({ email, setEmail, requestOTP }) {
                     title={APP_NAME}
                     className="mt-4"
                     pt={{
-                        title: { className: classNames(TITLE_TEXT, "text-center") },
+                        title: { className: classNames(TEXT_TITLE, "text-center") },
                         content: { className: "pb-0" },
                     }}
                 >
                     <div className="flex flex-column align-items-center text-center w-full">
                         <Avatar icon="pi pi-user" size="large" shape="circle" />
-                        <p className={`p-0 m-0 font-semibold mt-2 ${TEXT_SIZE_NORMAL}`}>Verify Your User Credentials To Continue</p>
+                        <p className={`p-0 m-0 font-semibold mt-2 ${TEXT_NORMAL}`}>Verify Your User Credentials To Continue</p>
 
                         <div className="p-inputgroup mt-3 w-full">
                             <span className="p-inputgroup-addon">
@@ -40,7 +40,7 @@ export default function CardInputEmail({ email, setEmail, requestOTP }) {
                                 onInput={(e) => setEmail(e.target.value)}
                                 invalid={error}
                                 pt={{
-                                    root: { className: TEXT_SIZE_NORMAL },
+                                    root: { className: TEXT_NORMAL },
                                 }}
                             />
                         </div>
@@ -55,8 +55,8 @@ export default function CardInputEmail({ email, setEmail, requestOTP }) {
                             disabled={loading}
                             loading={loading}
                             pt={{
-                                label: { className: TEXT_SIZE_NORMAL },
-                                icon: { className: TEXT_SIZE_NORMAL },
+                                label: { className: TEXT_NORMAL },
+                                icon: { className: TEXT_NORMAL },
                             }}
                         />
                     </div>

@@ -1,6 +1,6 @@
 import { getReadableDate } from "../../../../utils";
 import { Tag } from "primereact/tag";
-import { TEXT_SIZE_NORMAL, TEXT_SIZE_SMALL } from "../../../../style";
+import { TEXT_NORMAL, TEXT_SMALL } from "../../../../style";
 import IconButton from "../../../common/IconButton";
 import { useCallback, useState } from "react";
 import { useAppContext } from "../../../../providers/ProviderAppContainer";
@@ -51,13 +51,13 @@ export default function EnrollmentHead({
         <div>
             <div className="flex justify-content-between align-items-center gap-2">
                 <div className=" flex flex-column gap-2 align-items-start">
-                    <span className={`${TEXT_SIZE_NORMAL}`}>
-                        <i className={`${TEXT_SIZE_SMALL} pi pi-calendar`}></i> {getReadableDate({ date: created_on })}
+                    <span className={`${TEXT_NORMAL}`}>
+                        <i className={`${TEXT_SMALL} pi pi-calendar`}></i> {getReadableDate({ date: created_on })}
                     </span>
-                    <span className={`${TEXT_SIZE_SMALL} font-medium text-color-secondary`}>
+                    <span className={`${TEXT_SMALL} font-medium text-color-secondary`}>
                         {index}. By {created_by_full_name}
                     </span>
-                    <span className={`${TEXT_SIZE_SMALL} font-medium text-color-secondary font-semibold`}>{handler}</span>
+                    <span className={`${TEXT_SMALL} font-medium text-color-secondary font-semibold`}>{handler}</span>
                 </div>
 
                 <div className="flex flex-column gap-2">
@@ -66,8 +66,8 @@ export default function EnrollmentHead({
                         severity={!!on_site_access ? "success" : "danger"}
                         value={!!on_site_access ? "On-Site Access" : "No On-Site Access"}
                         pt={{
-                            icon: { className: TEXT_SIZE_SMALL },
-                            value: { className: TEXT_SIZE_SMALL },
+                            icon: { className: TEXT_SMALL },
+                            value: { className: TEXT_SMALL },
                         }}
                     />
                     <Tag
@@ -75,8 +75,8 @@ export default function EnrollmentHead({
                         severity={!!digital_access ? "success" : "danger"}
                         value={!!digital_access ? "Digital Access" : "No Digital Access"}
                         pt={{
-                            icon: { className: TEXT_SIZE_SMALL },
-                            value: { className: TEXT_SIZE_SMALL },
+                            icon: { className: TEXT_SMALL },
+                            value: { className: TEXT_SMALL },
                         }}
                     />
                 </div>
@@ -116,11 +116,11 @@ export default function EnrollmentHead({
             {(!!note || !!courses?.length) && (
                 <div>
                     <Divider className="my-3 w-full" />
-                    {note && <li className="text-xs text-color-secondary flex-1 font-light">{note}</li>}
+                    {note && <li className={`${TEXT_SMALL} text-color-secondary flex-1 font-light`}>{note}</li>}
                     {!!courses?.length ? (
                         <div className="flex flex-wrap mt-2 gap-2">
                             {courses?.map((course) => (
-                                <span className="p-1 text-xs text-color-secondary border-round border-1 border-gray-300 text-light">{course}</span>
+                                <span className={`p-1 ${TEXT_SMALL} text-color-secondary border-round border-1 border-gray-300 text-light`}>{course}</span>
                             ))}
                         </div>
                     ) : (

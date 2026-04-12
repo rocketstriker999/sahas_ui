@@ -9,7 +9,7 @@ import Download from "../components/manage_users/users/Dowload";
 import Loading from "../components/common/Loading";
 import NoContent from "../components/common/NoContent";
 import { Paginator } from "primereact/paginator";
-import { TEXT_SIZE_SMALL } from "../style";
+import { TEXT_SMALL } from "../style";
 import FiltersDrawer from "../components/manage_users/users/FiltersDrawer";
 import SearchBar from "../components/common/SearchBar";
 import InquiryCard from "../components/manage_inquiries/InquiryCard";
@@ -111,7 +111,7 @@ export default function ManageInquiries() {
                                 template={{
                                     layout: "FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink",
                                     CurrentPageReport: (options) => (
-                                        <span className={`text-center w-8rem ${TEXT_SIZE_SMALL}`}>
+                                        <span className={`text-center w-8rem ${TEXT_SMALL}`}>
                                             {options.first} - {options.last} of {options.totalRecords}
                                         </span>
                                     ),

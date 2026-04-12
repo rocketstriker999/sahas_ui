@@ -10,7 +10,7 @@ import { getWriteableDate } from "../../../../utils";
 import { useOutletContext } from "react-router-dom";
 import { MultiSelect } from "primereact/multiselect";
 import { Checkbox } from "primereact/checkbox";
-import { TITLE_TEXT, TEXT_SIZE_SMALL } from "../../../../style";
+import { TEXT_TITLE, TEXT_SMALL } from "../../../../style";
 import { useSelector } from "react-redux";
 import { Dropdown } from "primereact/dropdown";
 import HasRequiredAuthority from "../../../dependencies/HasRequiredAuthority";
@@ -58,7 +58,7 @@ export default function DialogAddEnrollment({ visible, closeDialog, setEnrollmen
             className="w-11"
             onHide={closeDialog}
             pt={{
-                headertitle: { className: TITLE_TEXT },
+                headertitle: { className: TEXT_TITLE },
                 content: { className: "overflow-scroll" },
             }}
         >
@@ -78,11 +78,11 @@ export default function DialogAddEnrollment({ visible, closeDialog, setEnrollmen
                     onChange={(e) => setEnrollment((prev) => ({ ...prev, courses: e.value }))}
                     disabled={loading}
                     pt={{
-                        label: { className: TEXT_SIZE_SMALL },
-                        item: { className: TEXT_SIZE_SMALL },
+                        label: { className: TEXT_SMALL },
+                        item: { className: TEXT_SMALL },
                     }}
                 />
-                <label htmlFor="courses" className={`${TEXT_SIZE_SMALL}`}>
+                <label htmlFor="courses" className={`${TEXT_SMALL}`}>
                     Courses
                 </label>
             </FloatLabel>
@@ -95,11 +95,11 @@ export default function DialogAddEnrollment({ visible, closeDialog, setEnrollmen
                     options={enrollmentHandlers}
                     className="w-full "
                     pt={{
-                        label: { className: TEXT_SIZE_SMALL },
-                        item: { className: TEXT_SIZE_SMALL },
+                        label: { className: TEXT_SMALL },
+                        item: { className: TEXT_SMALL },
                     }}
                 />
-                <label htmlFor="courses" className={`${TEXT_SIZE_SMALL}`}>
+                <label htmlFor="courses" className={`${TEXT_SMALL}`}>
                     Transactions Handler
                 </label>
             </FloatLabel>
@@ -115,7 +115,7 @@ export default function DialogAddEnrollment({ visible, closeDialog, setEnrollmen
                     showTime={false}
                     showIcon
                 />
-                <label htmlFor="start_date" className={`${TEXT_SIZE_SMALL}`}>
+                <label htmlFor="start_date" className={`${TEXT_SMALL}`}>
                     Start Date
                 </label>
             </FloatLabel>
@@ -131,7 +131,7 @@ export default function DialogAddEnrollment({ visible, closeDialog, setEnrollmen
                     showTime={false}
                     showIcon
                 />
-                <label htmlFor="end_date" className={`${TEXT_SIZE_SMALL}`}>
+                <label htmlFor="end_date" className={`${TEXT_SMALL}`}>
                     End Date
                 </label>
             </FloatLabel>
@@ -143,17 +143,17 @@ export default function DialogAddEnrollment({ visible, closeDialog, setEnrollmen
                     className="w-full"
                     onChange={(e) => setEnrollment((prev) => ({ ...prev, amount: e.value }))}
                     pt={{
-                        root: { className: TEXT_SIZE_SMALL },
+                        root: { className: TEXT_SMALL },
                     }}
                 />
-                <label htmlFor="amount" className={`${TEXT_SIZE_SMALL}`}>
+                <label htmlFor="amount" className={`${TEXT_SMALL}`}>
                     Total Amount
                 </label>
             </FloatLabel>
 
             <div className="border-1 border-round border-gray-300 p-3 flex justify-content-between align-items-center mt-3 gap-3">
                 <div className="flex align-items-center gap-2">
-                    <label htmlFor="on_site_access" className={`${TEXT_SIZE_SMALL}`}>
+                    <label htmlFor="on_site_access" className={`${TEXT_SMALL}`}>
                         On Site Access
                     </label>
                     <Checkbox
@@ -164,7 +164,7 @@ export default function DialogAddEnrollment({ visible, closeDialog, setEnrollmen
                 </div>
 
                 <div className="flex align-items-center gap-2">
-                    <label htmlFor="digital_access" className={`${TEXT_SIZE_SMALL}`}>
+                    <label htmlFor="digital_access" className={`${TEXT_SMALL}`}>
                         Digital Access
                     </label>
                     <Checkbox
@@ -184,7 +184,7 @@ export default function DialogAddEnrollment({ visible, closeDialog, setEnrollmen
                     loading={loading}
                     onClick={addTransaction}
                     pt={{
-                        label: { className: TEXT_SIZE_SMALL },
+                        label: { className: TEXT_SMALL },
                     }}
                 />
           
@@ -209,7 +209,7 @@ export default function DialogAddEnrollment({ visible, closeDialog, setEnrollmen
                 loading={loading}
                 onClick={addTransaction}
                 pt={{
-                    label: { className: TEXT_SIZE_SMALL },
+                    label: { className: TEXT_SMALL },
                 }}
             />
               </HasRequiredAuthority>

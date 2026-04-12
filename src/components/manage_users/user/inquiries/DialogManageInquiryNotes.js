@@ -6,7 +6,7 @@ import { useOutletContext } from "react-router-dom";
 import CardInputNote from "./CardInputNote";
 import { useAppContext } from "../../../../providers/ProviderAppContainer";
 import Notes from "./Notes";
-import { TITLE_TEXT } from "../../../../style";
+import { TEXT_TITLE } from "../../../../style";
 
 export default function DialogManageInquiryNotes({ visible, closeDialog, course_id, inquiry_id, setNotesCount }) {
     const { getCourseTitle } = useOutletContext();
@@ -43,7 +43,7 @@ export default function DialogManageInquiryNotes({ visible, closeDialog, course_
             className="w-11"
             onHide={closeDialog}
             pt={{
-                headertitle: { className: TITLE_TEXT },
+                headertitle: { className: TEXT_TITLE },
                 content: { className: "overflow-visible" }
             }}
         >

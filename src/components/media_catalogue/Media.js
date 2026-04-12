@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import IconButton from "../common/IconButton";
 import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../../constants";
+import { TEXT_NORMAL, TEXT_SMALL } from "../../style";
 
 export default function Media({ id, title, setMediaCatalogue, type, external_url, cdn_url, downloadable, updatingViewIndex, updated_at }) {
     const { requestAPI, showToast } = useAppContext();
@@ -62,10 +63,10 @@ export default function Media({ id, title, setMediaCatalogue, type, external_url
     return (
         <div className={`flex gap-3 align-items-center border-1 border-gray-300 border-round py-2 px-3 overflow-hidden `}>
             <div onClick={() => navigate(`/media-player/${id}`)} className="flex flex-column flex-1 gap-2">
-                <span className={`text-sm font-semibold `}>{title}</span>
+                <span className={`${TEXT_NORMAL} font-semibold`}>{title}</span>
                 <div className={`flex align-items-center gap-1 `}>
-                    <i className={`${mediaTypeIcon} text-sm`}></i>
-                    <span className="m-0 p-0 text-xs">{`Last Updated At ${getReadableDate({ date: updated_at })}`}</span>
+                    <i className={`${mediaTypeIcon} ${TEXT_NORMAL}`}></i>
+                    <span className={`m-0 p-0 ${TEXT_SMALL}`}>{`Last Updated At ${getReadableDate({ date: updated_at })}`}</span>
                 </div>
             </div>
             {!updatingViewIndex && !!external_url && (

@@ -10,7 +10,7 @@ import { InputNumber } from "primereact/inputnumber";
 import { RUPEE } from "../../../../constants";
 import { InputTextarea } from "primereact/inputtextarea";
 import { useOutletContext } from "react-router-dom";
-import { TEXT_SIZE_SMALL, TITLE_TEXT, TEXT_SIZE_NORMAL } from "../../../../style";
+import { TEXT_SMALL, TEXT_TITLE, TEXT_NORMAL } from "../../../../style";
 import HasRequiredAuthority from "../../../dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../../../../constants";
 
@@ -52,7 +52,7 @@ export default function DialogAddTransaction({ setWalletTransActions, currentBal
     return (
         <Dialog header={"Add New Transaction"} visible={visible} className="w-11" onHide={closeDialog}
             pt={{
-                headertitle: { className: TITLE_TEXT },
+                headertitle: { className: TEXT_TITLE },
                 content: { className: "overflow-visible" }
             }}>
             <TabHeader
@@ -68,7 +68,7 @@ export default function DialogAddTransaction({ setWalletTransActions, currentBal
                     onChange={(e) => setTransaction((prev) => ({ ...prev, operation: e.value }))}
                     options={["Credit", "Withdraw"]}
                     pt={{
-                        label: { className: TEXT_SIZE_SMALL },
+                        label: { className: TEXT_SMALL },
                     }}
                 />
             </div>
@@ -86,7 +86,7 @@ export default function DialogAddTransaction({ setWalletTransActions, currentBal
                             }))
                         }
                         pt={{
-                            root: { className: TEXT_SIZE_SMALL },
+                            root: { className: TEXT_SMALL },
                         }}
                     />
                     <span className="p-inputgroup-addon">{RUPEE}</span>
@@ -104,16 +104,16 @@ export default function DialogAddTransaction({ setWalletTransActions, currentBal
                     className="w-full"
                     onChange={(e) => setTransaction((prev) => ({ ...prev, note: e.target.value }))}
                     pt={{
-                        root: { className: TEXT_SIZE_NORMAL },
+                        root: { className: TEXT_NORMAL },
                     }}
                 />
-                <label htmlFor="note" className={`${TEXT_SIZE_SMALL}`}>Note</label>
+                <label htmlFor="note" className={`${TEXT_SMALL}`}>Note</label>
             </FloatLabel>
 
             <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_WALLET_TRANSACTION}>
                 <Button className="mt-3" label={"Apply"} disabled={!transaction?.operation} severity="warning" loading={loading} onClick={addTransaction}
                     pt={{
-                        label: { className: TEXT_SIZE_SMALL },
+                        label: { className: TEXT_SMALL },
                     }} />
             </HasRequiredAuthority>
         </Dialog>

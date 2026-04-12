@@ -5,6 +5,7 @@ import { saveAs } from "file-saver";
 import { Button } from "primereact/button";
 import { pdfjs } from "react-pdf";
 import NoContent from "../common/NoContent";
+import { TEXT_BADGE } from "../../style";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.worker.min.js`;
 
@@ -103,14 +104,14 @@ export default function PDFPlayer({ cdn_url, title, downloadable }) {
 
     return cdn_url ? (
         <div id="pdf-container" ref={containerRef}>
-            <div className="flex align-items-center justify-content-center bg-blue-800 text-white">
+            <div className="flex align-items-center justify-content-center bg-primary">
                 <Button
                     icon="pi pi-angle-left"
                     className="p-button-rounded p-button-text text-white"
                     onClick={() => navigatePage(-1)}
                     disabled={currentPage <= 1}
                 />
-                <span className="text-xs  font-semibold">
+                <span className={`${TEXT_BADGE} font-semibold`}>
                     {currentPage}/{numPages}
                 </span>
                 <Button

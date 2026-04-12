@@ -8,7 +8,7 @@ import { FloatLabel } from "primereact/floatlabel";
 import { InputText } from "primereact/inputtext";
 import { useDispatch } from "react-redux";
 import { addCarouselImage } from "../../redux/sliceTemplateConfig";
-import { TEXT_SIZE_NORMAL, TITLE_TEXT } from "../../style";
+import { TEXT_NORMAL, TEXT_TITLE } from "../../style";
 import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../../constants";
 
@@ -45,7 +45,7 @@ export default function DialogAddCarouselItem({ visible, closeDialog }) {
             className="w-11"
             onHide={closeDialog}
             pt={{
-                headertitle: { className: TITLE_TEXT },
+                headertitle: { className: TEXT_TITLE },
                 content: { className: "overflow-visible" },
             }}
         >
@@ -72,10 +72,10 @@ export default function DialogAddCarouselItem({ visible, closeDialog }) {
                     onChange={(e) => setCarouselImage((prev) => ({ ...prev, click_link: e.target.value }))}
                     disabled={loading}
                     pt={{
-                        root: { className: TEXT_SIZE_NORMAL },
+                        root: { className: TEXT_NORMAL },
                     }}
                 />
-                <label htmlFor="click_link" className={`${TEXT_SIZE_NORMAL}`}>
+                <label htmlFor="click_link" className={`${TEXT_NORMAL}`}>
                     Action URL
                 </label>
             </FloatLabel>
@@ -88,7 +88,7 @@ export default function DialogAddCarouselItem({ visible, closeDialog }) {
                     loading={loading}
                     onClick={addCarouselItem}
                     pt={{
-                        label: { className: TEXT_SIZE_NORMAL },
+                        label: { className: TEXT_NORMAL },
                     }}
                 />
             </HasRequiredAuthority>

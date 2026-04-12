@@ -2,7 +2,7 @@ import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { useState } from "react";
 import { Badge } from "primereact/badge";
-import { TEXT_SIZE_NORMAL } from "../../style";
+import { TEXT_NORMAL } from "../../style";
 
 export default function SearchBar({ disable, setFiltersDrawerVisibility, setSearchQuery, countAppliedFilters, className }) {
     const [search, setSearch] = useState("");
@@ -18,7 +18,7 @@ export default function SearchBar({ disable, setFiltersDrawerVisibility, setSear
                     onClick={() => setFiltersDrawerVisibility(true)}
                     disabled={disable}
                     pt={{
-                        icon: { className: TEXT_SIZE_NORMAL },
+                        icon: { className: TEXT_NORMAL },
                     }}
                 />
 
@@ -28,7 +28,7 @@ export default function SearchBar({ disable, setFiltersDrawerVisibility, setSear
                     onChange={(e) => setSearch(e.target.value)}
                     disabled={disable}
                     pt={{
-                        root: { className: TEXT_SIZE_NORMAL },
+                        root: { className: TEXT_NORMAL },
                     }}
                 />
                 <Button
@@ -37,7 +37,7 @@ export default function SearchBar({ disable, setFiltersDrawerVisibility, setSear
                     disabled={!search || disable}
                     onClick={() => setSearchQuery((prev) => ({ ...prev, search }))}
                     pt={{
-                        icon: { className: TEXT_SIZE_NORMAL },
+                        icon: { className: TEXT_NORMAL },
                     }}
                 />
 
@@ -51,7 +51,7 @@ export default function SearchBar({ disable, setFiltersDrawerVisibility, setSear
                             setSearchQuery((prev) => ({ ...prev, search: "", offSet: 0 }));
                         }}
                         pt={{
-                            icon: { className: TEXT_SIZE_NORMAL },
+                            icon: { className: TEXT_NORMAL },
                         }}
                     />
                 )}

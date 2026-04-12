@@ -6,6 +6,7 @@ import Detail from "../../components/common/Detail";
 import DialogEditCouponCodeCourse from "./DialogEditCouponCodeCourse";
 import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../../constants";
+import { TEXT_NORMAL, TEXT_SMALL } from "../../style";
 
 export default function CouponCodeCourse({
     id,
@@ -60,7 +61,7 @@ export default function CouponCodeCourse({
     return (
         <div className={`flex gap-3 align-items-center border-1 border-gray-300 border-round py-2 px-3 overflow-hidden `}>
             <div className="flex flex-column flex-1 gap-2">
-                <span className={`text-sm font-semibold `}>
+                <span className={`${TEXT_NORMAL} font-semibold`}>
                     {index + 1}. {title}
                 </span>
                 <div className="flex align-items-center gap-2 mt-2 justify-content-between">
@@ -78,8 +79,8 @@ export default function CouponCodeCourse({
                 </div>
 
                 <div className={`flex align-items-center gap-1 mt-2`}>
-                    <i className="pi pi-book text-sm"></i>
-                    <span className="m-0 p-0 text-xs">{`Last Updated At ${getReadableDate({ date: updated_at })}`}</span>
+                    <i className={`pi pi-book ${TEXT_NORMAL}`}></i>
+                    <span className={`m-0 p-0 ${TEXT_SMALL}`}>{`Last Updated At ${getReadableDate({ date: updated_at })}`}</span>
                 </div>
             </div>
             <HasRequiredAuthority requiredAuthority={AUTHORITIES.UPDATE_COUPON_CODE_COURSES}>

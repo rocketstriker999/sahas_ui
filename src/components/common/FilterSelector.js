@@ -1,6 +1,6 @@
 import { FloatLabel } from "primereact/floatlabel";
 import { MultiSelect } from "primereact/multiselect";
-import { TEXT_SIZE_SMALL } from "../../style";
+import { TEXT_SMALL } from "../../style";
 import { getFilterNameFormalized } from "../../utils";
 import { Dropdown } from "primereact/dropdown";
 import { Calendar } from "primereact/calendar";
@@ -18,8 +18,8 @@ export default function FilterSelector({ selectedFilters, setSelectedFilters, fi
                     optionLabel="title"
                     className="w-full"
                     pt={{
-                        label: { className: TEXT_SIZE_SMALL },
-                        item: { className: TEXT_SIZE_SMALL },
+                        label: { className: TEXT_SMALL },
+                        item: { className: TEXT_SMALL },
                     }}
                 />
                 <label>{getFilterNameFormalized(filter?.title)}</label>
@@ -37,8 +37,8 @@ export default function FilterSelector({ selectedFilters, setSelectedFilters, fi
                     maxSelectedLabels={3}
                     className="w-full"
                     pt={{
-                        label: { className: TEXT_SIZE_SMALL },
-                        item: { className: TEXT_SIZE_SMALL },
+                        label: { className: TEXT_SMALL },
+                        item: { className: TEXT_SMALL },
                     }}
                 />
                 <label>{getFilterNameFormalized(filter?.title)}</label>

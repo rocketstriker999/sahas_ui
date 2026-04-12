@@ -3,7 +3,7 @@ import Operations from "../components/dashboard/Operations";
 import { useAppContext } from "../providers/ProviderAppContainer";
 import { Badge } from "primereact/badge";
 import CarouselImages from "../components/dashboard/CarouselImages";
-import { TEXT_SIZE_SMALL, TITLE_TEXT } from "../style";
+import { TEXT_SMALL, TEXT_TITLE } from "../style";
 import HasRequiredAuthority from "../components/dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../constants";
 import { DialogDashboard } from "../components/dashboard/DialogDashboard";
@@ -18,11 +18,11 @@ export default function Dashboard() {
 
     return (
         <div className="flex flex-column h-full overflow-hidden">
-            <div className="bg-blue-800 shadow-3 text-white flex align-items-center gap-3 p-2">
+            <div className="bg-primary shadow-3 flex align-items-center gap-3 p-2">
                 <div className="w-8 flex-1">
-                    <p className={`${TITLE_TEXT} m-0 font-semibold`}>Welcome To Sahas Smart Studies</p>
+                    <p className={`${TEXT_TITLE} m-0 font-semibold`}>Welcome To Sahas Smart Studies</p>
                     {isDevelopmentBuild && (
-                        <div className={`${TEXT_SIZE_SMALL} mt-1 bg-blue-800 text-white white-space-nowrap text-overflow-ellipsis overflow-hidden`}>
+                        <div className={`${TEXT_SMALL} mt-1 white-space-nowrap text-overflow-ellipsis overflow-hidden opacity-90`}>
                             Device ID - {deviceFingerPrint}
                         </div>
                     )}

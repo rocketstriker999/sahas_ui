@@ -7,7 +7,7 @@ import { Button } from "primereact/button";
 import { Calendar } from "primereact/calendar";
 import { InputNumber } from "primereact/inputnumber";
 import { Checkbox } from "primereact/checkbox";
-import { TITLE_TEXT, TEXT_SIZE_SMALL } from "../../../../style";
+import { TEXT_TITLE, TEXT_SMALL } from "../../../../style";
 import { getWriteableDate } from "../../../../utils";
 import { InputTextarea } from "primereact/inputtextarea";
 
@@ -47,7 +47,7 @@ export default function DialogEditEnrollment({ visible, closeDialog, setEnrollme
             className="w-11"
             onHide={closeDialog}
             pt={{
-                headertitle: { className: TITLE_TEXT },
+                headertitle: { className: TEXT_TITLE },
                 content: { className: "overflow-visible" },
             }}
         >
@@ -64,7 +64,7 @@ export default function DialogEditEnrollment({ visible, closeDialog, setEnrollme
                     showTime={false}
                     showIcon
                 />
-                <label htmlFor="start_date" className={`${TEXT_SIZE_SMALL}`}>
+                <label htmlFor="start_date" className={`${TEXT_SMALL}`}>
                     Start Date
                 </label>
             </FloatLabel>
@@ -80,7 +80,7 @@ export default function DialogEditEnrollment({ visible, closeDialog, setEnrollme
                     showTime={false}
                     showIcon
                 />
-                <label htmlFor="end_date" className={`${TEXT_SIZE_SMALL}`}>
+                <label htmlFor="end_date" className={`${TEXT_SMALL}`}>
                     End Date
                 </label>
             </FloatLabel>
@@ -92,17 +92,17 @@ export default function DialogEditEnrollment({ visible, closeDialog, setEnrollme
                     className="w-full"
                     onChange={(e) => setEnrollment((prev) => ({ ...prev, amount: e.value }))}
                     pt={{
-                        root: { className: TEXT_SIZE_SMALL },
+                        root: { className: TEXT_SMALL },
                     }}
                 />
-                <label htmlFor="amount" className={`${TEXT_SIZE_SMALL}`}>
+                <label htmlFor="amount" className={`${TEXT_SMALL}`}>
                     Total Amount
                 </label>
             </FloatLabel>
 
             <div className="border-1 border-round border-gray-300 p-3 flex justify-content-between align-items-center mt-3 gap-3">
                 <div className="flex align-items-center gap-2">
-                    <label htmlFor="on_site_access" className={`${TEXT_SIZE_SMALL}`}>
+                    <label htmlFor="on_site_access" className={`${TEXT_SMALL}`}>
                         On Site Access
                     </label>
                     <Checkbox
@@ -113,7 +113,7 @@ export default function DialogEditEnrollment({ visible, closeDialog, setEnrollme
                 </div>
 
                 <div className="flex align-items-center gap-2">
-                    <label htmlFor="digital_access" className={`${TEXT_SIZE_SMALL}`}>
+                    <label htmlFor="digital_access" className={`${TEXT_SMALL}`}>
                         Digital Access
                     </label>
                     <Checkbox
@@ -144,7 +144,7 @@ export default function DialogEditEnrollment({ visible, closeDialog, setEnrollme
                 loading={loading}
                 onClick={updateEnrollment}
                 pt={{
-                    label: { className: TEXT_SIZE_SMALL },
+                    label: { className: TEXT_SMALL },
                 }}
             />
         </Dialog>

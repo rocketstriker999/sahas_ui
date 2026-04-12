@@ -1,3 +1,5 @@
+import { TEXT_NORMAL } from "../../../style";
+
 export default function Body({ heading, media_url, description, note }) {
     return (
         <div className="flex flex-column align-items-center gap-3">
@@ -12,7 +14,7 @@ export default function Body({ heading, media_url, description, note }) {
             {!!note && (
                 <div className="surface-100 border-round p-2 flex align-items-center gap-2 w-full">
                     <i className="pi pi-info-circle text-blue-500"></i>
-                    <span className="text-sm text-700">{note}</span>
+                    <span className={`${TEXT_NORMAL} text-700`}>{note}</span>
                 </div>
             )}
         </div>

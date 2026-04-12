@@ -5,7 +5,7 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import IconButton from "../common/IconButton";
 import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../../constants";
-import { TEXT_SIZE_SMALL, ICON_SIZE } from "../../style";
+import { TEXT_SMALL, ICON_SIZE } from "../../style";
 
 export default function Category({ id, image, title, courses_count, updatingViewIndex }) {
     const { requestAPI, showToast } = useAppContext();
@@ -41,10 +41,10 @@ export default function Category({ id, image, title, courses_count, updatingView
         >
             <img className="border-round-left w-8rem h-4rem" src={image} alt={title} />
             <div className="flex flex-column flex-1 gap-1">
-                <span className={`${TEXT_SIZE_SMALL} font-semibold word-break-all`}>{title}</span>
+                <span className={`${TEXT_SMALL} font-semibold word-break-all`}>{title}</span>
                 <div className="flex align-items-center gap-1 text-orange-800">
-                    <i className={`pi pi-book ${TEXT_SIZE_SMALL}`}></i>
-                    <span className={`m-0 p-0  ${TEXT_SIZE_SMALL}`}>{`${courses_count} Courses`}</span>
+                    <i className={`pi pi-book ${TEXT_SMALL}`}></i>
+                    <span className={`m-0 p-0  ${TEXT_SMALL}`}>{`${courses_count} Courses`}</span>
                 </div>
             </div>
             {!!updatingViewIndex && <IconButton icon={"pi-equals"} color={"text-indigo-800"} className={ICON_SIZE} />}

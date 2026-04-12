@@ -7,7 +7,7 @@ import TabHeader from "../common/TabHeader";
 import { InputText } from "primereact/inputtext";
 import FileInput from "../common/FileInput";
 import { useOutletContext } from "react-router-dom";
-import { TEXT_SIZE_NORMAL, TITLE_TEXT } from "../../style";
+import { TEXT_NORMAL, TEXT_TITLE } from "../../style";
 import HasRequiredAuthority from "../dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../../constants";
 
@@ -43,7 +43,7 @@ export default function DialogAddCategory({ visible, view_index, closeDialog }) 
             className="w-11"
             onHide={closeDialog}
             pt={{
-                headertitle: { className: TITLE_TEXT },
+                headertitle: { className: TEXT_TITLE },
                 content: { className: "overflow-visible" },
             }}
         >
@@ -61,10 +61,10 @@ export default function DialogAddCategory({ visible, view_index, closeDialog }) 
                     onChange={(e) => setCategory((prev) => ({ ...prev, title: e.target.value }))}
                     disabled={loading}
                     pt={{
-                        root: { className: TEXT_SIZE_NORMAL },
+                        root: { className: TEXT_NORMAL },
                     }}
                 />
-                <label htmlFor="title" className={`${TEXT_SIZE_NORMAL}`}>
+                <label htmlFor="title" className={`${TEXT_NORMAL}`}>
                     Title
                 </label>
             </FloatLabel>
@@ -77,7 +77,7 @@ export default function DialogAddCategory({ visible, view_index, closeDialog }) 
                 setCDNUrl={(cdn_url) => setCategory((prev) => ({ ...prev, image: cdn_url }))}
                 disabled={loading}
                 pt={{
-                    root: { className: TEXT_SIZE_NORMAL },
+                    root: { className: TEXT_NORMAL },
                 }}
             />
 
@@ -89,7 +89,7 @@ export default function DialogAddCategory({ visible, view_index, closeDialog }) 
                     loading={loading}
                     onClick={addProductCategory}
                     pt={{
-                        label: { className: TEXT_SIZE_NORMAL },
+                        label: { className: TEXT_NORMAL },
                     }}
                 />
             </HasRequiredAuthority>

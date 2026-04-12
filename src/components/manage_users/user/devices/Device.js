@@ -6,6 +6,7 @@ import ProgressiveControl from "../../../common/ProgressiveControl";
 import { useSelector } from "react-redux";
 import { AUTHORITIES } from "../../../../constants";
 import HasRequiredAuthority from "../../../dependencies/HasRequiredAuthority";
+import { TEXT_SMALL } from "../../../../style";
 
 export default function Device(device) {
     const { requestAPI, showToast } = useAppContext();
@@ -41,7 +42,7 @@ export default function Device(device) {
     );
 
     return (
-        <div className="p-2 border-1 border-round border-gray-300 text-xs">
+        <div className={`p-2 border-1 border-round border-gray-300 ${TEXT_SMALL}`}>
             <div className="  word-break-all flex align-items-center gap-2">
                 <span>
                     {device?.index + 1}. {decodeURIComponent(escape(atob(device?.finger_print)))?.split("|")[0]}
