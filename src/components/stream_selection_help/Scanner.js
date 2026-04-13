@@ -68,7 +68,7 @@ export default function Scanner({ scanningQR, setScanningQR }) {
                 <p className={`${TEXT_SMALL} text-color-secondary text-center px-4`}>
                     Scan QR Code For Psychometric Test Invite, Validate Invite Will Start Test.Check Camera Permission Berfore Scanning QR !
                 </p>
-                <Button icon="pi pi-qrcode" label="Scan QR" severity="warning" onClick={() => setScanningQR(true)} />
+                <Button icon="pi pi-qrcode" label="Scan QR"  outlined onClick={() => setScanningQR(true)} />
             </div>
         );
     }

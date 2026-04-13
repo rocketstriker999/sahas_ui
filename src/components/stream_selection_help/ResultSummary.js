@@ -2,33 +2,30 @@ import { Divider } from "primereact/divider";
 import { ProgressBar } from "primereact/progressbar";
 import { TEXT_NORMAL, TEXT_SMALL } from "../../style";
 
-
-export default function ResultSummary({ suggestion,suitable_stream,analysis }) {
- 
-
+export default function ResultSummary({ suggestion, suitable_stream, analysis }) {
     return (
         <div className="flex flex-column gap-2">
-                <div className="surface-100 border-1 surface-border border-round p-3">
-                    {!!suitable_stream && (
-                        <div>
-                            <div className={`font-semibold text-primary mb-2 ${TEXT_SMALL}`}>Most suitable for you</div>
-                            <p className={`m-0 font-semibold text-primary ${TEXT_NORMAL}`}>{suitable_stream}</p>
-                        </div>
-                    )}
-                    {!!suggestion && (
-                        <div className={`${suitable_stream ? "mt-3 pt-2 border-top-1 surface-border" : ""}`}>
-                            <div className={`font-semibold text-color-secondary mb-2 ${TEXT_SMALL}`}>Recommendation</div>
-                            <p className={`m-0 line-height-3 ${TEXT_NORMAL}`}>{suggestion}</p>
-                        </div>
-                    )}
-                </div>
+            <div className="bg-indigo-700 border-1 border-indigo-800 border-round p-3">
+                {!!suitable_stream && (
+                    <div>
+                        <div className={`font-semibold text-indigo-100 mb-2 ${TEXT_SMALL}`}>Most Suitable Stream For You</div>
+                        <p className={`m-0 font-bold text-white ${TEXT_NORMAL}`}>{suitable_stream?.toUpperCase()}</p>
+                    </div>
+                )}
+                {!!suggestion && (
+                    <div className={`${suitable_stream ? "mt-3 pt-2 border-top-1 border-indigo-500" : ""}`}>
+                        <div className={`font-semibold text-indigo-100 mb-2 ${TEXT_SMALL}`}>Recommendation</div>
+                        <p className={`m-0 line-height-3 text-white ${TEXT_NORMAL}`}>{suggestion}</p>
+                    </div>
+                )}
+            </div>
 
             {analysis?.length && (
                 <div>
                     <Divider className="my-2" />
                     <div className={`font-semibold text-color-secondary mb-2 ${TEXT_SMALL}`}>Streams</div>
                     <div className="flex flex-column gap-2">
-                        {analysis.map(({stream,score,feedback}) => (
+                        {analysis.map(({ stream, score, feedback }) => (
                             <div key={stream} className="surface-card border-1 surface-border border-round p-3">
                                 <div className="flex justify-content-between align-items-center gap-2 mb-2">
                                     <span className={`font-semibold ${TEXT_NORMAL}`}>{stream}</span>
