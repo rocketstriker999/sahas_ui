@@ -61,8 +61,8 @@ export default function Operations({ className }) {
                         path: `/manage-users/${id}/basics`,
                     },
                     {
-                        title: "P.C.A.T.",
-                        icon: "pi-calculator",
+                        title: "Psychometric Test",
+                        icon: "pi-lightbulb",
                         path: `/stream-selection-help/attend`,
                     },
                     {

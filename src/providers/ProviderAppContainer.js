@@ -112,7 +112,15 @@ export const ProviderAppContainer = ({ children }) => {
             <Toast ref={toastRef} position="top-center" />
 
             {applicationLoading ? (
-                <Loading message={applicationLoading.message} />
+                <div className="h-full w-full flex align-items-center justify-content-center p-3">
+                    <div className="border-1 border-gray-300 border-round bg-white px-3 py-3 w-full max-w-20rem">
+                        <Loading
+                            type="small"
+                            className="align-items-center gap-2"
+                            message={applicationLoading.message || "Preparing application..."}
+                        />
+                    </div>
+                </div>
             ) : applicationError ? (
                 <Error {...applicationError} />
             ) : (
