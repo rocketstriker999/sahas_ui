@@ -12,7 +12,7 @@ export default function ExploreResult() {
             <p className={`${TEXT_SMALL} text-color-secondary text-center px-4`}>
                 Your Result For Psychometric Test is already published Or You Are Not Allowed To Attend Test
             </p>
-            <Button icon="pi pi-clipboard" label="Explore Result" outlined onClick={() => navigate("../result")} />
+            <Button icon="pi pi-clipboard" label="Explore Result" severity="warning"  onClick={() => navigate("../result")} />
         </div>
     );
 }

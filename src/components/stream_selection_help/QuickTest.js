@@ -67,9 +67,10 @@ export default function QuickTest() {
     if (!!loggedInUser?.stream_selection_test_taken) {
         return (
             <div className="flex flex-column gap-3 align-items-center justify-content-center h-full">
-                <Scanner scanningQR={scanningQR} setScanningQR={setScanningQR} />
-                {!scanningQR && <Divider />}
                 {!scanningQR && <ExploreResult />}
+                {!scanningQR && <Divider />}
+                <Scanner scanningQR={scanningQR} setScanningQR={setScanningQR} />
+
             </div>
         );
     }
