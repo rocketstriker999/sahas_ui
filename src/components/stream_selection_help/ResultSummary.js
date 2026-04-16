@@ -1,8 +1,12 @@
 import { Divider } from "primereact/divider";
 import { ProgressBar } from "primereact/progressbar";
 import { TEXT_NORMAL, TEXT_SMALL } from "../../style";
+import { Chart } from 'primereact/chart';
 
 export default function ResultSummary({ suggestion, suitable_stream, analysis }) {
+
+    console.log(analysis)
+
     return (
         <div className="flex flex-column gap-2">
             <div className="bg-indigo-700 border-1 border-indigo-800 border-round p-3">
@@ -23,7 +27,18 @@ export default function ResultSummary({ suggestion, suitable_stream, analysis })
             {analysis?.length && (
                 <div>
                     <Divider className="my-2" />
-                    <div className={`font-semibold text-color-secondary mb-2 ${TEXT_SMALL}`}>Streams</div>
+
+                    <Chart type="pie" data={{
+                        labels: analysis.map(({ stream }) => stream),
+                        datasets: [
+                            {
+                                data: analysis.map(({ score }) => parseFloat(score)),
+                               
+                            }
+                        ]
+                    }} className="w-full md:w-30rem" />
+
+                    <div className={`font-semibold text-color-secondary my-2 ${TEXT_SMALL}`}>Stream Specific Analysis</div>
                     <div className="flex flex-column gap-2">
                         {analysis.map(({ stream, score, feedback }) => (
                             <div key={stream} className="surface-card border-1 surface-border border-round p-3">

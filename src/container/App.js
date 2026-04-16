@@ -50,6 +50,7 @@ import Test from "../components/stream_selection_help/QuickTest";
 import QuickTest from "../components/stream_selection_help/QuickTest";
 import QRInvites from "../components/stream_selection_test_configuration/QRInvites";
 import QuestionCategories from "../components/stream_selection_test_configuration/QuestionCategories";
+import TestIntroduction from "../components/stream_selection_help/TestIntroduction";
 
 export default function App() {
     return (
