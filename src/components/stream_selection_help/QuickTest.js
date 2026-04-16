@@ -43,7 +43,7 @@ export default function QuickTest() {
             requestPath: `stream-selection-tests`,
             requestMethod: "POST",
             requestPostBody: questions,
-            onRequestStart: () => setApplicationLoading({ message: "Your Psychometric Performance is Under Evaluation by Most Advance Ai & Psycologist Opinion By Considering All Aspects of Your Pereonality" }),
+            onRequestStart: () => setApplicationLoading({ message: "Your Psychometric Performance is Under Evaluation by Most Advance Ai & Psycologist Opinion By Considering All Aspects of Your Personality" }),
             onRequestEnd: setApplicationLoading,
             parseResponseBody: false,
             onResponseReceieved: (_, responseCode) => {
