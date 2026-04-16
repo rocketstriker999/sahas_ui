@@ -11,6 +11,7 @@ import { updateCurrentUser } from "../../redux/sliceUser";
 import Ask from "../stream_selection_test_configuration/question_categories/Ask";
 import Scanner from "./Scanner";
 import ExploreResult from "./ExploreResult";
+import TestIntroduction from "./TestIntroduction";
 
 export default function QuickTest() {
     const { requestAPI, showToast, setApplicationLoading } = useAppContext();
@@ -42,7 +43,7 @@ export default function QuickTest() {
             requestPath: `stream-selection-tests`,
             requestMethod: "POST",
             requestPostBody: questions,
-            onRequestStart: () => setApplicationLoading({ message: "Generating A.I. Based Psychometric Test Result..." }),
+            onRequestStart: () => setApplicationLoading({ message: "Your Psychometric Performance is Under Evaluation by Most Advance Ai & Psycologist Opinion By Considering All Aspects of Your Pereonality" }),
             onRequestEnd: setApplicationLoading,
             parseResponseBody: false,
             onResponseReceieved: (_, responseCode) => {
@@ -96,7 +97,7 @@ export default function QuickTest() {
             {loading ? (
                 <Loading />
             ) : questions?.length ? (
-                currentQuestionIndex != null && (
+                currentQuestionIndex != null ? (
                     <Ask
                         askNext={askNext}
                         askPrevious={askPrevious}
@@ -107,7 +108,7 @@ export default function QuickTest() {
                         canMoveToPrevious={currentQuestionIndex > 0}
                         setQuestions={setQuestions}
                     />
-                )
+                ):<TestIntroduction/>
             ) : (
                 <Error error="No Psychometric Test Questions Found" />
             )}

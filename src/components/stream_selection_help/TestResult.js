@@ -18,20 +18,17 @@ export default function TestResult() {
             requestPath: `users/stream-selection-test-results/latest`,
             requestMethod: "GET",
             setLoading,
-            onResponseReceieved: (payload, responseCode) => {
-                const { error, ...rest } = payload || {};
-                if (rest && responseCode === 200) {
-                    const next = { ...rest };
-                    if (typeof next.result === "string") {
-                        try {
-                            next.result = JSON.parse(next.result);
-                        } catch {
-                            /* keep string for ResultSummary */
-                        }
+            onResponseReceieved: ({ error, ...testResult }, responseCode) => {
+                if (testResult && responseCode === 200) {
+                    try {
+                        testResult.result = JSON.parse(testResult.result);
+                        setStreamSelectionTestResult(testResult);
+                    } catch {
+                        showToast({ severity: "error", summary: "Failed", detail:  "Failed To Load Psychometric Test Result !", life: 2000 });
                     }
-                    setStreamSelectionTestResult(next);
+                    
                 } else {
-                    showToast({ severity: "error", summary: "Failed", detail: error || "Failed To Load Psychometric Test Questions !", life: 2000 });
+                    showToast({ severity: "error", summary: "Failed", detail: error || "Failed To Load Psychometric Test Result !", life: 2000 });
                 }
             },
         });
