@@ -46,13 +46,13 @@ import StreamSelectionHelp from "../pages/StreamSelectionHelp";
 import StreamSelectionTestConfiguration from "../pages/StreamSelectionTestConfiguration";
 import Questions from "../components/stream_selection_test_configuration/question_categories/Questions";
 import TestResult from "../components/stream_selection_help/TestResult";
-import Test from "../components/stream_selection_help/QuickTest";
 import QuickTest from "../components/stream_selection_help/QuickTest";
 import QRInvites from "../components/stream_selection_test_configuration/QRInvites";
 import QuestionCategories from "../components/stream_selection_test_configuration/QuestionCategories";
 import TestIntroduction from "../components/stream_selection_help/TestIntroduction";
 import Analysis from "../components/stream_selection_help/Analysis";
 import Tips from "../components/stream_selection_help/Tips";
+import ContactUs from "../pages/ContactUs";
 
 export default function App() {
     return (
@@ -170,6 +170,8 @@ export default function App() {
                         <Route path="/enroll/:courseId" element={<Enroll />} />
                         <Route path="/revenue" element={<Revenue />} />
                         <Route path="/payment-gateway-payloads/:paymentGatewayPayloadId" element={<PaymentGatewayPayLoad />} />
+                        <Route path="/contact-us" element={<ContactUs />} />
+
                         <Route path="*" element={<NotFound />} />
                     </Routes>
                 </HasMandatoryDetails>

@@ -10,14 +10,14 @@ const tips = [
         ]
     },
     {
-        title: "Do not choose stream by others",
+        title: "Do not choose stream by others opinion",
         points: [
             "Never select stream based on what others say.",
             "Focus more on what your inner self likes and matches with."
         ]
     },
     {
-        title: "Avoid marketing-based decisions",
+        title: "Avoid marketing inluenced decisions",
         points: [
             "Do not select stream based on advertisements like hoardings, TV, or newspapers.",
             "Avoid decisions based on other students' results and marketing.",
@@ -48,7 +48,7 @@ const tips = [
 
 export default function Tips() {
     return (
-        <div className="p-2 md:p-3">
+        <div className="flex-1 flex flex-column overflow-y-scroll p-2 md:p-3">
             <div className="surface-card border-1 surface-border border-round-xl p-3 md:p-4">
                 <div className="flex align-items-center gap-2 mb-3">
                     <i className="pi pi-lightbulb text-yellow-500 text-xl" />
