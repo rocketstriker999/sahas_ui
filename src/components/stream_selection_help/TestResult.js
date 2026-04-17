@@ -7,11 +7,15 @@ import { Panel } from "primereact/panel";
 import { Divider } from "primereact/divider";
 import { getReadableDate } from "../../utils";
 import ResultSummary from "./ResultSummary";
+import { useNavigate, useOutletContext } from "react-router-dom";
+import { Button } from "primereact/button";
 
 export default function TestResult() {
     const { requestAPI, showToast } = useAppContext();
     const [loading, setLoading] = useState();
-    const [streamSelectionTestResult, setStreamSelectionTestResult] = useState();
+
+    const { streamSelectionTestResult, setStreamSelectionTestResult } = useOutletContext();
+    const navigate = useNavigate();
 
     useEffect(() => {
         requestAPI({
@@ -42,6 +46,23 @@ export default function TestResult() {
         <div className="flex-1 flex flex-column overflow-y-scroll">
             <Panel className="m-2" header={` Conducted At - ${getReadableDate({ date: streamSelectionTestResult?.created_at })}`}>
                 <ResultSummary {...streamSelectionTestResult.result} />
+                <div className="mt-2 flex flex-column md:flex-row gap-2">
+                    <Button
+                        outlined
+                        severity="warning"
+                        className="w-full"
+                        label="Stream Specific Analysis"
+                        icon="pi pi-chart-line"
+                        onClick={() => navigate("../analysis")}
+                    />
+                    <Button
+                        severity="info"
+                        className="w-full"
+                        label="Protips"
+                        icon="pi pi-lightbulb"
+                        onClick={() => navigate("../tips")}
+                    />
+                </div>
                 <Divider className="my-3" />
                 <Summary
                     icon={"pi pi-pen-to-square"}

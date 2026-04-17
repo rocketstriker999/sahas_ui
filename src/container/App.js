@@ -51,6 +51,8 @@ import QuickTest from "../components/stream_selection_help/QuickTest";
 import QRInvites from "../components/stream_selection_test_configuration/QRInvites";
 import QuestionCategories from "../components/stream_selection_test_configuration/QuestionCategories";
 import TestIntroduction from "../components/stream_selection_help/TestIntroduction";
+import Analysis from "../components/stream_selection_help/Analysis";
+import Tips from "../components/stream_selection_help/Tips";
 
 export default function App() {
     return (
@@ -161,6 +163,8 @@ export default function App() {
                         <Route path="/stream-selection-help" element={<StreamSelectionHelp />}>
                             <Route path="attend" element={<QuickTest />} />
                             <Route path="result" element={<TestResult />} />
+                            <Route path="analysis" element={<Analysis />} />
+                            <Route path="tips" element={<Tips />} />
                         </Route>
 
                         <Route path="/enroll/:courseId" element={<Enroll />} />
