@@ -36,9 +36,9 @@ export default function StreamSelectionTestResults() {
     const updateStreamSelectionTestAccess = useCallback(
         (allowStreamSelectionTest) => {
             requestAPI({
-                requestPath: `users/stream-selection-test-taken`,
+                requestPath: `users/stream-selection-test-allowed`,
                 requestMethod: "PATCH",
-                requestPostBody: { id: loggedInUser?.id, stream_selection_test_taken: !allowStreamSelectionTest },
+                requestPostBody: { id: loggedInUser?.id, stream_selection_test_allowed: allowStreamSelectionTest },
                 setLoading: setLoading,
                 onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Update Psychometric Test Access !", life: 2000 }),
                 onResponseReceieved: ({ error, ...updatedUser }, responseCode) => {
@@ -60,7 +60,7 @@ export default function StreamSelectionTestResults() {
         <div className="p-2 flex flex-column h-full min-h-0">
             <CheckboxInput
                 label={"Psychometric Test Allowed"}
-                checked={!loggedInUser?.stream_selection_test_taken}
+                checked={!!loggedInUser?.stream_selection_test_allowed}
                 onChange={updateStreamSelectionTestAccess}
             />
             <Accordion className="mt-2 flex-1 overflow-y-scroll" activeIndex={0}>

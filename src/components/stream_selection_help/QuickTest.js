@@ -36,7 +36,7 @@ export default function QuickTest() {
                 }
             },
         });
-    }, [loggedInUser?.stream_selection_test_taken, navigate, requestAPI, showToast]);
+    }, [loggedInUser?.stream_selection_test_allowed, navigate, requestAPI, showToast]);
 
     const addStreamSelectionTest = useCallback(() => {
         requestAPI({
@@ -49,7 +49,7 @@ export default function QuickTest() {
             onResponseReceieved: (_, responseCode) => {
                 if (responseCode === 201) {
                     showToast({ severity: "success", summary: "Added", detail: "Psychometric Test Submitted", life: 1000 });
-                    dispatch(updateCurrentUser({ stream_selection_test_taken: true }));
+                    dispatch(updateCurrentUser({ stream_selection_test_allowed: false }));
                 } else {
                     showToast({ severity: "error", summary: "Failed", detail: "Failed To Submit Psychometric Test !", life: 2000 });
                 }
@@ -65,7 +65,7 @@ export default function QuickTest() {
         setCurrentQuestionIndex((prev) => prev - 1);
     }, []);
 
-    if (!!loggedInUser?.stream_selection_test_taken) {
+    if (!loggedInUser?.stream_selection_test_allowed) {
         return (
             <div className="flex flex-column gap-3 align-items-center justify-content-center h-full">
                 {!scanningQR && <ExploreResult />}
