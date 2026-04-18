@@ -1,7 +1,8 @@
 import QRCode from "react-qr-code";
 import { getReadableDate } from "../../../utils";
 import ProgressiveControl from "../../common/ProgressiveControl";
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
+import { Button } from "primereact/button";
 import HasRequiredAuthority from "../../dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../../../constants";
 import IconButton from "../../common/IconButton";
@@ -12,6 +13,42 @@ export default function Invite({ id, title, active, updated_at, setDialogEditInv
     const { requestAPI, showToast } = useAppContext();
 
     const [loading, setLoading] = useState();
+    const qrWrapRef = useRef(null);
+
+    const downloadQrPng = useCallback(() => {
+        const svg = qrWrapRef.current?.querySelector("svg");
+        if (!svg) {
+            showToast({ severity: "warn", summary: "QR", detail: "Could not export QR code.", life: 2000 });
+            return;
+        }
+        let svgString = new XMLSerializer().serializeToString(svg);
+        if (!/^<svg[^>]+xmlns=/.test(svgString)) {
+            svgString = svgString.replace(/^<svg\b/, '<svg xmlns="http://www.w3.org/2000/svg" ');
+        }
+        const svgBlob = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" });
+        const url = URL.createObjectURL(svgBlob);
+        const img = new Image();
+        const exportSize = 512;
+        img.onload = () => {
+            const canvas = document.createElement("canvas");
+            canvas.width = exportSize;
+            canvas.height = exportSize;
+            const ctx = canvas.getContext("2d");
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(0, 0, exportSize, exportSize);
+            ctx.drawImage(img, 0, 0, exportSize, exportSize);
+            URL.revokeObjectURL(url);
+            const a = document.createElement("a");
+            a.href = canvas.toDataURL("image/png");
+            a.download = `psychometric-invite-${id}-qr.png`;
+            a.click();
+        };
+        img.onerror = () => {
+            URL.revokeObjectURL(url);
+            showToast({ severity: "error", summary: "Failed", detail: "Could not generate QR image.", life: 2000 });
+        };
+        img.src = url;
+    }, [id, showToast]);
 
     const deleteInvite = useCallback(() => {
         requestAPI({
@@ -68,7 +105,12 @@ export default function Invite({ id, title, active, updated_at, setDialogEditInv
                     </HasRequiredAuthority>
                 </div>
             </div>
-            <QRCode size={88} value={JSON.stringify({ id })} />
+            <div className="flex flex-column align-items-center gap-1">
+                <div ref={qrWrapRef}>
+                    <QRCode size={88} value={JSON.stringify({ id })} />
+                </div>
+                <Button type="button" label="Download" icon="pi pi-download" size="small" text severity="secondary" onClick={downloadQrPng} />
+            </div>
         </div>
     );
 }
