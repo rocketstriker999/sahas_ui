@@ -18,6 +18,7 @@ import { TEXT_NORMAL } from "../../../style";
 import FileInput from "../../common/FileInput";
 import { InputNumber } from "primereact/inputnumber";
 import { Accordion, AccordionTab } from "primereact/accordion";
+import CheckboxInput from "../../common/CheckBoxInput";
 
 export default function Basics() {
     const { userId, branches } = useOutletContext();
@@ -173,6 +174,13 @@ export default function Basics() {
                         />
                         <label htmlFor="address">Address</label>
                     </FloatLabel>
+
+                    <CheckboxInput
+                        disabled={!enableInputs}
+                        label={"Allow Psychometric Test "}
+                        checked={!!basics?.stream_selection_test_allowed}
+                        onChange={(checked) => setBasics((prev) => ({ ...prev, stream_selection_test_allowed: checked }))}
+                    />
 
                     <Accordion>
                         <AccordionTab header="History">
