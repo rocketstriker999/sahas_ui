@@ -28,15 +28,14 @@ export default function TestResult() {
                         testResult.result = JSON.parse(testResult.result);
                         setStreamSelectionTestResult(testResult);
                     } catch {
-                        showToast({ severity: "error", summary: "Failed", detail:  "Failed To Load Psychometric Test Result !", life: 2000 });
+                        showToast({ severity: "error", summary: "Failed", detail: "Failed To Load Psychometric Test Result !", life: 2000 });
                     }
-                    
                 } else {
                     showToast({ severity: "error", summary: "Failed", detail: error || "Failed To Load Psychometric Test Result !", life: 2000 });
                 }
             },
         });
-    }, [requestAPI, showToast]);
+    }, [requestAPI, setStreamSelectionTestResult, showToast]);
 
     if (loading) {
         return <Loading message={"Fetching Result"} />;
@@ -55,13 +54,7 @@ export default function TestResult() {
                         icon="pi pi-chart-line"
                         onClick={() => navigate("../analysis")}
                     />
-                    <Button
-                        severity="info"
-                        className="w-full"
-                        label="Protips"
-                        icon="pi pi-lightbulb"
-                        onClick={() => navigate("../tips")}
-                    />
+                    <Button severity="info" className="w-full" label="PRO TIPS (Must Read)" icon="pi pi-lightbulb" onClick={() => navigate("../tips")} />
                 </div>
                 <Divider className="my-3" />
                 <Summary
