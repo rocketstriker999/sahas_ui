@@ -76,7 +76,7 @@ export default function QuickTest() {
         );
     }
     return (
-        <div className="flex flex-column h-full overflow-hidden">
+        <div className="flex flex-column h-full overflow-scroll">
             <TabHeader
                 className={"mx-3 mt-2"}
                 title="Press Start To Attend Test"
