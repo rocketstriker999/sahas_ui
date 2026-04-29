@@ -122,8 +122,8 @@ export default function Scanner({ scanningQR, setScanningQR }) {
     }
 
     return (
-        <div className="flex flex-column p-4 border-1 border-gray-300 border-round w-10 gap-2">
-            <span className={`font-semibold text-center ${TEXT_SMALL}`}>Scan QR Code for Psychometric Test Invite</span>
+        <div className="   gap-2 ">
+            <span className={`font-semibold text-center ${TEXT_SMALL}`}>Scan123 QR Code for Psychometric Test Invite</span>
             <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={onGalleryFileChange} />
             <BarcodeScanner
                 onUpdate={(error, result) => {

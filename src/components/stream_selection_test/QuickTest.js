@@ -9,7 +9,7 @@ import { Button } from "primereact/button";
 import { useNavigate } from "react-router-dom";
 import { updateCurrentUser } from "../../redux/sliceUser";
 import Ask from "../manage_stream_selection/question_categories/Ask";
-import Scanner from "./Scanner";
+import QrScanner from "./QrScanner";
 import ExploreResult from "./ExploreResult";
 import TestIntroduction from "./TestIntroduction";
 
@@ -37,6 +37,9 @@ export default function QuickTest() {
             },
         });
     }, [loggedInUser?.stream_selection_test_allowed, navigate, requestAPI, showToast]);
+
+
+    
 
     const addStreamSelectionTest = useCallback(() => {
         requestAPI({
@@ -70,7 +73,7 @@ export default function QuickTest() {
             <div className="flex flex-column gap-3 align-items-center justify-content-center h-full">
                 {!scanningQR && <ExploreResult />}
                 {!scanningQR && <Divider />}
-                <Scanner scanningQR={scanningQR} setScanningQR={setScanningQR} />
+                <QrScanner scanningQR={scanningQR} setScanningQR={setScanningQR} />
 
             </div>
         );

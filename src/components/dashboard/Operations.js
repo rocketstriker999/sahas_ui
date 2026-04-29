@@ -63,7 +63,7 @@ export default function Operations({ className }) {
                     {
                         title: "Psychometric Test",
                         icon: "pi-lightbulb",
-                        path: `/stream-selection-test/attend`,
+                        path: `/stream-selection-test/about`,
                     },
                     {
                         title: "Policies",

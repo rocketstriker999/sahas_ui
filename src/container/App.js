@@ -23,7 +23,7 @@ import ManageChapterTypes from "../pages/ManageChapterTypes";
 import ManageCouponCodes from "../pages/ManageCouponCodes";
 import CouponCodes from "../components/manage_coupon_codes/CouponCodes";
 import CouponCodeCourses from "../components/manage_coupon_codes/CouponCodeCourses";
-import Enroll from "../pages/Enroll";
+import EnrollPage from "../pages/Enroll";
 import PaymentGatewayPayLoad from "../pages/PaymentGatewayPayLoad";
 import MediaCatalogue from "../components/course/MediaCatalogue";
 import Media from "../pages/Media";
@@ -41,12 +41,13 @@ import GlobalNotes from "../components/manage_users/user/GlobalNotes";
 import StreamSelectionTestResults from "../components/manage_users/user/StreamSelectionTestResults";
 import ManageStreamSelection from "../pages/ManageStreamSelection";
 import Questions from "../components/manage_stream_selection/question_categories/Questions";
-import TestResult from "../components/stream_selection_help/TestResult";
-import QuickTest from "../components/stream_selection_help/QuickTest";
+import TestResult from "../components/stream_selection_test/TestResult";
+import QuickTest from "../components/stream_selection_test/QuickTest";
+import AboutTest from "../components/stream_selection_test/AboutTest";
+import Enroll from "../components/stream_selection_test/Enroll";
 import QRInvites from "../components/manage_stream_selection/QRInvites";
 import QuestionCategories from "../components/manage_stream_selection/QuestionCategories";
-import Analysis from "../components/stream_selection_help/Analysis";
-import Tips from "../components/stream_selection_help/Tips";
+import Analysis from "../components/stream_selection_test/Analysis";
 import ContactUs from "../pages/ContactUs";
 import StreamSelectionTest from "../pages/StreamSelectionTest";
 import Authentication from "./Authentication";
@@ -57,15 +58,19 @@ import Suggestions from "../components/manage_stream_selection/Suggestions";
 export default function App() {
     return (
         <RequiresTemplateConfiguration>
-
-
             <Routes>
-                <Route path="/external" >
-                    <Route path="stream-selection" element={<NotFound />} />
+                <Route path="/stream-selection-test" element={<StreamSelectionTest />}>
+                    <Route path="about" element={<AboutTest />} />
+                    <Route path="enroll" element={<Enroll />} />
+                    {/* <Route path="attend" element={<QuickTest />} /> */}
+                    <Route path="result" element={<TestResult />} />
+                    <Route path="analysis" element={<Analysis />} />
                 </Route>
+
+
                 <Route path="/contact-us" element={<ContactUs />} />
-                <Route element={<Authentication />} >
-                    <Route index  element={<Dashboard />} />
+                <Route element={<Authentication />}>
+                    <Route index element={<Dashboard />} />
                     <Route path="/policies" element={<Policies />} />
                     <Route path="/manage-users" element={<ManageUsers />}>
                         <Route
@@ -169,21 +174,12 @@ export default function App() {
                         </Route>
                     </Route>
 
-                    <Route path="/stream-selection-test" element={<StreamSelectionTest />}>
-                        <Route path="attend" element={<QuickTest />} />
-                        <Route path="result" element={<TestResult />} />
-                        <Route path="analysis" element={<Analysis />} />
-                        <Route path="tips" element={<Tips />} />
-                    </Route>
-
-                    <Route path="/enroll/:courseId" element={<Enroll />} />
+                    <Route path="/enroll/:courseId" element={<EnrollPage />} />
                     <Route path="/revenue" element={<Revenue />} />
                     <Route path="/payment-gateway-payloads/:paymentGatewayPayloadId" element={<PaymentGatewayPayLoad />} />
-                    
                 </Route>
                 <Route path="*" element={<NotFound />} />
             </Routes>
-
         </RequiresTemplateConfiguration>
     );
 }

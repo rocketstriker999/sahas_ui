@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { Button } from "primereact/button";
 import { Divider } from "primereact/divider";
 import TabHeader from "../common/TabHeader";
@@ -7,11 +7,19 @@ import OrderManager from "../common/OrderManager";
 import DialogAddSuggestion from "./suggestions/DialogAddSuggestion";
 import DialogEditSuggestion from "./suggestions/DialogEditSuggestion";
 import Suggestion from "./suggestions/Suggestion";
+import { useDispatch, useSelector } from "react-redux";
+import { setStreamSelectionSuggestions } from "../../redux/sliceTemplateConfig";
 
 export default function Suggestions() {
     const { requestAPI, showToast } = useAppContext();
     const [loading, setLoading] = useState();
-    const [suggestions, setSuggestions] = useState();
+    const [updatingViewIndex, setUpdatingViewIndex] = useState();
+
+    const dispatch = useDispatch();
+
+
+    const { suggestions = [] } = useSelector((state) => state.stateTemplateConfig?.stream_selection);
+
 
     const [dialogAddSuggestion, setDialogAddSuggestion] = useState({ visible: false });
     const [dialogEditSuggestion, setDialogEditSuggestion] = useState({ visible: false });
@@ -19,20 +27,30 @@ export default function Suggestions() {
     const closeDialogAddSuggestion = useCallback(() => setDialogAddSuggestion((prev) => ({ ...prev, visible: false })), []);
     const closeDialogEditSuggestion = useCallback(() => setDialogEditSuggestion((prev) => ({ ...prev, visible: false })), []);
 
-    useEffect(() => {
+    const updateViewIndexs = useCallback(() => {
         requestAPI({
-            requestPath: `stream-selection-suggestions`,
-            requestMethod: "GET",
-            setLoading,
-            onResponseReceieved: (suggestionsResponse, responseCode) => {
-                if (suggestionsResponse && responseCode === 200) {
-                    setSuggestions([...suggestionsResponse, ...suggestionsResponse, ...suggestionsResponse, ...suggestionsResponse, ...suggestionsResponse, ...suggestionsResponse, ...suggestionsResponse, ...suggestionsResponse, ...suggestionsResponse, ...suggestionsResponse,...suggestionsResponse, ...suggestionsResponse, ...suggestionsResponse, ...suggestionsResponse]);
-                   } else {
-                    showToast({ severity: "error", summary: "Failed", detail: "Failed To Load Suggestions !", life: 2000 });
+            requestPath: `stream-selection-suggestions/view_indexes`,
+            requestMethod: "PATCH",
+            requestPostBody: suggestions?.map(({ id }, view_index) => ({ id, view_index })),
+            setLoading: setLoading,
+            parseResponseBody: false,
+            onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Update View Indexes !", life: 2000 }),
+            onResponseReceieved: (_, responseCode) => {
+                if (responseCode === 200) {
+                    showToast({
+                        severity: "success",
+                        summary: "Updated",
+                        detail: `View Indexes Updated`,
+                        life: 1000,
+                    });
+                } else {
+                    showToast({ severity: "error", summary: "Failed", detail: "Failed To Update View Indexes !", life: 2000 });
                 }
             },
         });
-    }, [requestAPI, showToast]);
+    }, [requestAPI, showToast, suggestions]);
+
+
 
     return (
         <div className="flex-1 flex flex-column min-h-0 h-full">
@@ -49,10 +67,27 @@ export default function Suggestions() {
                                 ...prev,
                                 visible: true,
                                 closeDialog: closeDialogAddSuggestion,
-                                setSuggestions,
                             }))
                         }
                     />,
+                    !!suggestions?.length && (
+                        <Button
+                            loading={loading}
+                            onClick={() => {
+                                showToast({
+                                    severity: "info",
+                                    summary: "Repositioning",
+                                    detail: `Repositioning Mode ${!updatingViewIndex ? "Enabled" : "Disabled"}`,
+                                    life: 1000,
+                                });
+                                if (!!updatingViewIndex) {
+                                    updateViewIndexs();
+                                }
+                                setUpdatingViewIndex((prev) => !prev);
+                            }}
+                            icon="pi pi-arrows-v"
+                        />
+                    ),
                 ]}
             />
             <Divider />
@@ -60,15 +95,18 @@ export default function Suggestions() {
             <div className="flex-1 overflow-y-scroll">
                 <OrderManager
                     loading={loading}
+                    updatingViewIndex={updatingViewIndex}
                     items={suggestions}
-                    setItems={setSuggestions}
+                    setItems={(items) =>
+                        dispatch(setStreamSelectionSuggestions(items(suggestions)))
+                    }
                     entity={"Suggestions"}
                     itemTemplate={(item) => (
                         <Suggestion
                             id={item?.id}
                             title={item?.title}
                             pdf={item?.pdf}
-                            setSuggestions={setSuggestions}
+                            updatingViewIndex={updatingViewIndex}
                             setDialogEditSuggestion={setDialogEditSuggestion}
                         />
                     )}
