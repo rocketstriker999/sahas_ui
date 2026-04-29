@@ -3,7 +3,7 @@ import PageTitle from "../components/common/PageTitle";
 
 import { Outlet } from "react-router-dom";
 
-export default function StreamSelectionHelp() {
+export default function StreamSelectionTest() {
 
 
     const [streamSelectionTestResult, setStreamSelectionTestResult] = useState();

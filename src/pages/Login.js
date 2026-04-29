@@ -7,7 +7,7 @@ import DialogInputOTP from "../components/authentication/DialogInputOTP";
 import { useAppContext } from "../providers/ProviderAppContainer";
 import { TEXT_SMALL } from "../style";
 
-export default function Authentication() {
+export default function Login() {
     const { requestAPI, showToast } = useAppContext();
 
     const [email, setEmail] = useState();

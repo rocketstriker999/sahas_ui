@@ -7,10 +7,13 @@ import { useState } from "react";
 import Error from "../common/Error";
 import { TEXT_NORMAL, TEXT_TITLE } from "../../style";
 import { classNames } from "primereact/utils";
+import { useNavigate } from "react-router-dom";
 
 export default function CardInputEmail({ email, setEmail, requestOTP }) {
     const [loading, setLoading] = useState();
     const [error, setError] = useState();
+
+    const navigate = useNavigate();
 
     return (
         <>
@@ -52,6 +55,20 @@ export default function CardInputEmail({ email, setEmail, requestOTP }) {
                             severity="warning"
                             icon="pi pi-arrow-right"
                             label="Continue With Email"
+                            disabled={loading}
+                            loading={loading}
+                            pt={{
+                                label: { className: TEXT_NORMAL },
+                                icon: { className: TEXT_NORMAL },
+                            }}
+                        />
+                         <Button
+                            onClick={() => navigate("/contact-us")}
+                            className="w-full mt-3"
+                            severity="info"
+                            icon="pi pi-phone"
+                            iconPos="right"
+                            label="Need Help ?"
                             disabled={loading}
                             loading={loading}
                             pt={{

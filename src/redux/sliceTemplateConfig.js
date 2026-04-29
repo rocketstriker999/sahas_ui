@@ -32,6 +32,9 @@ export const sliceTemplateConfig = createSlice({
         setDashboardDialog: (state, action) => {
             state.dash_board.dialog = { ...state.dash_board.dialog, ...action?.payload };
         },
+        setStreamSelection: (state, action) => {
+            state.stream_selection = { ...state.stream_selection, ...action?.payload };
+        },
 
         addChapterType: (state, action) => {
             state.global.chapter_types.push(action?.payload);
@@ -54,6 +57,7 @@ export const {
     updateChapterTypes,
     updateDashboardDialog,
     setDashboardDialog,
+    setStreamSelection
 } = sliceTemplateConfig.actions;
 
 export default sliceTemplateConfig.reducer;

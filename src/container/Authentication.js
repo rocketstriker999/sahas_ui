@@ -1,11 +1,12 @@
 import { useSelector, useDispatch } from "react-redux";
-import Authentication from "../../pages/Authentication";
-import { KEY_AUTHENTICATION_TOKEN } from "../../constants";
+import Login from "../pages/Login";
+import { KEY_AUTHENTICATION_TOKEN } from "../constants";
 import { useEffect, useCallback } from "react";
-import { useAppContext } from "../../providers/ProviderAppContainer";
-import { setCurrentUser } from "../../redux/sliceUser";
+import { useAppContext } from "../providers/ProviderAppContainer";
+import { setCurrentUser } from "../redux/sliceUser";
+import { Outlet } from "react-router-dom";
 
-export default function HasAuthentication({ children }) {
+export default function Authentication() {
     const { requestAPI, applicationLoading, setApplicationLoading } = useAppContext();
 
     const loggedInUser = useSelector((state) => state.stateUser);
@@ -32,13 +33,8 @@ export default function HasAuthentication({ children }) {
         }
     }, [applicationLoading, clearAuthenticationToken, dispatch, loggedInUser, requestAPI, setApplicationLoading]);
 
-    //if user is logged in and token is verified
-    if (loggedInUser) {
-        return children;
-    }
 
-    //if we don't have token , let's generate a token
-    if (!localStorage.getItem(KEY_AUTHENTICATION_TOKEN)) {
-        return <Authentication />;
-    }
+    return !!localStorage.getItem(KEY_AUTHENTICATION_TOKEN) && !!loggedInUser ? <Outlet/> : <Login />;
+
+    
 }

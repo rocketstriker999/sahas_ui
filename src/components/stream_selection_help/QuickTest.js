@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button } from "primereact/button";
 import { useNavigate } from "react-router-dom";
 import { updateCurrentUser } from "../../redux/sliceUser";
-import Ask from "../stream_selection_test_configuration/question_categories/Ask";
+import Ask from "../manage_stream_selection/question_categories/Ask";
 import Scanner from "./Scanner";
 import ExploreResult from "./ExploreResult";
 import TestIntroduction from "./TestIntroduction";

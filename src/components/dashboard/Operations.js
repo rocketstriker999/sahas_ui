@@ -63,7 +63,7 @@ export default function Operations({ className }) {
                     {
                         title: "Psychometric Test",
                         icon: "pi-lightbulb",
-                        path: `/stream-selection-help/attend`,
+                        path: `/stream-selection-test/attend`,
                     },
                     {
                         title: "Policies",
@@ -151,10 +151,10 @@ export default function Operations({ className }) {
                     },
                     {
                         //stream-selection-test-results
-                        title: "P.C.A.T. Configuration",
+                        title: "Psychometric Tests",
                         icon: "pi-ticket",
                         required_authority: AUTHORITIES.USE_PAGE_COUPON_CODES,
-                        path: "/stream-selection-test-configuration/qr-invites",
+                        path: "/manage-stream-selection/configs",
                     },
                 ],
             },
