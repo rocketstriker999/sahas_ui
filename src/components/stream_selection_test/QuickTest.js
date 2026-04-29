@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { updateCurrentUser } from "../../redux/sliceUser";
 import Ask from "../manage_stream_selection/question_categories/Ask";
 import QrScanner from "./QrScanner";
-import ExploreResult from "./ExploreResult";
+import ExploreResult from "./ByPay";
 import TestIntroduction from "./TestIntroduction";
 
 export default function QuickTest() {

@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { TEXT_NORMAL, TEXT_SMALL } from "../../style";
 import { Button } from "primereact/button";
 
-export default function ExploreResult() {
+export default function ByPay() {
     const navigate = useNavigate();
 
     return (
