@@ -31,7 +31,7 @@ export default function DialogAddGlobalNote({ visible, closeDialog, setGlobalNot
                     })); //reset this form
                     closeDialog(); //close the dialog
                 } else {
-                    showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Inquiry !", life: 2000 });
+                    showToast({ severity: "error", summary: "Failed", detail: "Failed To Add Note !", life: 2000 });
                 }
             },
         });
@@ -66,7 +66,7 @@ export default function DialogAddGlobalNote({ visible, closeDialog, setGlobalNot
             <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_GLOBAL_NOTE}>
                 <Button
                     className="mt-3"
-                    label="Add Inquiry"
+                    label="Add Note"
                     severity="warning"
                     loading={loading}
                     onClick={addNote}

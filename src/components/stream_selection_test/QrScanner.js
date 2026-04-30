@@ -15,8 +15,9 @@ function decodedTextFromScan(result) {
     return null;
 }
 
-export default function QrScanner({ scanningQR, setScanningQR }) {
+export default function QrScanner() {
     const [scanResult, setScanResult] = useState();
+    const [scanningQR, setScanningQR] = useState();
     const { requestAPI, showToast } = useAppContext();
     const [loading, setLoading] = useState();
     const dispatch = useDispatch();
@@ -112,7 +113,7 @@ export default function QrScanner({ scanningQR, setScanningQR }) {
         <div className="flex flex-column align-items-center justify-content-center p-2 text-center">
             {!!scanningQR ? <div className="border-1 border-round border-gray-300 ">
                 <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={onGalleryFileChange} />
-                
+
                 <span className={`font-semibold text-center ${TEXT_SMALL}`}>Align Camera With QR Code</span>
                 <BarcodeScanner
                     onUpdate={(error, result) => {
@@ -128,37 +129,17 @@ export default function QrScanner({ scanningQR, setScanningQR }) {
             {!!scanningQR ? <div className="flex justify-content-between gap-2">
                 <Button type="button" outlined label="Choose from gallery" icon="pi pi-image" onClick={() => fileInputRef.current?.click()} />
                 <Button severity="danger" icon="pi pi-times" label="Cancel" onClick={() => setScanningQR(false)} />
-            </div> : <Button icon="pi pi-qrcode" label="Scan QR" outlined onClick={() => setScanningQR(true)} />}
+            </div> : <Button icon="pi pi-qrcode" label="Scan QR" outlined onClick={() => {
+
+                dispatch(updateCurrentUser({ stream_selection_test_allowed: true }));
+                //setScanningQR(true)
+
+            }} />}
 
 
         </div>
     );
 
-    // return (
-    //     <div className="flex flex-column p-4 border-1 border-gray-300 border-round w-10 gap-2">
-    //         <span className={`font-semibold text-center ${TEXT_SMALL}`}>Scan QR Code for Psychometric Test Invite</span>
-    //         <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={onGalleryFileChange} />
-
-    //         
-
-    //     </div>
-    // );
 }
 
 
-
-
-// <div className="flex flex-column align-items-center justify-content-center p-2 text-center">
-// <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={onGalleryFileChange} />
-// {scanningQR ? <BarcodeScanner
-//     onUpdate={(error, result) => {
-//         const text = decodedTextFromScan(result);
-//         if (text) setScanResult(text);
-//     }}
-// /> : <img src="/images/scan_qr.png" alt="forbidden" className="w-6rem lg:w-8rem" />}
-// <p className={`${TEXT_NORMAL} font-bold`}>Scan QR to Start</p>
-// <p className={`${TEXT_SMALL} text-color-secondary text-center px-4`}>
-//     Scan QR Code For Psychometric Test Invite, Validate Invite Will Start Test.Check Camera Permission Berfore Scanning QR !
-// </p>
-// <Button icon="pi pi-qrcode" label="Choose from gallery" outlined onClick={() => setScanningQR(true)} />
-// </div>

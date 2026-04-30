@@ -1,12 +1,10 @@
-import { useSelector, useDispatch } from "react-redux";
-import Login from "../pages/Login";
-import { KEY_AUTHENTICATION_TOKEN } from "../constants";
 import { useEffect, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { KEY_AUTHENTICATION_TOKEN } from "../constants";
 import { useAppContext } from "../providers/ProviderAppContainer";
 import { setCurrentUser } from "../redux/sliceUser";
-import { Outlet } from "react-router-dom";
 
-export default function Authentication() {
+export default function ProcessAuthenticationToken({children}) {
     const { requestAPI, applicationLoading, setApplicationLoading } = useAppContext();
 
     const loggedInUser = useSelector((state) => state.stateUser);
@@ -15,7 +13,6 @@ export default function Authentication() {
 
     const clearAuthenticationToken = useCallback(() => localStorage.removeItem(KEY_AUTHENTICATION_TOKEN), []);
 
-    //check if token already exist and we can verify it
     useEffect(() => {
         if (!applicationLoading && !loggedInUser && localStorage.getItem(KEY_AUTHENTICATION_TOKEN)) {
             requestAPI({
@@ -33,8 +30,7 @@ export default function Authentication() {
         }
     }, [applicationLoading, clearAuthenticationToken, dispatch, loggedInUser, requestAPI, setApplicationLoading]);
 
+    return children;
 
-    return !!localStorage.getItem(KEY_AUTHENTICATION_TOKEN) && !!loggedInUser ? <Outlet/> : <Login />;
-
-    
 }
+

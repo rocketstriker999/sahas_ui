@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import PageTitle from "../components/common/PageTitle";
 
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useAppContext } from "../providers/ProviderAppContainer";
 import Loading from "../components/common/Loading";
 import { useSelector } from "react-redux";
@@ -13,13 +13,16 @@ export default function StreamSelectionTest() {
 
     const loggedInUser = useSelector((state) => state.stateUser);
 
-    const navigate = useNavigate();
+    console.log(loggedInUser);
 
     useEffect(() => {
         if (!!loggedInUser)
             requestAPI({
                 requestPath: `users/stream-selection-test-results/latest`,
                 requestMethod: "GET",
+                requestHeaders: {
+                    guest: loggedInUser?.id,
+                },
                 setLoading,
                 onResponseReceieved: ({ error, ...testResult }, responseCode) => {
                     if (testResult && responseCode === 200) {
@@ -29,12 +32,10 @@ export default function StreamSelectionTest() {
                         } catch {
                             showToast({ severity: "error", summary: "Failed", detail: "Failed To Load Psychometric Test Result !", life: 2000 });
                         }
-                    } else {
-                        showToast({ severity: "error", summary: "Failed", detail: error || "Failed To Load Psychometric Test Result !", life: 2000 });
-                    }
+                    } 
                 },
             });
-    }, []);
+    }, [loggedInUser]);
 
     if (loading) {
         return <Loading message={"Fetching Details..."} />;

@@ -43,10 +43,6 @@ export default function Configs() {
     return (
         <div className="flex flex-column h-full overflow-hidden p-2">
 
-
-
-
-
             <CheckboxInput
                 label={"Allow External Psychometric Test "}
                 checked={!!streamSelectionConfig?.external_attendees}

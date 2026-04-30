@@ -1,28 +1,19 @@
-import { useEffect, useState } from "react";
-import { useAppContext } from "../../providers/ProviderAppContainer";
 import Loading from "../common/Loading";
 import NoContent from "../common/NoContent";
 import Summary from "../common/Summary";
 import { Panel } from "primereact/panel";
 import { Divider } from "primereact/divider";
-import { getReadableDate } from "../../utils";
+import { getRandomBackgroundColor, getReadableDate } from "../../utils";
 import ResultSummary from "./ResultSummary";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { Button } from "primereact/button";
 import { useSelector } from "react-redux";
 
 export default function TestResult() {
-    const { requestAPI, showToast } = useAppContext();
-    const [loading, setLoading] = useState();
-
-    const { streamSelectionTestResult, setStreamSelectionTestResult } = useOutletContext();
+    const { streamSelectionTestResult } = useOutletContext();
     const navigate = useNavigate();
+    const { suggestions = [] } = useSelector((state) => state.stateTemplateConfig?.stream_selection || {});
 
-    const loggedInUser = useSelector((state) => state.stateUser);
-
-    if (loading) {
-        return <Loading message={"Fetching Result"} />;
-    }
 
     return streamSelectionTestResult?.result ? (
         <div className="flex-1 flex flex-column overflow-y-scroll">
@@ -37,7 +28,15 @@ export default function TestResult() {
                         icon="pi pi-chart-line"
                         onClick={() => navigate("../analysis")}
                     />
-                    <Button severity="info" className="w-full" label="About This Test" icon="pi pi-info-circle" onClick={() => navigate("../about-test")} />
+                    {!!suggestions?.length &&
+                        suggestions.map(({ id, title, pdf }) => (
+                            <Button
+                                key={id}
+                                label={title}
+                                className={`w-full border-none ${getRandomBackgroundColor()}`}
+                                onClick={() => window.open(pdf, "_blank", "noopener,noreferrer")}
+                            />
+                        ))}
                 </div>
                 <Divider className="my-3" />
                 <Summary

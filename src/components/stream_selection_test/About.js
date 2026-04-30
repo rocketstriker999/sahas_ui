@@ -5,7 +5,7 @@ import { Button } from "primereact/button";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { TEXT_NORMAL, TEXT_SMALL, TEXT_SUBTITLE } from "../../style";
 
-export default function AboutTest() {
+export default function About() {
     const navigate = useNavigate();
     const { streamSelectionTestResult } = useOutletContext();
 
@@ -59,7 +59,12 @@ export default function AboutTest() {
                             onClick={() => navigate("/stream-selection-test/result")}
                         />
                     )}
-                    <Button label="Attend Test" icon="pi pi-play" severity="warning" onClick={() => navigate("../enroll")} />
+                    <Button
+                        label="Attend Test"
+                        icon="pi pi-play"
+                        severity="warning"
+                        onClick={() => navigate("../enroll")}
+                    />
                 </div>
             </Card>
         </div>

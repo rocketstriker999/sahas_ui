@@ -1,58 +1,63 @@
 import { useCallback, useEffect, useState } from "react";
 import { useAppContext } from "../../providers/ProviderAppContainer";
-import TabHeader from "../common/TabHeader";
-import { Divider } from "primereact/divider";
 import Loading from "../common/Loading";
 import Error from "../common/Error";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "primereact/button";
-import { useNavigate } from "react-router-dom";
-import { updateCurrentUser } from "../../redux/sliceUser";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import Ask from "../manage_stream_selection/question_categories/Ask";
-import QrScanner from "./QrScanner";
-import ExploreResult from "./ByPay";
-import TestIntroduction from "./TestIntroduction";
+import NoContent from "../common/NoContent";
+import { updateCurrentUser } from "../../redux/sliceUser";
 
-export default function QuickTest() {
+export default function Attempt() {
     const { requestAPI, showToast, setApplicationLoading } = useAppContext();
     const [loading, setLoading] = useState();
     const [questions, setQuestions] = useState();
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState();
     const loggedInUser = useSelector((state) => state.stateUser);
-    const [scanningQR, setScanningQR] = useState();
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { setStreamSelectionTestResult } = useOutletContext();
 
     useEffect(() => {
         requestAPI({
             requestPath: `stream-selection-questions`,
             requestMethod: "GET",
+
             setLoading: setLoading,
             onResponseReceieved: (questions, responseCode) => {
                 if (questions && responseCode === 200) {
                     setQuestions(questions);
+                    setCurrentQuestionIndex(0);
                 } else {
                     showToast({ severity: "error", summary: "Failed", detail: "Failed To Load Psychometric Test Questions !", life: 2000 });
                 }
             },
         });
-    }, [loggedInUser?.stream_selection_test_allowed, navigate, requestAPI, showToast]);
-
-
-    
+    }, [ requestAPI, showToast]);
 
     const addStreamSelectionTest = useCallback(() => {
         requestAPI({
             requestPath: `stream-selection-tests`,
             requestMethod: "POST",
+            requestHeaders: {
+                guest: loggedInUser?.id,
+            },
             requestPostBody: questions,
-            onRequestStart: () => setApplicationLoading({ message: "Your Psychometric Performance is Under Evaluation by Most Advance Ai & Psycologist Opinion By Considering All Aspects of Your Personality" }),
+            onRequestStart: () =>
+                setApplicationLoading({
+                    message:
+                        "Your Psychometric Performance is Under Evaluation by Most Advance Ai & Psycologist Opinion By Considering All Aspects of Your Personality",
+                }),
             onRequestEnd: setApplicationLoading,
             parseResponseBody: false,
-            onResponseReceieved: (_, responseCode) => {
+            onResponseReceieved: ({error,...streamSelectionTestResult}, responseCode) => {
                 if (responseCode === 201) {
                     showToast({ severity: "success", summary: "Added", detail: "Psychometric Test Submitted", life: 1000 });
                     dispatch(updateCurrentUser({ stream_selection_test_allowed: false }));
+                    setStreamSelectionTestResult(streamSelectionTestResult);
+                    navigate("../result",{replace: true});
+
                 } else {
                     showToast({ severity: "error", summary: "Failed", detail: "Failed To Submit Psychometric Test !", life: 2000 });
                 }
@@ -70,51 +75,53 @@ export default function QuickTest() {
 
     if (!loggedInUser?.stream_selection_test_allowed) {
         return (
-            <div className="flex flex-column gap-3 align-items-center justify-content-center h-full">
-                {!scanningQR && <ExploreResult />}
-                {!scanningQR && <Divider />}
-                <QrScanner scanningQR={scanningQR} setScanningQR={setScanningQR} />
-
+            <div className="flex flex-column gap-3 align-items-center justify-content-center h-full p-3">
+                <NoContent error="You are not allowed to take the Psychometric Test yet. Complete enrollment first." />
+                <Button label="Go to enroll" severity="warning" outlined onClick={() => navigate("../enroll")} />
             </div>
         );
     }
-    return (
-        <div className="flex flex-column h-full overflow-scroll">
-            <TabHeader
-                className={"mx-3 mt-2"}
-                title="Press Start To Attend Test"
-                highlights={[`Answer To Following Questions`]}
-                actionItems={[
-                    <Button visible={currentQuestionIndex == null} onClick={() => setCurrentQuestionIndex(0)} outlined label="Start" severity="warning" />,
-                    <Button
-                        visible={currentQuestionIndex === questions?.length - 1}
-                        onClick={addStreamSelectionTest}
-                        outlined
-                        label="Submit"
-                        severity="warning"
-                    />,
-                ]}
-            />
-            <Divider />
 
-            {loading ? (
-                <Loading />
-            ) : questions?.length ? (
-                currentQuestionIndex != null ? (
+
+    return (
+        <div className="flex flex-column h-full">
+
+            {currentQuestionIndex === questions?.length - 1 &&  <Button
+                    icon="pi pi-arrow-left"
+                    className="w-11 align-self-center m-2"
+                    onClick={addStreamSelectionTest}
+                    label="Submit"
+                    severity="warning"
+                />}
+
+            <div className="flex justify-content-between align-items-center  bg-gray-100 p-2 shadow-2">
+                <Button disabled={currentQuestionIndex <= 0} onClick={askPrevious} size="small" text label="Previous" icon="pi pi-arrow-left" />
+                <span>
+                    {currentQuestionIndex + 1}/{questions?.length}
+                </span>
+                <Button disabled={currentQuestionIndex >= questions?.length - 1} onClick={askNext} size="small" text label="Next" icon="pi pi-arrow-right" iconPos="right" severity="warning" />
+            </div>
+
+            <div className=" overflow-scroll">
+
+                {loading ? (
+                    <Loading />
+                ) : questions?.length ? (
                     <Ask
                         askNext={askNext}
                         askPrevious={askPrevious}
                         currentQuestionIndex={currentQuestionIndex}
-                        total={questions?.length}
                         {...questions[currentQuestionIndex]}
-                        canMoveToNext={currentQuestionIndex < questions?.length - 1}
-                        canMoveToPrevious={currentQuestionIndex > 0}
                         setQuestions={setQuestions}
                     />
-                ):<TestIntroduction/>
-            ) : (
-                <Error error="No Psychometric Test Questions Found" />
-            )}
+                ) : (
+                    <Error error="No Psychometric Test Questions Found" />
+                )}
+
+            </div>
+
+
+
         </div>
     );
 }
