@@ -4,10 +4,11 @@ import Loading from "../common/Loading";
 import Error from "../common/Error";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "primereact/button";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Ask from "../manage_stream_selection/question_categories/Ask";
 import NoContent from "../common/NoContent";
 import { updateCurrentUser } from "../../redux/sliceUser";
+import { KEY_GUEST } from "../../constants";
 
 export default function Attempt() {
     const { requestAPI, showToast, setApplicationLoading } = useAppContext();
@@ -17,7 +18,6 @@ export default function Attempt() {
     const loggedInUser = useSelector((state) => state.stateUser);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { setStreamSelectionTestResult } = useOutletContext();
 
     useEffect(() => {
         requestAPI({
@@ -34,37 +34,32 @@ export default function Attempt() {
                 }
             },
         });
-    }, [ requestAPI, showToast]);
 
-    const addStreamSelectionTest = useCallback(() => {
-        requestAPI({
-            requestPath: `stream-selection-tests`,
-            requestMethod: "POST",
-            requestHeaders: {
-                guest: loggedInUser?.id,
-            },
-            requestPostBody: questions,
-            onRequestStart: () =>
-                setApplicationLoading({
-                    message:
-                        "Your Psychometric Performance is Under Evaluation by Most Advance Ai & Psycologist Opinion By Considering All Aspects of Your Personality",
-                }),
-            onRequestEnd: setApplicationLoading,
-            parseResponseBody: false,
-            onResponseReceieved: ({error,...streamSelectionTestResult}, responseCode) => {
-                if (responseCode === 201) {
-                    showToast({ severity: "success", summary: "Added", detail: "Psychometric Test Submitted", life: 1000 });
-                    dispatch(updateCurrentUser({ stream_selection_test_allowed: false }));
-                    setStreamSelectionTestResult(streamSelectionTestResult);
-                    navigate("../result",{replace: true});
+    }, []);
 
-                } else {
-                    showToast({ severity: "error", summary: "Failed", detail: "Failed To Submit Psychometric Test !", life: 2000 });
-                }
-            },
-        });
-    }, [dispatch, questions, requestAPI, setApplicationLoading, showToast]);
-
+    const addStreamSelectionTest = () => requestAPI({
+        requestPath: `stream-selection-tests`,
+        requestMethod: "POST",
+        requestHeaders: {
+            [KEY_GUEST]: loggedInUser?.id,
+        },
+        requestPostBody: questions,
+        onRequestStart: () =>
+            setApplicationLoading({
+                message:
+                    "Your Psychometric Performance is Under Evaluation by Most Advance Ai & Psycologist Opinion By Considering All Aspects of Your Personality",
+            }),
+        onRequestEnd: setApplicationLoading,
+        onResponseReceieved: ({ error, ...streamSelectionTestResult }, responseCode) => {
+            if (responseCode === 201) {
+                showToast({ severity: "success", summary: "Added", detail: "Psychometric Test Submitted", life: 2000 });
+                dispatch(updateCurrentUser({ stream_selection_test_allowed: false }));
+                navigate("../result", { replace: true, state: { streamSelectionTestResult } });
+            } else {
+                showToast({ severity: "error", summary: "Failed", detail: error || "Failed To Submit Psychometric Test !", life: 2000 });
+            }
+        },
+    });
     const askNext = useCallback(() => {
         setCurrentQuestionIndex((prev) => (prev || 0) + 1);
     }, []);
@@ -86,13 +81,13 @@ export default function Attempt() {
     return (
         <div className="flex flex-column h-full">
 
-            {currentQuestionIndex === questions?.length - 1 &&  <Button
-                    icon="pi pi-arrow-left"
-                    className="w-11 align-self-center m-2"
-                    onClick={addStreamSelectionTest}
-                    label="Submit"
-                    severity="warning"
-                />}
+            {currentQuestionIndex === questions?.length - 1 && <Button
+                icon="pi pi-arrow-left"
+                className="w-11 align-self-center m-2"
+                onClick={addStreamSelectionTest}
+                label="Submit"
+                severity="warning"
+            />}
 
             <div className="flex justify-content-between align-items-center  bg-gray-100 p-2 shadow-2">
                 <Button disabled={currentQuestionIndex <= 0} onClick={askPrevious} size="small" text label="Previous" icon="pi pi-arrow-left" />

@@ -1,7 +1,5 @@
-import { Divider } from "primereact/divider";
 import { TEXT_NORMAL, TEXT_SMALL } from "../../style";
 import { Chart } from 'primereact/chart';
-import Analysis from "./Analysis";
 
 export default function ResultSummary({ suggestion, suitable_stream, analysis }) {
     return (

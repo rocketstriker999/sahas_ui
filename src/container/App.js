@@ -75,9 +75,7 @@ export default function App() {
                         </Route>
                     </Route>
 
-
                     <Route path="/contact-us" element={<ContactUs />} />
-
 
                     <Route element={<RequiresAuthentication />}>
                         <Route index element={<Dashboard />} />
@@ -188,8 +186,6 @@ export default function App() {
                         <Route path="/revenue" element={<Revenue />} />
                         <Route path="/payment-gateway-payloads/:paymentGatewayPayloadId" element={<PaymentGatewayPayLoad />} />
                     </Route>
-
-
 
                     <Route path="*" element={<NotFound />} />
                 </Routes>

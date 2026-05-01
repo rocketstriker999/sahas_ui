@@ -2,12 +2,11 @@ import { Card } from "primereact/card";
 import { Divider } from "primereact/divider";
 import { Tag } from "primereact/tag";
 import { Button } from "primereact/button";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { TEXT_NORMAL, TEXT_SMALL, TEXT_SUBTITLE } from "../../style";
 
 export default function About() {
     const navigate = useNavigate();
-    const { streamSelectionTestResult } = useOutletContext();
 
     return (
         <div className="flex-1 overflow-y-auto p-3">
@@ -47,25 +46,18 @@ export default function About() {
                     </div>
                 </div>
 
-                <Divider />
-
-                <div className="flex justify-content-between">
-                    {!!streamSelectionTestResult?.result && (
-                        <Button
-                            className="mr-2"
-                            label="Result"
-                            icon="pi pi-chart-line"
-                            severity="info"
-                            onClick={() => navigate("/stream-selection-test/result")}
-                        />
-                    )}
+                <div className="text-right mt-2">
                     <Button
                         label="Attend Test"
                         icon="pi pi-play"
                         severity="warning"
                         onClick={() => navigate("../enroll")}
                     />
+
                 </div>
+
+
+
             </Card>
         </div>
     );
