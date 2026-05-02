@@ -27,7 +27,7 @@ export default function About() {
                     <iframe
                         className="w-full border-none block"
                         style={{ aspectRatio: "16 / 9", minHeight: "12rem" }}
-                        src="https://www.youtube.com/embed/-FdiGPcoPnY?si=3SLWD9vRetpXiuT_&autoplay=1&mute=1"
+                        src="https://www.youtube.com/embed/H-5NEjzsxWQ?si=jEcX_YtX2_iISe6E&autoplay=1&mute=1"
                         title="YouTube video player"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         referrerPolicy="strict-origin-when-cross-origin"
