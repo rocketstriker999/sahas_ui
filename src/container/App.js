@@ -56,6 +56,7 @@ import Tests from "../components/manage_stream_selection/Tests";
 import Configs from "../components/manage_stream_selection/Configs";
 import Suggestions from "../components/manage_stream_selection/Suggestions";
 import ProcessAuthenticationToken from "./ProcessAuthenticationToken";
+import ProcessGuestToken from "./ProcessGuestToken";
 
 export default function App() {
     return (
@@ -65,13 +66,15 @@ export default function App() {
 
                 <Routes>
 
-                    <Route path="/stream-selection-test" element={<StreamSelectionTest />}>
-                        <Route path="about" element={<About />} />
-                        <Route element={<RequiresGuestUser />}>
-                            <Route path="enroll" element={<Enroll />} />
-                            <Route path="attempt" element={<Attempt />} />
-                            <Route path="result" element={<TestResult />} />
-                            <Route path="analysis" element={<Analysis />} />
+                    <Route element={<ProcessGuestToken />}>
+                        <Route path="/stream-selection-test" element={<StreamSelectionTest />}>
+                            <Route path="about" element={<About />} />
+                            <Route element={<RequiresGuestUser />}>
+                                <Route path="enroll" element={<Enroll />} />
+                                <Route path="attempt" element={<Attempt />} />
+                                <Route path="result" element={<TestResult />} />
+                                <Route path="analysis" element={<Analysis />} />
+                            </Route>
                         </Route>
                     </Route>
 

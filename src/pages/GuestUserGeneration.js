@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../providers/ProviderAppContainer";
 import { setCurrentUser } from "../redux/sliceUser";
 import TabHeader from "../components/common/TabHeader";
+import { KEY_AUTHENTICATION_TOKEN, KEY_GUEST_TOKEN } from "../constants";
 
 export default function GuestUserGeneration() {
     const { requestAPI, showToast } = useAppContext();
@@ -26,7 +27,9 @@ export default function GuestUserGeneration() {
             onResponseReceieved: ({error, ...createdUser}, responseCode) => {
                 if (responseCode === 201) {
                     showToast({ severity: "success", summary: "Success", detail: "Your details were saved.", life: 1500 });
-                    dispatch(setCurrentUser(createdUser));
+                    localStorage.setItem(KEY_GUEST_TOKEN, createdUser?.token);
+                    dispatch(setCurrentUser(user));
+
                 } else {
                     showToast({ severity: "error", summary: "Failed", detail: error || "Failed To Submit Details !", life: 2000 });
                 }

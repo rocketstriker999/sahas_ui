@@ -2,7 +2,7 @@ import { Toast } from "primereact/toast";
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { generateDeviceFingerprint } from "../utils";
 import Loading from "../components/common/Loading";
-import { KEY_DEVICE_FINGER_PRINT, KEY_AUTHENTICATION_TOKEN, KEY_GUEST } from "../constants";
+import { KEY_DEVICE_FINGER_PRINT, KEY_AUTHENTICATION_TOKEN, KEY_GUEST, KEY_GUEST_TOKEN } from "../constants";
 import Error from "../pages/Error";
 
 const ContextApp = createContext();
@@ -74,7 +74,7 @@ export const ProviderAppContainer = ({ children }) => {
                     ...(!(requestPostBody instanceof FormData) && { "Content-Type": "application/json" }),
                     [KEY_DEVICE_FINGER_PRINT]: deviceFingerPrint,
                     [KEY_AUTHENTICATION_TOKEN]: localStorage.getItem(KEY_AUTHENTICATION_TOKEN),
-                    [KEY_GUEST]: localStorage.getItem(KEY_GUEST),
+                    [KEY_GUEST_TOKEN]: localStorage.getItem(KEY_GUEST_TOKEN),
                     ...requestHeaders,
                 },
                 // Adding method type
