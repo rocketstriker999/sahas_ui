@@ -78,6 +78,8 @@ export default function App() {
                         </Route>
                     </Route>
 
+
+                    <Route path="/payment-gateway-payloads/:paymentGatewayPayloadId" element={<PaymentGatewayPayLoad />} />
                     <Route path="/contact-us" element={<ContactUs />} />
 
                     <Route element={<RequiresAuthentication />}>
@@ -187,7 +189,7 @@ export default function App() {
 
                         <Route path="/enroll/:courseId" element={<EnrollPage />} />
                         <Route path="/revenue" element={<Revenue />} />
-                        <Route path="/payment-gateway-payloads/:paymentGatewayPayloadId" element={<PaymentGatewayPayLoad />} />
+                        
                     </Route>
 
                     <Route path="*" element={<NotFound />} />

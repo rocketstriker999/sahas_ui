@@ -1,12 +1,35 @@
 import { useNavigate } from "react-router-dom";
 import { TEXT_NORMAL, TEXT_SMALL } from "../../style";
 import { Button } from "primereact/button";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useAppContext } from "../../providers/ProviderAppContainer";
+import { useDispatch } from "react-redux";
 
-export default function ByPay() {
+export default function ByPay({ loading, setLoading }) {
+    const { requestAPI, showToast } = useAppContext();
+    const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [paymentGateWayPayLoad, setPaymentGateWayPayLoad] = useState();
 
-    const { fees = 0 } = useSelector((state) => state.stateTemplateConfig?.stream_selection);
+
+
+    useEffect(() => {
+        if (!paymentGateWayPayLoad)
+            requestAPI({
+                requestPath: `stream-selection-tests/payment-gateway-payloads`,
+                requestMethod: "POST",
+                setLoading: setLoading,
+                onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Load Payment Gateway Payload !", life: 2000 }),
+                onResponseReceieved: (paymentGateWayPayLoad, responseCode) => {
+                    if (paymentGateWayPayLoad && responseCode === 201) {
+                        setPaymentGateWayPayLoad(paymentGateWayPayLoad);
+                    }
+                },
+            });
+
+    }, [requestAPI]);
+
+
 
     return (
         <div className="flex flex-column align-items-center justify-content-center p-2 text-center">
@@ -15,7 +38,26 @@ export default function ByPay() {
             <p className={`${TEXT_SMALL} text-color-secondary text-center px-4`}>
                 Complete online payment to start your Psychometric Test. UPI, Cards, Net Banking, and Wallet methods are supported.
             </p>
-            <Button icon="pi pi-clipboard" label={`Pay ${fees} Rs`} severity="warning" onClick={() => navigate("../attempt")} />
+
+
+            <form action={paymentGateWayPayLoad?.paymentGateWay?.url} method="post">
+                <input type="hidden" name="key" value={paymentGateWayPayLoad?.paymentGateWay?.merchantKey} />
+                <input type="hidden" name="txnid" value={paymentGateWayPayLoad?.transaction?.id} />
+                <input type="hidden" name="productinfo" value={paymentGateWayPayLoad?.product} />
+                <input type="hidden" name="email" value={paymentGateWayPayLoad?.user?.email} />
+                <input type="hidden" name="firstname" value={paymentGateWayPayLoad?.user?.firstName} />
+                <input type="hidden" name="lastname" value={paymentGateWayPayLoad?.user?.lastName} />
+                <input type="hidden" name="phone" value={paymentGateWayPayLoad?.user?.phone} />
+                <input type="hidden" name="surl" value={paymentGateWayPayLoad?.transaction?.successURL} />
+                <input type="hidden" name="furl" value={paymentGateWayPayLoad?.transaction?.failureURL} />
+                <input type="hidden" name="amount" value={paymentGateWayPayLoad?.transaction?.amount} />
+                <input type="hidden" name="hash" value={paymentGateWayPayLoad?.transaction?.hash} />
+
+                <Button icon="pi pi-clipboard" label={`Pay ${paymentGateWayPayLoad?.transaction?.amount} Rs`} severity="warning" />
+            </form>
+
+
+
         </div>
     );
 }
