@@ -1,10 +1,11 @@
 import { ProgressBar } from "primereact/progressbar";
 import { TEXT_NORMAL, TEXT_SMALL } from "../../style";
-import { useOutletContext } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import NoContent from "../common/NoContent";
 
 export default function Analysis() {
-    const { streamSelectionTestResult } = useOutletContext();
+    const location = useLocation();
+    const streamSelectionTestResult = location.state?.streamSelectionTestResult;
     const analysis = streamSelectionTestResult?.result?.analysis;
 
     if (!analysis?.length) {

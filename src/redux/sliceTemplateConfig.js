@@ -32,6 +32,23 @@ export const sliceTemplateConfig = createSlice({
         setDashboardDialog: (state, action) => {
             state.dash_board.dialog = { ...state.dash_board.dialog, ...action?.payload };
         },
+        setStreamSelection: (state, action) => {
+            state.stream_selection = { ...state.stream_selection, ...action?.payload };
+        },
+        setStreamSelectionSuggestions: (state, action) => {
+            state.stream_selection.suggestions=action?.payload;
+        },
+        addStreamSelectionSuggestion: (state, action) => {
+            state.stream_selection.suggestions.push(action?.payload);
+        },
+        editStreamSelectionSuggestion: (state, action) => {
+            state.stream_selection.suggestions = state.stream_selection.suggestions.map((suggestion) =>
+                suggestion.id === action?.payload?.id ? action?.payload : suggestion
+            );
+        },
+        deleteStreamSelectionSuggestion: (state, action) => {
+            state.stream_selection.suggestions=state.stream_selection.suggestions.filter((suggestion) => suggestion.id !== action?.payload);
+        },
 
         addChapterType: (state, action) => {
             state.global.chapter_types.push(action?.payload);
@@ -54,6 +71,11 @@ export const {
     updateChapterTypes,
     updateDashboardDialog,
     setDashboardDialog,
+    setStreamSelection,
+    addStreamSelectionSuggestion,
+    setStreamSelectionSuggestions,
+    editStreamSelectionSuggestion,
+    deleteStreamSelectionSuggestion
 } = sliceTemplateConfig.actions;
 
 export default sliceTemplateConfig.reducer;

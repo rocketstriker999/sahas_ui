@@ -36,7 +36,7 @@ export default function Enroll() {
     useEffect(() => {
         if (courseId)
             requestAPI({
-                requestPath: `payment-gateway-payloads`,
+                requestPath: `courses/payment-gateway-payloads`,
                 requestMethod: "POST",
                 requestPostBody: payInputs,
                 setLoading: setLoading,

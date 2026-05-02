@@ -1,7 +1,5 @@
-import { Divider } from "primereact/divider";
 import { TEXT_NORMAL, TEXT_SMALL } from "../../style";
 import { Chart } from 'primereact/chart';
-import Analysis from "./Analysis";
 
 export default function ResultSummary({ suggestion, suitable_stream, analysis }) {
     return (
@@ -23,18 +21,14 @@ export default function ResultSummary({ suggestion, suitable_stream, analysis })
 
             {analysis?.length && (
                 <div>
-
                     <Chart type="pie" data={{
                         labels: analysis.map(({ stream }) => stream),
                         datasets: [
                             {
                                 data: analysis.map(({ score }) => parseFloat(score)),
-                               
                             }
                         ]
                     }} className="w-full md:w-30rem" />
-
-                   
                 </div>
             )}
         </div>

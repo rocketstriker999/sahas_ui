@@ -1,11 +1,10 @@
-import { useSelector, useDispatch } from "react-redux";
-import Authentication from "../../pages/Authentication";
-import { KEY_AUTHENTICATION_TOKEN } from "../../constants";
 import { useEffect, useCallback } from "react";
-import { useAppContext } from "../../providers/ProviderAppContainer";
-import { setCurrentUser } from "../../redux/sliceUser";
+import { useDispatch, useSelector } from "react-redux";
+import { KEY_AUTHENTICATION_TOKEN } from "../constants";
+import { useAppContext } from "../providers/ProviderAppContainer";
+import { setCurrentUser } from "../redux/sliceUser";
 
-export default function HasAuthentication({ children }) {
+export default function ProcessAuthenticationToken({children}) {
     const { requestAPI, applicationLoading, setApplicationLoading } = useAppContext();
 
     const loggedInUser = useSelector((state) => state.stateUser);
@@ -14,7 +13,6 @@ export default function HasAuthentication({ children }) {
 
     const clearAuthenticationToken = useCallback(() => localStorage.removeItem(KEY_AUTHENTICATION_TOKEN), []);
 
-    //check if token already exist and we can verify it
     useEffect(() => {
         if (!applicationLoading && !loggedInUser && localStorage.getItem(KEY_AUTHENTICATION_TOKEN)) {
             requestAPI({
@@ -32,13 +30,7 @@ export default function HasAuthentication({ children }) {
         }
     }, [applicationLoading, clearAuthenticationToken, dispatch, loggedInUser, requestAPI, setApplicationLoading]);
 
-    //if user is logged in and token is verified
-    if (loggedInUser) {
-        return children;
-    }
+    return children;
 
-    //if we don't have token , let's generate a token
-    if (!localStorage.getItem(KEY_AUTHENTICATION_TOKEN)) {
-        return <Authentication />;
-    }
 }
+

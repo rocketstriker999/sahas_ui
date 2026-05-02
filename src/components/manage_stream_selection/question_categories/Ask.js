@@ -11,20 +11,11 @@ export default function Ask({
     answer,
     setQuestions,
     options,
-    canMoveToNext,
-    canMoveToPrevious,
-    askPrevious,
-    askNext,
+   
 }) {
     return (
         <div>
-            <div className="flex justify-content-between align-items-center px-2">
-                <Button disabled={!canMoveToPrevious} onClick={askPrevious} size="small" text label="<< Previous" />
-                <span>
-                    {currentQuestionIndex + 1}/{total}
-                </span>
-                <Button disabled={!canMoveToNext} onClick={askNext} size="small" text label="Next >>" severity="warning" />
-            </div>
+            
             <div className="flex flex-column gap-3 px-3 md:px-4 mt-3">
                 <div className="surface-card border-1 surface-border border-round-xl p-3 md:p-4 shadow-1">
                     <div className="flex align-items-center justify-content-between mb-3 pb-2 border-bottom-1 surface-border">

@@ -5,7 +5,6 @@ import { getReadableDate } from "../../../utils";
 import HasRequiredAuthority from "../../dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../../../constants";
 import ProgressiveControl from "../../common/ProgressiveControl";
-import { Button } from "primereact/button";
 import IconButton from "../../common/IconButton";
 import { useNavigate } from "react-router-dom";
 

@@ -2,7 +2,6 @@ import { Route, Routes } from "react-router-dom";
 import Dashboard from "../pages/Dashboard";
 import RequiresTemplateConfiguration from "../components/dependencies/RequiresTemplateConfiguration";
 import HasRequiredAuthority from "../components/dependencies/HasRequiredAuthority";
-import HasAuthentication from "../components/dependencies/HasAuthentication";
 import NotFound from "../pages/NotFound";
 import Users from "../components/manage_users/Users";
 import ManageUsers from "../pages/ManageUsers";
@@ -24,12 +23,11 @@ import ManageChapterTypes from "../pages/ManageChapterTypes";
 import ManageCouponCodes from "../pages/ManageCouponCodes";
 import CouponCodes from "../components/manage_coupon_codes/CouponCodes";
 import CouponCodeCourses from "../components/manage_coupon_codes/CouponCodeCourses";
-import Enroll from "../pages/Enroll";
+import EnrollPage from "../pages/Enroll";
 import PaymentGatewayPayLoad from "../pages/PaymentGatewayPayLoad";
 import MediaCatalogue from "../components/course/MediaCatalogue";
 import Media from "../pages/Media";
 import { AUTHORITIES } from "../constants";
-import HasMandatoryDetails from "../components/dependencies/HasMandatoryDetails";
 import MyCourses from "../pages/MyCourses";
 import Revenue from "../pages/Revenue";
 import Devices from "../components/manage_users/user/Devices";
@@ -38,29 +36,54 @@ import Selection from "../components/chapter_test/Selection";
 import Appear from "../components/chapter_test/Appear";
 import Result from "../components/chapter_test/Result";
 import Policies from "../pages/Policies";
-
 import ManageInquiries from "../pages/ManageInquiries";
 import GlobalNotes from "../components/manage_users/user/GlobalNotes";
 import StreamSelectionTestResults from "../components/manage_users/user/StreamSelectionTestResults";
-import StreamSelectionHelp from "../pages/StreamSelectionHelp";
-import StreamSelectionTestConfiguration from "../pages/StreamSelectionTestConfiguration";
-import Questions from "../components/stream_selection_test_configuration/question_categories/Questions";
-import TestResult from "../components/stream_selection_help/TestResult";
-import QuickTest from "../components/stream_selection_help/QuickTest";
-import QRInvites from "../components/stream_selection_test_configuration/QRInvites";
-import QuestionCategories from "../components/stream_selection_test_configuration/QuestionCategories";
-import TestIntroduction from "../components/stream_selection_help/TestIntroduction";
-import Analysis from "../components/stream_selection_help/Analysis";
-import Tips from "../components/stream_selection_help/Tips";
+import ManageStreamSelection from "../pages/ManageStreamSelection";
+import Questions from "../components/manage_stream_selection/question_categories/Questions";
+import TestResult from "../components/stream_selection_test/TestResult";
+import Attempt from "../components/stream_selection_test/Attempt";
+import About from "../components/stream_selection_test/About";
+import Enroll from "../components/stream_selection_test/Enroll";
+import RequiresGuestUser from "../components/dependencies/RequiresGuestUser";
+import QRInvites from "../components/manage_stream_selection/QRInvites";
+import QuestionCategories from "../components/manage_stream_selection/QuestionCategories";
+import Analysis from "../components/stream_selection_test/Analysis";
 import ContactUs from "../pages/ContactUs";
+import StreamSelectionTest from "../pages/StreamSelectionTest";
+import RequiresAuthentication from "../components/dependencies/RequiresAuthentication";
+import Tests from "../components/manage_stream_selection/Tests";
+import Configs from "../components/manage_stream_selection/Configs";
+import Suggestions from "../components/manage_stream_selection/Suggestions";
+import ProcessAuthenticationToken from "./ProcessAuthenticationToken";
+import ProcessGuestToken from "./ProcessGuestToken";
 
 export default function App() {
     return (
-        <HasAuthentication>
-            <RequiresTemplateConfiguration>
-                <HasMandatoryDetails>
-                    <Routes>
-                        <Route path="/" element={<Dashboard />} />
+        <RequiresTemplateConfiguration>
+
+            <ProcessAuthenticationToken >
+
+                <Routes>
+
+                    <Route element={<ProcessGuestToken />}>
+                        <Route path="/stream-selection-test" element={<StreamSelectionTest />}>
+                            <Route path="about" element={<About />} />
+                            <Route element={<RequiresGuestUser />}>
+                                <Route path="enroll" element={<Enroll />} />
+                                <Route path="attempt" element={<Attempt />} />
+                                <Route path="result" element={<TestResult />} />
+                                <Route path="analysis" element={<Analysis />} />
+                            </Route>
+                        </Route>
+                    </Route>
+
+
+                    <Route path="/payment-gateway-payloads/:paymentGatewayPayloadId" element={<PaymentGatewayPayLoad />} />
+                    <Route path="/contact-us" element={<ContactUs />} />
+
+                    <Route element={<RequiresAuthentication />}>
+                        <Route index element={<Dashboard />} />
                         <Route path="/policies" element={<Policies />} />
                         <Route path="/manage-users" element={<ManageUsers />}>
                             <Route
@@ -152,7 +175,11 @@ export default function App() {
                                 </HasRequiredAuthority>
                             }
                         />
-                        <Route path="/stream-selection-test-configuration" element={<StreamSelectionTestConfiguration />}>
+
+                        <Route path="/manage-stream-selection" element={<ManageStreamSelection />}>
+                            <Route path="configs" element={<Configs />} />
+                            <Route path="suggestions" element={<Suggestions />} />
+                            <Route path="tests" element={<Tests />} />
                             <Route path="qr-invites" element={<QRInvites />} />
                             <Route path="question-categories">
                                 <Route index element={<QuestionCategories />} />
@@ -160,22 +187,18 @@ export default function App() {
                             </Route>
                         </Route>
 
-                        <Route path="/stream-selection-help" element={<StreamSelectionHelp />}>
-                            <Route path="attend" element={<QuickTest />} />
-                            <Route path="result" element={<TestResult />} />
-                            <Route path="analysis" element={<Analysis />} />
-                            <Route path="tips" element={<Tips />} />
-                        </Route>
-
-                        <Route path="/enroll/:courseId" element={<Enroll />} />
+                        <Route path="/enroll/:courseId" element={<EnrollPage />} />
                         <Route path="/revenue" element={<Revenue />} />
-                        <Route path="/payment-gateway-payloads/:paymentGatewayPayloadId" element={<PaymentGatewayPayLoad />} />
-                        <Route path="/contact-us" element={<ContactUs />} />
+                        
+                    </Route>
 
-                        <Route path="*" element={<NotFound />} />
-                    </Routes>
-                </HasMandatoryDetails>
-            </RequiresTemplateConfiguration>
-        </HasAuthentication>
+                    <Route path="*" element={<NotFound />} />
+                </Routes>
+
+            </ProcessAuthenticationToken >
+
+
+
+        </RequiresTemplateConfiguration>
     );
 }
