@@ -45,7 +45,7 @@ import TestResult from "../components/stream_selection_test/TestResult";
 import Attempt from "../components/stream_selection_test/Attempt";
 import About from "../components/stream_selection_test/About";
 import Enroll from "../components/stream_selection_test/Enroll";
-import RequiresLoggedInUser from "../components/dependencies/RequiresLoggedInUser";
+import RequiresGuestUser from "../components/dependencies/RequiresGuestUser";
 import QRInvites from "../components/manage_stream_selection/QRInvites";
 import QuestionCategories from "../components/manage_stream_selection/QuestionCategories";
 import Analysis from "../components/stream_selection_test/Analysis";
@@ -67,7 +67,7 @@ export default function App() {
 
                     <Route path="/stream-selection-test" element={<StreamSelectionTest />}>
                         <Route path="about" element={<About />} />
-                        <Route element={<RequiresLoggedInUser />}>
+                        <Route element={<RequiresGuestUser />}>
                             <Route path="enroll" element={<Enroll />} />
                             <Route path="attempt" element={<Attempt />} />
                             <Route path="result" element={<TestResult />} />

@@ -131,8 +131,7 @@ export default function QrScanner() {
                 <Button severity="danger" icon="pi pi-times" label="Cancel" onClick={() => setScanningQR(false)} />
             </div> : <Button icon="pi pi-qrcode" label="Scan QR" outlined onClick={() => {
 
-                dispatch(updateCurrentUser({ stream_selection_test_allowed: true }));
-                //setScanningQR(true)
+                setScanningQR(true)
 
             }} />}
 

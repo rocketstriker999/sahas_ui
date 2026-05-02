@@ -87,7 +87,7 @@ export default function GuestUserGeneration() {
                     onChange={(e) => setUser((prev) => ({ ...prev, history: { ...prev?.history, institute: e.target.value } }))}
                     disabled={loading}
                 />
-                <label htmlFor="institute">Last Collage</label>
+                <label htmlFor="institute">Last Institute</label>
             </FloatLabel>
             <FloatLabel className="mt-4">
                 <InputText
@@ -97,7 +97,17 @@ export default function GuestUserGeneration() {
                     onChange={(e) => setUser((prev) => ({ ...prev, history: { ...prev?.history, course: e.target.value } }))}
                     disabled={loading}
                 />
-                <label htmlFor="course">Last Class</label>
+                <label htmlFor="course">Last Studied</label>
+            </FloatLabel>
+            <FloatLabel className="mt-4">
+                <InputText
+                    value={user?.history?.course_exam_seat || ""}
+                    id="course_exam_seat"
+                    className="w-full"
+                    onChange={(e) => setUser((prev) => ({ ...prev, history: { ...prev?.history, course_exam_seat: e.target.value } }))}
+                    disabled={loading}
+                />
+                <label htmlFor="course_exam_seat">Last Exam Seat Number</label>
             </FloatLabel>
             <FloatLabel className="mt-4">
                 <InputText
