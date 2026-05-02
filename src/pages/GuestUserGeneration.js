@@ -28,7 +28,7 @@ export default function GuestUserGeneration() {
                 if (responseCode === 201) {
                     showToast({ severity: "success", summary: "Success", detail: "Your details were saved.", life: 1500 });
                     localStorage.setItem(KEY_GUEST_TOKEN, createdUser?.token);
-                    dispatch(setCurrentUser(user));
+                    dispatch(setCurrentUser(createdUser));
 
                 } else {
                     showToast({ severity: "error", summary: "Failed", detail: error || "Failed To Submit Details !", life: 2000 });

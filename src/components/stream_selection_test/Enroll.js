@@ -43,6 +43,8 @@ export default function Enroll() {
         return <Loading message={"Fetching Details..."} />;
     }
 
+    console.log(loggedInUser);
+
 
 
     return (
