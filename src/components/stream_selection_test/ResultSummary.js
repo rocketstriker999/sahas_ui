@@ -21,18 +21,14 @@ export default function ResultSummary({ suggestion, suitable_stream, analysis })
 
             {analysis?.length && (
                 <div>
-
                     <Chart type="pie" data={{
                         labels: analysis.map(({ stream }) => stream),
                         datasets: [
                             {
                                 data: analysis.map(({ score }) => parseFloat(score)),
-                               
                             }
                         ]
                     }} className="w-full md:w-30rem" />
-
-                   
                 </div>
             )}
         </div>

@@ -50,12 +50,33 @@ export default function TestResult() {
                             />
                         ))}
                 </div>
+                <div className="mt-2 flex gap-2 w-full">
+                    <Button
+                        className="flex-1"
+                        outlined
+                        label="Contact us"
+                        icon="pi pi-envelope"
+                        onClick={() => navigate("/contact-us")}
+                    />
+                    <Button
+                        className="flex-1"
+                        outlined
+                        severity="secondary"
+                        label="Login to app"
+                        icon="pi pi-sign-in"
+                        onClick={() => navigate("/")}
+                    />
+                </div>
                 <Divider className="my-3" />
-                <Summary
-                    icon={"pi pi-pen-to-square"}
-                    title={"Q&A"}
-                    values={currentResult?.answers?.map(({ question, answer }) => `${question} -> ${answer}`)}
-                />
+                {
+                    currentResult?.answers?.length &&
+                    <Summary
+                        icon={"pi pi-pen-to-square"}
+                        title={"Q&A"}
+                        values={currentResult?.answers?.map(({ question, answer }) => `${question} -> ${answer}`)}
+                    />
+                }
+
             </Panel>
         </div>
     ) : (

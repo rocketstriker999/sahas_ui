@@ -90,7 +90,7 @@ export default function GuestUserGeneration() {
                     onChange={(e) => setUser((prev) => ({ ...prev, history: { ...prev?.history, institute: e.target.value } }))}
                     disabled={loading}
                 />
-                <label htmlFor="institute">Last Institute</label>
+                <label htmlFor="institute">10th School/Institute</label>
             </FloatLabel>
             <FloatLabel className="mt-4">
                 <InputText
@@ -112,16 +112,7 @@ export default function GuestUserGeneration() {
                 />
                 <label htmlFor="course_exam_seat">Last Exam Seat Number</label>
             </FloatLabel>
-            <FloatLabel className="mt-4">
-                <InputText
-                    value={user?.history?.refered_by || ""}
-                    id="refered_by"
-                    className="w-full"
-                    onChange={(e) => setUser((prev) => ({ ...prev, history: { ...prev?.history, refered_by: e.target.value } }))}
-                    disabled={loading}
-                />
-                <label htmlFor="refered_by">Refered By</label>
-            </FloatLabel>
+           
 
             <div className="flex gap-2 mt-4">
                 <Button className="flex-1" label="Back / Cancel" severity="secondary" outlined onClick={() => navigate(-1)} disabled={loading} />

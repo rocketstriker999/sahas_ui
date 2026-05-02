@@ -23,6 +23,18 @@ export default function About() {
 
                 <Divider />
 
+                <div className="w-full mb-3 border-round-lg overflow-hidden border-1 surface-border bg-black">
+                    <iframe
+                        className="w-full border-none block"
+                        style={{ aspectRatio: "16 / 9", minHeight: "12rem" }}
+                        src="https://www.youtube.com/embed/-FdiGPcoPnY?si=3SLWD9vRetpXiuT_&autoplay=1&mute=1"
+                        title="YouTube video player"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerPolicy="strict-origin-when-cross-origin"
+                        allowFullScreen
+                    />
+                </div>
+
                 <div className="grid">
                     <div className="col-12">
                         <div className="p-3 border-1 surface-border border-round-lg h-full">
