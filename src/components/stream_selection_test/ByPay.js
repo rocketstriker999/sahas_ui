@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useAppContext } from "../../providers/ProviderAppContainer";
 import { useDispatch } from "react-redux";
 
-export default function ByPay({ loading, setLoading }) {
+export default function ByPay() {
     const { requestAPI, showToast } = useAppContext();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -18,7 +18,6 @@ export default function ByPay({ loading, setLoading }) {
             requestAPI({
                 requestPath: `stream-selection-tests/payment-gateway-payloads`,
                 requestMethod: "POST",
-                setLoading: setLoading,
                 onRequestFailure: () => showToast({ severity: "error", summary: "Failed", detail: "Failed To Load Payment Gateway Payload !", life: 2000 }),
                 onResponseReceieved: (paymentGateWayPayLoad, responseCode) => {
                     if (paymentGateWayPayLoad && responseCode === 201) {
@@ -27,7 +26,7 @@ export default function ByPay({ loading, setLoading }) {
                 },
             });
 
-    }, [requestAPI]);
+    }, [requestAPI,paymentGateWayPayLoad]);
 
 
 
