@@ -1,4 +1,3 @@
-import { Button } from "primereact/button";
 import { ListBox } from "primereact/listbox";
 import Detail from "../../common/Detail";
 
@@ -14,10 +13,8 @@ export default function Ask({
    
 }) {
     return (
-        <div>
-            
-            <div className="flex flex-column gap-3 px-3 md:px-4 mt-3">
-                <div className="surface-card border-1 surface-border border-round-xl p-3 md:p-4 shadow-1">
+        <div className="flex flex-column flex-1 min-h-0 gap-3 px-3 md:px-4 py-3">
+                <div className="surface-card border-1 surface-border border-round-xl p-3 md:p-4 shadow-1 flex-shrink-0">
                     <div className="flex align-items-center justify-content-between mb-3 pb-2 border-bottom-1 surface-border">
                         <div className="flex align-items-center gap-2 min-w-0">
                             <span className="pi pi-bookmark text-primary"></span>
@@ -38,31 +35,32 @@ export default function Ask({
                     </div>
                 </div>
 
-                <div className="surface-card border-1 surface-border border-round-xl p-2 md:p-3 shadow-1">
-                    <div className="flex align-items-center gap-2 px-2 mb-2">
+                <div className="surface-card border-1 surface-border border-round-xl p-2 md:p-3 shadow-1 flex-1 flex flex-column min-h-0">
+                    <div className="flex align-items-center gap-2 px-2 mb-2 flex-shrink-0">
                         <span className="pi pi-list-check text-primary"></span>
                         <span className="font-semibold text-color">Choose one option</span>
                     </div>
-                    <ListBox
-                    value={answer}
-                    onChange={(e) =>
-                        setQuestions((prev) => {
-                            prev[currentQuestionIndex].answer = e.value;
-                            return [...prev];
-                        })
-                    }
-                    options={options}
-                    optionLabel="option"
-                    className="w-full"
-                    listClassName="p-1"
-                    pt={{
-                        root: { className: "border-none shadow-none bg-transparent" },
-                        list: { className: "m-0" },
-                        item: { className: "border-round-md px-3 py-3 mb-1 border-1 surface-border" },
-                    }}
-                />
+                    <div className="flex-1 min-h-0 overflow-y-auto">
+                        <ListBox
+                            value={answer}
+                            onChange={(e) =>
+                                setQuestions((prev) => {
+                                    prev[currentQuestionIndex].answer = e.value;
+                                    return [...prev];
+                                })
+                            }
+                            options={options}
+                            optionLabel="option"
+                            className="w-full"
+                            listClassName="p-1"
+                            pt={{
+                                root: { className: "border-none shadow-none bg-transparent" },
+                                list: { className: "m-0" },
+                                item: { className: "border-round-md px-3 py-3 mb-1 border-1 surface-border" },
+                            }}
+                        />
+                    </div>
                 </div>
-            </div>
         </div>
     );
 }

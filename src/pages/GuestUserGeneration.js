@@ -48,7 +48,7 @@ export default function GuestUserGeneration() {
                     onChange={(e) => setUser((prev) => ({ ...prev, full_name: e.target.value }))}
                     disabled={loading}
                 />
-                <label htmlFor="full_name">Full name</label>
+                <label htmlFor="full_name">Student Full name</label>
             </FloatLabel>
             <FloatLabel className="mt-4">
                 <InputText
@@ -58,7 +58,7 @@ export default function GuestUserGeneration() {
                     onChange={(e) => setUser((prev) => ({ ...prev, phone: e.target.value }))}
                     disabled={loading}
                 />
-                <label htmlFor="phone">Phone</label>
+                <label htmlFor="phone">Parents Phone</label>
             </FloatLabel>
             <FloatLabel className="mt-4">
                 <InputText
@@ -90,7 +90,7 @@ export default function GuestUserGeneration() {
                     onChange={(e) => setUser((prev) => ({ ...prev, history: { ...prev?.history, institute: e.target.value } }))}
                     disabled={loading}
                 />
-                <label htmlFor="institute">10th School/Institute</label>
+                <label htmlFor="institute">10th School Name</label>
             </FloatLabel>
             <FloatLabel className="mt-4">
                 <InputText
@@ -100,7 +100,7 @@ export default function GuestUserGeneration() {
                     onChange={(e) => setUser((prev) => ({ ...prev, history: { ...prev?.history, course: e.target.value } }))}
                     disabled={loading}
                 />
-                <label htmlFor="course">Last Studied</label>
+                <label htmlFor="course">10th Coaching Class Name</label>
             </FloatLabel>
             <FloatLabel className="mt-4">
                 <InputText
@@ -110,7 +110,7 @@ export default function GuestUserGeneration() {
                     onChange={(e) => setUser((prev) => ({ ...prev, history: { ...prev?.history, course_exam_seat: e.target.value } }))}
                     disabled={loading}
                 />
-                <label htmlFor="course_exam_seat">Last Exam Seat Number</label>
+                <label htmlFor="course_exam_seat">10th Board Exam Seat No</label>
             </FloatLabel>
            
 
