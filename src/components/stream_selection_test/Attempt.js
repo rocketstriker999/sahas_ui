@@ -79,17 +79,17 @@ export default function Attempt() {
 
 
     return (
-        <div className="flex flex-column h-full">
+        <div className="flex flex-column h-full min-h-0">
 
             {currentQuestionIndex === questions?.length - 1 && <Button
-                icon="pi pi-arrow-left"
-                className="w-11 align-self-center m-2"
+                    icon="pi pi-arrow-left"
+                    className="w-11 align-self-center m-2 flex-shrink-0"
                 onClick={addStreamSelectionTest}
                 label="Submit"
                 severity="warning"
             />}
 
-            <div className="flex justify-content-between align-items-center  bg-gray-100 p-2 shadow-2">
+            <div className="flex justify-content-between align-items-center bg-gray-100 p-2 shadow-2 flex-shrink-0">
                 <Button disabled={currentQuestionIndex <= 0} onClick={askPrevious} size="small" text label="Previous" icon="pi pi-arrow-left" />
                 <span>
                     {currentQuestionIndex + 1}/{questions?.length}
@@ -97,8 +97,7 @@ export default function Attempt() {
                 <Button disabled={currentQuestionIndex >= questions?.length - 1} onClick={askNext} size="small" text label="Next" icon="pi pi-arrow-right" iconPos="right" severity="warning" />
             </div>
 
-            <div className=" overflow-scroll">
-
+            <div className="flex-1 flex flex-column min-h-0 overflow-hidden">
                 {loading ? (
                     <Loading />
                 ) : questions?.length ? (
@@ -112,7 +111,6 @@ export default function Attempt() {
                 ) : (
                     <Error error="No Psychometric Test Questions Found" />
                 )}
-
             </div>
 
 
