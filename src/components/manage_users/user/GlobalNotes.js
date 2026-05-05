@@ -16,6 +16,10 @@ export default function GlobalNotes() {
 
     const { requestAPI } = useAppContext();
 
+
+
+
+
     const [globalNotes, setGlobalNotes] = useState();
     const [dialogAddGlobalNote, setDialogAddGlobalNote] = useState();
 

@@ -6,11 +6,22 @@ import { useAppContext } from "../../../../providers/ProviderAppContainer";
 import ProgressiveControl from "../../../common/ProgressiveControl";
 import HasRequiredAuthority from "../../../dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../../../../constants";
+import { Badge } from "primereact/badge";
 
-export default function Note({ id, created_by_full_name, created_at, note, setNotes }) {
+export default function Note({ id, created_by_full_name, created_at, note, type, setNotes }) {
     const { requestAPI, showToast } = useAppContext();
 
     const [loading, setLoading] = useState();
+
+    const getNoteSeverityByType = useCallback((type) => {
+        if (type === "NEGATIVE") {
+            return "danger";
+        }
+        if (type === "POSITIVE") {
+            return "success";
+        }
+    }, []);
+
 
     const deleteInquiryNote = useCallback(() => {
         requestAPI({
@@ -31,18 +42,26 @@ export default function Note({ id, created_by_full_name, created_at, note, setNo
 
     return (
         <div className="flex align-items-start gap-2 mb-2">
+
             <Detail
                 icon="pi pi-angle-right"
                 className="flex-1 mb-2"
                 title={`${created_by_full_name} at ${getReadableDate({ date: created_at })}`}
                 value={note}
             />
-            <HasRequiredAuthority requiredAuthority={AUTHORITIES.DELETE_INQUIRY_NOTE}>
-                <ProgressiveControl
-                    loading={loading}
-                    control={<Button className="w-2rem h-2rem" icon="pi pi-trash" rounded severity="danger" onClick={deleteInquiryNote} />}
-                />
-            </HasRequiredAuthority>
+
+
+            <div className="flex align-items-center gap-2">
+                {type && <Badge severity={getNoteSeverityByType(type)} value={type} />}
+
+                <HasRequiredAuthority requiredAuthority={AUTHORITIES.DELETE_INQUIRY_NOTE}>
+                    <ProgressiveControl
+                        loading={loading}
+                        control={<Button className="w-2rem h-2rem" icon="pi pi-trash" rounded severity="danger" onClick={deleteInquiryNote} />}
+                    />
+                </HasRequiredAuthority>
+            </div>
+
         </div>
     );
 }

@@ -5,9 +5,11 @@ import { InputTextarea } from "primereact/inputtextarea";
 import { useCallback, useState } from "react";
 import { useAppContext } from "../../../../providers/ProviderAppContainer";
 import { useOutletContext } from "react-router-dom";
-import { TEXT_NORMAL, TEXT_TITLE } from "../../../../style";
+import { TEXT_NORMAL, TEXT_SMALL, TEXT_TITLE } from "../../../../style";
 import HasRequiredAuthority from "../../../dependencies/HasRequiredAuthority";
 import { AUTHORITIES } from "../../../../constants";
+import { Dropdown } from "primereact/dropdown";
+import { useSelector } from "react-redux";
 
 export default function DialogAddGlobalNote({ visible, closeDialog, setGlobalNotes }) {
     const { userId } = useOutletContext();
@@ -15,6 +17,9 @@ export default function DialogAddGlobalNote({ visible, closeDialog, setGlobalNot
     const [note, setNote] = useState();
     const [loading, setLoading] = useState();
     const { requestAPI, showToast } = useAppContext();
+
+    const { note_types = [] } = useSelector((state) => state.stateTemplateConfig?.user);
+
 
     const addNote = useCallback(() => {
         requestAPI({
@@ -48,6 +53,7 @@ export default function DialogAddGlobalNote({ visible, closeDialog, setGlobalNot
                 content: { className: "overflow-visible" },
             }}
         >
+
             <FloatLabel className="mt-5">
                 <InputTextarea
                     value={note?.note}
@@ -63,6 +69,25 @@ export default function DialogAddGlobalNote({ visible, closeDialog, setGlobalNot
                 />
                 <label htmlFor="note">Note</label>
             </FloatLabel>
+
+            <FloatLabel className="mt-4">
+                <Dropdown
+                    value={note?.type}
+                    inputId="type"
+                    options={note_types}
+                    optionLabel="Type"
+                    className="w-full"
+                    onChange={(e) => setNote((prev) => ({ ...prev, type: e.value }))}
+                    pt={{
+                        label: { className: TEXT_SMALL },
+                        item: { className: TEXT_SMALL },
+                    }}
+                />
+                <label htmlFor="type" className={`${TEXT_SMALL}`}>
+                    Select Type
+                </label>
+            </FloatLabel>
+
             <HasRequiredAuthority requiredAuthority={AUTHORITIES.CREATE_GLOBAL_NOTE}>
                 <Button
                     className="mt-3"
