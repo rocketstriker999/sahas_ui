@@ -61,8 +61,7 @@ export default function Enroll() {
                 </div>
             ) : (
                 <div>
-                    {/* <ByQR />
-                    <Divider /> */}
+                  
                     <ByPay loading={loading} setLoading={setLoading} />
                 </div>
             )}
